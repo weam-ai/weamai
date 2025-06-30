@@ -52,7 +52,7 @@ const HeaderLayout = () => {
     }, [socket]);
     
     return (
-        <header className="top-header md:h-[68px] min-h-[68px] flex md:border-b-0 border-b border-b10  items-center md:justify-between py-2 lg:pl-[15px] pl-[50px] pr-[15px]">
+        <header className="top-header md:h-[68px] min-h-[68px] flex md:border-b-0 border-b border-b10  items-center md:justify-between py-2 lg:pl-[15px] pl-[50px] pr-[15px] max-lg:sticky top-0 left-0 right-0 z-10 bg-white">
             {chatAccess && <UserModel />}
             <div className="header-right ml-auto flex items-center md:gap-2.5 gap-1.5 md:mt-0">
                 {chatAccess && (

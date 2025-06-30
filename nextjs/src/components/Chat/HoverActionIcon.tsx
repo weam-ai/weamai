@@ -12,7 +12,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import Link from 'next/link';
 import { AgentChatPayloadType, ConversationType, DocumentChatPayloadType, NormalChatPayloadType, ProAgentDataType } from '@/types/chat';
 import { Socket } from 'socket.io-client';
 
@@ -51,9 +50,7 @@ const HoverActionTooltip = ({ children, content, onClick, className }: HoverActi
             <TooltipProvider delayDuration={0} skipDelayDuration={0}>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Link href="#">
-                            {children}
-                        </Link>
+                        {children}
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
                         <p className="text-font-14">{content}</p>
