@@ -1,0 +1,404 @@
+import { MODULE_ACTIONS } from "@/utils/constant";
+
+const ADMIN = 'admin';
+const WEB = 'web';
+
+const apiList = {
+    fileUpload: {
+        url: () => `upload/file`,
+        method: 'POST',
+    },
+    allMediaUpload: {
+        url: () => `upload/allmedia`,
+        method: 'POST',
+    },
+    deleteS3Media: {
+        url: () => `upload/delete/s3media`,
+        method: 'DELETE',
+    },
+    generatePresignedUrl: {
+        url: () => `upload/generate-presigned-url`,
+        method: 'POST',
+    },
+    permissionByRole: {
+        url: (id) => `${ADMIN}/permissions/by-role/${id}`,
+        method: 'POST',
+    },
+    createcustomgpt: {
+        url: () => `${ADMIN}/customgpt/create`,
+        method: 'POST' 
+    },
+    checkoutSession: {
+        url: () => `${WEB}/payment/checkout-session`,
+        method: 'POST'
+    },
+    registerCompany: {
+        url: () => `${WEB}/company/weam/register`,
+        method: 'POST' 
+    },
+    createCustomer: {
+        url: () => `${ADMIN}/payment/create-customer`,
+        method: 'POST' 
+    },
+    workspaceUserCount: {
+        url: () => `${WEB}/workspace/user/list`,
+        method: 'POST'
+    },
+    shareBrains: {
+        url: () => `${WEB}/brain/share/list`,
+        method: 'POST',
+    },
+    checkApiKey: {
+        url: () => `${WEB}/company/check/apikey`,
+        method: 'POST'
+    },
+    sendMessage: {
+        url: () => `${WEB}/message/send`,
+        method: 'POST'
+    },
+    forkChat: {
+        url: () => `${WEB}/chat/fork`,
+        method: 'POST'
+    },
+    inviteLogin: {
+        url: () => `${WEB}/auth/invite-login`,
+        method: 'POST'
+    },
+    unshare:{
+        url: (id) => `${ADMIN}/brain/unshare/${id}`,
+        method: 'DELETE'
+    },
+    shareList:{
+        url: () => `${ADMIN}/brain/share/list`,
+        method: 'POST'
+    },
+    deleteShareChat:{
+        url: () => `${WEB}/sharechat/delete`,
+        method: 'DELETE'
+    },
+    updateProfile:{
+        url: (id) => `${WEB}/auth/update-profile/${id}`,
+        method: 'PUT'
+    },
+    getProfile:{
+        url: (id) => `${WEB}/auth/profile/${id}`,
+        method: 'GET'
+    },
+    generateMfaSecret:{ 
+        url: () => `${MODULE_ACTIONS.WEB_PREFIX}/${MODULE_ACTIONS.AUTH}/generate-mfa-secret`,
+        method: 'POST'
+    },
+    mfaVerifcation:{ 
+        url: () => `${MODULE_ACTIONS.WEB_PREFIX}/${MODULE_ACTIONS.AUTH}/verify-mfa-otp`,
+        method: 'POST'
+    },
+    saveDeviceToken:{ 
+        url: () => `${WEB}/notification/save-device/token`,
+        method: 'POST'
+    },
+    deleteNotifications:{ 
+        url: () => `${WEB}/notification/delete`,
+        method: 'DELETE'
+    },
+    markReadNotifications:{ 
+        url: () => `${WEB}/notification/read`,
+        method: 'PUT'
+    },
+    saveResponseTime: {
+        url: () => `${WEB}/message/save-time`,
+        method: 'POST'
+    },
+    getStorage:{
+        url: () => `${WEB}/user/storage/details`,
+        method: 'GET'
+    },
+    increaseStorage:{
+        url: () => `${WEB}/user/storage/increase`,
+        method: 'POST'
+    },
+    unreadnoticount:{
+        url: () => `${WEB}/notification/count`,
+        method: 'GET'
+    },
+    checkChatAccess: {
+        url: () => `${WEB}/chat/check-access`,
+        method: 'POST'
+    },
+    assigngpt: {
+        url: () => `${WEB}/customgpt/assigngpt`,
+        method: 'POST'
+       },   
+       
+    chatTeamDelete:{
+        url: (id: string)=>  `${WEB}/teamBrain/chat/delete/${id}`,
+        method:'DELETE'  
+    },
+    getProductPrice: {
+        url: (id: string) => `${ADMIN}/payment/get-product-price/${id}`,
+        method: 'GET'
+    },
+    getSubscriptionDetails: {
+        url: () => `${ADMIN}/payment/get-subscription`,
+        method: 'GET'
+    },
+    getSubscriptionStatus: {
+        url: () => `${WEB}/payment/get-subscription`,
+        method: 'GET'
+    },
+    cancelSubscription: {
+        url: () => `${ADMIN}/payment/cancel-subscription`,
+        method: 'POST'
+    },
+    upcomingInvoice: {
+        url: () => `${ADMIN}/payment/upcoming-invoice`,
+        method: 'GET'
+    },
+    upgradeSubscription: {
+        url: () => `${ADMIN}/payment/update-subscription`,
+        method: 'POST'
+    },
+    updatePaymentMethod: {
+        url: () => `${ADMIN}/payment/update-payment-method`,
+        method: 'POST'
+    },
+    showDefaultPaymentMethod: {
+        url: () => `${ADMIN}/payment/default-payment-method`,
+        method: 'GET'
+    },
+    getInvoiceList: {
+        url: () => `${ADMIN}/payment/invoice-list`,
+        method: 'POST'
+    },
+    approveStorageRequest: {
+        url: () => `${ADMIN}/payment/payment-for-storage-request`,
+        method: 'POST'
+    },
+    declineStorageRequest: {
+        url: () => `${ADMIN}/storagerequest/decline`,
+        method: 'POST'
+    },
+    confirmStoragePayment: {
+        url: () => `${ADMIN}/payment/confirm-storage-charge`,
+        method: 'POST'
+    },
+    checkCouponCode: {
+        url: () => `${ADMIN}/payment/check-coupon-code`,
+        method: 'POST'
+    },
+    resendVerification: {
+        url: () => `${WEB}/company/resend-verification`,
+        method: 'POST'
+    },
+    onBoardLogin: {
+        url: () => `${WEB}/auth/onboard-profile`,
+        method: 'POST'
+    },
+    freeMessageCount: {
+        url: () => `${WEB}/message/count`,
+        method: 'GET'
+    },
+    huggingFaceKeyCheck: {
+        url: () => `${WEB}/company/huggingface/apikey`,
+        method: 'POST'
+    },
+    anthropicKeyCheck: {
+        url: () => `${WEB}/company/anthropic/apikey`,
+        method: 'POST'
+    },
+    unCancelSubscription: {
+        url: () => `${ADMIN}/payment/uncancel-subscription`,
+        method: 'POST'
+    },
+    handlePayment3dSecure:{
+        url: () => `${ADMIN}/payment/handle-payment-3dsecure`,
+        method: 'POST'
+    },
+    getStripePlans: {
+        url: () => `${ADMIN}/payment/get-stripe-plans`,
+        method: 'GET'
+    },
+    geminiKeyCheck: {
+        url: () => `${WEB}/company/gemini/apikey`,
+        method: 'POST'
+    },
+    brainListAll: {
+        url: () => `${WEB}/brain/list-all`,
+        method: 'POST'
+    },
+    createRazorpaySubscription: {
+        url: () => `${ADMIN}/razorpay/create-subscription`,
+        method: 'POST'
+    },
+    getRazorpayPlan: {
+        url: () => `${ADMIN}/razorpay/fetch-subscription-plan`,
+        method: 'GET'
+    },
+    createRazorpayOrder: {
+        url: () => `${ADMIN}/razorpay/create-order`,
+        method: 'POST'
+    },
+    verifyRazorpayPayment: {
+        url: () => `${ADMIN}/razorpay/verify-subscription-payment`,
+        method: 'POST'
+    },
+    getRazorpaySubscription: {
+        url: () => `${ADMIN}/razorpay/get-subscription`,
+        method: 'GET'
+    },
+    updateRazorpaySubscription: {
+        url: () => `${ADMIN}/razorpay/update-subscription`,
+        method: 'POST'
+    },
+    getRazorpayInvoiceList: {
+        url: () => `${ADMIN}/razorpay/get-invoice-list`,
+        method: 'GET'
+    },
+    cancelRazorpaySubscription: {
+        url: () => `${ADMIN}/razorpay/cancel-subscription`,
+        method: 'POST'
+    },
+    uncancelRazorpaySubscription: {
+        url: () => `${ADMIN}/razorpay/uncancel-subscription`,
+        method: 'POST'
+    },
+    updateRazorpayCard: {
+        url: () => `${ADMIN}/razorpay/update-razorpay-payment-method`,
+        method: 'POST'
+    },
+    getRazorpayPaymentMethod: {
+        url: () => `${ADMIN}/razorpay/get-payment-method`,
+        method: 'GET'
+    },
+    getRazorpayStoragePrice: {
+        url: () => `${ADMIN}/razorpay/get-storage-price`,
+        method: 'GET'
+    },
+    razorpayStorageApprove: {
+        url: () => `${ADMIN}/razorpay/storage-request-charge`,
+        method: 'POST'
+    },
+    verifyRazorpayStoragePayment: {
+        url: () => `${ADMIN}/razorpay/verify-storage-payment`,
+        method: 'POST'
+    },
+    getMessageCredits: {
+        url: () => `${WEB}/message/credit`,
+        method: 'GET'
+    },
+    resendInvitation: {
+        url: () => `${ADMIN}/user/verification/resend-invitation`,
+        method: 'POST'
+    },
+    tabPromptList: {
+        url: () => `${WEB}/prompt/user/getAll`,
+        method: 'POST'
+    },
+    tabAgentList: {
+        url: () => `${WEB}/customgpt/user/getAll`,
+        method: 'POST'
+    },
+    tabDocumentList: {
+        url: () => `${WEB}/chat-doc/user/getAll`,
+        method: 'POST'
+    },
+    userFavoriteList: {
+        url: ()=> `${WEB}/user/favorite-list`,
+        method: 'POST'
+    },
+    globalSearch: {
+        url: () => `${WEB}/message/global-search`,
+        method: 'POST'
+    },
+    getUsage: {
+        url: () => `${ADMIN}/report/company-usage`,
+        method: 'POST'
+    },
+    getUserUsage: {
+        url: () => `${ADMIN}/report/user-usage`,
+        method: 'POST'
+    },
+    getWeeklyUsage: {
+        url: () => `${ADMIN}/report/weekly-usage`,
+        method: 'POST'
+    },
+    commonUrl: (prefix: string, module: string) => ({
+        list: {
+            url: () => `${prefix}/${module}/list`,
+            method: 'POST'
+        },
+        create: {
+            url: () => `${prefix}/${module}/create`,
+            method: 'POST',
+        },
+        get: {
+            url: (id: string) => `${prefix}/${module}/${id}`,
+            method: 'GET',
+        },
+        update: {
+            url: (id: string) => `${prefix}/${module}/update/${id}`,
+            method: 'PUT',
+        },
+        partial: {
+            url: (id: string) => `${prefix}/${module}/partial/${id}`,
+            method: 'PUT',
+        },
+        delete: {
+            url: (id: string) => `${prefix}/${module}/delete/${id}`,
+            method: 'DELETE'
+        },
+        deleteall: {
+            url: () => `${prefix}/${module}/deleteall`,
+            method: 'DELETE'
+        },
+        logout: {
+            url: () => `${prefix}/${module}/logout`,
+            method: 'POST'
+        },
+        login: {
+            url: () => `${prefix}/${module}/signin`,
+            method: 'POST'
+        },
+        mfaLogin: {
+            url: () => `${prefix}/${module}/mfa-login`,
+            method: 'POST'
+        },
+        changePassword: {
+            url: () => `${prefix}/${module}/change-password`,
+            method: 'POST'
+        },
+        register: {
+            url: () => `${prefix}/${module}/weam/register`,
+            method: 'POST'
+        },
+        forgotPassword: {
+            url: () => `${prefix}/${module}/forgot-password`,
+            method: 'POST'
+        },
+        resetPassword: {
+            url: () => `${prefix}/${module}/reset-password`,
+            method: 'POST'
+        },
+        inviteUsers: {
+            url: () => `${prefix}/${module}/invite`,
+            method: 'POST'
+        },
+        remove: {
+            url: () => `${prefix}/${module}/remove`,
+            method: 'DELETE'
+        },
+        restore: {
+            url: (slug: string) => `${prefix}/${module}/restore/${slug}`,
+            method: 'POST'
+        },
+        toggle: {
+            url: () => `${prefix}/${module}/toggle`,
+            method: 'POST'
+        },
+        favorite: {
+            url: (id: string) => `${prefix}/${module}/favorite/${id}`,
+            method: 'PUT'
+        }
+    })
+}
+
+export default apiList;

@@ -1,0 +1,646 @@
+[
+    {
+      "Company Name": "E2M Solutions",
+      "Users": 276,
+      "Countries": "India",
+      "_id": "66f10d3a724f3133e1058eb1",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "KrishaWeb",
+      "Users": 22,
+      "Countries": "India",
+      "_id": "670653316836d629fd65464b",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "S'more Brands",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "6707b45e3b6672b428da8d10",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Type Away",
+      "Users": 1,
+      "_id": "6707b5476836d629fd655b95",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "DakotaQ Internet Services",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "67092d83b72a0f52ed9436ff",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "AdeptPlus",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "67092fda6836d629fd657013",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Proudfoot",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "67093165b72a0f52ed94376c",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "FieryFX",
+      "Users": 4,
+      "Countries": "United States",
+      "_id": "670cb80ddc268059e9a4436e",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Archmark",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "670e10c66b15ee446e702cc1",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Entravision Communications",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "671200cea13b32019fe9f199",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Thinkwik",
+      "Users": 7,
+      "Countries": "India",
+      "_id": "6716402ee6796c1a64eb5072",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Codefire Infotech",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "671a306a01d1bcc6d507e628",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Augsta",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "671b5264e6796c1a64eb9393",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Emsoftware",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "671b5b30e6796c1a64eb9428",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Wolf Digital",
+      "Users": 1,
+      "Countries": "Australia",
+      "_id": "671c6cfe01d1bcc6d507fa51",
+      "shortCode": "AU"
+    },
+    {
+      "Company Name": "Kryoverse Innovations",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "672b194259e610ae445db636",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "promena",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "672b1bf9a175b78b7e4b495f",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Squillion technology",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "672b2efe9f3b51a910dbb33b",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Ekfrazo",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "672b34e59f3b51a910dbb4ba",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Dynamic Vishva",
+      "Users": 1,
+      "_id": "672b3a439f3b51a910dbb516",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "microbian games",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "672b406e9f3b51a910dbb621",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "MediaF5",
+      "Users": 1,
+      "_id": "672b54a29f3b51a910dbb842",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Squillion",
+      "Users": 1,
+      "_id": "672c5aa0e6cb47f6a1344456",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Creator fox",
+      "Users": 1,
+      "_id": "672c7ad9ca431fb771bcfef3",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Brainy neurals",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "672c85a7e6cb47f6a1344b85",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "welix",
+      "Users": 1,
+      "_id": "672c98d5e6cb47f6a13452b4",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Hub AI",
+      "Users": 1,
+      "_id": "672da8d7ca431fb771bd106b",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Digipple",
+      "Users": 1,
+      "_id": "672ddca4ae5839eea5f0c63c",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Ascenwork",
+      "Users": 1,
+      "_id": "6731d0a4e79cdc8073e9858c",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Pratt Digital",
+      "Users": 1,
+      "_id": "6731f2a1ae5839eea5f0dd2b",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "dsk global solutions",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "6731facaae5839eea5f0dead",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Huptech Web Private Limited",
+      "Users": 4,
+      "Countries": "India",
+      "_id": "6735802112f4261c3478edfe",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "spark infosys",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "67358cbb12f4261c34794f62",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "save as web",
+      "Users": 1,
+      "_id": "6735ccca12f4261c34796a97",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Torapath Technologies",
+      "Users": 5,
+      "Countries": "India",
+      "_id": "67360956d8c46a0886a0aa8b",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Analogue IT Solutions",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "67372dd08e876107abb6a676",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "gravityweb",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "673b1389fe37cca521e2934a",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "midbrains",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "673c633abc53f89779b4c386",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Entity IT Solutions",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "673ed828e9173650e4eda85b",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Niftysoft Solution",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "673f0b98e9173650e4edb960",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "nextbraintech",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "67444bbbe9173650e4edf74e",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "IndyLogix",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "674ff5ef2fcff8711e798dfe",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Buzzlink Studio",
+      "Users": 1,
+      "_id": "67504720d10ccb44dfe6a40e",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Tech Pro Marketing",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "67506d779287ebfb7374ee8e",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Globalduck s.r.o.",
+      "Users": 2,
+      "Countries": "Czech Republic",
+      "_id": "6751ab7d288e98fbd8b1932a",
+      "shortCode": "CZ"
+    },
+    {
+      "Company Name": "phoenix branding",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "6752a0abd0a466b983102bfb",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "SS Estate",
+      "Users": 1,
+      "_id": "6757fceac9c62245bae09631",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Abox agency",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "6758194ec9c62245bae09c80",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "niqox",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "67581989c9c62245bae09ca0",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "ZINMATT",
+      "Users": 1,
+      "_id": "67593beda52a5c7bca1fc023",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "M",
+      "Users": 1,
+      "_id": "675db45c85bf38e78a3bb5a6",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "google",
+      "Users": 1,
+      "_id": "675dd1a377aec4934a859716",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Sven Schebek",
+      "Users": 1,
+      "_id": "675dd2ec77aec4934a859730",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Dipto",
+      "Users": 1,
+      "_id": "675e0a9f77aec4934a85996f",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "advance care inc.",
+      "Users": 1,
+      "_id": "675fc5726b811b8a2647cb69",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Safety",
+      "Users": 1,
+      "_id": "6760522c8832e020b1f22ccb",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Luxury Modern Decor",
+      "Users": 1,
+      "_id": "67610f4d6b811b8a2647ef51",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "inklik",
+      "Users": 1,
+      "_id": "676119cb6b811b8a2647f21c",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "HP",
+      "Users": 1,
+      "_id": "67611b9cc1efa5a68cbf98b6",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Creating Digital",
+      "Users": 1,
+      "_id": "67615f10cbd46b63f8bc8a27",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Universitas Almuslim",
+      "Users": 1,
+      "_id": "676182d69d39308355071ebc",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Umuslim",
+      "Users": 1,
+      "_id": "676196b09d393083550720b9",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Softude Infotech Pvt. Ltd.",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "6761d1055f9b926fe82063a2",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Media brand",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "6761d3899d393083550724ae",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "sambbas",
+      "Users": 1,
+      "_id": "6762742f9d39308355073013",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Hildaavendaño",
+      "Users": 1,
+      "_id": "67630b5b2ced2d4888a03844",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Midmaldives",
+      "Users": 1,
+      "Countries": "Maldives",
+      "_id": "67634c552ced2d4888a03a4c",
+      "shortCode": "MV"
+    },
+    {
+      "Company Name": "khudaydus",
+      "Users": 1,
+      "_id": "6764564cec58f2a9e190004d",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Creative Customz",
+      "Users": 1,
+      "_id": "67646ff59c3412702f666509",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Nikni",
+      "Users": 1,
+      "_id": "6764a082ec58f2a9e190032a",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "The Thinking Shelf",
+      "Users": 1,
+      "Countries": "United Kingdom",
+      "_id": "6764bbf39c3412702f6665e1",
+      "shortCode": "GB"
+    },
+    {
+      "Company Name": "ZXaxZ",
+      "Users": 1,
+      "_id": "6767450f36697fd6c60942fb",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "profesor",
+      "Users": 1,
+      "_id": "676770ea36697fd6c609438a",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "--",
+      "Users": 1,
+      "_id": "6767f485103171b59d6d07d6",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Medleypark",
+      "Users": 1,
+      "_id": "6768291b103171b59d6d0820",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "African story tellin",
+      "Users": 1,
+      "Countries": "South Africa",
+      "_id": "6769f5b2103171b59d6d5cea",
+      "shortCode": "ZA"
+    },
+    {
+      "Company Name": "teb",
+      "Users": 1,
+      "_id": "676a511636697fd6c6097778",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Koderise",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "676bc008103171b59d6db0bd",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "elxhelvi",
+      "Users": 1,
+      "_id": "676e41684ad0b88e7f4c56b1",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Hey",
+      "Users": 1,
+      "_id": "676ea86cd1f570fd23882916",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Male",
+      "Users": 1,
+      "_id": "67701fafd1f570fd23882abe",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "jetone",
+      "Users": 1,
+      "_id": "67702085d1f570fd23882ada",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Nowa",
+      "Users": 1,
+      "_id": "677020c9d1f570fd23882b0f",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Gamecrio Studios",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "6771417ed1f570fd23882b86",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "cheapoair",
+      "Users": 1,
+      "_id": "67726575e329987c2764035e",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "A c cares",
+      "Users": 1,
+      "_id": "6772a5fcd1f570fd238846dd",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Limbus Company",
+      "Users": 1,
+      "Countries": "United States",
+      "_id": "6772c640e329987c27640e49",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Gorgeous",
+      "Users": 1,
+      "_id": "67732adde329987c276413d6",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Brainwaves",
+      "Users": 3,
+      "Countries": "India",
+      "_id": "6773962ce329987c27641ea4",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "Tag",
+      "Users": 1,
+      "_id": "6773b8e6d1f570fd2388553a",
+      "Countries": "United States",
+      "shortCode": "US"
+    },
+    {
+      "Company Name": "Monkeyads",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "67762c01bce67fa757304ee4",
+      "shortCode": "IN"
+    },
+    {
+      "Company Name": "BinaryRoots",
+      "Users": 1,
+      "Countries": "India",
+      "_id": "677641adc00cf09efb7684ef",
+      "shortCode": "IN"
+    }
+]

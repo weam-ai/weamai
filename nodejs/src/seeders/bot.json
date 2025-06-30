@@ -1,0 +1,57 @@
+[
+    {
+        "title": "Azure OpenAI Service",
+        "code": "AZURE_OPENAI_SERVICE",
+        "seq": 6
+    },
+    {
+        "title": "Anthropic",
+        "code": "ANTHROPIC",
+        "seq": 3
+    },
+    {
+        "title": "AnyScale",
+        "code": "ANYSCALE",
+        "seq": 5
+    },
+    {
+        "title": "Hugging Face",
+        "code": "HUGGING_FACE",
+        "seq": 2
+    },
+    {
+        "title": "Gemini",
+        "code": "GEMINI",
+        "seq": 4
+    },
+    {
+        "title": "Llama",
+        "code": "LLAMA",
+        "seq": 7
+    },
+    {
+        "title": "Local LLM",
+        "code": "LOCAL_LLM",
+        "seq": 8
+    },
+    {
+        "title": "Open AI",
+        "code": "OPEN_AI",
+        "seq": 1
+    },
+    {
+        "title": "Perplexity",
+        "code": "PERPLEXITY",
+        "seq": 9
+    },
+    {
+        "title": "DeepSeek",
+        "code": "DEEPSEEK",
+        "seq": 10
+    },
+    {
+        "title": "Llama4",
+        "code": "LLAMA4",
+        "seq": 11
+    }
+]

@@ -1,0 +1,147 @@
+[
+    {
+		"nm": "Header Content",
+		"code": "HEADER_CONTENT",
+		"subject": "",
+		"body": "<html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title></title></head><body style='margin: 0; padding: 0; width: 100%; height: 100%; background-color: #f5f5f5;'><table border='0' cellpadding='0' cellspacing='0' width='100%' style='width: 100%; background-color: #f5f5f5;'><tr><td><table border='0' cellpadding='0' cellspacing='0' style='max-width: 650px; margin: 0 auto; background-color:#fff; font-family: arial, sans-serif;'><tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 50px 30px 0 30px;'><tr><td><img src='cid:logoImageCid' alt='weam' style='width: 120px;'></td></tr></table></td></tr>",
+		"isActive": true
+	},
+	{
+		"nm": "Footer Content",
+		"code": "FOOTER_CONTENT",
+		"subject": "",
+		"body": "<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 0 0 0;'><tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 15px 30px; background-color: #6637EC; color: #FFFFFF;'><tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%;'><tr><td style='padding-right: 30px; line-height: 24px;'><p style='color: #FFFFFF;'>If you need any help, don’t hesitate to reach out. We’re here to ensure Weam fits perfectly into your workflow.</p></td><td style='line-height: 26px;'><p><a href='mailto:hello@weam.ai' target='_blank' style='color: #FFF;'>hello@weam.ai</a><br><a href='https://weam.ai/' target='_blank' style='color: #FFF;'>www.weam.ai</a></p></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></body></html>",
+		"isActive": true
+	},
+	{
+		"nm": "Forgot Password Content",
+		"code": "FORGOT_PASSWORD",
+		"subject": "Your forgot password request",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey <strong style='color: #6637EC;'>{{name}},</strong></p><p>Forgot your password? No worries—we've got you covered! Just click the link below to reset your password and get back to using Weam in no time.</p></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td><table border='0' cellpadding='0' cellspacing='0' width='200px' style='width: 200px;'><tr><td><a href={{link}} style='background-color: #6637EC; color: #FFF; padding: 8px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>Reset Password</a></td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; color: #454545; border: 1px dashed #ddd; padding: 15px;'><p>For security reasons, this link will expire in 24 hours. If you didn't request a password reset, you can safely ignore this email—your account is still secure.</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Signup OTP Content",
+		"code": "SIGNUP_OTP",
+		"subject": "custom ai signup request",
+		"body": "{{header}}<tr>    <td style=\"padding-top: 20px\">        <p>Hi {{name}},</p>        \n\n<p>Here is your  custom ai Portal account password.</p>        \n\n        \n\n<p>Please use this <strong style=\"font-size: 14px; color: #BF2A2A\">{{password}}</strong> password to login.</p>        \n\n<p>Cheers,<br>\n Custom ai Portal Team.</p>    </td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Onboarding User",
+		"code": "ONBOARD_USER",
+		"subject": "You're Invited to Join Weam!",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey, <strong></strong></p><p><strong style='color: #6637EC;'>{{name}}</strong> has invited you to join your team on Weam, the ultimate AI-powered collaboration platform!</p><p>Weam makes it easy for teams to work together, create custom AI bots, share prompts, and streamline productivity—all in one place.</p><p><strong>To get started, just accept your invitation here:</strong></p></td></tr><tr><td><table border='0' cellpadding='0' cellspacing='0' width='200px' style='width: 200px;'><tr><td><a href={{link}} style='background-color: #6637EC; color: #FFF; padding: 8px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>Accept Invitation</a></td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; color: #454545; border: 1px dashed #ddd; padding: 15px;'><p>Once you sign up, you'll get access to your team's <strong>Shared Brain</strong> where you can collaborate with the team, save prompts, and explore ready-to-use AI tools. You'll also have your own <strong>Private Brain</strong> for personal work.</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Request For Storage Size",
+		"code": "STORAGE_SIZE_REQUEST",
+		"subject": "Request for Additional Storage",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey <strong>{{company_admin_name}},</strong></p><p>Heads up! <strong style='color: #6637EC;'>{{username}}</strong> has run out of document storage on their Weam account and is requesting more space to upload additional documents.</p><p>To ensure they can continue collaborating smoothly with the team, you may want to review the storage allocation or upgrade your team's plan.</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Reset Password",
+		"code": "RESET_PASSWORD",
+		"subject": "Your Password Has Been Reset",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey <strong style='color: #6637EC;'>{{name}},</strong></p><p>Your password has been reset successfully! 🎉 You're all set to log in and continue using Weam.</p><p>If this password reset wasn't initiated by you, please <a href='mailto:hello@weam.ai' style='color: #6637EC;'>contact our support team</a> immediately to ensure the security of your account.</p></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td><table border='0' cellpadding='0' cellspacing='0' width='200px' style='width: 200px;'><tr><td><a href='https://app.weam.ai/login' target='_blank' style='background-color: #6637EC; color: #FFF; padding: 8px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>Log In to Weam Now</a></td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Signup",
+		"code": "SIGNUP",
+		"subject": "Welcome to Weam!",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey <strong style='color: #6637EC;'>{{name}},</strong></p><p>Welcome to Weam! 🎉 We're excited to have you on board as you begin your journey toward seamless AI collaboration for your team.</p><p><strong>You're all set with a 30-day free trial</strong> to explore everything Weam has to offer—no strings attached. Start leveraging powerful agents and curated prompts to boost your team’s productivity today.</p></td></tr><tr><td style='font-size: 16px; line-height: 24px; color: #454545; border: 1px dashed #ddd; padding: 15px;'><p style='font-size: 18px;'><strong>Here's a quick guide to help you get started:</strong></p><p>You can even import your existing chats from ChatGPT or Anthropic—no need to worry about losing your past work.</p><p><strong>1. Explore Your Shared Brain:</strong><br>Each team has a Shared Brain where you can save prompts, create custom AI bots, and collaborate with your team in real-time. It's all organized in one place so everyone stays on the same page.</p><p><strong>2. Connect with Agents & Prompts:</strong><br>Build and use powerful AI agents tailored to your workflows, and tap into a growing library of curated prompts to save time and stay efficient.</p><p><strong>3. Ready-to-Use Templates:</strong><br>Get a head start! Check out our library of pre-built prompt and bot templates designed to help your team boost productivity instantly.</p><p><strong>4. Private Brain (Just for You!):</strong><br>You also have a Private Brain—a space to store your personal prompts and bots, separate from the team's workspace.</p><p>To dive right in, log into your <a href='https://app.weam.ai/login' target='_blank' style='color: #6637EC;'>dashboard</a>:</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Request For More User Invite",
+		"code": "USER_INVITATION_REQUEST",
+		"subject": "Requesting more users",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey,</p><p>We are so glad you want to share Weam with everyone on your team.</p><p>Our support team will reach out to you via email in the next 24 hours to understand your user requirements and process your request.</p><p>Weam is evolving as we speak. Soon this process will be so much simpler. We truly appreciate your patience.</p></td></tr></table></td></tr>{{footer}}"
+	},
+	{
+		"nm": "Request Support More User Invite",
+		"code": "INVITATION_REQUEST_SUPPORT",
+		"subject": "Requesting more users",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey,</p><p>The following account is requesting to add more users, please reach out to them in the next 24 hours.</p></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='color: #6637EC; font-weight: bold;'><p>Company Name: {{name}}</p><p>User Email: {{email}}</p></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr></table></td></tr>{{footer}}"
+	},
+	{
+		"nm": "Verification Link",
+		"code": "VERIFICATION_LINK",
+		"subject": "Welcome to Weam! Verify Your Account",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi there!</p><p>Welcome to Weam, your all-in-one AI adaptation platform for teams! We're excited to have you on board.</p><p>With Weam, you can collaborate seamlessly with your team, chat with AI, save prompts, and create custom bots—all within a shared or private space. Access multiple generative AI models like ChatGPT, Gemini, Claude, and Llama without separate subscriptions, and track your team's AI adoption for smooth onboarding.</p><p>To get started, please verify your account by clicking the button below. This link will expire in 60 minutes.</p></td></tr><tr><td><table border='0' cellpadding='0' cellspacing='0' width='200px' style='width: 200px;'><tr><td><a href='{{link}}' style='background-color: #6637EC; color: #FFF; padding: 8px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>Verify Your Account</a></td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='height: 1px; background-color: #EEEEEE;'></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px;'><p>If you're having trouble with the button, <a href='{{support}}' style='color: #6637EC;'>click here for support</a></p><p style='margin-bottom: 5px;'>Happy collaborating!</p><p style='margin-top: 0; margin-bottom: 0;'>Best,</p><p style='margin-top: 0; margin-bottom: 5px;'>The Weam Team</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},	  
+	{
+		"nm": "Resend Verification Link",
+		"code": "RESEND_VERIFICATION_LINK",
+		"subject": "Verify Your Account – Resend Verification Link",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>We noticed that you requested to resend your email verification link. To complete the registration process and activate your account, please verify your email address by clicking the button below:</p><p></p></td></tr><tr><td><table border='0' cellpadding='0' cellspacing='0' width='200px' style='width: 200px;'><tr><td><a href={{link}} style='background-color: #6637EC; color: #FFF; padding: 8px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>Verify Your Account</a></td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='height: 1px; background-color: #EEEEEE;'></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px;'><p>If you're having trouble with the button, <a href='{{support}}' style='color: #6637EC;'>click here for support</a></p><p style='margin-bottom: 5px;'>Happy collaborating!</p><p style='margin-top: 0; margin-bottom: 0;'>Best,</p><p style='margin-top: 0; margin-bottom: 5px;'>The Weam Team</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Subscription Purchase",
+		"code": "SUBSCRIPTION_PURCHASE",
+		"subject": "Welcome to Weam! Your Subscription is Live",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>Thank you for choosing Weam! We’re excited to welcome you to a platform designed to make team collaboration with AI simple, productive, and fun.</p><p>Here’s what you can do with your new subscription:</p><ul><li><strong>Work Together Smarter:</strong> Collaborate in real time with AI, work on shared documents, save prompts for your team, and create custom bots—all in one place.</li><li><strong>Stay Organized:</strong> Keep all chats, prompts, and bots neatly stored in your team’s Shared Brain. You can even have private brains just for yourself.</li><li><strong>Leverage the Best AI Models:</strong> Enjoy access to leading generative AI models like ChatGPT, Gemini, Claude, and Llama—without needing separate subscriptions for each.</li></ul><p>We’ve also included a collection of ready-to-use templates to help your team get started quickly and maximize your AI experience.</p><p>If you have questions or need help, our friendly support team is here to assist you.</p><p>We’re thrilled to have you onboard and can’t wait to see the amazing things your team will create with Weam!</p><p>Best,<br>The Weam Team</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Subscription Update",
+		"code": "SUBSCRIPTION_UPDATE",
+		"subject": "Payment Confirmed! Your Weam Plan is Upgraded",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>Great news—your Weam plan has been successfully upgraded! Thank you for your payment.</p><p>Here’s what this means for you and your team:</p><ul><li><strong>All-in-One Collaboration:</strong> Work seamlessly with your team to chat with AI, co-create documents, and design custom bots—all while staying organized in your team’s Shared Brain.</li><li><strong>Full AI Coverage:</strong> Connect with top-tier AI models like ChatGPT, Gemini, Claude, and Llama—all in one platform without needing multiple subscriptions.</li><li><strong>Track AI Adoption:</strong> Monitor how your team is adapting to generative AI. See which groups are thriving and identify where support might be needed.</li></ul><p>And don’t forget to check out our templates for prompts and bots to make your experience even better!</p><p>If you need assistance or have any questions, we’re here to help. Thank you for being a part of the Weam community—we’re excited to help your team do incredible things with AI.</p><p>Best,<br>The Weam Team</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Subscription Purchase Admin",
+		"code": "SUBSCRIPTION_PURCHASE_ADMIN",
+		"subject": "Subscription Purchased",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px; text-align: center; font-weight: bold;'>🚀 New Subscription Alert 🚀</td></tr><tr><td><table border='0' cellpadding='5' cellspacing='0' width='100%' style='border-collapse: collapse; border: 1px solid #EEEEEE;'><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Company Name:</td><td style='padding: 10px;'>{{company_name}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Email ID:</td><td style='padding: 10px;'>{{email}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Country:</td><td style='padding: 10px;'>{{country}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Amount:</td><td style='padding: 10px;'>{{amount}} {{currency}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Date of Subscription Purchase:</td><td style='padding: 10px;'>{{start_date}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Subscription End Date:</td><td style='padding: 10px;'>{{end_date}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Number of Users:</td><td style='padding: 10px;'>{{number_of_users}}</td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; text-align: center;'><p>Please take note of this new customer!</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Subscription Update Admin",
+		"code": "SUBSCRIPTION_UPDATE_ADMIN",
+		"subject": "Subscription Updated",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px; text-align: center; font-weight: bold;'>🚀 Update Subscription Alert 🚀</td></tr><tr><td><table border='0' cellpadding='5' cellspacing='0' width='100%' style='border-collapse: collapse; border: 1px solid #EEEEEE;'><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Company Name:</td><td style='padding: 10px;'>{{company_name}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Email ID:</td><td style='padding: 10px;'>{{email}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Country:</td><td style='padding: 10px;'>{{country}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Subscription Start Date:</td><td style='padding: 10px;'>{{start_date}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Subscription End Date:</td><td style='padding: 10px;'>{{end_date}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Old Quantity:</td><td style='padding: 10px;'>{{old_quantity}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>New Quantity:</td><td style='padding: 10px;'>{{new_quantity}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Subscription ID:</td><td style='padding: 10px;'>{{subscription_id}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Payment Gateway:</td><td style='padding: 10px;'>{{payment_gateway}}</td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; text-align: center;'></td></tr></table></td></tr>{{footer}}",
+		"isActive":true
+	},
+	{
+		"nm": "Subscription Cancel Admin",
+		"code": "SUBSCRIPTION_CANCEL_ADMIN",
+		"subject": "Subscription Canceled",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px; text-align: center; font-weight: bold;'>⚠️ Subscription Cancellation Alert ⚠️</td></tr><tr><td><table border='0' cellpadding='5' cellspacing='0' width='100%' style='border-collapse: collapse; border: 1px solid #EEEEEE;'><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Company Name:</td><td style='padding: 10px;'>{{company_name}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Email ID:</td><td style='padding: 10px;'>{{email}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Country:</td><td style='padding: 10px;'>{{country}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Cancellation At Date:</td><td style='padding: 10px;'>{{cancellation_date}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Cancellation Reason:</td><td style='padding: 10px;'>{{cancellation_reason}}</td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; text-align: center;'>We're sorry to see you go! If you change your mind, feel free to reactivate your subscription anytime.</td></tr></table></td></tr>{{footer}}",
+		"isActive":true
+	},
+	{
+		"nm": "Storage Request Approved",
+		"code": "STORAGE_REQUEST_APPROVED",
+		"subject": "Additional Storage Purchase Confirmation",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>Your purchase of additional storage has been successfully processed!</p><p>You now have an extra {{storageSize}} MB of storage added to your account. If you have any questions or need assistance, feel free to reach out.</p><p>Thank you for being a valued member of the Weam community!</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Cancel Subscription",
+		"code": "CANCEL_SUBSCRIPTION",
+		"subject": "Sorry to See You Go",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>We’re sorry to hear you’ve canceled your Weam subscription. Your access will remain active until {{cancellation_date}}.</p><p>If you change your mind, reactivating is easy, and we’re here to help with any questions.</p><p>Thank you for being part of Weam!</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Uncancel Subscription",
+		"code": "UN_CANCEL_SUBSCRIPTION",
+		"subject": "Your Subscription is Now Active Again!",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>We’re excited to let you know that your subscription has been successfully reactivated!</p><p>Thank you for being part of Weam!</p></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	},
+	{
+		"nm": "Company Signup Info",
+		"code": "COMPANY_SIGNUP_INFO",
+		"subject": "New Company Signup",
+		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hey,</p><p>New Company Signup details is as below</p></td></tr><tr><td style='font-size: 16px; line-height: 24px; color: #454545; border: 1px dashed #ddd; padding: 15px;'><p><strong>Name:</strong> {{firstName}} {{lastName}}<br><strong>Email:</strong> {{email}}<br><strong>Company:</strong> {{companyName}}<br><strong>Country:</strong> {{country}}</p><p><strong></td></tr></table></td></tr>{{footer}}",
+		"isActive": true
+	}
+]

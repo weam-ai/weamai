@@ -1,0 +1,931 @@
+[
+    {
+        "title": "Blog Brief",
+        "content": "Generate Content Brief for a Blog with topic [Topic]. The tone and style of the blog post will be informative and engaging. [Mention target audience]",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Proofread",
+        "content": "Here is my content, proofread it and highlight any errors and suggest changes",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Statistics for Blog",
+        "content": "[Describe the topic], need 20 stats and facts to include in my content [content type]",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Create FAQs",
+        "content": "[Describe your topic] or [paste content, create 5 FAQs related to the topic",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Blog Post Intro",
+        "content": "[Blog Post Title], write an encaptivating blog intro that will engage and lure readers into reading the rest of the post",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Blog Post Titles",
+        "content": "[Describe your Blog], write an encaptivating blog intro that will engage and lure readers into reading the rest of the post",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Blog Post Generator",
+        "content": "[Describe your idea], write a 600-800 words blog post, keep the tone informative, helpful, and engaging",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Product Description",
+        "content": "[Product name], [features], [benefits], [additional points] craft me a perfect product description based on the information provided",
+        "tags": ["Copywriting", "Product Description"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Paraphrase",
+        "content": "Paraphrase the provided text",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Case Study: General",
+        "content": "Write a case study: Summarize problem, solution, outcome (2 sentences) Company/industry background + challenge (2-3 sentences) Goals (2-3 bullet points) Solution approach (3-4 key steps) Implementation timeline Results (2-3 specific metrics) Main obstacle overcome Top 2 lessons learned Next steps (1-2 sentences) Conclusion (1 sentence impact statement) Use concise language. Include 1-2 relevant quotes if applicable. 500 words max.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Keyword Intent",
+        "content": "[list of keywords] create a table with keyword intent next to each other",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Keyword Intent 2",
+        "content": "[Topic] create a table with keywords and keyword intent next to each other for this topic",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Keyword Research",
+        "content": "[Enter Seed Keyword] provide a list of 20 related and semantic keywords",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "SEO Title & Meta Description",
+        "content": "The theme for the page is[describe the theme here], write a perfect SEO title and Meta Description for the page",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Keyword Cluster",
+        "content": "[list of keywords] Group them by category to create SEO silos",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Long-tail Keywords",
+        "content": "[Subject or Topic], here is a subject or a topic, create a list of Long-tail keywords",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Link-Building Ideas",
+        "content": "[Description of product or service], here is description, based on this description give me 10 link building ideas to try!",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Digital PR Ideas",
+        "content": "[Describe topic or industry] Here is everything you need to know about, now give me 5 new stories that will generate national exposure and links via newspaper and media outlets",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "HARO Pitch",
+        "content": "Here is the HARO pitch write a response that ends with a follow up",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Topical Map Generator",
+        "content": "Here is a topic. Help me generate a topical map",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Academic Research Writing Guide",
+        "content": "Act as an academician. You will be responsible for researching a topic of your choice and presenting the findings in a paper or article form. Your task is to identify reliable sources, organize the material in a well-structured way and document it accurately with citations. My first suggestion request is “I need help writing an article on [Article] targeting college students aged 18-25.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Scholarly Journal Review Expert",
+        "content": "I want you to act as a journal reviewer. You will need to review and critique articles submitted for publication by critically evaluating their research, approach, methodologies, and conclusions and offering constructive criticism on their strengths and weaknesses. My first suggestion request is, “I need help reviewing a scientific paper entitled [Title],",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Breaking News Reporter",
+        "content": "I want you to act as a journalist. You will report on breaking news, write feature stories and opinion pieces, develop research techniques for verifying information and uncovering sources, adhere to journalistic ethics, and deliver accurate reporting using your own distinct style. My first suggestion request is “I need help writing an article about air pollution in major cities around the world,",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Travel Blogger Highlights",
+        "content": "You are a travel blogger. Write a 300-word article describing the top 5 must-visit attractions in Paris, France. Include a brief description, location, and a unique feature for each attraction.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Social Media Strategy Consultant",
+        "content": "You are a marketing consultant. Write a 400-word guide on developing a successful social media marketing strategy, focusing on choosing platforms, creating content, and measuring success.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Job Interview Success Coach",
+        "content": "You are a career coach. Write a 300-word guide on acing a job interview, covering preparation, body language, and how to answer common questions.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Affiliate Content Creation",
+        "content": "Write a detailed review for [Product Name], [Product description] highlighting its features and benefits.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    
+      {
+          "title": "Current Accounting Law Update",
+          "content": "Generate a list of the latest accounting laws and regulations applicable in [add your desired law data].",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Tax Change Impact Summary",
+          "content": "Summarize a report on the latest tax changes and their impact on small businesses.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Quarterly Sales Data Analysis",
+          "content": "[Provide Sales Data], Analyze the provided sales data and calculate the quarterly growth rate.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Stock Market Trends Analysis",
+          "content": "Provide a brief analysis of the current stock market trends and their potential impact on the financial sector.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Tech Sector Investment Projection",
+          "content": "Predict the possible financial outcomes for an investment of [Amount in Numbers] in the tech sector for the next five years based on current market trends.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Tax Return Document Summary",
+          "content": "[Provide Document] Summarize the key points from the attached tax return document.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Audit Report Issue Identification",
+          "content": "[Provide Report] Analyze the provided audit report and identify any potential issues or inconsistencies.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Detailed Financial Statement Audit",
+          "content": "[Provide Statement] Review the attached financial statement and provide a detailed audit report.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "IRS Business Expense Deduction Guide",
+          "content": "Generate an explanation of the IRS guidelines for tax deductions on business expenses.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Small Business Tax-Saving Strategies",
+          "content": "Create a list of possible tax-saving strategies for a small business.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Balance Sheet Discrepancy Check",
+          "content": "[Provide Balance Sheet] Identify any discrepancies or errors in this balance sheet.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Ledger Analysis for Compliance",
+          "content": "[Provide Document] Analyze the provided ledger and highlight any transactions that don’t align with standard accounting practices.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+          "title": "Sales and Inventory Ledger Verification",
+          "content": "[Provide Document] Cross-verify the entries in the sales ledger and the inventory records and report any inconsistencies.",
+          "tags": ["Accounting"],
+          "defaultprompt": true,
+          "companyInfo": null,
+          "productInfo": null,
+          "brandInfo": null
+      },
+      {
+        "title": "Video Tutorial Script Development",
+        "content": "Write a script for a video tutorial demonstrating [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Webinar Summary on Product Benefits",
+        "content": "Create a summary of a webinar focused on the advantages of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "User Success Story Creation",
+        "content": "Write a compelling story featuring a satisfied user of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Catchy Slogan Creation",
+        "content": "Create a catchy slogan for promoting [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Maximizing Product Benefits Guide",
+        "content": "Generate a detailed guide on how to maximize the benefits of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Product Review Writing",
+        "content": "Write a detailed review for [Product Name] highlighting its features and benefits.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Product Comparison Blog Post",
+        "content": "Generate a blog post about the comparison between [Product Name] and [Competitor Product].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Blog Post Introduction",
+        "content": "Create an engaging introduction for a blog post about the best features of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Top Reasons to Buy List",
+        "content": "Create a list of five compelling reasons to buy [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Promotional Email Composition",
+        "content": "Write a promotional email for [Product Name] highlighting its key features.",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Follow-Up Email for Interested Customers",
+        "content": "Create a follow-up email for customers who showed interest in [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Exclusive Discount Email",
+        "content": "Compose an email offering exclusive discounts on [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "New Version Announcement Email",
+        "content": "Generate an email announcing the new version of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Thank You Email for New Customers",
+        "content": "Write a thank you email to a customer who just purchased [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "New User Onboarding Email Sequence",
+        "content": "Create an email sequence for onboarding new users of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Persuasive Sales Email",
+        "content": "Write a persuasive email to convince potential customers to try [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Free Trial Offer Email",
+        "content": "Generate an email offering a free trial for [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Webinar Invitation Email",
+        "content": "Create an email to inform customers about an upcoming webinar on [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Abandoned Cart Reminder Email",
+        "content": "Write a reminder email for customers with items in their cart, including [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Return Policy Query Response",
+        "content": "Respond to a customer query about the return policy for [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Customer Issue Response",
+        "content": "Write a response to a customer facing issues with [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Negative Review Reply",
+        "content": "Create a polite reply to a customer who left a negative review for [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Product Availability Inquiry Response",
+        "content": "Generate a response to a customer asking about the availability of [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Product Usage Explanation",
+        "content": "Write a detailed answer to a customer question about how to use [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Product Troubleshooting Guide",
+        "content": "Create a list of troubleshooting steps for common issues with [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+        "title": "Discount Request Response",
+        "content": "Generate a response to a customer asking for a discount on [Product Name].",
+        "tags": ["Marketing"],
+        "defaultprompt": true,
+        "companyInfo": null,
+        "productInfo": null,
+        "brandInfo": null
+    },
+    {
+      "title": "Upgrade Request Response",
+      "content": "Write a reply to a customer who wishes to upgrade their version of [Product Name].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Product Installation Guide",
+      "content": "Generate a step-by-step guide to help a customer install or set up [Product Name].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Product Comparison Inquiry Response",
+      "content": "Create a response to a customer who is comparing [Product Name] with [Competitor Product].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Persuasive Copywriting Specialist Role",
+      "content": "You are a highly skilled copywriter with a strong background in persuasive writing, conversion optimization, and marketing techniques. You craft compelling copy that appeals to the target audience’s emotions and needs, persuading them to take action or make a purchase. You understand the importance of AIDA (Attention, Interest, Desire, and Action) and other proven copywriting formulas, and seamlessly incorporate them into your writing. You have a knack for creating attention-grabbing headlines, captivating leads, and persuasive calls to action. You are well-versed in consumer psychology and use this knowledge to craft messages that resonate with the target audience.",
+      "tags": ["Affiliate Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Attention-Grabbing Headlines Generation",
+      "content": "Generate 10 attention-grabbing headlines for an article about [your topic].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Persuasive Opening Paragraph",
+      "content": "Write a persuasive opening paragraph that encourages readers to learn more about [your product/service].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "YouTube Tutorial Title Development",
+      "content": "Develop a YouTube video title for a tutorial on writing compelling email copy that drives conversions.",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Introduction for Copywriting Article",
+      "content": "Write an introductory paragraph for an article comparing traditional copywriting methods with AI-generated content.",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Cold Email Subject Line",
+      "content": "Develop a subject line for a cold email offering your copywriting services to a potential client.",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Product Description Writing",
+      "content": "Craft an irresistible product description that highlights the benefits of [your product].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Press Release Headline",
+      "content": "Write a concise yet informative press release headline for a [your company] announcement.",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Facebook Ad Copy Variations",
+      "content": "Develop three variations of a Facebook ad copy that targets [your audience].",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Promotional Tweet Writing",
+      "content": "Write a tweet promoting a new blog post about [your topic] in under 280 characters.",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Product Testimonial Writing",
+      "content": "Create a persuasive product testimonial for [your product/service] from a satisfied customer's perspective.",
+      "tags": ["Marketing"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "LinkedIn Post for Success Story",
+      "content": "Generate a LinkedIn post to promote a recent success story or case study.",
+      "tags": ["Marketing", "Blog"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "YouTube Video Description",
+      "content": "Craft a captivating YouTube video description for a tutorial on [your subject].",
+      "tags": ["Marketing", "Blog"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Search Result Meta Description",
+      "content": "Write a compelling meta description that entices users to click on a search result for [your keyword].",
+      "tags": ["Marketing", "Blog"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+      "title": "Key Features Bullet Points",
+      "content": "Create three bullet points that highlight the key features of [your product/service].",
+      "tags": ["Marketing", "Blog"],
+      "defaultprompt": true,
+      "companyInfo": null,
+      "productInfo": null,
+      "brandInfo": null
+  },
+  {
+    "title": "Persuasive Sales Email for Promotion",
+    "content": "Write a persuasive sales email that drives interest in [your promotion/offer]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Webinar Title Creation",
+    "content": "Develop a captivating webinar title that attracts participants interested in [your topic]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Podcast Episode Title",
+    "content": "Create an engaging podcast episode title about [your subject]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Mission Statement Writing",
+    "content": "Write a concise yet impactful mission statement for a [your industry] company",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Value Proposition Creation",
+    "content": "Craft a value proposition that clearly communicates the benefits of [your product/service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Thank You Message for Customers",
+    "content": "Write a memorable thank you message for customers who make a purchase or sign up for [your service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Marketing Slogan List",
+    "content": "Generate a series of marketing slogans that convey the unique selling points of [your product/service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Cold Email Subject Line for Outreach",
+    "content": "Create an attention-grabbing subject line for a cold email targeting [your audience]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Case Study Introduction",
+    "content": "Write an engaging introduction for a case study about [your successful project]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "New Product Name Creation",
+    "content": "Develop a creative name for a new [your product/service] offering",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Google Ads Campaign Copy",
+    "content": "Write three variations of an ad copy for a Google Ads campaign targeting [your keyword]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Elevator Pitch for Product",
+    "content": "Generate a concise yet powerful elevator pitch for [your product/service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "FAQ Section Creation",
+    "content": "Create an engaging FAQ section that addresses common questions about [your product/service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "White Paper Title and Intro",
+    "content": "Write a captivating title and opening paragraph for a white paper on [your topic]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Email Drip Campaign Subject Lines",
+    "content": "Develop a series of catchy email subject lines for a drip campaign",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Product Review Copywriting",
+    "content": "Write a creative and persuasive product review for [your product/service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Unique Selling Proposition (USP) Creation",
+    "content": "Craft a powerful and concise USP (unique selling proposition) for [your product/service]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Landing Page Headlines",
+    "content": "Generate three enticing headlines for a landing page promoting [your offer]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  },
+  {
+    "title": "Reader Engagement Questions",
+    "content": "Write a series of thought-provoking questions to encourage reader engagement on a blog post about [your topic]",
+    "tags": ["Marketing", "Blog"],
+    "defaultprompt": true,
+    "companyInfo": null,
+    "productInfo": null,
+    "brandInfo": null
+  }
+]
+  

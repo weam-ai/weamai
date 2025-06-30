@@ -1,0 +1,1466 @@
+[
+    {
+        "nm": "Afghanistan",
+        "code": "AFGHANISTAN",
+        "countryCode": 93,
+        "shortCode": "AF"
+    },
+    {
+        "nm": "Albania",
+        "code": "ALBANIA",
+        "countryCode": 355,
+        "shortCode": "AL"
+    },
+    {
+        "nm": "Algeria",
+        "code": "ALGERIA",
+        "countryCode": 213,
+        "shortCode": "DZ"
+    },
+    {
+        "nm": "American Samoa",
+        "code": "AMERICAN_SAMOA",
+        "countryCode": 1684,
+        "shortCode": "AS"
+    },
+    {
+        "nm": "Andorra",
+        "code": "ANDORRA",
+        "countryCode": 376,
+        "shortCode": "AD"
+    },
+    {
+        "nm": "Angola",
+        "code": "ANGOLA",
+        "countryCode": 244,
+        "shortCode": "AO"
+    },
+    {
+        "nm": "Anguilla",
+        "code": "ANGUILLA",
+        "countryCode": 1264,
+        "shortCode": "AI"
+    },
+    {
+        "nm": "Antarctica",
+        "code": "ANTARCTICA",
+        "countryCode": 0,
+        "shortCode": "AQ"
+    },
+    {
+        "nm": "Antigua And Barbuda",
+        "code": "ANTIGUA_AND_BARBUDA",
+        "countryCode": 1268,
+        "shortCode": "AG"
+    },
+    {
+        "nm": "Argentina",
+        "code": "ARGENTINA",
+        "countryCode": 54,
+        "shortCode": "AR"
+    },
+    {
+        "nm": "Armenia",
+        "code": "ARMENIA",
+        "countryCode": 374,
+        "shortCode": "AM"
+    },
+    {
+        "nm": "Aruba",
+        "code": "ARUBA",
+        "countryCode": 297,
+        "shortCode": "AW"
+    },
+    {
+        "nm": "Australia",
+        "code": "AUSTRALIA",
+        "countryCode": 61,
+        "shortCode": "AU"
+    },
+    {
+        "nm": "Austria",
+        "code": "AUSTRIA",
+        "countryCode": 43,
+        "shortCode": "AT"
+    },
+    {
+        "nm": "Azerbaijan",
+        "code": "AZERBAIJAN",
+        "countryCode": 994,
+        "shortCode": "AZ"
+    },
+    {
+        "nm": "Bahamas The",
+        "code": "BAHAMAS_THE",
+        "countryCode": 1242,
+        "shortCode": "BS"
+    },
+    {
+        "nm": "Bahrain",
+        "code": "BAHRAIN",
+        "countryCode": 973,
+        "shortCode": "BH"
+    },
+    {
+        "nm": "Bangladesh",
+        "code": "BANGLADESH",
+        "countryCode": 880,
+        "shortCode": "BD"
+    },
+    {
+        "nm": "Barbados",
+        "code": "BARBADOS",
+        "countryCode": 1246,
+        "shortCode": "BB"
+    },
+    {
+        "nm": "Belarus",
+        "code": "BELARUS",
+        "countryCode": 375,
+        "shortCode": "BY"
+    },
+    {
+        "nm": "Belgium",
+        "code": "BELGIUM",
+        "countryCode": 32,
+        "shortCode": "BE"
+    },
+    {
+        "nm": "Belize",
+        "code": "BELIZE",
+        "countryCode": 501,
+        "shortCode": "BZ"
+    },
+    {
+        "nm": "Benin",
+        "code": "BENIN",
+        "countryCode": 229,
+        "shortCode": "BJ"
+    },
+    {
+        "nm": "Bermuda",
+        "code": "BERMUDA",
+        "countryCode": 1441,
+        "shortCode": "BM"
+    },
+    {
+        "nm": "Bhutan",
+        "code": "BHUTAN",
+        "countryCode": 975,
+        "shortCode": "BT"
+    },
+    {
+        "nm": "Bolivia",
+        "code": "BOLIVIA",
+        "countryCode": 591,
+        "shortCode": "BO"
+    },
+    {
+        "nm": "Bosnia and Herzegovina",
+        "code": "BOSNIA_AND_HERZEGOVINA",
+        "countryCode": 387,
+        "shortCode": "BA"
+    },
+    {
+        "nm": "Botswana",
+        "code": "BOTSWANA",
+        "countryCode": 267,
+        "shortCode": "BW"
+    },
+    {
+        "nm": "Bouvet Island",
+        "code": "BOUVET_ISLAND",
+        "countryCode": 0,
+        "shortCode": "BV"
+    },
+    {
+        "nm": "Brazil",
+        "code": "BRAZIL",
+        "countryCode": 55,
+        "shortCode": "BR"
+    },
+    {
+        "nm": "British Indian Ocean Territory",
+        "code": "BRITISH_INDIAN_OCEAN_TERRITORY",
+        "countryCode": 246,
+        "shortCode": "IO"
+    },
+    {
+        "nm": "Brunei",
+        "code": "BRUNEI",
+        "countryCode": 673,
+        "shortCode": "BN"
+    },
+    {
+        "nm": "Bulgaria",
+        "code": "BULGARIA",
+        "countryCode": 359,
+        "shortCode": "BG"
+    },
+    {
+        "nm": "Burkina Faso",
+        "code": "BURKINA_FASO",
+        "countryCode": 226,
+        "shortCode": "BF"
+    },
+    {
+        "nm": "Burundi",
+        "code": "BURUNDI",
+        "countryCode": 257,
+        "shortCode": "BI"
+    },
+    {
+        "nm": "Cambodia",
+        "code": "CAMBODIA",
+        "countryCode": 855,
+        "shortCode": "KH"
+    },
+    {
+        "nm": "Cameroon",
+        "code": "CAMEROON",
+        "countryCode": 237,
+        "shortCode": "CM"
+    },
+    {
+        "nm": "Canada",
+        "code": "CANADA",
+        "countryCode": 1,
+        "shortCode": "CA"
+    },
+    {
+        "nm": "Cape Verde",
+        "code": "CAPE_VERDE",
+        "countryCode": 238,
+        "shortCode": "CV"
+    },
+    {
+        "nm": "Cayman Islands",
+        "code": "CAYMAN_ISLANDS",
+        "countryCode": 1345,
+        "shortCode": "KY"
+    },
+    {
+        "nm": "Central African Republic",
+        "code": "CENTRAL_AFRICAN_REPUBLIC",
+        "countryCode": 236,
+        "shortCode": "CF"
+    },
+    {
+        "nm": "Chad",
+        "code": "CHAD",
+        "countryCode": 235,
+        "shortCode": "TD"
+    },
+    {
+        "nm": "Chile",
+        "code": "CHILE",
+        "countryCode": 56,
+        "shortCode": "CL"
+    },
+    {
+        "nm": "China",
+        "code": "CHINA",
+        "countryCode": 86,
+        "shortCode": "CN"
+    },
+    {
+        "nm": "Christmas Island",
+        "code": "CHRISTMAS_ISLAND",
+        "countryCode": 61,
+        "shortCode": "CX"
+    },
+    {
+        "nm": "Cocos (Keeling) Islands",
+        "code": "COCOS_(KEELING)_ISLANDS",
+        "countryCode": 672,
+        "shortCode": "CC"
+    },
+    {
+        "nm": "Colombia",
+        "code": "COLOMBIA",
+        "countryCode": 57,
+        "shortCode": "CO"
+    },
+    {
+        "nm": "Comoros",
+        "code": "COMOROS",
+        "countryCode": 269,
+        "shortCode": "KM"
+    },
+    {
+        "nm": "Cook Islands",
+        "code": "COOK_ISLANDS",
+        "countryCode": 682,
+        "shortCode": "CK"
+    },
+    {
+        "nm": "Costa Rica",
+        "code": "COSTA_RICA",
+        "countryCode": 506,
+        "shortCode": "CR"
+    },
+    {
+        "nm": "Cote D'Ivoire (Ivory Coast)",
+        "code": "COTE_D'IVOIRE_(IVORY_COAST)",
+        "countryCode": 225,
+        "shortCode": "CI"
+    },
+    {
+        "nm": "Croatia (Hrvatska)",
+        "code": "CROATIA_(HRVATSKA)",
+        "countryCode": 385,
+        "shortCode": "HR"
+    },
+    {
+        "nm": "Cuba",
+        "code": "CUBA",
+        "countryCode": 53,
+        "shortCode": "CU"
+    },
+    {
+        "nm": "Cyprus",
+        "code": "CYPRUS",
+        "countryCode": 357,
+        "shortCode": "CY"
+    },
+    {
+        "nm": "Czech Republic",
+        "code": "CZECH_REPUBLIC",
+        "countryCode": 420,
+        "shortCode": "CZ"
+    },
+    {
+        "nm": "Democratic Republic Of The Congo",
+        "code": "DEMOCRATIC_REPUBLIC_OF_THE_CONGO",
+        "countryCode": 243,
+        "shortCode": "CD"
+    },
+    {
+        "nm": "Denmark",
+        "code": "DENMARK",
+        "countryCode": 45,
+        "shortCode": "DK"
+    },
+    {
+        "nm": "Djibouti",
+        "code": "DJIBOUTI",
+        "countryCode": 253,
+        "shortCode": "DJ"
+    },
+    {
+        "nm": "Dominica",
+        "code": "DOMINICA",
+        "countryCode": 1767,
+        "shortCode": "DM"
+    },
+    {
+        "nm": "Dominican Republic",
+        "code": "DOMINICAN_REPUBLIC",
+        "countryCode": 1809,
+        "shortCode": "DO"
+    },
+    {
+        "nm": "East Timor",
+        "code": "EAST_TIMOR",
+        "countryCode": 670,
+        "shortCode": "TL"
+    },
+    {
+        "nm": "Ecuador",
+        "code": "ECUADOR",
+        "countryCode": 593,
+        "shortCode": "EC"
+    },
+    {
+        "nm": "Egypt",
+        "code": "EGYPT",
+        "countryCode": 20,
+        "shortCode": "EG"
+    },
+    {
+        "nm": "El Salvador",
+        "code": "EL_SALVADOR",
+        "countryCode": 503,
+        "shortCode": "SV"
+    },
+    {
+        "nm": "Equatorial Guinea",
+        "code": "EQUATORIAL_GUINEA",
+        "countryCode": 240,
+        "shortCode": "GQ"
+    },
+    {
+        "nm": "Eritrea",
+        "code": "ERITREA",
+        "countryCode": 291,
+        "shortCode": "ER"
+    },
+    {
+        "nm": "Estonia",
+        "code": "ESTONIA",
+        "countryCode": 372,
+        "shortCode": "EE"
+    },
+    {
+        "nm": "Ethiopia",
+        "code": "ETHIOPIA",
+        "countryCode": 251,
+        "shortCode": "ET"
+    },
+    {
+        "nm": "Falkland Islands",
+        "code": "FALKLAND_ISLANDS",
+        "countryCode": 500,
+        "shortCode": "FK"
+    },
+    {
+        "nm": "Faroe Islands",
+        "code": "FAROE_ISLANDS",
+        "countryCode": 298,
+        "shortCode": "FO"
+    },
+    {
+        "nm": "Fiji Islands",
+        "code": "FIJI_ISLANDS",
+        "countryCode": 679,
+        "shortCode": "FJ"
+    },
+    {
+        "nm": "Finland",
+        "code": "FINLAND",
+        "countryCode": 358,
+        "shortCode": "FI"
+    },
+    {
+        "nm": "France",
+        "code": "FRANCE",
+        "countryCode": 33,
+        "shortCode": "FR"
+    },
+    {
+        "nm": "French Guiana",
+        "code": "FRENCH_GUIANA",
+        "countryCode": 594,
+        "shortCode": "GF"
+    },
+    {
+        "nm": "French Polynesia",
+        "code": "FRENCH_POLYNESIA",
+        "countryCode": 689,
+        "shortCode": "PF"
+    },
+    {
+        "nm": "French Southern Territories",
+        "code": "FRENCH_SOUTHERN_TERRITORIES",
+        "countryCode": 0,
+        "shortCode": "TF"
+    },
+    {
+        "nm": "Gabon",
+        "code": "GABON",
+        "countryCode": 241,
+        "shortCode": "GA"
+    },
+    {
+        "nm": "Gambia The",
+        "code": "GAMBIA_THE",
+        "countryCode": 220,
+        "shortCode": "GM"
+    },
+    {
+        "nm": "Georgia",
+        "code": "GEORGIA",
+        "countryCode": 995,
+        "shortCode": "GE"
+    },
+    {
+        "nm": "Germany",
+        "code": "GERMANY",
+        "countryCode": 49,
+        "shortCode": "DE"
+    },
+    {
+        "nm": "Ghana",
+        "code": "GHANA",
+        "countryCode": 233,
+        "shortCode": "GH"
+    },
+    {
+        "nm": "Gibraltar",
+        "code": "GIBRALTAR",
+        "countryCode": 350,
+        "shortCode": "GI"
+    },
+    {
+        "nm": "Greece",
+        "code": "GREECE",
+        "countryCode": 30,
+        "shortCode": "GR"
+    },
+    {
+        "nm": "Greenland",
+        "code": "GREENLAND",
+        "countryCode": 299,
+        "shortCode": "GL"
+    },
+    {
+        "nm": "Grenada",
+        "code": "GRENADA",
+        "countryCode": 1473,
+        "shortCode": "GD"
+    },
+    {
+        "nm": "Guadeloupe",
+        "code": "GUADELOUPE",
+        "countryCode": 590,
+        "shortCode": "GP"
+    },
+    {
+        "nm": "Guam",
+        "code": "GUAM",
+        "countryCode": 1671,
+        "shortCode": "GU"
+    },
+    {
+        "nm": "Guatemala",
+        "code": "GUATEMALA",
+        "countryCode": 502,
+        "shortCode": "GT"
+    },
+    {
+        "nm": "Guernsey and Alderney",
+        "code": "GUERNSEY_AND_ALDERNEY",
+        "countryCode": 44,
+        "shortCode": "GG"
+    },
+    {
+        "nm": "Guinea",
+        "code": "GUINEA",
+        "countryCode": 224,
+        "shortCode": "GN"
+    },
+    {
+        "nm": "Guinea-Bissau",
+        "code": "GUINEA-BISSAU",
+        "countryCode": 245,
+        "shortCode": "GW"
+    },
+    {
+        "nm": "Guyana",
+        "code": "GUYANA",
+        "countryCode": 592,
+        "shortCode": "GY"
+    },
+    {
+        "nm": "Haiti",
+        "code": "HAITI",
+        "countryCode": 509,
+        "shortCode": "HT"
+    },
+    {
+        "nm": "Heard and McDonald Islands",
+        "code": "HEARD_AND_MCDONALD_ISLANDS",
+        "countryCode": 0,
+        "shortCode": "HM"
+    },
+    {
+        "nm": "Honduras",
+        "code": "HONDURAS",
+        "countryCode": 504,
+        "shortCode": "HN"
+    },
+    {
+        "nm": "Hong Kong S.A.R.",
+        "code": "HONG_KONG_S.A.R.",
+        "countryCode": 852,
+        "shortCode": "HK"
+    },
+    {
+        "nm": "Hungary",
+        "code": "HUNGARY",
+        "countryCode": 36,
+        "shortCode": "HU"
+    },
+    {
+        "nm": "Iceland",
+        "code": "ICELAND",
+        "countryCode": 354,
+        "shortCode": "IS"
+    },
+    {
+        "nm": "India",
+        "code": "INDIA",
+        "countryCode": 91,
+        "shortCode": "IN"
+    },
+    {
+        "nm": "Indonesia",
+        "code": "INDONESIA",
+        "countryCode": 62,
+        "shortCode": "ID"
+    },
+    {
+        "nm": "Iran",
+        "code": "IRAN",
+        "countryCode": 98,
+        "shortCode": "IR"
+    },
+    {
+        "nm": "Iraq",
+        "code": "IRAQ",
+        "countryCode": 964,
+        "shortCode": "IQ"
+    },
+    {
+        "nm": "Ireland",
+        "code": "IRELAND",
+        "countryCode": 353,
+        "shortCode": "IE"
+    },
+    {
+        "nm": "Israel",
+        "code": "ISRAEL",
+        "countryCode": 972,
+        "shortCode": "IL"
+    },
+    {
+        "nm": "Italy",
+        "code": "ITALY",
+        "countryCode": 39,
+        "shortCode": "IT"
+    },
+    {
+        "nm": "Jamaica",
+        "code": "JAMAICA",
+        "countryCode": 1876,
+        "shortCode": "JM"
+    },
+    {
+        "nm": "Japan",
+        "code": "JAPAN",
+        "countryCode": 81,
+        "shortCode": "JP"
+    },
+    {
+        "nm": "Jersey",
+        "code": "JERSEY",
+        "countryCode": 44,
+        "shortCode": "JE"
+    },
+    {
+        "nm": "Jordan",
+        "code": "JORDAN",
+        "countryCode": 962,
+        "shortCode": "JO"
+    },
+    {
+        "nm": "Kazakhstan",
+        "code": "KAZAKHSTAN",
+        "countryCode": 7,
+        "shortCode": "KZ"
+    },
+    {
+        "nm": "Kenya",
+        "code": "KENYA",
+        "countryCode": 254,
+        "shortCode": "KE"
+    },
+    {
+        "nm": "Kiribati",
+        "code": "KIRIBATI",
+        "countryCode": 686,
+        "shortCode": "KI"
+    },
+    {
+        "nm": "Korea North",
+        "code": "KOREA_NORTH",
+        "countryCode": 850,
+        "shortCode": "KP"
+    },
+    {
+        "nm": "Korea South",
+        "code": "KOREA_SOUTH",
+        "countryCode": 82,
+        "shortCode": "KR"
+    },
+    {
+        "nm": "Kuwait",
+        "code": "KUWAIT",
+        "countryCode": 965,
+        "shortCode": "KW"
+    },
+    {
+        "nm": "Kyrgyzstan",
+        "code": "KYRGYZSTAN",
+        "countryCode": 996,
+        "shortCode": "KG"
+    },
+    {
+        "nm": "Laos",
+        "code": "LAOS",
+        "countryCode": 856,
+        "shortCode": "LA"
+    },
+    {
+        "nm": "Latvia",
+        "code": "LATVIA",
+        "countryCode": 371,
+        "shortCode": "LV"
+    },
+    {
+        "nm": "Lebanon",
+        "code": "LEBANON",
+        "countryCode": 961,
+        "shortCode": "LB"
+    },
+    {
+        "nm": "Lesotho",
+        "code": "LESOTHO",
+        "countryCode": 266,
+        "shortCode": "LS"
+    },
+    {
+        "nm": "Liberia",
+        "code": "LIBERIA",
+        "countryCode": 231,
+        "shortCode": "LR"
+    },
+    {
+        "nm": "Libya",
+        "code": "LIBYA",
+        "countryCode": 218,
+        "shortCode": "LY"
+    },
+    {
+        "nm": "Liechtenstein",
+        "code": "LIECHTENSTEIN",
+        "countryCode": 423,
+        "shortCode": "LI"
+    },
+    {
+        "nm": "Lithuania",
+        "code": "LITHUANIA",
+        "countryCode": 370,
+        "shortCode": "LT"
+    },
+    {
+        "nm": "Luxembourg",
+        "code": "LUXEMBOURG",
+        "countryCode": 352,
+        "shortCode": "LU"
+    },
+    {
+        "nm": "Macau S.A.R.",
+        "code": "MACAU_S.A.R.",
+        "countryCode": 853,
+        "shortCode": "MO"
+    },
+    {
+        "nm": "Macedonia",
+        "code": "MACEDONIA",
+        "countryCode": 389,
+        "shortCode": "MK"
+    },
+    {
+        "nm": "Madagascar",
+        "code": "MADAGASCAR",
+        "countryCode": 261,
+        "shortCode": "MG"
+    },
+    {
+        "nm": "Malawi",
+        "code": "MALAWI",
+        "countryCode": 265,
+        "shortCode": "MW"
+    },
+    {
+        "nm": "Malaysia",
+        "code": "MALAYSIA",
+        "countryCode": 60,
+        "shortCode": "MY"
+    },
+    {
+        "nm": "Maldives",
+        "code": "MALDIVES",
+        "countryCode": 960,
+        "shortCode": "MV"
+    },
+    {
+        "nm": "Mali",
+        "code": "MALI",
+        "countryCode": 223,
+        "shortCode": "ML"
+    },
+    {
+        "nm": "Malta",
+        "code": "MALTA",
+        "countryCode": 356,
+        "shortCode": "MT"
+    },
+    {
+        "nm": "Man (Isle of)",
+        "code": "MAN_(ISLE_OF)",
+        "countryCode": 44,
+        "shortCode": "IM"
+    },
+    {
+        "nm": "Marshall Islands",
+        "code": "MARSHALL_ISLANDS",
+        "countryCode": 692,
+        "shortCode": "MH"
+    },
+    {
+        "nm": "Martinique",
+        "code": "MARTINIQUE",
+        "countryCode": 596,
+        "shortCode": "MQ"
+    },
+    {
+        "nm": "Mauritania",
+        "code": "MAURITANIA",
+        "countryCode": 222,
+        "shortCode": "MR"
+    },
+    {
+        "nm": "Mauritius",
+        "code": "MAURITIUS",
+        "countryCode": 230,
+        "shortCode": "MU"
+    },
+    {
+        "nm": "Mayotte",
+        "code": "MAYOTTE",
+        "countryCode": 269,
+        "shortCode": "YT"
+    },
+    {
+        "nm": "Mexico",
+        "code": "MEXICO",
+        "countryCode": 52,
+        "shortCode": "MX"
+    },
+    {
+        "nm": "Micronesia",
+        "code": "MICRONESIA",
+        "countryCode": 691,
+        "shortCode": "FM"
+    },
+    {
+        "nm": "Moldova",
+        "code": "MOLDOVA",
+        "countryCode": 373,
+        "shortCode": "MD"
+    },
+    {
+        "nm": "Monaco",
+        "code": "MONACO",
+        "countryCode": 377,
+        "shortCode": "MC"
+    },
+    {
+        "nm": "Mongolia",
+        "code": "MONGOLIA",
+        "countryCode": 976,
+        "shortCode": "MN"
+    },
+    {
+        "nm": "Montserrat",
+        "code": "MONTSERRAT",
+        "countryCode": 1664,
+        "shortCode": "MS"
+    },
+    {
+        "nm": "Morocco",
+        "code": "MOROCCO",
+        "countryCode": 212,
+        "shortCode": "MA"
+    },
+    {
+        "nm": "Mozambique",
+        "code": "MOZAMBIQUE",
+        "countryCode": 258,
+        "shortCode": "MZ"
+    },
+    {
+        "nm": "Myanmar",
+        "code": "MYANMAR",
+        "countryCode": 95,
+        "shortCode": "MM"
+    },
+    {
+        "nm": "Namibia",
+        "code": "NAMIBIA",
+        "countryCode": 264,
+        "shortCode": "NA"
+    },
+    {
+        "nm": "Nauru",
+        "code": "NAURU",
+        "countryCode": 674,
+        "shortCode": "NR"
+    },
+    {
+        "nm": "Nepal",
+        "code": "NEPAL",
+        "countryCode": 977,
+        "shortCode": "NP"
+    },
+    {
+        "nm": "Netherlands Antilles",
+        "code": "NETHERLANDS_ANTILLES",
+        "countryCode": 599,
+        "shortCode": "AN"
+    },
+    {
+        "nm": "Netherlands The",
+        "code": "NETHERLANDS_THE",
+        "countryCode": 31,
+        "shortCode": "NL"
+    },
+    {
+        "nm": "New Caledonia",
+        "code": "NEW_CALEDONIA",
+        "countryCode": 687,
+        "shortCode": "NC"
+    },
+    {
+        "nm": "New Zealand",
+        "code": "NEW_ZEALAND",
+        "countryCode": 64,
+        "shortCode": "NZ"
+    },
+    {
+        "nm": "Nicaragua",
+        "code": "NICARAGUA",
+        "countryCode": 505,
+        "shortCode": "NI"
+    },
+    {
+        "nm": "Niger",
+        "code": "NIGER",
+        "countryCode": 227,
+        "shortCode": "NE"
+    },
+    {
+        "nm": "Nigeria",
+        "code": "NIGERIA",
+        "countryCode": 234,
+        "shortCode": "NG"
+    },
+    {
+        "nm": "Niue",
+        "code": "NIUE",
+        "countryCode": 683,
+        "shortCode": "NU"
+    },
+    {
+        "nm": "Norfolk Island",
+        "code": "NORFOLK_ISLAND",
+        "countryCode": 672,
+        "shortCode": "NF"
+    },
+    {
+        "nm": "Northern Mariana Islands",
+        "code": "NORTHERN_MARIANA_ISLANDS",
+        "countryCode": 1670,
+        "shortCode": "MP"
+    },
+    {
+        "nm": "Norway",
+        "code": "NORWAY",
+        "countryCode": 47,
+        "shortCode": "NO"
+    },
+    {
+        "nm": "Oman",
+        "code": "OMAN",
+        "countryCode": 968,
+        "shortCode": "OM"
+    },
+    {
+        "nm": "Pakistan",
+        "code": "PAKISTAN",
+        "countryCode": 92,
+        "shortCode": "PK"
+    },
+    {
+        "nm": "Palau",
+        "code": "PALAU",
+        "countryCode": 680,
+        "shortCode": "PW"
+    },
+    {
+        "nm": "Palestinian Territory Occupied",
+        "code": "PALESTINIAN_TERRITORY_OCCUPIED",
+        "countryCode": 970,
+        "shortCode": "PS"
+    },
+    {
+        "nm": "Panama",
+        "code": "PANAMA",
+        "countryCode": 507,
+        "shortCode": "PA"
+    },
+    {
+        "nm": "Papua new Guinea",
+        "code": "PAPUA_NEW_GUINEA",
+        "countryCode": 675,
+        "shortCode": "PG"
+    },
+    {
+        "nm": "Paraguay",
+        "code": "PARAGUAY",
+        "countryCode": 595,
+        "shortCode": "PY"
+    },
+    {
+        "nm": "Peru",
+        "code": "PERU",
+        "countryCode": 51,
+        "shortCode": "PE"
+    },
+    {
+        "nm": "Philippines",
+        "code": "PHILIPPINES",
+        "countryCode": 63,
+        "shortCode": "PH"
+    },
+    {
+        "nm": "Pitcairn Island",
+        "code": "PITCAIRN_ISLAND",
+        "countryCode": 0,
+        "shortCode": "PN"
+    },
+    {
+        "nm": "Poland",
+        "code": "POLAND",
+        "countryCode": 48,
+        "shortCode": "PL"
+    },
+    {
+        "nm": "Portugal",
+        "code": "PORTUGAL",
+        "countryCode": 351,
+        "shortCode": "PT"
+    },
+    {
+        "nm": "Puerto Rico",
+        "code": "PUERTO_RICO",
+        "countryCode": 1787,
+        "shortCode": "PR"
+    },
+    {
+        "nm": "Qatar",
+        "code": "QATAR",
+        "countryCode": 974,
+        "shortCode": "QA"
+    },
+    {
+        "nm": "Republic Of The Congo",
+        "code": "REPUBLIC_OF_THE_CONGO",
+        "countryCode": 242,
+        "shortCode": "CG"
+    },
+    {
+        "nm": "Reunion",
+        "code": "REUNION",
+        "countryCode": 262,
+        "shortCode": "RE"
+    },
+    {
+        "nm": "Romania",
+        "code": "ROMANIA",
+        "countryCode": 40,
+        "shortCode": "RO"
+    },
+    {
+        "nm": "Russia",
+        "code": "RUSSIA",
+        "countryCode": 70,
+        "shortCode": "RU"
+    },
+    {
+        "nm": "Rwanda",
+        "code": "RWANDA",
+        "countryCode": 250,
+        "shortCode": "RW"
+    },
+    {
+        "nm": "Saint Helena",
+        "code": "SAINT_HELENA",
+        "countryCode": 290,
+        "shortCode": "SH"
+    },
+    {
+        "nm": "Saint Kitts And Nevis",
+        "code": "SAINT_KITTS_AND_NEVIS",
+        "countryCode": 1869,
+        "shortCode": "KN"
+    },
+    {
+        "nm": "Saint Lucia",
+        "code": "SAINT_LUCIA",
+        "countryCode": 1758,
+        "shortCode": "LC"
+    },
+    {
+        "nm": "Saint Pierre and Miquelon",
+        "code": "SAINT_PIERRE_AND_MIQUELON",
+        "countryCode": 508,
+        "shortCode": "PM"
+    },
+    {
+        "nm": "Saint Vincent And The Grenadines",
+        "code": "SAINT_VINCENT_AND_THE_GRENADINES",
+        "countryCode": 1784,
+        "shortCode": "VC"
+    },
+    {
+        "nm": "Samoa",
+        "code": "SAMOA",
+        "countryCode": 684,
+        "shortCode": "WS"
+    },
+    {
+        "nm": "San Marino",
+        "code": "SAN_MARINO",
+        "countryCode": 378,
+        "shortCode": "SM"
+    },
+    {
+        "nm": "Sao Tome and Principe",
+        "code": "SAO_TOME_AND_PRINCIPE",
+        "countryCode": 239,
+        "shortCode": "ST"
+    },
+    {
+        "nm": "Saudi Arabia",
+        "code": "SAUDI_ARABIA",
+        "countryCode": 966,
+        "shortCode": "SA"
+    },
+    {
+        "nm": "Senegal",
+        "code": "SENEGAL",
+        "countryCode": 221,
+        "shortCode": "SN"
+    },
+    {
+        "nm": "Serbia",
+        "code": "SERBIA",
+        "countryCode": 381,
+        "shortCode": "RS"
+    },
+    {
+        "nm": "Seychelles",
+        "code": "SEYCHELLES",
+        "countryCode": 248,
+        "shortCode": "SC"
+    },
+    {
+        "nm": "Sierra Leone",
+        "code": "SIERRA_LEONE",
+        "countryCode": 232,
+        "shortCode": "SL"
+    },
+    {
+        "nm": "Singapore",
+        "code": "SINGAPORE",
+        "countryCode": 65,
+        "shortCode": "SG"
+    },
+    {
+        "nm": "Slovakia",
+        "code": "SLOVAKIA",
+        "countryCode": 421,
+        "shortCode": "SK"
+    },
+    {
+        "nm": "Slovenia",
+        "code": "SLOVENIA",
+        "countryCode": 386,
+        "shortCode": "SI"
+    },
+    {
+        "nm": "Solomon Islands",
+        "code": "SOLOMON_ISLANDS",
+        "countryCode": 677,
+        "shortCode": "SB"
+    },
+    {
+        "nm": "Somalia",
+        "code": "SOMALIA",
+        "countryCode": 252,
+        "shortCode": "SO"
+    },
+    {
+        "nm": "South Africa",
+        "code": "SOUTH_AFRICA",
+        "countryCode": 27,
+        "shortCode": "ZA"
+    },
+    {
+        "nm": "South Georgia",
+        "code": "SOUTH_GEORGIA",
+        "countryCode": 0,
+        "shortCode": "GS"
+    },
+    {
+        "nm": "South Sudan",
+        "code": "SOUTH_SUDAN",
+        "countryCode": 211,
+        "shortCode": "SS"
+    },
+    {
+        "nm": "Spain",
+        "code": "SPAIN",
+        "countryCode": 34,
+        "shortCode": "ES"
+    },
+    {
+        "nm": "Sri Lanka",
+        "code": "SRI_LANKA",
+        "countryCode": 94,
+        "shortCode": "LK"
+    },
+    {
+        "nm": "Sudan",
+        "code": "SUDAN",
+        "countryCode": 249,
+        "shortCode": "SD"
+    },
+    {
+        "nm": "Suriname",
+        "code": "SURINAME",
+        "countryCode": 597,
+        "shortCode": "SR"
+    },
+    {
+        "nm": "Svalbard And Jan Mayen Islands",
+        "code": "SVALBARD_AND_JAN_MAYEN_ISLANDS",
+        "countryCode": 47,
+        "shortCode": "SJ"
+    },
+    {
+        "nm": "Swaziland",
+        "code": "SWAZILAND",
+        "countryCode": 268,
+        "shortCode": "SZ"
+    },
+    {
+        "nm": "Sweden",
+        "code": "SWEDEN",
+        "countryCode": 46,
+        "shortCode": "SE"
+    },
+    {
+        "nm": "Switzerland",
+        "code": "SWITZERLAND",
+        "countryCode": 41,
+        "shortCode": "CH"
+    },
+    {
+        "nm": "Syria",
+        "code": "SYRIA",
+        "countryCode": 963,
+        "shortCode": "SY"
+    },
+    {
+        "nm": "Taiwan",
+        "code": "TAIWAN",
+        "countryCode": 886,
+        "shortCode": "TW"
+    },
+    {
+        "nm": "Tajikistan",
+        "code": "TAJIKISTAN",
+        "countryCode": 992,
+        "shortCode": "TJ"
+    },
+    {
+        "nm": "Tanzania",
+        "code": "TANZANIA",
+        "countryCode": 255,
+        "shortCode": "TZ"
+    },
+    {
+        "nm": "Thailand",
+        "code": "THAILAND",
+        "countryCode": 66,
+        "shortCode": "TH"
+    },
+    {
+        "nm": "Togo",
+        "code": "TOGO",
+        "countryCode": 228,
+        "shortCode": "TG"
+    },
+    {
+        "nm": "Tokelau",
+        "code": "TOKELAU",
+        "countryCode": 690,
+        "shortCode": "TK"
+    },
+    {
+        "nm": "Tonga",
+        "code": "TONGA",
+        "countryCode": 676,
+        "shortCode": "TO"
+    },
+    {
+        "nm": "Trinidad And Tobago",
+        "code": "TRINIDAD_AND_TOBAGO",
+        "countryCode": 1868,
+        "shortCode": "TT"
+    },
+    {
+        "nm": "Tunisia",
+        "code": "TUNISIA",
+        "countryCode": 216,
+        "shortCode": "TN"
+    },
+    {
+        "nm": "Turkey",
+        "code": "TURKEY",
+        "countryCode": 90,
+        "shortCode": "TR"
+    },
+    {
+        "nm": "Turkmenistan",
+        "code": "TURKMENISTAN",
+        "countryCode": 7370,
+        "shortCode": "TM"
+    },
+    {
+        "nm": "Turks And Caicos Islands",
+        "code": "TURKS_AND_CAICOS_ISLANDS",
+        "countryCode": 1649,
+        "shortCode": "TC"
+    },
+    {
+        "nm": "Tuvalu",
+        "code": "TUVALU",
+        "countryCode": 688,
+        "shortCode": "TV"
+    },
+    {
+        "nm": "Uganda",
+        "code": "UGANDA",
+        "countryCode": 256,
+        "shortCode": "UG"
+    },
+    {
+        "nm": "Ukraine",
+        "code": "UKRAINE",
+        "countryCode": 380,
+        "shortCode": "UA"
+    },
+    {
+        "nm": "United Arab Emirates",
+        "code": "UNITED_ARAB_EMIRATES",
+        "countryCode": 971,
+        "shortCode": "AE"
+    },
+    {
+        "nm": "United Kingdom",
+        "code": "UNITED_KINGDOM",
+        "countryCode": 44,
+        "shortCode": "GB"
+    },
+    {
+        "nm": "United States",
+        "code": "UNITED_STATES",
+        "countryCode": 1,
+        "shortCode": "US"
+    },
+    {
+        "nm": "United States Minor Outlying Islands",
+        "code": "UNITED_STATES_MINOR_OUTLYING_ISLANDS",
+        "countryCode": 1,
+        "shortCode": "UM"
+    },
+    {
+        "nm": "Uruguay",
+        "code": "URUGUAY",
+        "countryCode": 598,
+        "shortCode": "UY"
+    },
+    {
+        "nm": "Uzbekistan",
+        "code": "UZBEKISTAN",
+        "countryCode": 998,
+        "shortCode": "UZ"
+    },
+    {
+        "nm": "Vanuatu",
+        "code": "VANUATU",
+        "countryCode": 678,
+        "shortCode": "VU"
+    },
+    {
+        "nm": "Vatican City State (Holy See)",
+        "code": "VATICAN_CITY_STATE_(HOLY_SEE)",
+        "countryCode": 39,
+        "shortCode": "VA"
+    },
+    {
+        "nm": "Venezuela",
+        "code": "VENEZUELA",
+        "countryCode": 58,
+        "shortCode": "VE"
+    },
+    {
+        "nm": "Vietnam",
+        "code": "VIETNAM",
+        "countryCode": 84,
+        "shortCode": "VN"
+    },
+    {
+        "nm": "Virgin Islands (British)",
+        "code": "VIRGIN_ISLANDS_(BRITISH)",
+        "countryCode": 1284,
+        "shortCode": "VG"
+    },
+    {
+        "nm": "Virgin Islands (US)",
+        "code": "VIRGIN_ISLANDS_(US)",
+        "countryCode": 1340,
+        "shortCode": "VI"
+    },
+    {
+        "nm": "Wallis And Futuna Islands",
+        "code": "WALLIS_AND_FUTUNA_ISLANDS",
+        "countryCode": 681,
+        "shortCode": "WF"
+    },
+    {
+        "nm": "Western Sahara",
+        "code": "WESTERN_SAHARA",
+        "countryCode": 212,
+        "shortCode": "EH"
+    },
+    {
+        "nm": "Yemen",
+        "code": "YEMEN",
+        "countryCode": 967,
+        "shortCode": "YE"
+    },
+    {
+        "nm": "Yugoslavia",
+        "code": "YUGOSLAVIA",
+        "countryCode": 38,
+        "shortCode": "YU"  
+    },
+    {
+        "nm": "Zambia",
+        "code": "ZAMBIA",
+        "countryCode": 260,
+        "shortCode": "ZM"
+    },
+    {
+        "nm": "Zimbabwe",
+        "code": "ZIMBABWE",
+        "countryCode": 263,
+        "shortCode": "ZW"
+    }
+]

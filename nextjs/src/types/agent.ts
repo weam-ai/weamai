@@ -1,0 +1,24 @@
+import { FileType, FormatBrainType, FormatCompanyType, FormatUserType } from './common';
+
+export type AgentRecordType = {
+    _id: string;
+    brain: FormatBrainType;
+    createdAt: string;
+    goals: string[];
+    instructions?: string[];
+    isActive: boolean;
+    itrTimeDuration?: string;
+    maxItr?: number;
+    owner: FormatUserType;
+    slug: string;
+    systemPrompt: string;
+    title: string;
+    updatedAt: string;
+    responseModel: {
+        company: FormatCompanyType;
+        name: string;
+        id: string;
+    };
+    coverImg?: FileType;
+    favoriteByUsers: string[];
+};

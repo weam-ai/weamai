@@ -1,0 +1,16 @@
+{
+    "file": {
+        "upload": "Your file is uploaded.",
+        "upload_multiple": "Your files are uploaded.",
+        "folder_required": "Folder field is required.",
+        "not_uploaded": "No file uploaded.",
+        "remove": "File removed successfully.",
+        "type": "Only {module} files are allowed.",
+        "generate_url":"File processing is started.",
+        "valid": "Please upload valid {module} file",
+        "limit_expire": "Your storage limit has been reached. To increase your storage capacity, please request additional space",
+        "large_image": "The image is larger than the allowed size",
+        "format": "Please upload valid {module} file",
+        "limit_file_size": "The file size is larger than the allowed size"
+    }
+}

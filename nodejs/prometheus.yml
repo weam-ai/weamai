@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 4s
+  evaluation_interval: 5s
+
+rule_files:
+  - rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - alert-manager:9093
+
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["192.168.1.247:4050"]
+  - job_name: node-expo
+    static_configs:
+      - targets:
+        - node-exporter:9100

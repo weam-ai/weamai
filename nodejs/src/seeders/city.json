@@ -1,0 +1,4398 @@
+[
+    {
+        "nm": "Adilabad",
+        "code": "ADILABAD",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Anantapur",
+        "code": "ANANTAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chittoor",
+        "code": "CHITTOOR",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kakinada",
+        "code": "KAKINADA",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Guntur",
+        "code": "GUNTUR",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Hyderabad",
+        "code": "HYDERABAD",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Karimnagar",
+        "code": "KARIMNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Khammam",
+        "code": "KHAMMAM",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Krishna",
+        "code": "KRISHNA",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kurnool",
+        "code": "KURNOOL",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mahbubnagar",
+        "code": "MAHBUBNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Medak",
+        "code": "MEDAK",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Nalgonda",
+        "code": "NALGONDA",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Nizamabad",
+        "code": "NIZAMABAD",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ongole",
+        "code": "ONGOLE",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Hyderabad",
+        "code": "HYDERABAD",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Srikakulam",
+        "code": "SRIKAKULAM",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Nellore",
+        "code": "NELLORE",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Visakhapatnam",
+        "code": "VISAKHAPATNAM",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Vizianagaram",
+        "code": "VIZIANAGARAM",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Warangal",
+        "code": "WARANGAL",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Eluru",
+        "code": "ELURU",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kadapa",
+        "code": "KADAPA",
+        "countryCode": "INDIA",
+        "stateCode": "ANDHRA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Anjaw",
+        "code": "ANJAW",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Changlang",
+        "code": "CHANGLANG",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "East Siang",
+        "code": "EAST_SIANG",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kurung Kumey",
+        "code": "KURUNG_KUMEY",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lohit",
+        "code": "LOHIT",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lower Dibang Valley",
+        "code": "LOWER_DIBANG_VALLEY",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lower Subansiri",
+        "code": "LOWER_SUBANSIRI",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Papum Pare",
+        "code": "PAPUM_PARE",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Tawang",
+        "code": "TAWANG",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Tirap",
+        "code": "TIRAP",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Dibang Valley",
+        "code": "DIBANG_VALLEY",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Upper Siang",
+        "code": "UPPER_SIANG",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Upper Subansiri",
+        "code": "UPPER_SUBANSIRI",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "West Kameng",
+        "code": "WEST_KAMENG",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "West Siang",
+        "code": "WEST_SIANG",
+        "countryCode": "INDIA",
+        "stateCode": "ARUNACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Baksa",
+        "code": "BAKSA",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Barpeta",
+        "code": "BARPETA",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Bongaigaon",
+        "code": "BONGAIGAON",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Cachar",
+        "code": "CACHAR",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Chirang",
+        "code": "CHIRANG",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Darrang",
+        "code": "DARRANG",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Dhemaji",
+        "code": "DHEMAJI",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Dima Hasao",
+        "code": "DIMA_HASAO",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Dhubri",
+        "code": "DHUBRI",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Dibrugarh",
+        "code": "DIBRUGARH",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Goalpara",
+        "code": "GOALPARA",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Golaghat",
+        "code": "GOLAGHAT",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Hailakandi",
+        "code": "HAILAKANDI",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Jorhat",
+        "code": "JORHAT",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Kamrup",
+        "code": "KAMRUP",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Kamrup Metropolitan",
+        "code": "KAMRUP_METROPOLITAN",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Karbi Anglong",
+        "code": "KARBI_ANGLONG",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Karimganj",
+        "code": "KARIMGANJ",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Kokrajhar",
+        "code": "KOKRAJHAR",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Lakhimpur",
+        "code": "LAKHIMPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Marigaon",
+        "code": "MARIGAON",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Nagaon",
+        "code": "NAGAON",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Nalbari",
+        "code": "NALBARI",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Sibsagar",
+        "code": "SIBSAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Sonitpur",
+        "code": "SONITPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Tinsukia",
+        "code": "TINSUKIA",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Udalguri",
+        "code": "UDALGURI",
+        "countryCode": "INDIA",
+        "stateCode": "ASSAM",
+        "isActive": true
+    },
+    {
+        "nm": "Araria",
+        "code": "ARARIA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Arwal",
+        "code": "ARWAL",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Aurangabad",
+        "code": "AURANGABAD",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Banka",
+        "code": "BANKA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Begusarai",
+        "code": "BEGUSARAI",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Bhagalpur",
+        "code": "BHAGALPUR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Bhojpur",
+        "code": "BHOJPUR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Buxar",
+        "code": "BUXAR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Darbhanga",
+        "code": "DARBHANGA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "East Champaran",
+        "code": "EAST_CHAMPARAN",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Gaya",
+        "code": "GAYA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Gopalganj",
+        "code": "GOPALGANJ",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Jamui",
+        "code": "JAMUI",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Jehanabad",
+        "code": "JEHANABAD",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Kaimur",
+        "code": "KAIMUR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Katihar",
+        "code": "KATIHAR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Khagaria",
+        "code": "KHAGARIA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Kishanganj",
+        "code": "KISHANGANJ",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Lakhisarai",
+        "code": "LAKHISARAI",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Madhepura",
+        "code": "MADHEPURA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Madhubani",
+        "code": "MADHUBANI",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Munger",
+        "code": "MUNGER",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Muzaffarpur",
+        "code": "MUZAFFARPUR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Nalanda",
+        "code": "NALANDA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Nawada",
+        "code": "NAWADA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Patna",
+        "code": "PATNA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Purnia",
+        "code": "PURNIA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Rohtas",
+        "code": "ROHTAS",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Saharsa",
+        "code": "SAHARSA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Samastipur",
+        "code": "SAMASTIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Saran",
+        "code": "SARAN",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Sheikhpura",
+        "code": "SHEIKHPURA",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Sheohar",
+        "code": "SHEOHAR",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Sitamarhi",
+        "code": "SITAMARHI",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Siwan",
+        "code": "SIWAN",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Supaul",
+        "code": "SUPAUL",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Vaishali",
+        "code": "VAISHALI",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "West Champaran",
+        "code": "WEST_CHAMPARAN",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Chandigarh",
+        "code": "CHANDIGARH",
+        "countryCode": "INDIA",
+        "stateCode": "BIHAR",
+        "isActive": true
+    },
+    {
+        "nm": "Bastar",
+        "code": "BASTAR",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Bijapur",
+        "code": "BIJAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Bilaspur",
+        "code": "BILASPUR",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Dantewada",
+        "code": "DANTEWADA",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Dhamtari",
+        "code": "DHAMTARI",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Durg",
+        "code": "DURG",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Jashpur",
+        "code": "JASHPUR",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Janjgir-Champa",
+        "code": "JANJGIR-CHAMPA",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Korba",
+        "code": "KORBA",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Koriya",
+        "code": "KORIYA",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Kanker",
+        "code": "KANKER",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Kabirdham (Kawardha)",
+        "code": "KABIRDHAM_(KAWARDHA)",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Mahasamund",
+        "code": "MAHASAMUND",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Narayanpur",
+        "code": "NARAYANPUR",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Raigarh",
+        "code": "RAIGARH",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Rajnandgaon",
+        "code": "RAJNANDGAON",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Raipur",
+        "code": "RAIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "Surguja",
+        "code": "SURGUJA",
+        "countryCode": "INDIA",
+        "stateCode": "CHHATTISGARH",
+        "isActive": true
+    },
+    {
+        "nm": "North Goa",
+        "code": "NORTH_GOA",
+        "countryCode": "INDIA",
+        "stateCode": "GOA",
+        "isActive": true
+    },
+    {
+        "nm": "South Goa",
+        "code": "SOUTH_GOA",
+        "countryCode": "INDIA",
+        "stateCode": "GOA",
+        "isActive": true
+    },
+    {
+        "nm": "Ahmedabad",
+        "code": "AHMEDABAD",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Amreli district",
+        "code": "AMRELI_DISTRICT",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Anand",
+        "code": "ANAND",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Banaskantha",
+        "code": "BANASKANTHA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Bharuch",
+        "code": "BHARUCH",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Bhavnagar",
+        "code": "BHAVNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Dahod",
+        "code": "DAHOD",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "The Dangs",
+        "code": "THE_DANGS",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Gandhinagar",
+        "code": "GANDHINAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Jamnagar",
+        "code": "JAMNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Junagadh",
+        "code": "JUNAGADH",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Kutch",
+        "code": "KUTCH",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Kheda",
+        "code": "KHEDA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Mehsana",
+        "code": "MEHSANA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Narmada",
+        "code": "NARMADA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Navsari",
+        "code": "NAVSARI",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Patan",
+        "code": "PATAN",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Panchmahal",
+        "code": "PANCHMAHAL",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Porbandar",
+        "code": "PORBANDAR",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Rajkot",
+        "code": "RAJKOT",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Sabarkantha",
+        "code": "SABARKANTHA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Surendranagar",
+        "code": "SURENDRANAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Surat",
+        "code": "SURAT",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Vyara",
+        "code": "VYARA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Vadodara",
+        "code": "VADODARA",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Valsad",
+        "code": "VALSAD",
+        "countryCode": "INDIA",
+        "stateCode": "GUJARAT",
+        "isActive": true
+    },
+    {
+        "nm": "Ambala",
+        "code": "AMBALA",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Bhiwani",
+        "code": "BHIWANI",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Faridabad",
+        "code": "FARIDABAD",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Fatehabad",
+        "code": "FATEHABAD",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Gurgaon",
+        "code": "GURGAON",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Hissar",
+        "code": "HISSAR",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Jhajjar",
+        "code": "JHAJJAR",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Jind",
+        "code": "JIND",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Karnal",
+        "code": "KARNAL",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Kaithal",
+        "code": "KAITHAL",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Kurukshetra",
+        "code": "KURUKSHETRA",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Mahendragarh",
+        "code": "MAHENDRAGARH",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Mewat",
+        "code": "MEWAT",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Palwal",
+        "code": "PALWAL",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Panchkula",
+        "code": "PANCHKULA",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Panipat",
+        "code": "PANIPAT",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Rewari",
+        "code": "REWARI",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Rohtak",
+        "code": "ROHTAK",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Sirsa",
+        "code": "SIRSA",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Sonipat",
+        "code": "SONIPAT",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Yamuna Nagar",
+        "code": "YAMUNA_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "HARYANA",
+        "isActive": true
+    },
+    {
+        "nm": "Bilaspur",
+        "code": "BILASPUR",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chamba",
+        "code": "CHAMBA",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Hamirpur",
+        "code": "HAMIRPUR",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kangra",
+        "code": "KANGRA",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kinnaur",
+        "code": "KINNAUR",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kullu",
+        "code": "KULLU",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lahaul and Spiti",
+        "code": "LAHAUL_AND_SPITI",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mandi",
+        "code": "MANDI",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shimla",
+        "code": "SHIMLA",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sirmaur",
+        "code": "SIRMAUR",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Solan",
+        "code": "SOLAN",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Una",
+        "code": "UNA",
+        "countryCode": "INDIA",
+        "stateCode": "HIMACHAL_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Anantnag",
+        "code": "ANANTNAG",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Badgam",
+        "code": "BADGAM",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Bandipora",
+        "code": "BANDIPORA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Baramulla",
+        "code": "BARAMULLA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Doda",
+        "code": "DODA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Ganderbal",
+        "code": "GANDERBAL",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Jammu",
+        "code": "JAMMU",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Kargil",
+        "code": "KARGIL",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Kathua",
+        "code": "KATHUA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Kishtwar",
+        "code": "KISHTWAR",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Kupwara",
+        "code": "KUPWARA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Kulgam",
+        "code": "KULGAM",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Leh",
+        "code": "LEH",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Poonch",
+        "code": "POONCH",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Pulwama",
+        "code": "PULWAMA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Rajauri",
+        "code": "RAJAURI",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Ramban",
+        "code": "RAMBAN",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Reasi",
+        "code": "REASI",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Samba",
+        "code": "SAMBA",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Shopian",
+        "code": "SHOPIAN",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Srinagar",
+        "code": "SRINAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Udhampur",
+        "code": "UDHAMPUR",
+        "countryCode": "INDIA",
+        "stateCode": "JAMMU_AND_KASHMIR",
+        "isActive": true
+    },
+    {
+        "nm": "Bokaro",
+        "code": "BOKARO",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Chatra",
+        "code": "CHATRA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Deoghar",
+        "code": "DEOGHAR",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Dhanbad",
+        "code": "DHANBAD",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Dumka",
+        "code": "DUMKA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "East Singhbhum",
+        "code": "EAST_SINGHBHUM",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Garhwa",
+        "code": "GARHWA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Giridih",
+        "code": "GIRIDIH",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Godda",
+        "code": "GODDA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Gumla",
+        "code": "GUMLA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Hazaribag",
+        "code": "HAZARIBAG",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Jamtara",
+        "code": "JAMTARA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Khunti",
+        "code": "KHUNTI",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Koderma",
+        "code": "KODERMA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Latehar",
+        "code": "LATEHAR",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Lohardaga",
+        "code": "LOHARDAGA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Pakur",
+        "code": "PAKUR",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Palamu",
+        "code": "PALAMU",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Ramgarh",
+        "code": "RAMGARH",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Ranchi",
+        "code": "RANCHI",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Sahibganj",
+        "code": "SAHIBGANJ",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Seraikela Kharsawan",
+        "code": "SERAIKELA_KHARSAWAN",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Simdega",
+        "code": "SIMDEGA",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "West Singhbhum",
+        "code": "WEST_SINGHBHUM",
+        "countryCode": "INDIA",
+        "stateCode": "JHARKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Bagalkot",
+        "code": "BAGALKOT",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Bangalore Rural",
+        "code": "BANGALORE_RURAL",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Bangalore Urban",
+        "code": "BANGALORE_URBAN",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Belgaum",
+        "code": "BELGAUM",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Bellary",
+        "code": "BELLARY",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Bidar",
+        "code": "BIDAR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Bijapur",
+        "code": "BIJAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Chamarajnagar",
+        "code": "CHAMARAJNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Chikkamagaluru",
+        "code": "CHIKKAMAGALURU",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Chikkaballapur",
+        "code": "CHIKKABALLAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Chitradurga",
+        "code": "CHITRADURGA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Davanagere",
+        "code": "DAVANAGERE",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Dharwad",
+        "code": "DHARWAD",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Dakshina Kannada",
+        "code": "DAKSHINA_KANNADA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Gadag",
+        "code": "GADAG",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Gulbarga",
+        "code": "GULBARGA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Hassan",
+        "code": "HASSAN",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Haveri district",
+        "code": "HAVERI_DISTRICT",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Kodagu",
+        "code": "KODAGU",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Kolar",
+        "code": "KOLAR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Koppal",
+        "code": "KOPPAL",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Mandya",
+        "code": "MANDYA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Mysore",
+        "code": "MYSORE",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Raichur",
+        "code": "RAICHUR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Shimoga",
+        "code": "SHIMOGA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Tumkur",
+        "code": "TUMKUR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Udupi",
+        "code": "UDUPI",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Uttara Kannada",
+        "code": "UTTARA_KANNADA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Ramanagara",
+        "code": "RAMANAGARA",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Yadgir",
+        "code": "YADGIR",
+        "countryCode": "INDIA",
+        "stateCode": "KARNATAKA",
+        "isActive": true
+    },
+    {
+        "nm": "Alappuzha",
+        "code": "ALAPPUZHA",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Ernakulam",
+        "code": "ERNAKULAM",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Idukki",
+        "code": "IDUKKI",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Kannur",
+        "code": "KANNUR",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Kasaragod",
+        "code": "KASARAGOD",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Kollam",
+        "code": "KOLLAM",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Kottayam",
+        "code": "KOTTAYAM",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Kozhikode",
+        "code": "KOZHIKODE",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Malappuram",
+        "code": "MALAPPURAM",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Palakkad",
+        "code": "PALAKKAD",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Pathanamthitta",
+        "code": "PATHANAMTHITTA",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Thrissur",
+        "code": "THRISSUR",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Thiruvananthapuram",
+        "code": "THIRUVANANTHAPURAM",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Wayanad",
+        "code": "WAYANAD",
+        "countryCode": "INDIA",
+        "stateCode": "KERALA",
+        "isActive": true
+    },
+    {
+        "nm": "Alirajpur",
+        "code": "ALIRAJPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Anuppur",
+        "code": "ANUPPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ashok Nagar",
+        "code": "ASHOK_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Balaghat",
+        "code": "BALAGHAT",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Barwani",
+        "code": "BARWANI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Betul",
+        "code": "BETUL",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bhind",
+        "code": "BHIND",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bhopal",
+        "code": "BHOPAL",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Burhanpur",
+        "code": "BURHANPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chhatarpur",
+        "code": "CHHATARPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chhindwara",
+        "code": "CHHINDWARA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Damoh",
+        "code": "DAMOH",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Datia",
+        "code": "DATIA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Dewas",
+        "code": "DEWAS",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Dhar",
+        "code": "DHAR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Dindori",
+        "code": "DINDORI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Guna",
+        "code": "GUNA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Gwalior",
+        "code": "GWALIOR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Harda",
+        "code": "HARDA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Hoshangabad",
+        "code": "HOSHANGABAD",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Indore",
+        "code": "INDORE",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Jabalpur",
+        "code": "JABALPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Jhabua",
+        "code": "JHABUA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Katni",
+        "code": "KATNI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Khandwa (East Nimar)",
+        "code": "KHANDWA_(EAST_NIMAR)",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Khargone (West Nimar)",
+        "code": "KHARGONE_(WEST_NIMAR)",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mandla",
+        "code": "MANDLA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mandsaur",
+        "code": "MANDSAUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Morena",
+        "code": "MORENA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Narsinghpur",
+        "code": "NARSINGHPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Neemuch",
+        "code": "NEEMUCH",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Panna",
+        "code": "PANNA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Rewa",
+        "code": "REWA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Rajgarh",
+        "code": "RAJGARH",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ratlam",
+        "code": "RATLAM",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Raisen",
+        "code": "RAISEN",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sagar",
+        "code": "SAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Satna",
+        "code": "SATNA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sehore",
+        "code": "SEHORE",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Seoni",
+        "code": "SEONI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shahdol",
+        "code": "SHAHDOL",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shajapur",
+        "code": "SHAJAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sheopur",
+        "code": "SHEOPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shivpuri",
+        "code": "SHIVPURI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sidhi",
+        "code": "SIDHI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Singrauli",
+        "code": "SINGRAULI",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Tikamgarh",
+        "code": "TIKAMGARH",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ujjain",
+        "code": "UJJAIN",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Umaria",
+        "code": "UMARIA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Vidisha",
+        "code": "VIDISHA",
+        "countryCode": "INDIA",
+        "stateCode": "MADHYA_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ahmednagar",
+        "code": "AHMEDNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Akola",
+        "code": "AKOLA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Amravati",
+        "code": "AMRAVATI",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Aurangabad",
+        "code": "AURANGABAD",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Bhandara",
+        "code": "BHANDARA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Beed",
+        "code": "BEED",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Buldhana",
+        "code": "BULDHANA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Chandrapur",
+        "code": "CHANDRAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Dhule",
+        "code": "DHULE",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Gadchiroli",
+        "code": "GADCHIROLI",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Gondia",
+        "code": "GONDIA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Hingoli",
+        "code": "HINGOLI",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Jalgaon",
+        "code": "JALGAON",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Jalna",
+        "code": "JALNA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Kolhapur",
+        "code": "KOLHAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Latur",
+        "code": "LATUR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Mumbai City",
+        "code": "MUMBAI_CITY",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Mumbai suburban",
+        "code": "MUMBAI_SUBURBAN",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Nandurbar",
+        "code": "NANDURBAR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Nanded",
+        "code": "NANDED",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Nagpur",
+        "code": "NAGPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Nashik",
+        "code": "NASHIK",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Osmanabad",
+        "code": "OSMANABAD",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Parbhani",
+        "code": "PARBHANI",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Pune",
+        "code": "PUNE",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Raigad",
+        "code": "RAIGAD",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Ratnagiri",
+        "code": "RATNAGIRI",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Sindhudurg",
+        "code": "SINDHUDURG",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Sangli",
+        "code": "SANGLI",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Solapur",
+        "code": "SOLAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Satara",
+        "code": "SATARA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Thane",
+        "code": "THANE",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Wardha",
+        "code": "WARDHA",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Washim",
+        "code": "WASHIM",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Yavatmal",
+        "code": "YAVATMAL",
+        "countryCode": "INDIA",
+        "stateCode": "MAHARASHTRA",
+        "isActive": true
+    },
+    {
+        "nm": "Bishnupur",
+        "code": "BISHNUPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Churachandpur",
+        "code": "CHURACHANDPUR",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Chandel",
+        "code": "CHANDEL",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Imphal East",
+        "code": "IMPHAL_EAST",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Senapati",
+        "code": "SENAPATI",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Tamenglong",
+        "code": "TAMENGLONG",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Thoubal",
+        "code": "THOUBAL",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Ukhrul",
+        "code": "UKHRUL",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "Imphal West",
+        "code": "IMPHAL_WEST",
+        "countryCode": "INDIA",
+        "stateCode": "MANIPUR",
+        "isActive": true
+    },
+    {
+        "nm": "East Garo Hills",
+        "code": "EAST_GARO_HILLS",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "East Khasi Hills",
+        "code": "EAST_KHASI_HILLS",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "Jaintia Hills",
+        "code": "JAINTIA_HILLS",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "Ri Bhoi",
+        "code": "RI_BHOI",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "South Garo Hills",
+        "code": "SOUTH_GARO_HILLS",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "West Garo Hills",
+        "code": "WEST_GARO_HILLS",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "West Khasi Hills",
+        "code": "WEST_KHASI_HILLS",
+        "countryCode": "INDIA",
+        "stateCode": "MEGHALAYA",
+        "isActive": true
+    },
+    {
+        "nm": "Aizawl",
+        "code": "AIZAWL",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Champhai",
+        "code": "CHAMPHAI",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Kolasib",
+        "code": "KOLASIB",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Lawngtlai",
+        "code": "LAWNGTLAI",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Lunglei",
+        "code": "LUNGLEI",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Mamit",
+        "code": "MAMIT",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Saiha",
+        "code": "SAIHA",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Serchhip",
+        "code": "SERCHHIP",
+        "countryCode": "INDIA",
+        "stateCode": "MIZORAM",
+        "isActive": true
+    },
+    {
+        "nm": "Dimapur",
+        "code": "DIMAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Kohima",
+        "code": "KOHIMA",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Mokokchung",
+        "code": "MOKOKCHUNG",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Mon",
+        "code": "MON",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Phek",
+        "code": "PHEK",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Tuensang",
+        "code": "TUENSANG",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Wokha",
+        "code": "WOKHA",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Zunheboto",
+        "code": "ZUNHEBOTO",
+        "countryCode": "INDIA",
+        "stateCode": "NAGALAND",
+        "isActive": true
+    },
+    {
+        "nm": "Angul",
+        "code": "ANGUL",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Boudh (Bauda)",
+        "code": "BOUDH_(BAUDA)",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Bhadrak",
+        "code": "BHADRAK",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Balangir",
+        "code": "BALANGIR",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Bargarh (Baragarh)",
+        "code": "BARGARH_(BARAGARH)",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Balasore",
+        "code": "BALASORE",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Cuttack",
+        "code": "CUTTACK",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Debagarh (Deogarh)",
+        "code": "DEBAGARH_(DEOGARH)",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Dhenkanal",
+        "code": "DHENKANAL",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Ganjam",
+        "code": "GANJAM",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Gajapati",
+        "code": "GAJAPATI",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Jharsuguda",
+        "code": "JHARSUGUDA",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Jajpur",
+        "code": "JAJPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Jagatsinghpur",
+        "code": "JAGATSINGHPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Khordha",
+        "code": "KHORDHA",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Kendujhar (Keonjhar)",
+        "code": "KENDUJHAR_(KEONJHAR)",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Kalahandi",
+        "code": "KALAHANDI",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Kandhamal",
+        "code": "KANDHAMAL",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Koraput",
+        "code": "KORAPUT",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Kendrapara",
+        "code": "KENDRAPARA",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Malkangiri",
+        "code": "MALKANGIRI",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Mayurbhanj",
+        "code": "MAYURBHANJ",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Nabarangpur",
+        "code": "NABARANGPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Nuapada",
+        "code": "NUAPADA",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Nayagarh",
+        "code": "NAYAGARH",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Puri",
+        "code": "PURI",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Rayagada",
+        "code": "RAYAGADA",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Sambalpur",
+        "code": "SAMBALPUR",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Subarnapur (Sonepur)",
+        "code": "SUBARNAPUR_(SONEPUR)",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Sundergarh",
+        "code": "SUNDERGARH",
+        "countryCode": "INDIA",
+        "stateCode": "ODISHA",
+        "isActive": true
+    },
+    {
+        "nm": "Karaikal",
+        "code": "KARAIKAL",
+        "countryCode": "INDIA",
+        "stateCode": "PUDUCHERRY",
+        "isActive": true
+    },
+    {
+        "nm": "Mahe",
+        "code": "MAHE",
+        "countryCode": "INDIA",
+        "stateCode": "PUDUCHERRY",
+        "isActive": true
+    },
+    {
+        "nm": "Pondicherry",
+        "code": "PONDICHERRY",
+        "countryCode": "INDIA",
+        "stateCode": "PUDUCHERRY",
+        "isActive": true
+    },
+    {
+        "nm": "Yanam",
+        "code": "YANAM",
+        "countryCode": "INDIA",
+        "stateCode": "PUDUCHERRY",
+        "isActive": true
+    },
+    {
+        "nm": "Amritsar",
+        "code": "AMRITSAR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Barnala",
+        "code": "BARNALA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Bathinda",
+        "code": "BATHINDA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Firozpur",
+        "code": "FIROZPUR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Faridkot",
+        "code": "FARIDKOT",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Fatehgarh Sahib",
+        "code": "FATEHGARH_SAHIB",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Fazilka",
+        "code": "FAZILKA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Gurdaspur",
+        "code": "GURDASPUR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Hoshiarpur",
+        "code": "HOSHIARPUR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Jalandhar",
+        "code": "JALANDHAR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Kapurthala",
+        "code": "KAPURTHALA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Ludhiana",
+        "code": "LUDHIANA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Mansa",
+        "code": "MANSA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Moga",
+        "code": "MOGA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Sri Muktsar Sahib",
+        "code": "SRI_MUKTSAR_SAHIB",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Pathankot",
+        "code": "PATHANKOT",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Patiala",
+        "code": "PATIALA",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Rupnagar",
+        "code": "RUPNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Ajitgarh (Mohali)",
+        "code": "AJITGARH_(MOHALI)",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Sangrur",
+        "code": "SANGRUR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Nawanshahr",
+        "code": "NAWANSHAHR",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Tarn Taran",
+        "code": "TARN_TARAN",
+        "countryCode": "INDIA",
+        "stateCode": "PUNJAB",
+        "isActive": true
+    },
+    {
+        "nm": "Ajmer",
+        "code": "AJMER",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Alwar",
+        "code": "ALWAR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Bikaner",
+        "code": "BIKANER",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Barmer",
+        "code": "BARMER",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Banswara",
+        "code": "BANSWARA",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Bharatpur",
+        "code": "BHARATPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Baran",
+        "code": "BARAN",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Bundi",
+        "code": "BUNDI",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Bhilwara",
+        "code": "BHILWARA",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Churu",
+        "code": "CHURU",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Chittorgarh",
+        "code": "CHITTORGARH",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Dausa",
+        "code": "DAUSA",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Dholpur",
+        "code": "DHOLPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Dungapur",
+        "code": "DUNGAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Ganganagar",
+        "code": "GANGANAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Hanumangarh",
+        "code": "HANUMANGARH",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Jhunjhunu",
+        "code": "JHUNJHUNU",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Jalore",
+        "code": "JALORE",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Jodhpur",
+        "code": "JODHPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Jaipur",
+        "code": "JAIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Jaisalmer",
+        "code": "JAISALMER",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Jhalawar",
+        "code": "JHALAWAR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Karauli",
+        "code": "KARAULI",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Kota",
+        "code": "KOTA",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Nagaur",
+        "code": "NAGAUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Pali",
+        "code": "PALI",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Pratapgarh",
+        "code": "PRATAPGARH",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Rajsamand",
+        "code": "RAJSAMAND",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Sikar",
+        "code": "SIKAR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Sawai Madhopur",
+        "code": "SAWAI_MADHOPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Sirohi",
+        "code": "SIROHI",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Tonk",
+        "code": "TONK",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "Udaipur",
+        "code": "UDAIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "RAJASTHAN",
+        "isActive": true
+    },
+    {
+        "nm": "East Sikkim",
+        "code": "EAST_SIKKIM",
+        "countryCode": "INDIA",
+        "stateCode": "SIKKIM",
+        "isActive": true
+    },
+    {
+        "nm": "North Sikkim",
+        "code": "NORTH_SIKKIM",
+        "countryCode": "INDIA",
+        "stateCode": "SIKKIM",
+        "isActive": true
+    },
+    {
+        "nm": "South Sikkim",
+        "code": "SOUTH_SIKKIM",
+        "countryCode": "INDIA",
+        "stateCode": "SIKKIM",
+        "isActive": true
+    },
+    {
+        "nm": "West Sikkim",
+        "code": "WEST_SIKKIM",
+        "countryCode": "INDIA",
+        "stateCode": "SIKKIM",
+        "isActive": true
+    },
+    {
+        "nm": "Ariyalur",
+        "code": "ARIYALUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Chennai",
+        "code": "CHENNAI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Coimbatore",
+        "code": "COIMBATORE",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Cuddalore",
+        "code": "CUDDALORE",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Dharmapuri",
+        "code": "DHARMAPURI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Dindigul",
+        "code": "DINDIGUL",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Erode",
+        "code": "ERODE",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Kanchipuram",
+        "code": "KANCHIPURAM",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Kanyakumari",
+        "code": "KANYAKUMARI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Karur",
+        "code": "KARUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Madurai",
+        "code": "MADURAI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Nagapattinam",
+        "code": "NAGAPATTINAM",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Nilgiris",
+        "code": "NILGIRIS",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Namakkal",
+        "code": "NAMAKKAL",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Perambalur",
+        "code": "PERAMBALUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Pudukkottai",
+        "code": "PUDUKKOTTAI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Ramanathapuram",
+        "code": "RAMANATHAPURAM",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Salem",
+        "code": "SALEM",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Sivaganga",
+        "code": "SIVAGANGA",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Tirupur",
+        "code": "TIRUPUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Tiruchirappalli",
+        "code": "TIRUCHIRAPPALLI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Theni",
+        "code": "THENI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Tirunelveli",
+        "code": "TIRUNELVELI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Thanjavur",
+        "code": "THANJAVUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Thoothukudi",
+        "code": "THOOTHUKUDI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Tiruvallur",
+        "code": "TIRUVALLUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Tiruvarur",
+        "code": "TIRUVARUR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Tiruvannamalai",
+        "code": "TIRUVANNAMALAI",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Vellore",
+        "code": "VELLORE",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Viluppuram",
+        "code": "VILUPPURAM",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Virudhunagar",
+        "code": "VIRUDHUNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "TAMIL_NADU",
+        "isActive": true
+    },
+    {
+        "nm": "Dhalai",
+        "code": "DHALAI",
+        "countryCode": "INDIA",
+        "stateCode": "TRIPURA",
+        "isActive": true
+    },
+    {
+        "nm": "North Tripura",
+        "code": "NORTH_TRIPURA",
+        "countryCode": "INDIA",
+        "stateCode": "TRIPURA",
+        "isActive": true
+    },
+    {
+        "nm": "South Tripura",
+        "code": "SOUTH_TRIPURA",
+        "countryCode": "INDIA",
+        "stateCode": "TRIPURA",
+        "isActive": true
+    },
+    {
+        "nm": "Khowai",
+        "code": "KHOWAI",
+        "countryCode": "INDIA",
+        "stateCode": "TRIPURA",
+        "isActive": true
+    },
+    {
+        "nm": "West Tripura",
+        "code": "WEST_TRIPURA",
+        "countryCode": "INDIA",
+        "stateCode": "TRIPURA",
+        "isActive": true
+    },
+    {
+        "nm": "Almora",
+        "code": "ALMORA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Bageshwar",
+        "code": "BAGESHWAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Chamoli",
+        "code": "CHAMOLI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Champawat",
+        "code": "CHAMPAWAT",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Dehradun",
+        "code": "DEHRADUN",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Haridwar",
+        "code": "HARIDWAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Nainital",
+        "code": "NAINITAL",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Pauri Garhwal",
+        "code": "PAURI_GARHWAL",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Pithoragarh",
+        "code": "PITHORAGARH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Rudraprayag",
+        "code": "RUDRAPRAYAG",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Tehri Garhwal",
+        "code": "TEHRI_GARHWAL",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Udham Singh Nagar",
+        "code": "UDHAM_SINGH_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Uttarkashi",
+        "code": "UTTARKASHI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTARAKHAND",
+        "isActive": true
+    },
+    {
+        "nm": "Agra",
+        "code": "AGRA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Allahabad",
+        "code": "ALLAHABAD",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Aligarh",
+        "code": "ALIGARH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ambedkar Nagar",
+        "code": "AMBEDKAR_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Auraiya",
+        "code": "AURAIYA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Azamgarh",
+        "code": "AZAMGARH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Barabanki",
+        "code": "BARABANKI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Budaun",
+        "code": "BUDAUN",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bagpat",
+        "code": "BAGPAT",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bahraich",
+        "code": "BAHRAICH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bijnor",
+        "code": "BIJNOR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ballia",
+        "code": "BALLIA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Banda",
+        "code": "BANDA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Balrampur",
+        "code": "BALRAMPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bareilly",
+        "code": "BAREILLY",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Basti",
+        "code": "BASTI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Bulandshahr",
+        "code": "BULANDSHAHR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chandauli",
+        "code": "CHANDAULI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chhatrapati Shahuji Maharaj Nagar",
+        "code": "CHHATRAPATI_SHAHUJI_MAHARAJ_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Chitrakoot",
+        "code": "CHITRAKOOT",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Deoria",
+        "code": "DEORIA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Etah",
+        "code": "ETAH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kanshi Ram Nagar",
+        "code": "KANSHI_RAM_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Etawah",
+        "code": "ETAWAH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Firozabad",
+        "code": "FIROZABAD",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Farrukhabad",
+        "code": "FARRUKHABAD",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Fatehpur",
+        "code": "FATEHPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Faizabad",
+        "code": "FAIZABAD",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Gautam Buddh Nagar",
+        "code": "GAUTAM_BUDDH_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Gonda",
+        "code": "GONDA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ghazipur",
+        "code": "GHAZIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Gorakhpur",
+        "code": "GORAKHPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ghaziabad",
+        "code": "GHAZIABAD",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Hamirpur",
+        "code": "HAMIRPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Hardoi",
+        "code": "HARDOI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mahamaya Nagar",
+        "code": "MAHAMAYA_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Jhansi",
+        "code": "JHANSI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Jalaun",
+        "code": "JALAUN",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Jyotiba Phule Nagar",
+        "code": "JYOTIBA_PHULE_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Jaunpur district",
+        "code": "JAUNPUR_DISTRICT",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Ramabai Nagar (Kanpur Dehat)",
+        "code": "RAMABAI_NAGAR_(KANPUR_DEHAT)",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kannauj",
+        "code": "KANNAUJ",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kanpur",
+        "code": "KANPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kaushambi",
+        "code": "KAUSHAMBI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Kushinagar",
+        "code": "KUSHINAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lalitpur",
+        "code": "LALITPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lakhimpur Kheri",
+        "code": "LAKHIMPUR_KHERI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Lucknow",
+        "code": "LUCKNOW",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mau",
+        "code": "MAU",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Meerut",
+        "code": "MEERUT",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Maharajganj",
+        "code": "MAHARAJGANJ",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mahoba",
+        "code": "MAHOBA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mirzapur",
+        "code": "MIRZAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Moradabad",
+        "code": "MORADABAD",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mainpuri",
+        "code": "MAINPURI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Mathura",
+        "code": "MATHURA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Muzaffarnagar",
+        "code": "MUZAFFARNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Panchsheel Nagar district (Hapur)",
+        "code": "PANCHSHEEL_NAGAR_DISTRICT_(HAPUR)",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Pilibhit",
+        "code": "PILIBHIT",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shamli",
+        "code": "SHAMLI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Pratapgarh",
+        "code": "PRATAPGARH",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Rampur",
+        "code": "RAMPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Raebareli",
+        "code": "RAEBARELI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Saharanpur",
+        "code": "SAHARANPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sitapur",
+        "code": "SITAPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shahjahanpur",
+        "code": "SHAHJAHANPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sant Kabir Nagar",
+        "code": "SANT_KABIR_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Siddharthnagar",
+        "code": "SIDDHARTHNAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sonbhadra",
+        "code": "SONBHADRA",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sant Ravidas Nagar",
+        "code": "SANT_RAVIDAS_NAGAR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Sultanpur",
+        "code": "SULTANPUR",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Shravasti",
+        "code": "SHRAVASTI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Unnao",
+        "code": "UNNAO",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Varanasi",
+        "code": "VARANASI",
+        "countryCode": "INDIA",
+        "stateCode": "UTTAR_PRADESH",
+        "isActive": true
+    },
+    {
+        "nm": "Birbhum",
+        "code": "BIRBHUM",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Bankura",
+        "code": "BANKURA",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Bardhaman",
+        "code": "BARDHAMAN",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Darjeeling",
+        "code": "DARJEELING",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Dakshin Dinajpur",
+        "code": "DAKSHIN_DINAJPUR",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Hooghly",
+        "code": "HOOGHLY",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Howrah",
+        "code": "HOWRAH",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Jalpaiguri",
+        "code": "JALPAIGURI",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Cooch Behar",
+        "code": "COOCH_BEHAR",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Kolkata",
+        "code": "KOLKATA",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Maldah",
+        "code": "MALDAH",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Paschim Medinipur",
+        "code": "PASCHIM_MEDINIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Purba Medinipur",
+        "code": "PURBA_MEDINIPUR",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Murshidabad",
+        "code": "MURSHIDABAD",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Nadia",
+        "code": "NADIA",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "North 24 Parganas",
+        "code": "NORTH_24_PARGANAS",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "South 24 Parganas",
+        "code": "SOUTH_24_PARGANAS",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Purulia",
+        "code": "PURULIA",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Uttar Dinajpur",
+        "code": "UTTAR_DINAJPUR",
+        "countryCode": "INDIA",
+        "stateCode": "WEST_BENGAL",
+        "isActive": true
+    },
+    {
+        "nm": "Dadra and Nagar Haveli",
+        "code": "DADRA_AND_NAGAR_HAVELI",
+        "countryCode": "INDIA",
+        "stateCode": "DADRA_AND_NAGAR_HAVELI",
+        "isActive": true
+    },
+    {
+        "nm": "Daman",
+        "code": "DAMAN",
+        "countryCode": "INDIA",
+        "stateCode": "DAMAN_AND_DIU",
+        "isActive": true
+    },
+    {
+        "nm": "Diu",
+        "code": "DIU",
+        "countryCode": "INDIA",
+        "stateCode": "DAMAN_AND_DIU",
+        "isActive": true
+    }
+]

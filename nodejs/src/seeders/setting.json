@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Terms of use",
+        "code": "TERM_OF_USE",
+        "url": "{{frontUrl}}/terms-of-use",
+        "details": "",
+        "isActive": true
+    },
+    {
+        "name": "Privacy Policy",
+        "code": "PRIVACY_POLICY",
+        "url":"{{frontUrl}}/privacy-policy",
+        "details": "",
+        "isActive": true
+    },
+    {
+        "name": "About Us",
+        "code": "ABOUT_US",
+        "url":"{{frontUrl}}/about-us",
+        "details": "",
+        "isActive": true
+    },
+    {
+        "name": "Firebase Private Key",
+        "code": "FIREBASE_PRIVATE_KEY",
+        "details": {},
+        "isActive": true
+    }
+]

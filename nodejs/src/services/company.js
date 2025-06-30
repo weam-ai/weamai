@@ -1,0 +1,994 @@
+const Company = require('../models/company');
+const User = require('../models/user');
+const dbService = require('../utils/dbService');
+const { inviteUser } = require('../services/auth');
+const { getTemplate } = require('../utils/renderTemplate');
+const { sendSESMail } = require('./email');
+const { EMAIL_TEMPLATE, MOMENT_FORMAT, EXPORT_TYPE, ROLE_TYPE, INVITATION_TYPE, JWT_STRING, MODEL_CODE, APPLICATION_ENVIRONMENT } = require('../config/constants/common');
+const moment = require('moment-timezone');
+const { randomPasswordGenerator, encryptedData, generateRandomToken, genHash, getCompanyId } = require('../utils/helper');
+const bcrypt = require('bcrypt');
+const Role = require('../models/role');
+const UserBot = require('../models/userBot');
+const { OPENAI_MODAL, AI_MODAL_PROVIDER, PINECORN_STATIC_KEY, MODAL_NAME, ANTHROPIC_MODAL, GEMINI_MODAL, PERPLEXITY_MODAL, OPENROUTER_PROVIDER, DEEPSEEK_MODAL, LLAMA4_MODAL, GROK_MODAL, QWEN_MODAL } = require('../config/constants/aimodal');
+const { LINK, FRESHDESK_SUPPORT_URL, API, SERVER } = require('../config/config');
+const mongoose = require('mongoose');
+const Bot = require('../models/bot');
+const { isBlockedDomain, isDisposableEmail } = require('../utils/validations/emailValidation');
+const BlockedDomain = require('../models/blockedDomain');
+
+const createUser = async(req) => {
+    return User.create({
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        password: req.body.password,
+        roleId: req.body.roleId,
+        roleCode: req.body.roleCode,
+        allowuser: req.body.allowuser,
+        inviteSts: req.body.inviteSts
+    })
+}
+
+async function addCompany(req, flag = true) {
+    try {
+        
+        if(SERVER.NODE_ENV === APPLICATION_ENVIRONMENT.PRODUCTION) {
+            if(await isBlockedDomain(req.body.email)) {
+                throw new Error('This email domain is not allowed');
+            }
+            if(isDisposableEmail(req.body.email)) {
+                throw new Error('Disposable email addresses are not allowed');
+            }
+        }
+   
+        const existingEmail = await User.findOne({ email: req.body.email }, { email: 1 });
+        if (existingEmail) throw new Error(_localize('module.alreadyExists', req, 'email'));
+        const existingCompany = await Company.findOne({ slug: slugify(req.body.companyNm) });
+        if (existingCompany) {
+            throw new Error(_localize('module.alreadyTaken', req, 'company name'));
+        }
+        const role = await Role.findOne({ code: ROLE_TYPE.COMPANY }, { code: 1 })
+        req.body.roleId = role._id;
+        req.body.roleCode = role.code;
+        req.body.allowuser = 10 // add temp flag manually billing managment
+        req.body.inviteSts = INVITATION_TYPE.ACCEPT;
+        const user = flag ? await inviteUser(req) : await createUser(req);
+        
+        const companyData = {
+            slug: slugify(req.body.companyNm),
+            ...req.body,
+        }
+        const company = await Company.create(companyData);
+        const inviteLink = await createVerifyLink(user, {
+            company: {
+                name: company.companyNm,
+                slug: company.slug,
+                id: company._id,
+            }
+        })
+        
+        getTemplate(EMAIL_TEMPLATE.VERIFICATION_LINK, { link: inviteLink, support: FRESHDESK_SUPPORT_URL }).then(
+            async(template) => {
+                await sendSESMail(req.body.email, template.subject, template.body);
+            }
+        )
+        
+        return company;
+    } catch (error) {
+        handleError(error, 'Error - addCompany');
+    }
+}
+
+async function checkCompany(req) {
+    const result = await Company.findOne({ slug: req.params.slug });
+    if (!result) {
+        throw new Error(_localize('module.notFound', req, 'company'));
+    }
+    return result;
+}
+
+async function updateCompany(req) {
+    try {
+        await checkCompany(req);
+        return Company.findOneAndUpdate({ slug: req.params.slug }, req.body, { new: true });
+    } catch (error) {
+        handleError(error, 'Error - updateCompany');
+    }
+}
+
+async function viewCompany(req) {
+    try {
+        return checkCompany(req);
+    } catch (error) {
+        handleError(error, 'Error - viewCompany');
+    }
+}
+
+async function deleteCompany(req) {
+    try {
+        await checkCompany(req);
+        return Company.deleteOne({ slug: req.params.slug });
+    } catch (error) {
+        handleError(error, 'Error - deleteCompany');
+    }
+}
+
+async function getAll(req) {
+    try {
+        return dbService.getAllDocuments(Company, req.body.query || {}, req.body.options || {});
+    } catch (error) {
+        handleError(error, 'Error - getAll company')
+    }
+}
+
+async function partialUpdate(req) {
+    try {
+        await checkCompany(req);
+        return Company.findOneAndUpdate({ slug: req.params.slug }, req.body, { new: true }).select('isActive');
+    } catch (error) {
+        handleError(error, 'Error - partailUpdate company')
+    }
+}
+
+const exportCompanies = async (req, fileType) => {
+    try {
+        req.body.options = {
+            pagination: false,
+        }
+
+        req.body.query = {
+            search: req.query?.search,
+            searchColumns: req.query?.searchColumns?.split(','),
+        };
+
+        const { data }  = await getAll(req);
+
+        const columns = [
+            { header: 'Sr. No.', key: 'srNo' },
+            { header: 'Company Name', key: 'companyNm' },
+            { header: 'Email', key: 'email' },
+            { header: 'Mob No', key: 'mobNo' },
+            { header: 'Renew Date', key: 'renewDate' },
+            { header: 'Renew Amount', key: 'renewAmt' },
+            { header: 'Users', key: 'users' },
+            { header: 'Status', key: 'isActive' },
+            { header: 'Created', key: 'createdAt' },
+        ];
+
+        const result = await Promise.all(data?.map(async (item, index) => {
+            const user = await User.findOne({ 'company.id': item._id }, { email: 1, mobNo: 1 });
+            return {
+                srNo: index + 1,
+                companyNm: item.companyNm,
+                email: user.email,
+                mobNo: user.mobNo,
+                renewDate: item.renewDate ? moment(item.renewDate).format(MOMENT_FORMAT) : '-',
+                renewAmt: item.renewAmt,
+                users: item.users.map(e => e.email).join(','),
+                isActive: item.isActive ? 'Active' : 'Deactive',
+                createdAt: item.createdAt ? moment(item.createdAt).format(MOMENT_FORMAT) : '-', 
+            }
+        }))
+
+        const fileName = `company list ${moment().format(MOMENT_FORMAT)}`;
+
+        const workbook = dbService.exportToExcel(EXPORT_TYPE.NAME, columns, result);
+
+        return {
+            workbook: workbook,
+            fileName: `${fileName}${fileType}`
+        }
+    } catch (error) {
+        handleError(error, 'Error - exportCompanies');
+    }
+}
+
+const addTeamMembers = async(req) => {
+    try {
+        const { users } = req.body;
+        const emailData = [];
+
+        const bulkOps = await Promise.all(users.map(async (user) => {
+            const password = randomPasswordGenerator();
+            const data = {
+                email: user.email,
+                password: await bcrypt.hash(password, 10),
+                roleId: user.roleId,
+                roleCode: user.roleCode
+            }
+            emailData.push({ email: user.email, password: password });
+            return {
+                insertOne: {
+                    document: data
+                }
+            }
+        }))
+        await User.bulkWrite(bulkOps);
+
+        emailData.forEach((value) => {
+            getTemplate(EMAIL_TEMPLATE.ONBOARD_USER, { email: value.email, password: value.password }).then(
+                async(template) => {
+                    await sendSESMail(value.email, template.subject, template.body);
+                }
+            )
+        })
+
+        return true;
+    } catch (error) {
+        handleError(error, 'Error - addTeamMembers');
+    }
+}
+
+const openAIBillingChecker = async (req) => {
+    try {
+        const billingResponse = await fetch(
+            `${LINK.OPEN_AI_API_URL}/v1/chat/completions`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${req.body.key}`,
+                },
+                body: JSON.stringify({
+                    model: MODAL_NAME.GPT_4_1,
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are a helpful assistant.',
+                        },
+                        {
+                            role: 'user',
+                            content: 'Hello!',
+                        },
+                    ],
+                }),
+            }
+        );
+        if (!billingResponse.ok) throw new Error(_localize('ai.open_ai_billing_error', req));
+    } catch (error) {
+        handleError(error, 'Error - openAIBillingChecker');
+    }
+}
+
+async function aiModalCreation(req) {
+    try {
+        let companyId, companydetails;
+        if (req.roleCode === ROLE_TYPE.COMPANY) {
+            companyId = req.user.company.id;
+            companydetails = req.user.company
+        } else {
+            companyId = req.user.invitedBy;
+            const getCompany = await Company.findById({ _id: companyId }, { companyNm: 1, slug: 1 });
+            companydetails = { name: getCompany.companyNm, slug: getCompany.slug, id: getCompany._id };
+        }
+        const existing = await UserBot.find({ 'company.id': companyId, 'bot.code': req.body.bot.code });
+        const modalMap = OPENAI_MODAL.reduce((map, val) => {
+            map[val.name] = val.type;
+            return map;
+        }, {});
+
+        const updates = [];
+        const inserts = [];
+        for (const [key, value] of Object.entries(modalMap)) {
+            const existingEntry = existing.find(entry => entry.name === key);
+            const modelConfig = {
+                bot: req.body.bot,
+                company: companydetails,
+                name: key,
+                config: {
+                    apikey: encryptedData(req.body.key),
+                },
+            };
+            if (modalMap.hasOwnProperty(key)) {
+                if (value === 1) {
+                    modelConfig['modelType'] = value;
+                    modelConfig['dimensions'] = 1536;
+                }
+                else{
+                    if ([MODAL_NAME.GPT_O1, MODAL_NAME.GPT_O1_MINI, MODAL_NAME.GPT_O1_PREVIEW, MODAL_NAME.GPT_O3_MINI, MODAL_NAME.GPT_4_1, MODAL_NAME.GPT_4_1_MINI, MODAL_NAME.GPT_4_1_NANO, MODAL_NAME.O4_MINI, MODAL_NAME.O3, MODAL_NAME.CHATGPT_4O_LATEST].includes(key)) {
+                        modelConfig['extraConfig'] = {
+                            temperature: 1
+                        }
+                    }
+                    modelConfig['modelType'] = value;
+                }
+            }
+
+            if (existingEntry)
+                updates.push({
+                    updateOne: {
+                        filter: { name: key, 'company.id': companyId, 'bot.code': req.body.bot.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else inserts.push(modelConfig);
+        }
+
+        if(updates.length){
+            await UserBot.bulkWrite(updates)
+        }
+
+        if(inserts.length){
+            return UserBot.insertMany(inserts)
+        }
+        
+        return existing;
+    } catch (error) {
+        handleError(error, 'Error - aiModalCreation');
+    }
+}
+
+const checkApiKey = async (req) => {
+    try {
+
+        const companyId = getCompanyId(req.user);
+       
+        const response = await fetch(LINK.OPEN_AI_MODAL, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${req.body.key}`
+            }
+        });
+        
+        const data = await response.json();
+        if (!response.ok) {
+            return data;
+        }
+        
+        await Promise.all([
+            Company.updateOne({ _id: companyId }, { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.OPEN_AI}`]: '' }}),
+            openAIBillingChecker(req),
+        ])
+
+        return aiModalCreation(req);
+    } catch (error) {
+        handleError(error, 'Error - checkApiKey');
+    }
+};
+
+const resendVerification = async (req) => {
+    try {
+        const existingUser = await User.findOne({ email: req.body.email }); 
+        if (!existingUser) throw new Error(_localize('auth.link_expire', req, 'verification'));
+        const inviteLink = await createVerifyLink(existingUser, {}, req.body.minutes);
+        getTemplate(EMAIL_TEMPLATE.RESEND_VERIFICATION_LINK, { link: inviteLink, support: FRESHDESK_SUPPORT_URL }).then(
+            async(template) => {
+                await sendSESMail(existingUser.email, template.subject, template.body);
+            }
+        )
+        return true;
+    } catch (error) {
+        handleError(error, 'Error - resendVerification');
+    }
+}
+
+const createVerifyLink = async (user, payload, expireTime = 60) => {
+    try {
+        const inviteHash = `invite?token=${generateRandomToken()}&hash=${genHash()}`;
+        const inviteLink = `${LINK.FRONT_URL}/${inviteHash}`;
+        const sysdate = convertToTz();
+        const linkExpiresTime = moment(sysdate).add(expireTime, 'minutes').format(MOMENT_FORMAT);
+        await User.updateOne({ _id: user._id }, {
+            $set: {
+                ...payload,
+                inviteSts: INVITATION_TYPE.PENDING,
+                inviteLink: inviteHash,
+                inviteExpireOn: linkExpiresTime
+            }
+        });
+        return inviteLink;
+    } catch (error) {
+        handleError(error, 'Error - resendVerification');   
+    }
+}
+
+async function createPinecornIndex(user, req) {
+    try {
+        const data = mongoose.connection;
+        const result = data.db.collection('companypinecone');
+        // // ⚠️ WARNING: Do not use await keyword here
+        result.insertOne({
+            company: {
+                name: user.company.name,
+                slug: user.company.slug,
+                id: user.company.id
+            },
+            vector_index: user.company.id,
+            dimensions: 1536,
+            environment: 'us-west-2',
+            metric: 'cosine',
+            cloud: 'aws',
+            region: 'us-west-2',
+            // pass static data for python
+            config: {
+                apikey: PINECORN_STATIC_KEY,
+            }
+        }).then(async () => {
+            const token = extractAuthToken(req);
+            const response = await fetch(`${LINK.PYTHON_API_URL}/pinecone/api/create-serverless-index`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `${JWT_STRING}${token}`,
+                    Origin: LINK.FRONT_URL
+                },
+                body: JSON.stringify({
+                    companypinecone: 'companypinecone',
+                    company_id: user.company.id
+                })
+            })
+            logger.info(`pinecone serverless index return ${response.status}`);
+        });
+        const openAiBot = await Bot.findOne({ code: AI_MODAL_PROVIDER.OPEN_AI }, { title: 1, code: 1 });
+        if (openAiBot) {
+            req.body = {
+                ...req.body,
+                bot: {
+                    id: openAiBot._id,
+                    title: openAiBot.title,
+                    code: openAiBot.code,
+                },
+                key: LINK.WEAM_OPEN_AI_KEY,
+            };
+            req.user = user;
+            req.roleCode = user.roleCode
+            aiModalCreation(req);
+        }
+        createFreeTierApiKey(user);
+    } catch (error) {
+        handleError(error, 'Error - createPinecornIndex'); 
+    }
+}
+
+async function huggingFaceApiChecker(req) {
+    try {
+        const { user, body } = req;
+        const companyId = getCompanyId(user);
+        const { name, bot, repo, key, context } = body;
+
+        const token = extractAuthToken(req);
+        const response = await fetch(`${LINK.PYTHON_API_URL}${API.PREFIX}/validateEndpoint/validate-huggingface-endpoint`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${JWT_STRING}${token}`,
+                Origin: LINK.FRONT_URL
+            },
+            body: JSON.stringify({
+                token: key,
+                model_repository: repo,
+                model_name: name,
+                context_length: context
+            })
+        })
+
+        logger.info(`validate-huggingface-endpoint return ${response.status}`);
+
+        const responseData = await response.json();
+        if (!responseData.data) throw new Error(responseData.messages);
+
+        const existingBot = await UserBot.findOne({
+            'company.id': companyId,
+            'bot.code': bot.code,
+            name
+        });
+
+        const companyInfo = existingBot ? null : await Company.findById(
+            companyId,
+            { companyNm: 1, slug: 1 }
+        );
+        const commonPayload = createCommonBotPayload(body, companyInfo);
+
+        if (existingBot) {
+            if (existingBot.deletedAt) {
+                const updatedBot = await UserBot.findOneAndUpdate(
+                    { _id: existingBot._id },
+                    {
+                        ...commonPayload, 
+                        $unset: { deletedAt: 1 } 
+                    },
+                    { new: true }
+                );
+                return updatedBot;
+            }
+            await Promise.all([
+                Company.updateOne({ _id: companyId }, { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.HUGGING_FACE}`]: '' }}),
+                UserBot.updateOne({ _id: existingBot._id }, { $set: createCommonBotPayload(body, null) })
+            ])
+            return true;
+        }
+        
+
+        return UserBot.create(commonPayload);
+    } catch (error) {
+        handleError(error, 'Error - huggingFaceApiChecker')
+    }
+}
+
+const TASK_CODE = {
+    TEXT_GENERATION: 'TEXT_GENERATION',
+    IMAGE_GENERATION: 'IMAGE_GENERATION'
+}
+
+function createCommonBotPayload(body, companyInfo = null) {
+    const { name, tool, bot, taskType, apiType, description, endpoint, repo, context, key, sample, frequencyPenalty, topK, topP, typicalP, repetitionPenalty, temperature, sequences,numInference,gScale } = body;
+
+    const stopSequences = sequences ? [sequences] : ['<|eot_id|>'];
+    const config = {
+        taskType,
+        apiType,
+        endpoint,
+        repo,
+        apikey: encryptedData(key),
+        ...(description && { description }),
+        ...(taskType === TASK_CODE.TEXT_GENERATION && { context })
+    };
+
+    const payload = {
+        name,
+        config,
+        extraConfig: taskType === TASK_CODE.TEXT_GENERATION ? { sample, frequencyPenalty, topK, topP, typicalP, repetitionPenalty, temperature, stopSequences } : { numInference, gScale },
+        ...(companyInfo && {
+            bot,
+            company: {
+                name: companyInfo.companyNm,
+                slug: companyInfo.slug,
+                id: companyInfo._id,
+            },
+        }),
+        ...(taskType === TASK_CODE.IMAGE_GENERATION  && {
+            modelType : 3
+        }),
+        ...(taskType === TASK_CODE.TEXT_GENERATION && {
+            modelType : 2,
+            visionEnable: false,
+            tool: tool,
+            stream: true
+        })
+    };
+
+    return payload;
+}
+
+function extractAuthToken(req) {
+    return req.headers['authorization']?.split(JWT_STRING)[1];
+}
+
+async function anthropicApiChecker(req) {
+    try {
+        const response = await fetch(`${LINK.ANTHROPIC_AI_API_URL}/messages`, {
+            method: 'POST',
+            headers: {
+                'x-api-key': req.body.key,
+                'anthropic-version': '2023-06-01',
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: MODAL_NAME.CLAUDE_3_5_SONNET_LATEST,
+                max_tokens: 1024,
+                messages: [
+                    { role: 'user', content: 'Hello, world' }
+                ]
+            })
+        });
+        if (!response.ok) return false;
+        const companyId = getCompanyId(req.user);
+
+        const [company, existingBots] = await Promise.all([
+            Company.findById(companyId, { companyNm: 1, slug: 1 }),
+            UserBot.find({ 'company.id': companyId, 'bot.code': req.body.bot.code })
+
+        ]);
+        if (!company) throw new Error(_localize('module.notFound', req, 'company'));
+
+        const { companyNm, slug, _id: companyDbId } = company;
+
+        const updates = [];
+        const inserts = [];
+        const encryptedKey = encryptedData(req.body.key);
+
+        ANTHROPIC_MODAL.forEach(element => {
+            const existingBot = existingBots.find(bot => bot.name === element.name);
+            const modelConfig = {
+                name: element.name,
+                bot: req.body.bot,
+                company: { name: companyNm, slug, id: companyDbId },
+                config: { apikey: encryptedKey },
+                modelType: element.type,
+                extraConfig: {
+                    stopSequences: [],
+                    temperature: 0.7,
+                    topK: 0,
+                    topP: 0,
+                    tools: []
+                }
+            };
+            if (existingBot)
+                updates.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': companyId, 'bot.code': req.body.bot.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else 
+                inserts.push(modelConfig);
+        });
+
+        if (updates.length) await UserBot.bulkWrite(updates);
+
+        if (inserts.length) return UserBot.insertMany(inserts);
+
+        await Company.updateOne({ _id: companyId }, { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.ANTHROPIC}`]: '' }});
+        return existingBots[0]?.deletedAt ? existingBots : true;
+    } catch (error) {
+        handleError(error, 'Error - anthropicApiChecker');
+    }
+}
+
+async function createFreeTierApiKey(user) {
+    try {
+        const companyId = getCompanyId(user);
+        const company = await Company.findById(companyId).lean();
+        if (!company) return;
+
+        const [huggingface, anthropic, gemini, perplexity, deepseek, llama4, grok, qwen, existingBot] = await Promise.all([
+            Bot.findOne({ code: MODEL_CODE.HUGGING_FACE }),
+            Bot.findOne({ code: MODEL_CODE.ANTHROPIC }),
+            Bot.findOne({ code: MODEL_CODE.GEMINI }),
+            Bot.findOne({ code: MODEL_CODE.PERPLEXITY }),
+            Bot.findOne({ code: MODEL_CODE.DEEPSEEK }),
+            Bot.findOne({ code: MODEL_CODE.LLAMA4 }),
+            Bot.findOne({ code: MODEL_CODE.GROK }),
+            Bot.findOne({ code: MODEL_CODE.QWEN }),
+            UserBot.find({ 'bot.code': { $in: [MODEL_CODE.HUGGING_FACE, MODEL_CODE.ANTHROPIC, MODEL_CODE.GEMINI, MODEL_CODE.PERPLEXITY, MODEL_CODE.DEEPSEEK, MODEL_CODE.LLAMA4, MODEL_CODE.GROK, MODEL_CODE.QWEN] } })
+        ])
+
+        const anthropicKey = encryptedData(LINK.WEAM_ANTHROPIC_KEY);
+        const huggingfaceKey = encryptedData(LINK.WEAM_HUGGING_FACE_KEY);
+        const geminiKey = encryptedData(LINK.WEAM_GEMINI_KEY);
+        const perplexityKey = encryptedData(LINK.WEAM_PERPLEXITY_KEY);
+        const deepseekKey = encryptedData(LINK.WEAM_DEEPSEEK_KEY);
+        const llama4Key = encryptedData(LINK.WEAM_LLAMA4_KEY);
+        const grokKey = encryptedData(LINK.WEAM_GROK_KEY);
+        const qwenKey = encryptedData(LINK.WEAM_QWEN_KEY);
+        const huggingfaceBaseConfig = {
+            text: {
+                taskType: 'TEXT_GENERATION',
+                apiType: 'OpenAI Compatible API',
+                endpoint: 'https://m4en7x13popezxar.us-east-1.aws.endpoints.huggingface.cloud',
+                repo: 'meta-llama/Llama-3.2-3B-Instruct',
+                context: 8096,
+                apikey: huggingfaceKey,
+                visionEnable: false
+            },
+            image: {
+                taskType: 'IMAGE_GENERATION',
+                apiType: 'OpenAI Compatible API',
+                endpoint: 'https://f8nez3o6deqnitvc.us-east-1.aws.endpoints.huggingface.cloud',
+                repo: 'sd-community/sdxl-flash',
+                apikey: huggingfaceKey,
+            },
+            extraConfig: {
+                sample: false,
+                frequencyPenalty: 1,
+                topK: 10,
+                topP: 0.95,
+                typicalP: 0.95,
+                repetitionPenalty: 1.03,
+                temperature: 0.7,
+                stopSequences: ['<|eot_id|>'],
+            }
+        }
+
+        const constructModelConfig = (name, bot, company, config, extraConfig, modelType, strem = false, tool = false, provider = null) => ({
+            name,
+            bot: { title: bot.title, code: bot.code, id: bot._id },
+            company: { name: company.companyNm, slug: company.slug, id: company._id },
+            config,
+            extraConfig,
+            modelType,
+            ...(provider && { provider }),
+            ...(strem && { stream: strem }),
+            ...(tool && { tool: tool })
+        })
+
+        const huggingfacedata = [];
+        const anthropicdata = [];
+        const geminidata = [];
+        const perplexitydata = [];
+        const deepseekdata = [];
+        const llama4data = [];
+        const grokdata = [];
+        const qwendata = [];
+        // anthropic migration
+        ANTHROPIC_MODAL.forEach(element => {
+                const modelConfig = constructModelConfig(element.name, anthropic, company, { apikey: anthropicKey }, { stopSequences: [], temperature: 0.7, topK: 0, topP: 0, tools: [] }, element.type);
+                const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === anthropic.code);
+                if (existingModel)
+                    anthropicdata.push({
+                        updateOne: {
+                            filter: { name: element.name, 'company.id': company._id, 'bot.code': anthropic.code },
+                            update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                        }
+                    });
+                else 
+                    anthropicdata.push({ insertOne: { document: modelConfig } });
+        });
+
+        GEMINI_MODAL.forEach(element => {
+            const modelConfig = constructModelConfig(element.name, gemini, company, { apikey: geminiKey }, { stopSequences: [], temperature: 0.7, topK: 10, topP: 0.9, tools: [] }, element.type);
+            const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === gemini.code);
+            if (existingModel)
+                geminidata.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': company._id, 'bot.code': gemini.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else 
+                geminidata.push({ insertOne: { document: modelConfig } });
+        });
+
+        PERPLEXITY_MODAL.forEach(element => {
+            const modelConfig = constructModelConfig(element.name, perplexity, company, { apikey: perplexityKey }, { temperature : 0.7, topP : 0.9, topK : 10, stream : true}, element.type);
+            const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === perplexity.code);
+
+            if (existingModel)
+                perplexitydata.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': company._id, 'bot.code': perplexity.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else
+                perplexitydata.push({ insertOne: { document: modelConfig } });
+        });
+
+        DEEPSEEK_MODAL.forEach(element => {
+            const modelConfig = constructModelConfig(element.name, deepseek, company, { apikey: deepseekKey }, { temperature : 0.7, topP : 0.9, topK : 10, stream : true}, element.type, false, false, OPENROUTER_PROVIDER.DEEPSEEK);
+            const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === deepseek.code);
+
+            if (existingModel)
+                deepseekdata.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': company._id, 'bot.code': deepseek.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else
+                deepseekdata.push({ insertOne: { document: modelConfig } });
+        });
+
+        LLAMA4_MODAL.forEach(element => {
+            const modelConfig = constructModelConfig(element.name, llama4, company, { apikey: llama4Key }, { temperature : 0.7, topP : 0.9, topK : 10, stream : true}, element.type, false, false, OPENROUTER_PROVIDER.LLAMA4);
+            const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === llama4.code);
+
+            if (existingModel)
+                llama4data.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': company._id, 'bot.code': llama4.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else
+                llama4data.push({ insertOne: { document: modelConfig } });
+        });
+
+        GROK_MODAL.forEach(element => {
+            const modelConfig = constructModelConfig(element.name, grok, company, { apikey: grokKey }, { temperature : 0.7, topP : 0.9, topK : 10, stream : true}, element.type, false, false, OPENROUTER_PROVIDER.GROK);
+            const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === grok.code);
+
+            if (existingModel)
+                grokdata.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': company._id, 'bot.code': grok.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else
+            grokdata.push({ insertOne: { document: modelConfig } });
+        });
+
+        QWEN_MODAL.forEach(element => {
+            const modelConfig = constructModelConfig(element.name, qwen, company, { apikey: qwenKey }, { temperature : 0.7, topP : 0.9, topK : 10, stream : true}, element.type, false, false, OPENROUTER_PROVIDER.QWEN);
+            const existingModel = existingBot.find((bot) => bot.name === element.name && bot.company.id.toString() === company._id.toString() && bot.bot.code === qwen.code);
+
+            if (existingModel)
+                qwendata.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': company._id, 'bot.code': qwen.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else
+            qwendata.push({ insertOne: { document: modelConfig } });
+        });
+     
+            // huggingface migration
+            const textModelConfig = constructModelConfig('llama-3-2-3b-instruct-ctq', huggingface, company, huggingfaceBaseConfig.text, huggingfaceBaseConfig.extraConfig, 2, true, true);
+            const imageModelConfig = constructModelConfig('sdxl-flash-lgh', huggingface, company, huggingfaceBaseConfig.image, { gScale: 3, numInference: 25 }, 3);
+
+            const existingTextModel = existingBot.find((bot) => bot.name === 'llama-3-2-3b-instruct-ctq' && bot.company.id.toString() === company._id.toString() && bot.bot.code === huggingface.code);
+            const existingImageModel = existingBot.find((bot) => bot.name === 'sdxl-flash-lgh' && bot.company.id.toString() === company._id.toString() && bot.bot.code === huggingface.code);   
+            if (existingTextModel)
+                huggingfacedata.push({ updateOne: { filter: { name: 'llama-3-2-3b-instruct-ctq', 'company.id': company._id, 'bot.code': huggingface.code }, update: { $set: textModelConfig, $unset: { deletedAt: 1 } } } });
+            else
+                huggingfacedata.push({ insertOne: { document: textModelConfig } });
+            if (existingImageModel)
+                huggingfacedata.push({ updateOne: { filter: { name: 'sdxl-flash-lgh', 'company.id': company._id, 'bot.code': huggingface.code }, update: { $set: imageModelConfig, $unset: { deletedAt: 1 } } } });
+            else
+                huggingfacedata.push({ insertOne: { document: imageModelConfig } });
+
+        // if (huggingfacedata.length) {
+        //     await UserBot.bulkWrite(huggingfacedata);
+        // }
+        if (anthropicdata.length) {
+            await UserBot.bulkWrite(anthropicdata);
+        }
+        if (geminidata.length) {
+            await UserBot.bulkWrite(geminidata);
+        }
+        if (perplexitydata.length) {
+            await UserBot.bulkWrite(perplexitydata);
+        }
+        if (deepseekdata.length) {
+            await UserBot.bulkWrite(deepseekdata);
+        }
+        if (llama4data.length) {
+            await UserBot.bulkWrite(llama4data);
+        }
+        if (grokdata.length) {
+            await UserBot.bulkWrite(grokdata);
+        }
+        if (qwendata.length) {
+            await UserBot.bulkWrite(qwendata);
+        }
+    } catch (error) {
+        handleError(error, 'Error - createFreeTierApiKey');
+    }
+}
+
+async function createGeminiModels(req) {
+    try {
+        const companydetails = req.user.company;
+        const companyId = companydetails.id;
+        
+        const existing = await UserBot.find({ 'company.id': companyId, 'bot.code': req.body.bot.code });
+        
+        const geminiModels = [
+            'gemini-1.5-pro',
+            // 'gemini-1.5-flash-8b',
+            // 'gemini-1.5-flash',
+            'gemini-2.0-flash',
+        ];
+
+        const updates = [];
+        const inserts = [];
+
+        for (const modelName of geminiModels) {
+            const existingEntry = existing.find(entry => entry.name === modelName);
+            const modelConfig = {
+                name: modelName,
+                bot: req.body.bot,
+                company: companydetails,
+                config: {
+                    apikey: encryptedData(req.body.key),
+                },
+                modelType: 2,
+                isActive: true,
+                extraConfig: {
+                    temperature: 0.7,
+                    topP: 0.9,
+                    topK: 10
+                }
+            };
+            
+            if (existingEntry) {
+                updates.push({
+                    updateOne: {
+                        filter: { name: modelName, 'company.id': companyId, 'bot.code': req.body.bot.code },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            } else {
+                inserts.push(modelConfig);
+            }
+        }
+
+        await Promise.all([
+            Company.updateOne(
+                { _id: companyId }, 
+                { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.GEMINI}`]: '' }}
+            )
+        ]);
+        
+        if (updates.length) {
+            return UserBot.bulkWrite(updates);
+        }
+
+        if (inserts.length) {
+            return UserBot.insertMany(inserts);
+        }
+
+        return existing;
+    } catch (error) {
+        handleError(error, 'Error - createGeminiModels');
+    }
+}
+
+async function geminiApiKeyChecker(req) {
+    try {
+        const response = await fetch(
+            `${LINK.GEMINI_API_URL}?key=${req.body.key}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        if (!response.ok) {
+            return false;
+        }
+
+        return createGeminiModels(req);
+    } catch (error) {
+        handleError(error, 'Error - geminiApiKeyChecker');
+    }
+}
+
+const sendManualInviteEmail = async (req) => {
+    try {
+        const { email, minutes} = req.body;
+        const existingUser = await User.find({ email: { $in: email } }, { email: 1 }); 
+        if (!existingUser.length) throw new Error(_localize('module.notFound', req, 'user'));
+        const emailPromise = [];
+        existingUser.forEach(async (user) => {
+            const inviteLink = await createVerifyLink(user, {}, minutes);
+            emailPromise.push(getTemplate(EMAIL_TEMPLATE.VERIFICATION_LINK, { link: inviteLink, support: FRESHDESK_SUPPORT_URL }).then(
+                async(template) => {
+                    await sendSESMail(user.email, template.subject, template.body);
+                }
+            ));
+        });
+        Promise.all(emailPromise);
+        return true; 
+    } catch (error) {
+        handleError(error, 'Error - sendManualInviteEmail');
+    }
+}
+
+
+const addBlockedDomain = async (req) => {
+    try {
+        const { domain, reason, isActive } = req.body;
+        const blockedDomain = await BlockedDomain.findOneAndUpdate({ domain }, { $set: { domain, reason, isActive } }, { new  : true, upsert: true });
+        return blockedDomain;
+    } catch (error) {
+        handleError(error, 'Error - addBlockedDomain');     
+    }
+}
+
+module.exports = {
+    addCompany,
+    updateCompany,
+    deleteCompany,
+    viewCompany,
+    getAll,
+    partialUpdate,
+    exportCompanies,
+    addTeamMembers,
+    checkApiKey,
+    resendVerification,
+    createPinecornIndex,
+    huggingFaceApiChecker,
+    extractAuthToken,
+    anthropicApiChecker,
+    createFreeTierApiKey,
+    geminiApiKeyChecker,
+    sendManualInviteEmail,
+    addBlockedDomain
+}
+

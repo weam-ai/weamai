@@ -1,0 +1,32 @@
+[
+    {
+        "title": "This is test notification",
+        "body": "Hi good morning this is test notification sending by custom ai",
+        "code": "TEST_NOTIFICATION"
+    },
+    {
+        "title": "Workspace Invitation",
+        "body": "Hi {name} invited you to {workspace}",
+        "code": "WORKSPACE_INVITATION"
+    },
+    {
+        "title": "Brain Invitation",
+        "body": "Hi {name} invited you to {brain}",
+        "code": "BRAIN_INVITATION"
+    },
+    {
+        "title": "Chat Invitation",
+        "body": "Hi {name} invited you to {chat} chat.",
+        "code": "CHAT_INVITATION"
+    },
+    {
+        "title": "Reply in Thread",
+        "body": "Hi {name} replied in thread {chat} of {brain}",
+        "code": "THREAD_REPLY"
+    },
+    {
+        "title": "Mentioned In Thread",
+        "body": "Hi {name} mentioned you in the thread {chat} of {brain}",
+        "code": "THREAD_MENTIONE"
+    }
+]
