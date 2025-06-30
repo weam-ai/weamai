@@ -8,7 +8,7 @@ node_modules/
 *.env
 # testing
 coverage
-
+ai-python/localstack
 # next.js
 .next/
 out/
