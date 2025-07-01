@@ -29,30 +29,4 @@ docker-compose -f docker-compose-enterprise-dev.yml --env-file .env_enterprise_d
 
 ---
 
-### 🐞 Debug Mode
 
-Use this mode for debugging with verbose logs and support for IDE tools.
-
-```bash
-docker-compose -f docker-compose-enterprise-debugger.yml --env-file .env_enterprise_debug up --build
-```
-
-- Enables hot reloading and debug-level logging.
-- Suitable for stepping through code or testing integrations.
-
----
-
-### 📦 Qdrant Vector Store
-
-Start the Qdrant vector database service independently.
-
-```bash
-docker-compose -f docker-compose-qdrant.yml up --build
-```
-
-- Required for vector similarity search.
-- Can be run standalone or alongside the enterprise stack.
-
----
-
-> 💡 **Pro Tip**: Use a `Makefile` or shell scripts to simplify these commands into easy-to-run shortcuts.
