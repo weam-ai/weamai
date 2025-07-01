@@ -71,7 +71,7 @@ const ListHeaderLayout = ({ heading, icons }) => {
     const data = matchedBrain(braindata, brainId);
 
     return (
-        <header className="top-header h-[68px] min-h-[68px] flex items-center space-x-2 py-2 md:pl-[15px] pl-[50px] pr-[15px]">
+        <header className="top-header h-[68px] min-h-[68px] flex items-center space-x-2 py-2 md:pl-[15px] pl-[50px] pr-[15px] max-md:sticky max-md:top-0 z-10 bg-white">
             <div className="size-[30px] flex items-center justify-center rounded-full p-1">
                 {icons} 
             </div>
