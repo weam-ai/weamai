@@ -28,11 +28,10 @@ sockets.on('connection', function (socket) {
     /* join & Leave room for chat */
     socket.on(SOCKET_EVENTS.JOIN_CHAT_ROOM, catchSocketAsync(async (data) => {
         const roomName = `${SOCKET_ROOM_PREFIX.CHAT}${data['chatId']}`;
-        const subscriptionStatus = await getSubscriptionStatus(data.companyId); 
-
+        
         if (!socket.adapter?.rooms?.get(roomName)?.has(socket.id)) {
             socket.join(roomName);
-            sockets.to(roomName).emit(SOCKET_EVENTS.SUBSCRIPTION_STATUS, { subscriptionStatus });
+            //sockets.to(roomName).emit(SOCKET_EVENTS.SUBSCRIPTION_STATUS);
         } else {
             logger.info(`Socket ${socket.id} already in room ${roomName}`);
         }
@@ -103,19 +102,19 @@ sockets.on('connection', function (socket) {
 
     }));
 
-    socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, async ({ companyId, freeTierCreditCount }) => {
-        const companyRoom = `${SOCKET_ROOM_PREFIX.COMPANY}${companyId}`;
+    // socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, async ({ companyId, freeTierCreditCount }) => {
+    //     const companyRoom = `${SOCKET_ROOM_PREFIX.COMPANY}${companyId}`;
 
-        const subscription = await getSubscriptionStatus(companyId);
-        if(isSubscriptionFree(subscription?.status)){
-            sockets.to(companyRoom).emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, { creditInfo:freeTierCreditCount });
-        }
-    });
+    //     const subscription = await getSubscriptionStatus(companyId);
+    //     if(isSubscriptionFree(subscription?.status)){
+    //         sockets.to(companyRoom).emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, { creditInfo:freeTierCreditCount });
+    //     }
+    // });
 
-    socket.on(SOCKET_EVENTS.NOTIFY_MESSAGE_LIMIT, catchSocketAsync(async ({ companyId, freeTierMessageCount, modalCode }) => {
+    // socket.on(SOCKET_EVENTS.NOTIFY_MESSAGE_LIMIT, catchSocketAsync(async ({ companyId, freeTierMessageCount, modalCode }) => {
 
-        try {
-            const subscription = await getSubscriptionStatus(companyId);
+    //     try {
+            //const subscription = await getSubscriptionStatus(companyId);
 
             // if (
             //     subscription &&
@@ -155,10 +154,10 @@ sockets.on('connection', function (socket) {
             //         return { notShowLimitToast: true };
             //     }
             // }
-        } catch (error) {
-            handleError(error);
-        }
-    }));
+    //     } catch (error) {
+    //         handleError(error);
+    //     }
+    // }));
 
     socket.on(SOCKET_EVENTS.LOAD_CONVERSATION, catchSocketAsync(async ({ chatId, userId, companyId, isNewChat }) => {
         const roomName = `${SOCKET_ROOM_PREFIX.CHAT}${chatId}`;

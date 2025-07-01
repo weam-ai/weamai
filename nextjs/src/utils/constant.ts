@@ -294,10 +294,10 @@ export const SOCKET_EVENTS = {
     DISABLE_QUERY_INPUT: 'disableinput',
     NEW_CHAT_MESSAGE: 'newmessage',
     JOIN_COMPANY_ROOM: 'joincompanyroom',
-    USER_MESSAGE_COUNT: 'messagecount',
+    //USER_MESSAGE_COUNT: 'messagecount',
     SUBSCRIPTION_STATUS: 'subscriptionstatus',
     AI_MODEL_KEY_REMOVE: 'aimodelkeyremove',
-    NOTIFY_MESSAGE_LIMIT: 'messageexceeded',
+    //NOTIFY_MESSAGE_LIMIT: 'messageexceeded',
     API_KEY_REQUIRED:'apikeyrequired',
     LOAD_CONVERSATION: 'loadconversation',
     FETCH_MODAL_LIST: 'fetchmodal',
@@ -492,12 +492,12 @@ export const SUBSCRIPTION_STATUS = {
     CANCELED: 'CANCELED'   
 }
 
-export const RAZORPAY_SUBSCRIPTION_STATUS = {
-    ACTIVE: 'ACTIVE',
-    EXPIRED: 'EXPIRED',
-    CANCELED: 'CANCELLED',
-    PENDING_CANCELLATION: 'PENDING_CANCELLATION'   
-}
+// export const RAZORPAY_SUBSCRIPTION_STATUS = {
+//     ACTIVE: 'ACTIVE',
+//     EXPIRED: 'EXPIRED',
+//     CANCELED: 'CANCELLED',
+//     PENDING_CANCELLATION: 'PENDING_CANCELLATION'   
+// }
 
 export const APPLICATION_ENVIRONMENT = {
     DEVELOPMENT: 'development',

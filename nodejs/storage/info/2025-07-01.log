@@ -1080,3 +1080,206 @@ Error: The amount must be greater than or equal to the minimum charge amount all
 2025-07-01 15:59:32 info: Role Permission seeded successfully 🤯🤯🤯
 2025-07-01 15:59:32 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
 2025-07-01 15:59:32 info: seeded successfully 
+2025-07-01 18:43:59 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:44:01 info: Backend server is started on port 4050
+2025-07-01 18:44:03 info: MongoDB Connection Succeed
+2025-07-01 18:44:06 info: Firebase Notification Initialized!🔥
+2025-07-01 18:44:06 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:44:12 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 18:44:12 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 18:44:12 info: seeded successfully 
+2025-07-01 18:44:12 info: Store routes completed!
+2025-07-01 18:44:23 info: GET /napi/v1/web/message/credit 200 1173.937 ms - 161
+
+2025-07-01 18:44:26 info: OPTIONS /napi/v1/web/notification/count 204 0.656 ms - 0
+
+2025-07-01 18:44:26 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.307 ms - 0
+
+2025-07-01 18:44:27 info: GET /napi/v1/web/notification/count 304 723.917 ms - -
+
+2025-07-01 18:44:28 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1206.408 ms - -
+
+2025-07-01 18:44:29 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1288.081 ms - -
+
+2025-07-01 18:44:48 info: OPTIONS /napi/v1/web/chat-member/list 204 0.278 ms - 0
+
+2025-07-01 18:44:51 info: POST /napi/v1/web/chat-member/list 200 3025.601 ms - 5812
+
+2025-07-01 18:49:54 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:49:57 info: Backend server is started on port 4050
+2025-07-01 18:50:00 info: MongoDB Connection Succeed
+2025-07-01 18:50:03 info: Firebase Notification Initialized!🔥
+2025-07-01 18:50:03 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:50:08 info: Store routes completed!
+2025-07-01 18:50:08 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 18:50:09 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 18:50:09 info: seeded successfully 
+2025-07-01 18:50:21 info: OPTIONS /napi/v1/web/chat-member/list 204 1.126 ms - 0
+
+2025-07-01 18:50:24 info: POST /napi/v1/web/chat-member/list 200 2980.023 ms - 6352
+
+2025-07-01 18:50:25 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.376 ms - 0
+
+2025-07-01 18:50:25 info: OPTIONS /napi/v1/web/notification/count 204 0.164 ms - 0
+
+2025-07-01 18:50:25 info: GET /napi/v1/web/notification/count 304 616.522 ms - -
+
+2025-07-01 18:50:26 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1231.208 ms - -
+
+2025-07-01 18:50:27 info: OPTIONS /napi/v1/web/chat-member/list 204 0.136 ms - 0
+
+2025-07-01 18:50:27 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1144.018 ms - -
+
+2025-07-01 18:50:29 info: POST /napi/v1/web/chat-member/list 200 2816.039 ms - 6352
+
+2025-07-01 18:50:41 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:50:44 info: Backend server is started on port 4050
+2025-07-01 18:50:46 info: MongoDB Connection Succeed
+2025-07-01 18:50:49 info: Firebase Notification Initialized!🔥
+2025-07-01 18:50:49 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:50:52 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:50:55 info: Backend server is started on port 4050
+2025-07-01 18:50:57 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 1.104 ms - 0
+
+2025-07-01 18:50:57 info: OPTIONS /napi/v1/web/notification/count 204 0.143 ms - 0
+
+2025-07-01 18:50:58 info: MongoDB Connection Succeed
+2025-07-01 18:51:01 info: Firebase Notification Initialized!🔥
+2025-07-01 18:51:01 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:51:06 info: Store routes completed!
+2025-07-01 18:51:07 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 9376.785 ms - -
+
+2025-07-01 18:51:07 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 18:51:07 info: GET /napi/v1/web/notification/count 304 9801.848 ms - -
+
+2025-07-01 18:51:07 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 18:51:07 info: seeded successfully 
+2025-07-01 18:51:07 info: OPTIONS /napi/v1/web/chat-member/list 204 0.147 ms - 0
+
+2025-07-01 18:51:08 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1130.649 ms - -
+
+2025-07-01 18:51:09 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:51:12 info: Backend server is started on port 4050
+2025-07-01 18:51:14 info: MongoDB Connection Succeed
+2025-07-01 18:51:17 info: Firebase Notification Initialized!🔥
+2025-07-01 18:51:18 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:51:23 info: Store routes completed!
+2025-07-01 18:51:23 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 18:51:23 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 18:51:23 info: seeded successfully 
+2025-07-01 18:51:31 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.964 ms - 0
+
+2025-07-01 18:51:31 info: OPTIONS /napi/v1/web/notification/count 204 0.552 ms - 0
+
+2025-07-01 18:51:34 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:51:37 info: Backend server is started on port 4050
+2025-07-01 18:51:43 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:51:45 info: Backend server is started on port 4050
+2025-07-01 18:51:47 info: MongoDB Connection Succeed
+2025-07-01 18:51:50 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:51:52 info: Backend server is started on port 4050
+2025-07-01 18:51:54 info: MongoDB Connection Succeed
+2025-07-01 18:51:57 info: Firebase Notification Initialized!🔥
+2025-07-01 18:51:58 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:52:03 info: Store routes completed!
+2025-07-01 18:52:03 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 18:52:03 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 18:52:03 info: seeded successfully 
+2025-07-01 18:52:17 info: bull-job-queue loaded 🍺🍻
+2025-07-01 18:52:19 info: Backend server is started on port 4050
+2025-07-01 18:52:27 info: MongoDB Connection Succeed
+2025-07-01 18:52:30 info: Firebase Notification Initialized!🔥
+2025-07-01 18:52:30 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 18:52:35 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 18:52:36 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 18:52:36 info: seeded successfully 
+2025-07-01 18:52:36 info: Store routes completed!
+2025-07-01 18:54:08 info: GET /napi/v1/web/message/credit 200 1174.902 ms - 161
+
+2025-07-01 18:54:12 info: OPTIONS /napi/v1/web/notification/count 204 0.631 ms - 0
+
+2025-07-01 18:54:12 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.194 ms - 0
+
+2025-07-01 18:54:12 info: GET /napi/v1/web/notification/count 304 652.511 ms - -
+
+2025-07-01 18:54:13 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1163.000 ms - -
+
+2025-07-01 18:54:14 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1080.276 ms - -
+
+2025-07-01 18:54:22 info: OPTIONS /napi/v1/web/notification/count 204 0.148 ms - 0
+
+2025-07-01 18:54:22 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.152 ms - 0
+
+2025-07-01 18:54:22 info: GET /napi/v1/web/notification/count 304 654.283 ms - -
+
+2025-07-01 18:54:23 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1117.629 ms - -
+
+2025-07-01 18:54:24 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1077.870 ms - -
+
+2025-07-01 18:54:43 info: OPTIONS /napi/v1/web/chat-member/list 204 0.154 ms - 0
+
+2025-07-01 18:54:45 info: POST /napi/v1/web/chat-member/list 200 2656.714 ms - 5812
+
+2025-07-01 18:55:08 info: OPTIONS /napi/v1/web/notification/count 204 0.246 ms - 0
+
+2025-07-01 18:55:08 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.228 ms - 0
+
+2025-07-01 18:55:08 info: GET /napi/v1/web/notification/count 304 704.363 ms - -
+
+2025-07-01 18:55:09 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1090.037 ms - -
+
+2025-07-01 18:55:10 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1087.158 ms - -
+
+2025-07-01 18:55:12 info: OPTIONS /napi/v1/web/chat-member/list 204 0.149 ms - 0
+
+2025-07-01 18:55:15 info: POST /napi/v1/web/chat-member/list 200 2828.540 ms - 6422
+
+2025-07-01 18:55:39 info: OPTIONS /napi/v1/web/notification/count 204 0.276 ms - 0
+
+2025-07-01 18:55:39 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.378 ms - 0
+
+2025-07-01 18:55:40 info: GET /napi/v1/web/notification/count 304 678.873 ms - -
+
+2025-07-01 18:55:40 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1114.190 ms - -
+
+2025-07-01 18:55:41 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1154.754 ms - -
+
+2025-07-01 18:55:45 info: OPTIONS /napi/v1/web/chat-member/list 204 0.173 ms - 0
+
+2025-07-01 18:55:47 info: POST /napi/v1/web/chat-member/list 200 2826.601 ms - 6422
+
+2025-07-01 19:10:09 info: bull-job-queue loaded 🍺🍻
+2025-07-01 19:10:12 info: Backend server is started on port 4050
+2025-07-01 19:10:14 info: MongoDB Connection Succeed
+2025-07-01 19:10:17 info: Firebase Notification Initialized!🔥
+2025-07-01 19:10:17 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-07-01 19:10:22 info: Store routes completed!
+2025-07-01 19:10:23 info: Role Permission seeded successfully 🤯🤯🤯
+2025-07-01 19:10:23 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-07-01 19:10:23 info: seeded successfully 
+2025-07-01 19:10:47 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 1.462 ms - 0
+
+2025-07-01 19:10:47 info: OPTIONS /napi/v1/web/notification/count 204 0.340 ms - 0
+
+2025-07-01 19:10:48 info: GET /napi/v1/web/notification/count 304 702.641 ms - -
+
+2025-07-01 19:10:49 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1245.015 ms - -
+
+2025-07-01 19:10:50 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1152.810 ms - -
+
+2025-07-01 19:10:51 info: OPTIONS /napi/v1/web/chat-member/list 204 0.250 ms - 0
+
+2025-07-01 19:10:52 info: OPTIONS /napi/v1/web/user/66ea8c1368aefec2f052430b 204 0.146 ms - 0
+
+2025-07-01 19:10:52 info: OPTIONS /napi/v1/web/notification/count 204 0.170 ms - 0
+
+2025-07-01 19:10:53 info: GET /napi/v1/web/notification/count 304 686.620 ms - -
+
+2025-07-01 19:10:53 info: POST /napi/v1/web/chat-member/list 200 2910.511 ms - 6422
+
+2025-07-01 19:10:54 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1146.901 ms - -
+
+2025-07-01 19:10:55 info: GET /napi/v1/web/user/66ea8c1368aefec2f052430b 304 1144.452 ms - -
+
+2025-07-01 19:10:58 info: POST /napi/v1/web/chat-member/list 200 2823.640 ms - 6422
+

@@ -1044,13 +1044,13 @@ const ChatPage = memo(() => {
             //     );
             // });
 
-            const isFree =  true;
-            if (isFree) {
-                socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, ({ creditInfo }) => {
-                    dispatch(setCreditInfoAction({...creditInfoSelector, ...creditInfo}));
+            // const isFree =  true;
+            // if (isFree) {
+            //     socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, ({ creditInfo }) => {
+            //         dispatch(setCreditInfoAction({...creditInfoSelector, ...creditInfo}));
                     
-                });                
-            }
+            //     });                
+            // }
 
             socket.on(SOCKET_EVENTS.API_KEY_REQUIRED, handleApiKeyRequired);
 

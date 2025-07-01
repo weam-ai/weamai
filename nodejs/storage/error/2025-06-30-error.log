@@ -1,8 +1,0 @@
-2025-06-30 15:56:41 error: Error in forgot password
-Error: There's no account found with this Email
-    at Object.forgotPassword (/Users/chiragsuthar/Documents/work-d/React Projects/Demo-OpenSource/nodejs/src/services/auth.js:160:19)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /Users/chiragsuthar/Documents/work-d/React Projects/Demo-OpenSource/nodejs/src/controller/web/authController.js:51:20
-2025-06-30 16:02:29 error: Error in sendEmail connect ETIMEDOUT 23.21.212.212:80
-Error: connect ETIMEDOUT 23.21.212.212:80
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
