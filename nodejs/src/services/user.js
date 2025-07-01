@@ -24,6 +24,7 @@ const { sendUserSubscriptionUpdate } = require('../socket/chat');
 const Prompt = require('../models/prompts');
 const CustomGpt = require('../models/customgpt');
 const Subscription = require('../models/subscription');
+const Message = require('../models/thread');
 
 const addUser = async (req) => {
     try {
@@ -109,7 +110,37 @@ const deleteUser = async (req) => {
 
 const getAllUser = async (req) => {
     try {
-        return dbService.getAllDocuments(User, req.body.query || {}, req.body.options || {});
+        const query = req.body.query || {};
+        const options = req.body.options || {};
+        
+        if(req.body.needUsedCredits){
+            const finalQuery = { 'company.id': req.user.company.id, ...query };
+            
+            const result = await User.paginate(finalQuery, {
+                ...options,
+                select: '_id msgCredit fname lname email roleCode',
+                lean: true
+            });
+            
+            const userIds = result.data.map(user => user._id);
+            
+            const messageCredit = await Message.aggregate([
+                { $match: { 'user.id': { $in: userIds } } },
+                { $group: { _id: '$user.id', totalCredit: { $sum: '$usedCredit' } } }
+            ]);
+            
+            const userWithCredit = result.data.map(user => ({ 
+                ...user, 
+                usedCredits: messageCredit.find(credit => credit._id.toString() === user._id.toString())?.totalCredit || 0 
+            }));
+            
+            return {
+                data: userWithCredit,
+                paginator: result.paginator
+            };
+        }
+        
+        return dbService.getAllDocuments(User, query, options);
     } catch (error) {
         handleError(error, 'Error in user service get all user function');
     }

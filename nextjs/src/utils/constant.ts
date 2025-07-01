@@ -163,7 +163,8 @@ export const MODULE_ACTIONS = {
     GET_USAGE: 'getUsage',
     GET_USER_USAGE: 'getUserUsage',
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
-    GET_WEEKLY_USAGE: 'getWeeklyUsage'
+    GET_WEEKLY_USAGE: 'getWeeklyUsage',
+    ADD_CREDIT: 'addCredit'
 } as const;
 
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm A';

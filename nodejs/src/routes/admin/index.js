@@ -26,4 +26,6 @@ router.use('/storagerequest', require('./storagerequest'));
 router.use('/invoice', require('./invoice'));
 router.use('/razorpay', require('./razorpayPayment'));
 router.use('/report', require('./report'));
+router.use('/credit-control', require('./creditControl'));
+
 module.exports = router;

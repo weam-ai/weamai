@@ -31,7 +31,8 @@ const routes = {
     onboard: '/onboard',
     changePassword: '/profile-setting/password',
     testSubscription: '/test-subscription',
-    weeklyReport: '/settings/weekly-report'
+    weeklyReport: '/settings/weekly-report',
+    creditControl: '/settings/credit-control'
 };
 
 export default routes;

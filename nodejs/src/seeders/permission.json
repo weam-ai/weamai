@@ -57,7 +57,8 @@
             "razorpay.verify-storage-payment",
             "report.companyUsage",
             "report.userUsage",
-            "report.weeklyUsage"
+            "report.weeklyUsage",
+            "creditControl.addCreditById"
         ]
     },
     {
@@ -97,7 +98,8 @@
             "subscription.defaultPaymentMethod",
             "invoice.list",
             "subscription.handlePayment3dSecure",
-            "subscription.get-stripe-plans"
+            "subscription.get-stripe-plans",
+            "creditControl.addCreditById"
         ]
     }
 ]

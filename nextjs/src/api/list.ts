@@ -321,6 +321,10 @@ const apiList = {
         url: () => `${ADMIN}/report/weekly-usage`,
         method: 'POST'
     },
+    addCredit: {
+        url: () => `${ADMIN}/credit-control/add-credit`,
+        method: 'POST'
+    },
     commonUrl: (prefix: string, module: string) => ({
         list: {
             url: () => `${prefix}/${module}/list`,
