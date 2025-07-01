@@ -21,8 +21,18 @@ const declineStorageRequest = async (req, res) => {
     return util.failureResponse(_localize('module.storageRequestUpdateError', req, ''), res);
 };
 
+const approveStorageRequest = async (req, res) => {
+    const result = await storageRequestService.approveStorageRequest(req);
+    if (result) {
+        res.message = _localize('module.storageRequestAccept', req, '');
+        return util.successResponse(result, res);
+    }
+    return util.failureResponse(_localize('module.storageRequestUpdateError', req, ''), res);
+};
+
 // Exporting the controller functions
 module.exports = {
     getAllStorageRequest,
-    declineStorageRequest
+    declineStorageRequest,
+    approveStorageRequest
 };

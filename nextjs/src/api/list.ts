@@ -130,7 +130,7 @@ const apiList = {
         method:'DELETE'  
     },
     approveStorageRequest: {
-        url: () => `${ADMIN}/payment/payment-for-storage-request`,
+        url: () => `${ADMIN}/storagerequest/approve`,
         method: 'POST'
     },
     declineStorageRequest: {
