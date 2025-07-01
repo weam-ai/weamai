@@ -406,7 +406,7 @@ async function createPinecornIndex(user, req) {
             }
         }).then(async () => {
             const token = extractAuthToken(req);
-            const response = await fetch(`${LINK.PYTHON_API_URL}/pinecone/api/create-serverless-index`, {
+            const response = await fetch(`${LINK.PYTHON_API_URL}/api/qdrant/create-qdrant-index`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
