@@ -15,7 +15,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '../ui/tooltip';
-import SSESubscription from '../Subscription/SSESubscription';
 const CommonSideBarIcon = () => {
     const icons = [
         {
@@ -52,9 +51,6 @@ const CommonSideBarIcon = () => {
                 <ul className="p-0 mt-[15px] mx-0 mb-0 flex flex-col gap-[15px]">
                     <SideBarIconMenuList icons={icons} />
                     <li className="group relative">
-                        {/* <div className="hidden">
-                            <SSESubscription />
-                        </div> */}
                         <Notification />
                         <NotificationDot />
                     </li>

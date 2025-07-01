@@ -36,10 +36,6 @@ const apiList = {
         url: () => `${WEB}/company/weam/register`,
         method: 'POST' 
     },
-    createCustomer: {
-        url: () => `${ADMIN}/payment/create-customer`,
-        method: 'POST' 
-    },
     workspaceUserCount: {
         url: () => `${WEB}/workspace/user/list`,
         method: 'POST'
@@ -133,42 +129,6 @@ const apiList = {
         url: (id: string)=>  `${WEB}/teamBrain/chat/delete/${id}`,
         method:'DELETE'  
     },
-    getProductPrice: {
-        url: (id: string) => `${ADMIN}/payment/get-product-price/${id}`,
-        method: 'GET'
-    },
-    getSubscriptionDetails: {
-        url: () => `${ADMIN}/payment/get-subscription`,
-        method: 'GET'
-    },
-    getSubscriptionStatus: {
-        url: () => `${WEB}/payment/get-subscription`,
-        method: 'GET'
-    },
-    cancelSubscription: {
-        url: () => `${ADMIN}/payment/cancel-subscription`,
-        method: 'POST'
-    },
-    upcomingInvoice: {
-        url: () => `${ADMIN}/payment/upcoming-invoice`,
-        method: 'GET'
-    },
-    upgradeSubscription: {
-        url: () => `${ADMIN}/payment/update-subscription`,
-        method: 'POST'
-    },
-    updatePaymentMethod: {
-        url: () => `${ADMIN}/payment/update-payment-method`,
-        method: 'POST'
-    },
-    showDefaultPaymentMethod: {
-        url: () => `${ADMIN}/payment/default-payment-method`,
-        method: 'GET'
-    },
-    getInvoiceList: {
-        url: () => `${ADMIN}/payment/invoice-list`,
-        method: 'POST'
-    },
     approveStorageRequest: {
         url: () => `${ADMIN}/payment/payment-for-storage-request`,
         method: 'POST'
@@ -179,10 +139,6 @@ const apiList = {
     },
     confirmStoragePayment: {
         url: () => `${ADMIN}/payment/confirm-storage-charge`,
-        method: 'POST'
-    },
-    checkCouponCode: {
-        url: () => `${ADMIN}/payment/check-coupon-code`,
         method: 'POST'
     },
     resendVerification: {
@@ -204,18 +160,6 @@ const apiList = {
     anthropicKeyCheck: {
         url: () => `${WEB}/company/anthropic/apikey`,
         method: 'POST'
-    },
-    unCancelSubscription: {
-        url: () => `${ADMIN}/payment/uncancel-subscription`,
-        method: 'POST'
-    },
-    handlePayment3dSecure:{
-        url: () => `${ADMIN}/payment/handle-payment-3dsecure`,
-        method: 'POST'
-    },
-    getStripePlans: {
-        url: () => `${ADMIN}/payment/get-stripe-plans`,
-        method: 'GET'
     },
     geminiKeyCheck: {
         url: () => `${WEB}/company/gemini/apikey`,

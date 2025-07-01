@@ -16,7 +16,7 @@ const createStripeCustomerKeys = joi.object({
 const storageRequestChargeKeys = joi.object({
     storageRequestId: joi.string().required(),
     updatedStorageSize: joi.number().required(),
-    amount: joi.number().integer().min(1).required(),
+    amount: joi.number().integer().min(0).required(),
     currency: joi.string().required()
 })
 

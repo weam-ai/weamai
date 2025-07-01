@@ -7,7 +7,6 @@ import Toast from '@/utils/toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {  useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
 export const useTeams = () => {
     const [loading, setLoading] = useState(false);
     const [teams, setTeams] = useState([]);
@@ -17,7 +16,6 @@ export const useTeams = () => {
 
     const [tableLoader, setTableLoader] = useState(true);
 
-    const { isSubscriptionActive } = useSubscription();
     const {
         register,
         handleSubmit,
@@ -89,7 +87,6 @@ export const useTeams = () => {
 
     const createTeam = async (data, close) => {
         try {
-            if(!isSubscriptionActive()) return false;
             setLoading(true);
             const response = await commonApi({
                 action: MODULE_ACTIONS.CREATE,
@@ -113,7 +110,6 @@ export const useTeams = () => {
 
     const updateTeam = async (data) => {
         try {
-            if(!isSubscriptionActive()) return false;
             setLoading(true);
             const response = await commonApi({
                 action: MODULE_ACTIONS.UPDATE,
@@ -217,7 +213,6 @@ export const useTeams = () => {
     //update the team list in workspace (add in update workspace modal)
     const shareTeamWorkspace = async (workspaceId, companyId, teams, title) => {
         try {
-            if(!isSubscriptionActive()) return false;
             setLoading(true);
 
             const response = await commonApi({
@@ -254,7 +249,6 @@ export const useTeams = () => {
         title
     ) => {
         try {
-            if(!isSubscriptionActive()) return false;
             setLoading(true);
 
             const response = await commonApi({

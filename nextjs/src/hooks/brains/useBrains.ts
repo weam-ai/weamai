@@ -33,7 +33,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSubscription } from '../subscription/useSubscription';
 
 const sharedDefaultValue = {
     title: '',
@@ -91,7 +90,6 @@ const useBrains = ({ isShare, addMember, addTeam = false }:any) => {
     const companyId =
         user.roleCode === ROLE_TYPE.COMPANY ? user.company.id : user.invitedBy;
 
-    const { isSubscriptionActive } = useSubscription();
     const getBrainList = async () => {
         try {
                 setShareLoading(true);
@@ -175,7 +173,6 @@ const useBrains = ({ isShare, addMember, addTeam = false }:any) => {
 
     const updateBrain = async (data, id) => {
         try {
-            if(!isSubscriptionActive()) return false;
             const response = await commonApi({
                 action: MODULE_ACTIONS.UPDATE,
                 prefix: MODULE_ACTIONS.WEB_PREFIX,
@@ -324,7 +321,6 @@ const useBrains = ({ isShare, addMember, addTeam = false }:any) => {
     const createBrain = async (obj, close) => {
         
         try {
-            if(!isSubscriptionActive()) return false;
             const data:any = {
                 title: obj.title,
                 isShare: obj.isShare,
