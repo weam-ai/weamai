@@ -137,10 +137,6 @@ const apiList = {
         url: () => `${ADMIN}/storagerequest/decline`,
         method: 'POST'
     },
-    confirmStoragePayment: {
-        url: () => `${ADMIN}/payment/confirm-storage-charge`,
-        method: 'POST'
-    },
     resendVerification: {
         url: () => `${WEB}/company/resend-verification`,
         method: 'POST'
@@ -167,62 +163,6 @@ const apiList = {
     },
     brainListAll: {
         url: () => `${WEB}/brain/list-all`,
-        method: 'POST'
-    },
-    createRazorpaySubscription: {
-        url: () => `${ADMIN}/razorpay/create-subscription`,
-        method: 'POST'
-    },
-    getRazorpayPlan: {
-        url: () => `${ADMIN}/razorpay/fetch-subscription-plan`,
-        method: 'GET'
-    },
-    createRazorpayOrder: {
-        url: () => `${ADMIN}/razorpay/create-order`,
-        method: 'POST'
-    },
-    verifyRazorpayPayment: {
-        url: () => `${ADMIN}/razorpay/verify-subscription-payment`,
-        method: 'POST'
-    },
-    getRazorpaySubscription: {
-        url: () => `${ADMIN}/razorpay/get-subscription`,
-        method: 'GET'
-    },
-    updateRazorpaySubscription: {
-        url: () => `${ADMIN}/razorpay/update-subscription`,
-        method: 'POST'
-    },
-    getRazorpayInvoiceList: {
-        url: () => `${ADMIN}/razorpay/get-invoice-list`,
-        method: 'GET'
-    },
-    cancelRazorpaySubscription: {
-        url: () => `${ADMIN}/razorpay/cancel-subscription`,
-        method: 'POST'
-    },
-    uncancelRazorpaySubscription: {
-        url: () => `${ADMIN}/razorpay/uncancel-subscription`,
-        method: 'POST'
-    },
-    updateRazorpayCard: {
-        url: () => `${ADMIN}/razorpay/update-razorpay-payment-method`,
-        method: 'POST'
-    },
-    getRazorpayPaymentMethod: {
-        url: () => `${ADMIN}/razorpay/get-payment-method`,
-        method: 'GET'
-    },
-    getRazorpayStoragePrice: {
-        url: () => `${ADMIN}/razorpay/get-storage-price`,
-        method: 'GET'
-    },
-    razorpayStorageApprove: {
-        url: () => `${ADMIN}/razorpay/storage-request-charge`,
-        method: 'POST'
-    },
-    verifyRazorpayStoragePayment: {
-        url: () => `${ADMIN}/razorpay/verify-storage-payment`,
         method: 'POST'
     },
     getMessageCredits: {
