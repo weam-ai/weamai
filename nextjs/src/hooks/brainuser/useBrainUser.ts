@@ -2,12 +2,11 @@ import commonApi from '@/api';
 import { BRAIN_MEMBER_ADDED, DEFAULT_SORT, MODULES, MODULE_ACTIONS, SEARCH_AND_FILTER_OPTIONS } from '@/utils/constant';
 import Toast from '@/utils/toast';
 import { useState } from 'react';
-import { useSubscription } from '../subscription/useSubscription';
 
 const useBrainUser = () => {
     const [loading, setLoading] = useState(false);
     const [brainMembers, setBrainMembers] = useState([]);
-    const { isSubscriptionActive } = useSubscription();
+    
     const getList = async (id) => {
         try {
             setLoading(true);
@@ -38,7 +37,6 @@ const useBrainUser = () => {
 
     const removeBrainMember = async (id, userId) => {
         try {
-            if(!isSubscriptionActive()) return;
             const response = await commonApi({
                 action: MODULE_ACTIONS.UNSHARE,
                 data: {
@@ -56,7 +54,6 @@ const useBrainUser = () => {
 
     const addBrainMember = async (id, users, workspaceId) => {
         try {
-            if(!isSubscriptionActive()) return;
             const response = await commonApi({
                 action: MODULE_ACTIONS.UPDATE,
                 prefix: MODULE_ACTIONS.ADMIN_PREFIX,

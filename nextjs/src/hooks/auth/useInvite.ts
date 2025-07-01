@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSubscription } from '../subscription/useSubscription';
 
 const useInvite = () => {
     const [isSend, setIsSend] = useState(false);

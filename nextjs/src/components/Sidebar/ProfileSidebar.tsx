@@ -17,7 +17,6 @@ import UserProfile from './UserProfile';
 import ArrowBack from '@/icons/ArrowBack';
 import { GENERAL_BRAIN_TITLE } from '@/utils/constant';
 import { getCurrentUser } from '@/utils/handleAuth';
-import SSESubscription from '../Subscription/SSESubscription';
 import { encodedObjectId, generateObjectId } from '@/utils/helper';
 import { RootState } from '@/lib/store';
 import { useSelector } from 'react-redux';
@@ -145,9 +144,6 @@ const ProfileSidebar = () => {
                     </Tooltip>
                 </TooltipProvider>
                 <div className='relative inline-block'>
-                    {/* <div className="hidden">
-                        <SSESubscription />
-                    </div> */}
                     <Notification />
                     <NotificationDot />
                 </div>

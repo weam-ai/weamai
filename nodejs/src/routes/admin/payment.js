@@ -19,7 +19,7 @@ router.post('/update-payment-method', validate(updatePaymentMethodKeys), authent
 
 router.get('/default-payment-method',authentication,checkPermission,paymentController.defaultPaymentMethod).descriptor('subscription.defaultPaymentMethod');
 router.get('/get-subscription', authentication, checkPermission, paymentController.getSubscription).descriptor('subscription.view');
-router.get('/get-product-price/:priceId', authentication, checkPermission, paymentController.productPrice).descriptor('subscription.plan');
+//router.get('/get-product-price/:priceId', authentication, checkPermission, paymentController.productPrice).descriptor('subscription.plan');
 router.get('/upcoming-invoice', authentication, checkPermission, paymentController.upcomingInvoice).descriptor('subscription.upcominginvoice');
 router.post('/cancel-subscription-webhook', paymentController.cancelSubscriptionWebhook);
 router.post('/invoice-list', authentication, checkPermission, paymentController.getInvoiceList).descriptor('payment.invoiceList');

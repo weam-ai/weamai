@@ -1,0 +1,209 @@
+2025-06-27 17:33:51 info: bull-job-queue loaded 🍺🍻
+2025-06-27 17:33:55 info: Backend server is started on port 4050
+2025-06-27 17:33:57 info: MongoDB Connection Succeed
+2025-06-27 17:33:59 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-06-27 17:33:59 info: Firebase Notification Initialized!🔥
+2025-06-27 17:34:06 info: Store routes completed!
+2025-06-27 17:34:06 info: Role Permission seeded successfully 🤯🤯🤯
+2025-06-27 17:34:08 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-06-27 17:34:08 info: seeded successfully 
+2025-06-27 17:34:52 info: GET /napi/v1/web/message/credit 200 1206.131 ms - 162
+
+2025-06-27 17:34:52 info: POST /napi/v1/web/userbot/list 200 1512.747 ms - 13379
+
+2025-06-27 17:34:53 info: POST /napi/v1/web/brain/list-all 200 1683.971 ms - 10683
+
+2025-06-27 17:34:53 info: POST /napi/v1/web/workspace/list 200 1946.481 ms - 5027
+
+2025-06-27 17:34:56 info: OPTIONS /napi/v1/web/notification/count 204 0.364 ms - 0
+
+2025-06-27 17:34:56 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.150 ms - 0
+
+2025-06-27 17:34:57 info: GET /napi/v1/web/notification/count 304 737.329 ms - -
+
+2025-06-27 17:34:57 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 200 1165.777 ms - 793
+
+2025-06-27 17:34:58 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1153.152 ms - -
+
+2025-06-27 17:35:03 info: OPTIONS /napi/v1/web/auth/logout 204 0.277 ms - 0
+
+2025-06-27 17:35:03 info: POST /napi/v1/web/auth/logout 200 2.215 ms - 75
+
+2025-06-27 17:35:09 info: GET /napi/v1/csrf 200 4.073 ms - 124
+
+2025-06-27 17:35:09 info: GET /napi/v1/web/message/credit 403 0.977 ms - 83
+
+2025-06-27 17:35:09 info: POST /napi/v1/web/userbot/list 403 1.122 ms - 83
+
+2025-06-27 17:35:17 info: POST /napi/v1/admin/auth/signin 200 1813.379 ms - 2965
+
+2025-06-27 17:35:17 info: start proccessing update db ref
+2025-06-27 17:35:19 info: GET /napi/v1/web/message/credit 200 1156.814 ms - 162
+
+2025-06-27 17:35:19 info: POST /napi/v1/web/userbot/list 200 1447.186 ms - 13379
+
+2025-06-27 17:35:19 info: POST /napi/v1/web/brain/list-all 200 1566.589 ms - 10683
+
+2025-06-27 17:35:19 info: POST /napi/v1/web/workspace/list 200 1847.435 ms - 5027
+
+2025-06-27 17:35:20 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.136 ms - 0
+
+2025-06-27 17:35:20 info: OPTIONS /napi/v1/web/notification/count 204 0.131 ms - 0
+
+2025-06-27 17:35:20 info: GET /napi/v1/web/notification/count 200 705.528 ms - 104
+
+2025-06-27 17:35:21 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 200 1196.686 ms - 793
+
+2025-06-27 17:35:22 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1211.972 ms - -
+
+2025-06-27 17:35:24 info: finish proccessing update db ref
+2025-06-27 17:35:24 info: 🌿   Job updateRef completed 
+2025-06-27 17:35:38 info: OPTIONS /napi/v1/web/notification/count 204 0.123 ms - 0
+
+2025-06-27 17:35:38 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.134 ms - 0
+
+2025-06-27 17:35:39 info: GET /napi/v1/web/notification/count 304 724.105 ms - -
+
+2025-06-27 17:35:40 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1223.910 ms - -
+
+2025-06-27 17:35:41 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1208.653 ms - -
+
+2025-06-27 17:35:42 info: OPTIONS /napi/v1/web/chat-member/list 204 0.127 ms - 0
+
+2025-06-27 17:35:44 info: POST /napi/v1/web/chat-member/list 200 2221.650 ms - 7060
+
+2025-06-27 17:35:56 info: OPTIONS /napi/v1/web/chat-member/list 204 0.176 ms - 0
+
+2025-06-27 17:35:58 info: POST /napi/v1/web/chat-member/list 200 2203.069 ms - 1525
+
+2025-06-27 17:38:55 info: bull-job-queue loaded 🍺🍻
+2025-06-27 17:38:58 info: Backend server is started on port 4050
+2025-06-27 17:39:00 info: MongoDB Connection Succeed
+2025-06-27 17:39:01 info: Firebase Notification Initialized!🔥
+2025-06-27 17:39:01 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-06-27 17:39:04 info: Role Permission seeded successfully 🤯🤯🤯
+2025-06-27 17:39:07 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-06-27 17:39:07 info: seeded successfully 
+2025-06-27 17:39:08 info: Store routes completed!
+2025-06-27 17:39:24 info: bull-job-queue loaded 🍺🍻
+2025-06-27 17:39:27 info: Backend server is started on port 4050
+2025-06-27 17:39:29 info: MongoDB Connection Succeed
+2025-06-27 17:39:30 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-06-27 17:39:30 info: Firebase Notification Initialized!🔥
+2025-06-27 17:39:37 info: Store routes completed!
+2025-06-27 17:39:38 info: Role Permission seeded successfully 🤯🤯🤯
+2025-06-27 17:39:39 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-06-27 17:39:39 info: seeded successfully 
+2025-06-27 17:39:46 info: bull-job-queue loaded 🍺🍻
+2025-06-27 17:39:48 info: Backend server is started on port 4050
+2025-06-27 17:39:51 info: MongoDB Connection Succeed
+2025-06-27 17:39:51 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-06-27 17:39:52 info: Firebase Notification Initialized!🔥
+2025-06-27 17:39:53 info: Role Permission seeded successfully 🤯🤯🤯
+2025-06-27 17:39:54 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-06-27 17:39:54 info: seeded successfully 
+2025-06-27 17:39:59 info: Store routes completed!
+2025-06-27 17:40:15 info: bull-job-queue loaded 🍺🍻
+2025-06-27 17:40:17 info: Backend server is started on port 4050
+2025-06-27 17:40:20 info: MongoDB Connection Succeed
+2025-06-27 17:40:21 info: Firebase Notification Initialized!🔥
+2025-06-27 17:40:21 info: Roles seeded successfully! 👨‍⚕️👨‍🔧👨‍🚀
+2025-06-27 17:40:26 info: Store routes completed!
+2025-06-27 17:40:26 info: Role Permission seeded successfully 🤯🤯🤯
+2025-06-27 17:40:27 info: Successfully migrated blocked domains to database 17 matched, 17 modified, 0 upserted
+2025-06-27 17:40:27 info: seeded successfully 
+2025-06-27 17:42:52 info: OPTIONS /napi/v1/web/chat-doc/list 204 1.017 ms - 0
+
+2025-06-27 17:42:54 info: POST /napi/v1/web/chat-doc/list 200 2288.556 ms - 1585
+
+2025-06-27 17:44:27 info: OPTIONS /napi/v1/web/notification/count 204 0.194 ms - 0
+
+2025-06-27 17:44:27 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.224 ms - 0
+
+2025-06-27 17:44:27 info: GET /napi/v1/web/message/credit 200 3209.139 ms - 162
+
+2025-06-27 17:44:28 info: GET /napi/v1/web/notification/count 304 691.657 ms - -
+
+2025-06-27 17:44:29 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 200 2331.815 ms - 793
+
+2025-06-27 17:44:31 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1120.224 ms - -
+
+2025-06-27 17:44:33 info: OPTIONS /napi/v1/web/chat-doc/list 204 0.177 ms - 0
+
+2025-06-27 17:44:35 info: POST /napi/v1/web/chat-doc/list 200 2246.792 ms - 1585
+
+2025-06-27 17:44:56 info: OPTIONS /napi/v1/upload/file 204 0.170 ms - 0
+
+2025-06-27 17:44:58 info: POST /napi/v1/upload/file 200 2603.782 ms - 394
+
+2025-06-27 17:44:59 info: OPTIONS /napi/v1/web/chat-doc/list 204 0.192 ms - 0
+
+2025-06-27 17:44:59 info: start proccessing update db ref
+2025-06-27 17:45:01 info: POST /napi/v1/web/chat-doc/list 200 2445.328 ms - 2031
+
+2025-06-27 17:45:04 info: finish proccessing update db ref
+2025-06-27 17:45:04 info: 🌿   Job updateRef completed 
+2025-06-27 17:49:00 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.184 ms - 0
+
+2025-06-27 17:49:00 info: OPTIONS /napi/v1/web/notification/count 204 0.167 ms - 0
+
+2025-06-27 17:49:01 info: GET /napi/v1/web/notification/count 304 657.839 ms - -
+
+2025-06-27 17:49:02 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 200 1176.051 ms - 793
+
+2025-06-27 17:49:03 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1358.860 ms - -
+
+2025-06-27 17:49:07 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.143 ms - 0
+
+2025-06-27 17:49:07 info: OPTIONS /napi/v1/web/notification/count 204 1.845 ms - 0
+
+2025-06-27 17:49:08 info: GET /napi/v1/web/notification/count 304 688.108 ms - -
+
+2025-06-27 17:49:08 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1155.565 ms - -
+
+2025-06-27 17:49:09 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1110.218 ms - -
+
+2025-06-27 17:49:15 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.140 ms - 0
+
+2025-06-27 17:49:15 info: OPTIONS /napi/v1/web/notification/count 204 0.125 ms - 0
+
+2025-06-27 17:49:16 info: GET /napi/v1/web/notification/count 304 672.072 ms - -
+
+2025-06-27 17:49:16 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1109.752 ms - -
+
+2025-06-27 17:49:17 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1381.922 ms - -
+
+2025-06-27 17:49:37 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.134 ms - 0
+
+2025-06-27 17:49:37 info: OPTIONS /napi/v1/web/notification/count 204 0.122 ms - 0
+
+2025-06-27 17:49:38 info: GET /napi/v1/web/notification/count 304 687.857 ms - -
+
+2025-06-27 17:49:38 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1400.795 ms - -
+
+2025-06-27 17:49:40 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1681.241 ms - -
+
+2025-06-27 18:33:36 info: OPTIONS /napi/v1/web/notification/count 204 0.450 ms - 0
+
+2025-06-27 18:33:36 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.147 ms - 0
+
+2025-06-27 18:33:37 info: GET /napi/v1/web/notification/count 304 670.096 ms - -
+
+2025-06-27 18:33:37 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1138.578 ms - -
+
+2025-06-27 18:33:38 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1157.360 ms - -
+
+2025-06-27 18:33:41 info: OPTIONS /napi/v1/web/user/66ea8d5d68aefec2f05243fd 204 0.148 ms - 0
+
+2025-06-27 18:33:41 info: OPTIONS /napi/v1/web/notification/count 204 0.201 ms - 0
+
+2025-06-27 18:33:42 info: GET /napi/v1/web/notification/count 304 716.896 ms - -
+
+2025-06-27 18:33:42 info: OPTIONS /napi/v1/web/chat-doc/list 204 0.114 ms - 0
+
+2025-06-27 18:33:42 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1126.058 ms - -
+
+2025-06-27 18:33:44 info: GET /napi/v1/web/user/66ea8d5d68aefec2f05243fd 304 1149.233 ms - -
+
+2025-06-27 18:33:45 info: POST /napi/v1/web/chat-doc/list 200 2322.099 ms - 2031
+

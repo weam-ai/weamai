@@ -40,7 +40,7 @@ const verifyCsrfToken = (encryptedToken, expectedRaw) => {
     return decryptedText === expectedRaw;
 };
 
-const excludedUrls = ['/admin/payment/invoice-paid-webhook', '/admin/payment/cancel-subscription-webhook'];
+const excludedUrls = ['', ''];
 
 function csrfMiddleware(req, res, next) {
     if(excludedUrls.includes(req.url)){

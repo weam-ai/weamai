@@ -61,7 +61,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
 import { setIsWebSearchActive, setSelectedAIModal } from '@/lib/slices/aimodel/assignmodelslice';
 import { UploadedFileType } from '@/types/chat';
 import { AiModalType } from '@/types/aimodels';
@@ -112,8 +111,7 @@ const ChatPage = memo(() => {
     
     // For the tab GPT prompts
     const { getTabPromptList, promptList: prompts, loading: promptLoader, setLoading: setPromptLoader, paginator: promptPaginator, setPromptList } = usePrompt();
-    const { freeSubscriptionChecker, isSubscriptionActive } = useSubscription();
-
+    
     const userModal = useSelector((store:RootState) => store.assignmodel.list);
     const selectedAIModal = useSelector(
         (store: RootState) => store.assignmodel.selectedModal
@@ -123,7 +121,6 @@ const ChatPage = memo(() => {
         (store: RootState) => store.conversation.uploadData
     );
     const canvasOptions = useSelector((store: RootState) => store.chat.canvasOptions);
-    const { subscriptionStatus } = useSelector((store: RootState) => store.chat.creditInfo);
     const isWebSearchActive = useSelector((store:RootState) => store.assignmodel.isWebSearchActive);
     const params = useParams();
     const queryParams = useSearchParams();
@@ -239,39 +236,12 @@ const ChatPage = memo(() => {
             setText('');
             return;
         }
-
-        if (!isSubscriptionActive()) {
-            setText('');
-            return;
-            
-        }
         
         const modalCode = selectedAIModal.bot.code;
 
         //if (isEmptyObject(serializableProAgentData)) {
             
-            if(subscriptionStatus){
-                const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
-                if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit) && 
-                    (subscriptionStatus == SUBSCRIPTION_STATUS.ACTIVE || subscriptionStatus == SUBSCRIPTION_STATUS.PENDING_CANCELLATION))
-                {
-                    const updatedCreditInfo = {
-                        ...creditInfoSelector,
-                        msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
-                    };
-                    dispatch(setCreditInfoAction(updatedCreditInfo));
-                    
-                } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector?.msgCreditUsed + modelCredit) && 
-                (subscriptionStatus == SUBSCRIPTION_STATUS.ACTIVE || subscriptionStatus == SUBSCRIPTION_STATUS.PENDING_CANCELLATION)) {
-                    Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
-                    setText('');
-                    return;
-                } else {
-                    Toast(EXPIRED_SUBSCRIPTION_MESSAGE, 'error');
-                    setText('');
-                    return;
-                }
-            } else {
+            //if(subscriptionStatus){
                 const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
                 if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
                 {
@@ -280,32 +250,50 @@ const ChatPage = memo(() => {
                         msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
                     };
                     dispatch(setCreditInfoAction(updatedCreditInfo));
-
-                    socket.emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, {
-                        freeTierCreditCount: {
-                            msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit,
-                            msgCreditLimit: creditInfoSelector.msgCreditLimit,
-                            freeTrialStartDate: creditInfoSelector?.freeTrialStartDate,
-                            subscriptionStatus: creditInfoSelector?.subscriptionStatus
-                        },
-                        companyId,
-                        modalCode,
-                    });
                     
-                } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector ?.msgCreditUsed + modelCredit)) {
+                } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector?.msgCreditUsed + modelCredit)) {
                     Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
                     setText('');
                     return;
-                }else if(freeTrialDaysLeft(creditInfoSelector) == 0){
-                    Toast(FREE_TIER_END_MESSAGE, 'error');
-                    setText('');
-                    return;
                 } else {
-                    Toast(EXPIRED_SUBSCRIPTION_MESSAGE, 'error');
                     setText('');
                     return;
                 }
-            }
+            // } else {
+            //     const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
+            //     if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
+            //     {
+            //         const updatedCreditInfo = {
+            //             ...creditInfoSelector,
+            //             msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
+            //         };
+            //         dispatch(setCreditInfoAction(updatedCreditInfo));
+
+            //         socket.emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, {
+            //             freeTierCreditCount: {
+            //                 msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit,
+            //                 msgCreditLimit: creditInfoSelector.msgCreditLimit,
+            //                 freeTrialStartDate: creditInfoSelector?.freeTrialStartDate,
+            //                 subscriptionStatus: creditInfoSelector?.subscriptionStatus
+            //             },
+            //             companyId,
+            //             modalCode,
+            //         });
+                    
+            //     } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector ?.msgCreditUsed + modelCredit)) {
+            //         Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
+            //         setText('');
+            //         return;
+            //     }else if(freeTrialDaysLeft(creditInfoSelector) == 0){
+            //         Toast(FREE_TIER_END_MESSAGE, 'error');
+            //         setText('');
+            //         return;
+            //     } else {
+            //         Toast(EXPIRED_SUBSCRIPTION_MESSAGE, 'error');
+            //         setText('');
+            //         return;
+            //     }
+            // }
         //}
 
         //Chat Member Create and reset URL to remove isNew
@@ -386,7 +374,7 @@ const ChatPage = memo(() => {
             messageId: messageId,
             companyId: companyId,
             user: formatMessageUser(currentUser),
-            isPaid: subscriptionStatus
+            isPaid: false
         };
       
         img_url = handleImageConversation(globalUploadedFile);
@@ -1056,7 +1044,7 @@ const ChatPage = memo(() => {
             //     );
             // });
 
-            const isFree =  isFreeTierSubscription(creditInfoSelector.subscriptionStatus)
+            const isFree =  true;
             if (isFree) {
                 socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, ({ creditInfo }) => {
                     dispatch(setCreditInfoAction({...creditInfoSelector, ...creditInfo}));

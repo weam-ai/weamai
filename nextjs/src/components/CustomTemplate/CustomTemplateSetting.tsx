@@ -22,7 +22,6 @@ import BrainIcon from '@/icons/BrainIcon';
 import Moveto from '@/icons/MovetoBrain';
 import { formatBrain } from '@/utils/helper';
 import Close from '@/icons/Close';
-import { useSubscription } from '../../hooks/subscription/useSubscription';
 
 
 const persistCustombot = {
@@ -45,7 +44,6 @@ const CustomTemplateSetting = memo(({bot, prompt, type, mykey, DialogTitle}) => 
     const [openDialogIndex, setOpenDialogIndex] = useState(null); // Track the open dialog index
 
     const { createPrompt, addPromptLoading, setAddPromptLoading } = usePrompt();
-    const { isSubscriptionActive } = useSubscription();
     
     const title = `${'Choose Brain for Your '} ${capitalizeFirstLetter(DialogTitle)}`;
     const btnTitle = `${'Add To Brain'}`;
@@ -76,7 +74,6 @@ const CustomTemplateSetting = memo(({bot, prompt, type, mykey, DialogTitle}) => 
     
     const botMoveToBrain = async () => {
         try {
-            if(!isSubscriptionActive()) return false;
             setAddPromptLoading(true);
             const user = getCurrentUser();
 
@@ -121,7 +118,6 @@ const CustomTemplateSetting = memo(({bot, prompt, type, mykey, DialogTitle}) => 
 
     const movePrompt = async () => {
         try {
-            if(!isSubscriptionActive()) return false;
             const payload = {
                 title: persistCustombot.promptdata?.title,
             content: persistCustombot.promptdata?.content,

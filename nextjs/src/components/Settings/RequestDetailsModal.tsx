@@ -5,18 +5,15 @@ import { useDispatch } from 'react-redux';
 import { bytesToMegabytes, megabytesToBytes, showCurrencySymbol, showPrice } from '@/utils/common';
 import StorageSelector from '../StorageSelector';
 import useStorage from '@/hooks/storage/useStorage';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
-import { MODULE_ACTIONS, NO_ACTIVE_SUBSCRIPTION_FOUND, RESPONSE_STATUS } from '@/utils/constant';
 import { getCurrentUser } from '@/utils/handleAuth';
-import { RAZORPAY, STRIPE_PUBLISH_KEY } from '@/config/config';
-import RazorpaySubscriptionOptions from '@/types/subscription';
+import { STRIPE_PUBLISH_KEY } from '@/config/config';
 import Toast from '@/utils/toast';
 import { loadStripe } from '@stripe/stripe-js';
-import { useStripe, Elements } from '@stripe/react-stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(STRIPE_PUBLISH_KEY);
 
-const StripeWrapper = ({ children }) => {
+const Wrapper = ({ children }) => {
     return (
         <Elements stripe={stripePromise}>
             {children}
@@ -26,79 +23,19 @@ const StripeWrapper = ({ children }) => {
 
 const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageRequests, refreshStorageRequests }:any) => {
     const dispatch = useDispatch();
-    const user=useMemo(()=>getCurrentUser(),[])
+    const user = useMemo(()=>getCurrentUser(),[])
 
     const [defaultStorageValue, setDefaultStorageValue] = useState<any>(bytesToMegabytes(selectedRequest?.requestSize));
 
     const {
-        getStorageProductPrice,
-        productPrice,
         approveStorageRequest,
         declineStorageRequest,
         loading,
-        dataLoading,
-        getRazorpayStoragePrice,
-        razorpayStoragePrice,
-        razorpayStorageApprove,
-        verifyRazorpayStoragePayment,
-        confirmStoragePayment
+        dataLoading,        
     } = useStorage();
-
-    const { fetchActiveSubscription, subscriptionData, loading: subscriptionLoading } = useSubscription();
 
     const handleOpen = () => {
         dispatch(setRequestDetailsModalAction(true));
-    };
-
-    const useStripePayment = () => {
-        const stripe = useStripe();
-        
-        const handleStripePayment = async (payload) => {
-            try {
-                const response = await approveStorageRequest(payload);
-                
-                if (response.data.requires_action) {
-                    // Handle the authentication challenge
-                    const { paymentIntent, error } = await stripe.confirmCardPayment(
-                        response.data.payment_intent_client_secret
-                    );
-                    
-                    if (error) {
-                        // Show error to your customer
-                        Toast('Your payment was not successful.', 'error');
-                        return;
-                    }
-                    
-                    if (paymentIntent.status === 'succeeded') {
-                        const responseConfirm = await confirmStoragePayment({
-                            paymentIntentId: paymentIntent.id,
-                            storageRequestId: response.data.storageRequestId,
-                            updatedStorageSize: response.data.updatedStorageSize
-                        });
-                        Toast(responseConfirm.message);
-                    }
-                } else {
-                    // Payment succeeded without authentication
-                    // We need to ensure the request is updated in the database
-                    if (response.data.storageRequestId) {
-                      const responseConfirm = await confirmStoragePayment({
-                            paymentIntentId: response.data.payment_intent_id,
-                            storageRequestId: response.data.storageRequestId,
-                            updatedStorageSize: response.data.updatedStorageSize
-                        });
-                        Toast(responseConfirm.message);
-                    }
-                }
-                
-                setRefreshStorageRequests(true);
-                closeModal();
-            } catch (error) {
-                console.error(error);
-                Toast('Payment failed. Please try again.', 'error');
-            }
-        };
-        
-        return { handleStripePayment };
     };
 
     const handleDecline = async () => {
@@ -110,89 +47,17 @@ const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageReq
         closeModal();
     }
 
-    const handleStoragePayment = async (orderData,storageRequestId,updatedStorageSize) => {
-        try {
-          // Open Razorpay checkout
-          const options = {
-            key: RAZORPAY.KEY_ID,
-            amount: orderData.amount,
-            currency: orderData.currency,
-            name: orderData.name,
-            description: orderData.description,
-            order_id: orderData.order.id,
-            prefill: orderData.prefill,
-            handler: async function(response) {
-              // Call your API to verify payment
-                const responseVerify = await verifyRazorpayStoragePayment(response,storageRequestId,updatedStorageSize);
-                if(responseVerify?.status == RESPONSE_STATUS.SUCCESS){
-                    Toast(responseVerify?.data?.message);
-                    setRefreshStorageRequests(!refreshStorageRequests);
-                }
-            },
-            save: true,
-            method: {
-                netbanking: false,
-                card: true,
-                upi: true,
-                wallet: false,
-            },
-            config: {
-                display: {
-                    blocks: {
-                        banks: {
-                            name: 'Bank Accounts',
-                            instruments: [
-                                {
-                                    method: 'netbanking'
-                                }
-                            ]
-                        }
-                    },
-                    hide: [
-                        { method: 'netbanking' },
-                        { method: 'paylater' },
-                        { method: 'emi' },
-                        { method: 'wallet' },
-                    ],
-                    sequence: ['card',"upi"],
-                    preferences: {
-                        show_default_blocks: false
-                    }
-                }
-            },
-            theme: { color: '#6737ec' }
-          };
-          
-          const rzp1 = new (window as any).Razorpay(
-            options as RazorpaySubscriptionOptions
-        );
-          rzp1.open();
-        } catch (error) {
-          console.error('Failed to initiate payment', error);
-        }
-    }
-
-    const StripeContent = () => {
+    const BodyContent = () => {
        
-        const { handleStripePayment } = useStripePayment();
-        
         const onApprove = async () => {
             try {    
                 const payload = {
                     storageRequestId: selectedRequest?._id,
                     updatedStorageSize: megabytesToBytes(defaultStorageValue),
-                    amount: (user.countryCode === "IN" && user?.company?.name?.startsWith("Razorpay")) ? (razorpayStoragePrice?.item?.unit_amount * (defaultStorageValue/20)) : productPrice?.unit_amount * defaultStorageValue/20,
-                    currency: (user.countryCode === "IN" && user?.company?.name?.startsWith("Razorpay")) ? subscriptionData?.planCurrency : productPrice?.currency
+                    amount: 0,
+                    currency: 'USD'
                 }
-            
-                if(user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay")){
-                    const response = await razorpayStorageApprove(payload);
-                    const orderData = response.data;
-                    handleStoragePayment(orderData,selectedRequest?._id,megabytesToBytes(defaultStorageValue));
-                } else {
-                    // Use the wrapped handler for Stripe payments
-                    await handleStripePayment(payload);
-                }
+                const response = await approveStorageRequest(payload);
             } catch (error) {
                 console.error(error);
             }
@@ -231,10 +96,6 @@ const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageReq
                                             onChange={(newValue) => setDefaultStorageValue(newValue)} />
                                     </td>
                                 </tr>
-                                <tr className='border-b border-b10 *:px-[30px] *:py-3'>
-                                    <th className='text-b2 font-semibold'>Amount To Pay</th>
-                                    <td>{getAmountDisplay()}</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -244,7 +105,7 @@ const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageReq
                             disabled={loading}>Decline</button>
                         <button className='btn btn-blue'
                             onClick={onApprove}
-                            disabled={loading || subscriptionLoading || dataLoading || (subscriptionData && Object.keys(subscriptionData).length === 0)}>Approve</button>
+                            disabled={loading || dataLoading}>Approve</button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
@@ -252,44 +113,44 @@ const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageReq
     };
 
 
-    const getAmountDisplay = () => {
-        if (subscriptionLoading || dataLoading) return 'Loading...';
-        if (subscriptionData && user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay") && !dataLoading) {
-            const amount = Number(showPrice(razorpayStoragePrice?.item?.unit_amount)) || 0;
-            return `${showCurrencySymbol(subscriptionData?.planCurrency)} ${(amount * (defaultStorageValue/20)).toFixed(2)}`;
-        }else if (subscriptionData && Object.keys(subscriptionData).length > 0 && !dataLoading) {
-            const amount = Number(showPrice(productPrice?.unit_amount)) || 0;
-            return `${showCurrencySymbol(subscriptionData?.currency)} ${(amount * defaultStorageValue/20).toFixed(2)}`;
-        } 
-        return NO_ACTIVE_SUBSCRIPTION_FOUND;
-    };
+    // const getAmountDisplay = () => {
+    //     if (subscriptionLoading || dataLoading) return 'Loading...';
+    //     if (subscriptionData && user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay") && !dataLoading) {
+    //         const amount = Number(showPrice(razorpayStoragePrice?.item?.unit_amount)) || 0;
+    //         return `${showCurrencySymbol(subscriptionData?.planCurrency)} ${(amount * (defaultStorageValue/20)).toFixed(2)}`;
+    //     }else if (subscriptionData && Object.keys(subscriptionData).length > 0 && !dataLoading) {
+    //         const amount = Number(showPrice(productPrice?.unit_amount)) || 0;
+    //         return `${showCurrencySymbol(subscriptionData?.currency)} ${(amount * defaultStorageValue/20).toFixed(2)}`;
+    //     } 
+    //     return NO_ACTIVE_SUBSCRIPTION_FOUND;
+    // };
 
-    useEffect(() => {
-        if(user.countryCode==='IN' && user?.company?.name?.startsWith("Razorpay")){
-            getRazorpayStoragePrice()
-        } else if (subscriptionData && Object.keys(subscriptionData).length > 0) {
-            getStorageProductPrice(subscriptionData?.currency);
-        }
-    }, [subscriptionData]);
+    // useEffect(() => {
+    //     if(user.countryCode==='IN' && user?.company?.name?.startsWith("Razorpay")){
+    //         getRazorpayStoragePrice()
+    //     } else if (subscriptionData && Object.keys(subscriptionData).length > 0) {
+    //         getStorageProductPrice(subscriptionData?.currency);
+    //     }
+    // }, [subscriptionData]);
 
-    useEffect(() => {
-        user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay") ? fetchActiveSubscription(MODULE_ACTIONS.GET_RAZORPAY_SUBSCRIPTION) : fetchActiveSubscription(null);
-    }, []);
+    // useEffect(() => {
+    //     user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay") ? fetchActiveSubscription(MODULE_ACTIONS.GET_RAZORPAY_SUBSCRIPTION) : fetchActiveSubscription(null);
+    // }, []);
 
-    useEffect(() => {
-        if(user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay")){
-            const script = document.createElement('script');
-            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.async = true;
-            document.body.appendChild(script);
-            return () => {
-                document.body.removeChild(script);
-            };
-        }
-    }, []);
+    // useEffect(() => {
+    //     if(user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay")){
+    //         const script = document.createElement('script');
+    //         script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    //         script.async = true;
+    //         document.body.appendChild(script);
+    //         return () => {
+    //             document.body.removeChild(script);
+    //         };
+    //     }
+    // }, []);
 
     // Return the wrapped component
-    return <StripeWrapper><StripeContent /></StripeWrapper>;
+    return <Wrapper><BodyContent /></Wrapper>;
 };
 
 export default RequestDetailsModal;

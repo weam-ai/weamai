@@ -10,7 +10,6 @@ import Link from 'next/link';
 import Notification from './Notification';
 import NotificationDot from './NotificationDot';
 import UserProfile from './UserProfile';
-import SSESubscription from '../Subscription/SSESubscription';
 import { getSession } from '@/config/withSession';
 import { hasPermission, PERMISSIONS } from '@/utils/permission';
 import { fetchWorkspaceList } from '@/actions/workspace';
@@ -80,17 +79,6 @@ const MainPageSidebar = async () => {
                             </div>
                             <PrivateBrainList brainList={brainList} workspaceFirst={workspaceList[0]} />
                         </PrivateVisible>
-                        {hasPermission(
-                        user?.roleCode,
-                        PERMISSIONS.UPGRADE_PLAN
-                        ) && (
-                        <Link
-                            className="btn btn-outline-blue mt-auto"
-                            href={'/settings/subscription'}
-                        >
-                            Upgrade Plan
-                        </Link>
-                        )}
                     </div>
 
                     <div className="flex items-center justify-between px-5 py-1 mt-auto border-t bg-b12">
@@ -126,9 +114,6 @@ const MainPageSidebar = async () => {
                             </Tooltip>
                         </TooltipProvider>
                         <div className="relative inline-block">
-                            {/* <div className="hidden">
-                                        <SSESubscription />
-                                    </div> */}
                             <Notification />
                             <NotificationDot />
                         </div>

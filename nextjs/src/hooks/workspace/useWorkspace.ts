@@ -24,7 +24,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSubscription } from '../subscription/useSubscription';
 import useBrains from '../brains/useBrains';
 const defaultValue:any = {
     members: [],
@@ -40,7 +39,6 @@ const useWorkspace = ({ addMember, addTeam = false }:any) => {
     const archiveWorkspace = useSelector(
         (store:any) => store.workspacelist.archivelist
     );
-    const { isSubscriptionActive } = useSubscription();
     const companyId = getCompanyId(user);
     const selectedWorkSpace = decryptedPersist(WORKSPACE);
     const [loading, setLoading] = useState(false);
@@ -113,7 +111,6 @@ const useWorkspace = ({ addMember, addTeam = false }:any) => {
         teamsInput
     ) => {
         try {
-            if(!isSubscriptionActive()) return false;
             const response = await commonApi({
                 action: MODULE_ACTIONS.CREATE,
                 prefix: MODULE_ACTIONS.ADMIN_PREFIX,
@@ -163,7 +160,6 @@ const useWorkspace = ({ addMember, addTeam = false }:any) => {
 
     const editWorkSpace = async (slug, data, close) => {
         try {
-            if(!isSubscriptionActive()) return false;
             const response = await commonApi({
                 action: MODULE_ACTIONS.UPDATE,
                 prefix: MODULE_ACTIONS.ADMIN_PREFIX,
