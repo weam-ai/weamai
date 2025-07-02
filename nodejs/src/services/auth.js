@@ -17,7 +17,6 @@ const { addWorkSpaceDefaultUser, addDefaultWorkSpace } = require('./workspace');
 const { createPinecornIndex, extractAuthToken } = require('./company');
 const Role = require('../models/role');
 const Subscription = require('../models/subscription');
-const { getSubscriptionStatus } = require('../utils/helper');
 const Brain = require('../models/brains');
 const Workspace = require('../models/workspace');
 const WorkspaceUser = require('../models/workspaceuser');
@@ -45,11 +44,6 @@ function generateOtp() {
 
 async function lastLogin(user) {
     return User.updateOne({ _id: user._id }, { $set: { lastLogin: Date.now() } });
-}
-
-async function checkSubscription(req) {
-    const subscriptionPlan = await Subscription.findOne({ 'company.id': getCompanyId(req.user) });
-    return subscriptionPlan 
 }
 
 const logIn = async (req) => {
@@ -390,22 +384,16 @@ const inviteUsers = async (req) => {
             id: req.user.company.id                        
         }
 
-        const subscription = await checkSubscription(req);
-        const usercount = await User.countDocuments({ 'company.id': companyId,inviteSts:INVITATION_TYPE.ACCEPT });
-
         if (
             req.roleCode === ROLE_TYPE.COMPANY ||
             req.roleCode === ROLE_TYPE.COMPANY_MANAGER
         ) {
-            if (usercount >= subscription?.allowuser) {
-                const companyName =
-                    req.roleCode === ROLE_TYPE.COMPANY
-                        ? req.user.company.name
-                        : (await User.findOne({ "company.id": companyId })).company
-                            .name;
-                sendSupportEmail(companyName, req.user.email);
-                throw new Error(_localize("subscription.inviteUserLimitExceed", req));
-            }
+            const companyName =
+                req.roleCode === ROLE_TYPE.COMPANY
+                    ? req.user.company.name
+                    : (await User.findOne({ "company.id": companyId })).company
+                        .name;
+            sendSupportEmail(companyName, req.user.email);            
         }
 
         if (req.roleCode === ROLE_TYPE.COMPANY_MANAGER) {
@@ -444,7 +432,7 @@ const inviteUsers = async (req) => {
                     invitedBy: companyId,
                     inviteSts: INVITATION_TYPE.PENDING,
                     company: companyObj,
-                    msgCredit: subscription ? subscription?.notes?.credit : 0
+                    msgCredit: 0
                 };
                newUsers.push(newUser);
             }
@@ -485,11 +473,6 @@ const inviteLogin = async (req) => {
     try {
         const existingUser = await User.findOne({ inviteLink: req.body.inviteLink });
         if(existingUser){
-            const subscription = await getSubscriptionStatus(existingUser.company.id);
-            const usercount = await User.countDocuments({ 'company.id': existingUser.company.id , inviteSts:INVITATION_TYPE.ACCEPT});
-            if(usercount >= subscription?.allowuser){
-                return {statusCode:410, status:"ERROR"}
-            }
             const sysdate = convertToTz();
             const expireTime = moment(
                 existingUser.inviteExpireOn,
@@ -772,7 +755,6 @@ module.exports = {
     mfaLogin,
     generateMfaSecret,
     onBoardProfile,
-    checkSubscription,
     seedGeneralBrainAPI,
     seedGeneralBrainAPI
 }

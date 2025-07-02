@@ -74,12 +74,6 @@ const saveTime = catchAsync(async (req, res) => {
     return util.successResponse(result, res);
 })
 
-const getRemainingMessageCount = catchAsync(async (req, res) => {
-    const result = await threadService.getRemainingMessageCount(req);
-    res.message = _localize('module.get', req, 'count');
-    return util.successResponse(result, res);
-})
-
 const getUserMsgCredit = catchAsync(async (req, res) => {
     const result = await threadService.getUserMsgCredit(req);
     res.message = _localize('module.get', req, 'credit');
@@ -100,7 +94,6 @@ module.exports = {
     addReaction,
     sendMessage,
     saveTime,
-    getRemainingMessageCount,
     getUserMsgCredit,
     searchMessage
 }

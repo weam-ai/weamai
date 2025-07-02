@@ -4,7 +4,7 @@ const { createClient } = require('redis');
 const { createAdapter } = require('@socket.io/redis-adapter');
 const Chat = require('../models/chat');
 const ChatMember = require('../models/chatmember');
-const { getSubscriptionStatus, handleError, catchSocketAsync, isSubscriptionFree } = require("../utils/helper");
+const { catchSocketAsync } = require("../utils/helper");
 const Company = require('../models/company');
 const UserBot = require('../models/userBot');
 const { LINK } = require('../config/config');
@@ -102,63 +102,6 @@ sockets.on('connection', function (socket) {
 
     }));
 
-    // socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, async ({ companyId, freeTierCreditCount }) => {
-    //     const companyRoom = `${SOCKET_ROOM_PREFIX.COMPANY}${companyId}`;
-
-    //     const subscription = await getSubscriptionStatus(companyId);
-    //     if(isSubscriptionFree(subscription?.status)){
-    //         sockets.to(companyRoom).emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, { creditInfo:freeTierCreditCount });
-    //     }
-    // });
-
-    // socket.on(SOCKET_EVENTS.NOTIFY_MESSAGE_LIMIT, catchSocketAsync(async ({ companyId, freeTierMessageCount, modalCode }) => {
-
-    //     try {
-            //const subscription = await getSubscriptionStatus(companyId);
-
-            // if (
-            //     subscription &&
-            //     freeTierMessageCount[modalCode] >= QUERY_LIMIT[modalCode]
-            // ) {
-            //     // Find all matching UserBots
-            //     const userBots = await UserBot.find({
-            //         "company.id": companyId,
-            //         "bot.code": modalCode,
-            //         "config.apikey": { $exists: true },
-            //     });
-
-            //     if (userBots.length > 0) {
-            //         for (const userBot of userBots) {
-            //             const decryptKey = decryptedData(userBot.config.apikey);
-
-            //             if (decryptKey === LINK[`WEAM_${modalCode}_KEY`]) {
-            //                 await UserBot.updateOne(
-            //                     {
-            //                         _id: userBot._id
-            //                     },
-            //                     {
-            //                         $set: { deletedAt: Date.now() }
-            //                     }
-            //                 );
-
-            //                 logger.info(
-            //                     `delete ${modalCode} bot (${userBot._id}) due to message limit`
-            //                 );
-            //             }
-            //         }
-
-            //         socket.emit(SOCKET_EVENTS.API_KEY_REQUIRED, {
-            //             message: `Add your ${MODAL_NAME_CONVERSION[modalCode]} API key to continue`,
-            //         });
-
-            //         return { notShowLimitToast: true };
-            //     }
-            // }
-    //     } catch (error) {
-    //         handleError(error);
-    //     }
-    // }));
-
     socket.on(SOCKET_EVENTS.LOAD_CONVERSATION, catchSocketAsync(async ({ chatId, userId, companyId, isNewChat }) => {
         const roomName = `${SOCKET_ROOM_PREFIX.CHAT}${chatId}`;
         if (isNewChat) {
@@ -214,30 +157,7 @@ sockets.on('connection', function (socket) {
         socket.emit(SOCKET_EVENTS.PRIVATE_BRAIN_ON, {isPrivateBrainVisible:currUser.isPrivateBrainVisible,_id:userId})
        
 
-    }));
-
-
-    // socket.on(
-    //   SOCKET_EVENTS.    ,
-    //   async ({ companyId, userId }) => {
-    //     try {
-
-    //         console.log("companyId",companyId)
-    //         console.log("userId",userId)
-            
-    //     const companyRoom = `${SOCKET_ROOM_PREFIX.COMPANY}${companyId}`;
-    //     const [currUser,subscription] = await Promise.all([ 
-    //         User.findOne({_id:userId},{msgCredit:1}),
-    //         getSubscriptionStatus(companyId)
-    //     ])
-    //     const creditInfo = await getUsedCredit({companyId,userId},currUser,subscription,isSubscriptionActive(subscription?.status)  )
-        
-    //     sockets.to(companyRoom).emit(SOCKET_EVENTS.FETCH_SUBSCRIPTION, {subscriptionStatus:subscription?.status,...creditInfo})
-    //     } catch (error) {
-    //       handleError(error);
-    //     }
-    //   }
-    // );
+    }));    
 })
 
 module.exports = {

@@ -10,7 +10,7 @@ const nextConfig = {
     //             key: "Content-Security-Policy",
     //             value: `
     //               script-src 'self' https://checkout.razorpay.com 'unsafe-inline';
-    //               frame-src https://*.razorpay.com;
+    //               frame-src https://*.com;
     //             `.replace(/\s{2,}/g, " "), // Minify CSP value
     //           },
     //         ],

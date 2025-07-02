@@ -145,10 +145,6 @@ const apiList = {
         url: () => `${WEB}/auth/onboard-profile`,
         method: 'POST'
     },
-    freeMessageCount: {
-        url: () => `${WEB}/message/count`,
-        method: 'GET'
-    },
     huggingFaceKeyCheck: {
         url: () => `${WEB}/company/huggingface/apikey`,
         method: 'POST'

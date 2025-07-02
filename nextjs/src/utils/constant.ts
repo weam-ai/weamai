@@ -129,7 +129,6 @@ export const MODULE_ACTIONS = {
     CHECK_COUPON_CODE:'checkCouponCode',
     RESEND_VERIFICATION_EMAIL: 'resendVerification',
     ON_BOARD_LOGIN: 'onBoardLogin',
-    FREE_MESSAGE_COUNT: 'freeMessageCount',
     CHANGE_PASSWORD: 'changePassword',
     HUGGING_FACE_HEALTH: 'huggingFaceKeyCheck',
     ANTHROPIC_HEALTH: 'anthropicKeyCheck',
