@@ -16,31 +16,11 @@ const mongoose = require('mongoose');
 const Bot = require('../models/bot');
 const { isBlockedDomain, isDisposableEmail } = require('../utils/validations/emailValidation');
 const BlockedDomain = require('../models/blockedDomain');
-
-const createUser = async(req) => {
-    return User.create({
-        fname: req.body.fname,
-        lname: req.body.lname,
-        email: req.body.email,
-        password: req.body.password,
-        roleId: req.body.roleId,
-        roleCode: req.body.roleCode,
-        allowuser: req.body.allowuser,
-        inviteSts: req.body.inviteSts
-    })
-}
+const { addDefaultWorkSpace } = require('./workspace');
+const { defaultCompanyBrain, getDefaultBrain } = require('./brain');
 
 async function addCompany(req, flag = true) {
     try {
-        
-        if(SERVER.NODE_ENV === APPLICATION_ENVIRONMENT.PRODUCTION) {
-            if(await isBlockedDomain(req.body.email)) {
-                throw new Error('This email domain is not allowed');
-            }
-            if(isDisposableEmail(req.body.email)) {
-                throw new Error('Disposable email addresses are not allowed');
-            }
-        }
    
         const existingEmail = await User.findOne({ email: req.body.email }, { email: 1 });
         if (existingEmail) throw new Error(_localize('module.alreadyExists', req, 'email'));
@@ -51,30 +31,27 @@ async function addCompany(req, flag = true) {
         const role = await Role.findOne({ code: ROLE_TYPE.COMPANY }, { code: 1 })
         req.body.roleId = role._id;
         req.body.roleCode = role.code;
-        req.body.allowuser = 10 // add temp flag manually billing managment
         req.body.inviteSts = INVITATION_TYPE.ACCEPT;
-        const user = flag ? await inviteUser(req) : await createUser(req);
         
         const companyData = {
             slug: slugify(req.body.companyNm),
             ...req.body,
         }
         const company = await Company.create(companyData);
-        const inviteLink = await createVerifyLink(user, {
-            company: {
-                name: company.companyNm,
-                slug: company.slug,
-                id: company._id,
-            }
-        })
         
-        getTemplate(EMAIL_TEMPLATE.VERIFICATION_LINK, { link: inviteLink, support: FRESHDESK_SUPPORT_URL }).then(
-            async(template) => {
-                await sendSESMail(req.body.email, template.subject, template.body);
-            }
-        )
-        
-        return company;
+        const companyObj = {
+            name: company.companyNm, 
+            slug: company.slug, 
+            id: company._id
+        }
+        const user = await User.create({ ...req.body, company: companyObj });
+        const defaultWorkSpace = await addDefaultWorkSpace(company, user);
+        if (defaultWorkSpace) {
+            await defaultCompanyBrain(defaultWorkSpace._id, user);
+        }
+        createPinecornIndex(user, req);
+
+        return true;
     } catch (error) {
         handleError(error, 'Error - addCompany');
     }

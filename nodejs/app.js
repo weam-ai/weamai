@@ -19,7 +19,7 @@ const descriptor = require('express-list-endpoints-descriptor')(express);
 const { store } = require('./src/seeders/store-routes');
 const { convertToTz, convertToRetriveTz } = require('./src/services/timezone');
 require('./src/jobs/process');
-require('./src/utils/firebaseConfig');
+// require('./src/utils/firebaseConfig');
 const helmet = require('helmet');
 const rateLimitMiddleware = require('./src/middleware/rateLimiter');
 const cors = require('cors');
