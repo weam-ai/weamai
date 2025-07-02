@@ -3,7 +3,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CreditAllocation from '@/components/Settings/CreditControls/CreditAllocation';
 // import BulkPurchase from '@/components/Settings/BulkPurchase/BulkPurchase';
-// import CreditTransaction from '@/components/Settings/CreditTransaction/CreditTransaction';
+import CreditTransaction from '@/components/Settings/CreditControls/CreditTransaction';
 
 const CreditControl = async () => {
 
@@ -23,18 +23,17 @@ const CreditControl = async () => {
                             <TabsTrigger className="px-0 font-medium text-font-14 max-md:text-font-12" value="allocation">
                                 Credit Allocation
                             </TabsTrigger>
-                            {/* <TabsTrigger className="px-0 font-medium text-font-14 max-md:text-font-12" value="transactions">
+                            <TabsTrigger className="px-0 font-medium text-font-14 max-md:text-font-12" value="transactions">
                                 Transaction History
-                            </TabsTrigger> */}
+                            </TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="allocation" className="p-0">
                             <CreditAllocation />
                         </TabsContent>
-{/* 
                         <TabsContent value="transactions" className="p-0">
                             <CreditTransaction />
-                        </TabsContent> */}
+                        </TabsContent>
                         
                     </Tabs>
                 </div>
