@@ -82,59 +82,10 @@
 		"isActive": true
 	},
 	{
-		"nm": "Subscription Purchase",
-		"code": "SUBSCRIPTION_PURCHASE",
-		"subject": "Welcome to Weam! Your Subscription is Live",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>Thank you for choosing Weam! We’re excited to welcome you to a platform designed to make team collaboration with AI simple, productive, and fun.</p><p>Here’s what you can do with your new subscription:</p><ul><li><strong>Work Together Smarter:</strong> Collaborate in real time with AI, work on shared documents, save prompts for your team, and create custom bots—all in one place.</li><li><strong>Stay Organized:</strong> Keep all chats, prompts, and bots neatly stored in your team’s Shared Brain. You can even have private brains just for yourself.</li><li><strong>Leverage the Best AI Models:</strong> Enjoy access to leading generative AI models like ChatGPT, Gemini, Claude, and Llama—without needing separate subscriptions for each.</li></ul><p>We’ve also included a collection of ready-to-use templates to help your team get started quickly and maximize your AI experience.</p><p>If you have questions or need help, our friendly support team is here to assist you.</p><p>We’re thrilled to have you onboard and can’t wait to see the amazing things your team will create with Weam!</p><p>Best,<br>The Weam Team</p></td></tr></table></td></tr>{{footer}}",
-		"isActive": true
-	},
-	{
-		"nm": "Subscription Update",
-		"code": "SUBSCRIPTION_UPDATE",
-		"subject": "Payment Confirmed! Your Weam Plan is Upgraded",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>Great news—your Weam plan has been successfully upgraded! Thank you for your payment.</p><p>Here’s what this means for you and your team:</p><ul><li><strong>All-in-One Collaboration:</strong> Work seamlessly with your team to chat with AI, co-create documents, and design custom bots—all while staying organized in your team’s Shared Brain.</li><li><strong>Full AI Coverage:</strong> Connect with top-tier AI models like ChatGPT, Gemini, Claude, and Llama—all in one platform without needing multiple subscriptions.</li><li><strong>Track AI Adoption:</strong> Monitor how your team is adapting to generative AI. See which groups are thriving and identify where support might be needed.</li></ul><p>And don’t forget to check out our templates for prompts and bots to make your experience even better!</p><p>If you need assistance or have any questions, we’re here to help. Thank you for being a part of the Weam community—we’re excited to help your team do incredible things with AI.</p><p>Best,<br>The Weam Team</p></td></tr></table></td></tr>{{footer}}",
-		"isActive": true
-	},
-	{
-		"nm": "Subscription Purchase Admin",
-		"code": "SUBSCRIPTION_PURCHASE_ADMIN",
-		"subject": "Subscription Purchased",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px; text-align: center; font-weight: bold;'>🚀 New Subscription Alert 🚀</td></tr><tr><td><table border='0' cellpadding='5' cellspacing='0' width='100%' style='border-collapse: collapse; border: 1px solid #EEEEEE;'><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Company Name:</td><td style='padding: 10px;'>{{company_name}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Email ID:</td><td style='padding: 10px;'>{{email}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Country:</td><td style='padding: 10px;'>{{country}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Amount:</td><td style='padding: 10px;'>{{amount}} {{currency}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Date of Subscription Purchase:</td><td style='padding: 10px;'>{{start_date}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Subscription End Date:</td><td style='padding: 10px;'>{{end_date}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Number of Users:</td><td style='padding: 10px;'>{{number_of_users}}</td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; text-align: center;'><p>Please take note of this new customer!</p></td></tr></table></td></tr>{{footer}}",
-		"isActive": true
-	},
-	{
-		"nm": "Subscription Update Admin",
-		"code": "SUBSCRIPTION_UPDATE_ADMIN",
-		"subject": "Subscription Updated",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px; text-align: center; font-weight: bold;'>🚀 Update Subscription Alert 🚀</td></tr><tr><td><table border='0' cellpadding='5' cellspacing='0' width='100%' style='border-collapse: collapse; border: 1px solid #EEEEEE;'><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Company Name:</td><td style='padding: 10px;'>{{company_name}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Email ID:</td><td style='padding: 10px;'>{{email}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Country:</td><td style='padding: 10px;'>{{country}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Subscription Start Date:</td><td style='padding: 10px;'>{{start_date}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Subscription End Date:</td><td style='padding: 10px;'>{{end_date}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Old Quantity:</td><td style='padding: 10px;'>{{old_quantity}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>New Quantity:</td><td style='padding: 10px;'>{{new_quantity}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Subscription ID:</td><td style='padding: 10px;'>{{subscription_id}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Payment Gateway:</td><td style='padding: 10px;'>{{payment_gateway}}</td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; text-align: center;'></td></tr></table></td></tr>{{footer}}",
-		"isActive":true
-	},
-	{
-		"nm": "Subscription Cancel Admin",
-		"code": "SUBSCRIPTION_CANCEL_ADMIN",
-		"subject": "Subscription Canceled",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' cellspacing='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px; text-align: center; font-weight: bold;'>⚠️ Subscription Cancellation Alert ⚠️</td></tr><tr><td><table border='0' cellpadding='5' cellspacing='0' width='100%' style='border-collapse: collapse; border: 1px solid #EEEEEE;'><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Company Name:</td><td style='padding: 10px;'>{{company_name}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Email ID:</td><td style='padding: 10px;'>{{email}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Country:</td><td style='padding: 10px;'>{{country}}</td></tr><tr><td style='padding: 10px; font-weight: bold;'>Cancellation At Date:</td><td style='padding: 10px;'>{{cancellation_date}}</td></tr><tr style='background-color: #f4f4f4;'><td style='padding: 10px; font-weight: bold;'>Cancellation Reason:</td><td style='padding: 10px;'>{{cancellation_reason}}</td></tr></table></td></tr><tr><td style='height: 15px;'>&nbsp;</td></tr><tr><td style='font-size: 16px; line-height: 24px; text-align: center;'>We're sorry to see you go! If you change your mind, feel free to reactivate your subscription anytime.</td></tr></table></td></tr>{{footer}}",
-		"isActive":true
-	},
-	{
 		"nm": "Storage Request Approved",
 		"code": "STORAGE_REQUEST_APPROVED",
 		"subject": "Additional Storage Purchase Confirmation",
 		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>Your purchase of additional storage has been successfully processed!</p><p>You now have an extra {{storageSize}} MB of storage added to your account. If you have any questions or need assistance, feel free to reach out.</p><p>Thank you for being a valued member of the Weam community!</p></td></tr></table></td></tr>{{footer}}",
-		"isActive": true
-	},
-	{
-		"nm": "Cancel Subscription",
-		"code": "CANCEL_SUBSCRIPTION",
-		"subject": "Sorry to See You Go",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>We’re sorry to hear you’ve canceled your Weam subscription. Your access will remain active until {{cancellation_date}}.</p><p>If you change your mind, reactivating is easy, and we’re here to help with any questions.</p><p>Thank you for being part of Weam!</p></td></tr></table></td></tr>{{footer}}",
-		"isActive": true
-	},
-	{
-		"nm": "Uncancel Subscription",
-		"code": "UN_CANCEL_SUBSCRIPTION",
-		"subject": "Your Subscription is Now Active Again!",
-		"body": "{{header}}<tr><td><table border='0' cellpadding='0' style='width: 100%; padding: 15px 30px 30px 30px;'><tr><td style='font-size: 18px; line-height: 26px;'><p>Hi {{name}},</p><p>We’re excited to let you know that your subscription has been successfully reactivated!</p><p>Thank you for being part of Weam!</p></td></tr></table></td></tr>{{footer}}",
 		"isActive": true
 	},
 	{
