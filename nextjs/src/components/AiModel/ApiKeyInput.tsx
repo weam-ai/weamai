@@ -41,7 +41,6 @@ const ApiKeyInput = ({
     });
     const [loading, setLoading] = React.useState(false);
 
-    const {subscriptionStatus} = useSelector((store: RootState)=>store.chat.creditInfo)     
     const handleButtonClick = async (data) => {
         try {
             setLoading(true);
@@ -107,7 +106,6 @@ const ApiKeyInput = ({
                     type="text"
                     className="default-form-input"
                     id={inputId}
-                    disabled={!subscriptionStatus}
                     {...register('key')}
                     defaultValue={apikey ? 'sk-xxxxxxxxxxxxxxxxxx' : ''}
                 />
@@ -116,7 +114,7 @@ const ApiKeyInput = ({
                         className="btn btn-black"
                         type="button"
                         onClick={handleSubmit(handleButtonClick)}
-                        disabled={loading || !subscriptionStatus}
+                        disabled={loading}
                     >
                         Save
                     </button>            

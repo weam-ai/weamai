@@ -4,11 +4,8 @@ import Image from 'next/image';
 import CommonInput from '@/widgets/CommonInput';
 import useGeminiKeyChecker from '@/hooks/aiModal/useGeminiKeyChecker';
 import ValidationError from '@/widgets/ValidationError';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
 const GooglePalmAPIkeyModelProvider = ({ configs }) => {
     const { register, handleSubmit, loading, geminiKeyChecker, errors } = useGeminiKeyChecker();
-    const {subscriptionStatus} = useSelector((store: RootState)=>store.chat.creditInfo)
     return (
         <div className={`relative mb-4`}>
             <label className="font-semibold mb-2 inline-block">
@@ -28,9 +25,8 @@ const GooglePalmAPIkeyModelProvider = ({ configs }) => {
                     {...register('key')}
                     placeholder={'xxxxxxxxxxxxxxxxxxxx'}
                     defaultValue={configs?.apikey ? 'xxxxxxxxxxxxxxxxxxxx' : ''}
-                    disabled={!subscriptionStatus}
                 />
-                <button className="btn btn-black" type="button" disabled={loading || !subscriptionStatus} onClick={handleSubmit(geminiKeyChecker)}>
+                <button className="btn btn-black" type="button" disabled={loading} onClick={handleSubmit(geminiKeyChecker)}>
                     Save
                 </button>
             </div>

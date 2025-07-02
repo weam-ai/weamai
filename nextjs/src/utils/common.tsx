@@ -347,22 +347,6 @@ export const generateDefaultSlug = (user) => {
     return `default-brain-${user?._id}`
 }
 
-export const isSubscriptionActive = (subscriptionStatus:string) => {
-    return [SUBSCRIPTION_STATUS.ACTIVE, SUBSCRIPTION_STATUS.PENDING_CANCELLATION].includes(subscriptionStatus)
-}
-
-export const isFreeTierSubscription = (subscriptionStatus:string) => {
-    return subscriptionStatus == undefined || subscriptionStatus == null
-}
-
-export const freeTrialDaysLeft = (creditInfo) => {
-    //  current date - start date if > 0 return  days else return 0
-    const startDate = moment(creditInfo.freeTrialStartDate);
-    const currentDate = moment();
-    const diffDays = parseInt(FREE_TRIAL.DAYS) - currentDate.diff(startDate, 'days');
-    return diffDays > 0 ? diffDays : 0;
-}
-
 export const getFileIconClassName = (fileType: string) => {
     const baseClasses = "w-4 h-4 object-contain rounded-custom inline-block me-[9px] fill-black";
     

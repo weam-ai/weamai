@@ -50,7 +50,7 @@ import ProfileImage from '@/components/Profile/ProfileImage';
 import ChatResponse from '@/components/Chat/ChatResponse';
 import ResponseTime from '@/components/Chat/ResponseTime';
 import { getCompanyId, getCurrentUser } from '@/utils/handleAuth';
-import { filterUniqueByNestedField, isEmptyObject, isFreeTierSubscription, freeTrialDaysLeft, chatHasConversation } from '@/utils/common';
+import { filterUniqueByNestedField, isEmptyObject, chatHasConversation } from '@/utils/common';
 import { getModelCredit, formatMessageUser, generateObjectId, formatBrain, decodedObjectId, formatDateToISO, isUserNameComplete, getDisplayModelName } from '@/utils/helper';
 import ThunderIcon from '@/icons/ThunderIcon';
 import usePrompt from '@/hooks/prompt/usePrompt';
@@ -238,63 +238,24 @@ const ChatPage = memo(() => {
         }
         
         const modalCode = selectedAIModal.bot.code;
-
-        //if (isEmptyObject(serializableProAgentData)) {
             
-            //if(subscriptionStatus){
-                const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
-                if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
-                {
-                    const updatedCreditInfo = {
-                        ...creditInfoSelector,
-                        msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
-                    };
-                    dispatch(setCreditInfoAction(updatedCreditInfo));
-                    
-                } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector?.msgCreditUsed + modelCredit)) {
-                    Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
-                    setText('');
-                    return;
-                } else {
-                    setText('');
-                    return;
-                }
-            // } else {
-            //     const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
-            //     if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
-            //     {
-            //         const updatedCreditInfo = {
-            //             ...creditInfoSelector,
-            //             msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
-            //         };
-            //         dispatch(setCreditInfoAction(updatedCreditInfo));
-
-            //         socket.emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, {
-            //             freeTierCreditCount: {
-            //                 msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit,
-            //                 msgCreditLimit: creditInfoSelector.msgCreditLimit,
-            //                 freeTrialStartDate: creditInfoSelector?.freeTrialStartDate,
-            //                 subscriptionStatus: creditInfoSelector?.subscriptionStatus
-            //             },
-            //             companyId,
-            //             modalCode,
-            //         });
-                    
-            //     } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector ?.msgCreditUsed + modelCredit)) {
-            //         Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
-            //         setText('');
-            //         return;
-            //     }else if(freeTrialDaysLeft(creditInfoSelector) == 0){
-            //         Toast(FREE_TIER_END_MESSAGE, 'error');
-            //         setText('');
-            //         return;
-            //     } else {
-            //         Toast(EXPIRED_SUBSCRIPTION_MESSAGE, 'error');
-            //         setText('');
-            //         return;
-            //     }
-            // }
-        //}
+        const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
+        if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
+        {
+            const updatedCreditInfo = {
+                ...creditInfoSelector,
+                msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
+            };
+            dispatch(setCreditInfoAction(updatedCreditInfo));
+            
+        } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector?.msgCreditUsed + modelCredit)) {
+            Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
+            setText('');
+            return;
+        } else {
+            setText('');
+            return;
+        }
 
         //Chat Member Create and reset URL to remove isNew
         if (!chatHasConversation(conversations)) {
@@ -408,9 +369,7 @@ const ChatPage = memo(() => {
             modelId: selectedAIModal._id,
             chatId: params.id,
             model_name: modalName,
-            // isregenerated: false,
-            msgCredit: getModelCredit(modalName),
-            // is_paid_user: [SUBSCRIPTION_STATUS.ACTIVE, SUBSCRIPTION_STATUS.PENDING_CANCELLATION].includes(subscriptionStatus)
+            msgCredit: getModelCredit(modalName)
         }
 
         if (API_TYPE == API_TYPE_OPTIONS.PERPLEXITY) {
@@ -997,10 +956,6 @@ const ChatPage = memo(() => {
 
             socket.on(SOCKET_EVENTS.DISABLE_QUERY_INPUT, handleDisableInput);
 
-            // socket.on(SOCKET_EVENTS.SUBSCRIPTION_STATUS, handleSubscriptionStatus);
-
-            // socket.on(SOCKET_EVENTS.AI_MODEL_KEY_REMOVE, handleAIModelKeyRemove);
-
             socket.on(SOCKET_EVENTS.USER_SUBSCRIPTION_UPDATE, handleUserSubscriptionUpdate);
 
             socket.emit(SOCKET_EVENTS.MESSAGE_LIST, { chatId: params.id, companyId, userId: currentUser._id, offset:conversationPagination?.offset || 0, limit:conversationPagination?.perPage || 10 });
@@ -1031,27 +986,6 @@ const ChatPage = memo(() => {
                 socketChatById(chat);
             });
 
-            // socket.emit(SOCKET_EVENTS.FETCH_SUBSCRIPTION, {companyId,userId:currentUser._id});
-            // socket.on(SOCKET_EVENTS.FETCH_SUBSCRIPTION, (data) => {
-            //     dispatch(
-            //         setCreditInfoAction({
-            //             ...creditInfoSelector,
-            //             subscriptionStatus:data.subscriptionStatus,
-            //             msgCreditLimit:data.msgCreditLimit,
-            //             msgCreditUsed:data.msgCreditUsed,
-            //             ...(data.freeTrialStartDate && { freeTrialStartDate:data.freeTrialStartDate }),
-            //         })
-            //     );
-            // });
-
-            // const isFree =  true;
-            // if (isFree) {
-            //     socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, ({ creditInfo }) => {
-            //         dispatch(setCreditInfoAction({...creditInfoSelector, ...creditInfo}));
-                    
-            //     });                
-            // }
-
             socket.on(SOCKET_EVENTS.API_KEY_REQUIRED, handleApiKeyRequired);
 
             socket.on('disconnect', () => {
@@ -1061,9 +995,7 @@ const ChatPage = memo(() => {
                 socket.off(SOCKET_EVENTS.STOP_STREAMING, handleSocketStreamingStop);
                 socket.off(SOCKET_EVENTS.ON_QUERY_TYPING, handleOnQueryTyping);
                 socket.off(SOCKET_EVENTS.DISABLE_QUERY_INPUT, handleDisableInput);
-                // socket.off(SOCKET_EVENTS.SUBSCRIPTION_STATUS, handleSubscriptionStatus);
                 socket.off(SOCKET_EVENTS.FETCH_SUBSCRIPTION, () => {});
-                // socket.off(SOCKET_EVENTS.AI_MODEL_KEY_REMOVE, handleAIModelKeyRemove);
                 socket.off(SOCKET_EVENTS.API_KEY_REQUIRED, handleApiKeyRequired);
                 socket.off(SOCKET_EVENTS.FETCH_CHAT_BY_ID, socketChatById);
                 socket.off(SOCKET_EVENTS.MESSAGE_LIST, socketAllConversation);
