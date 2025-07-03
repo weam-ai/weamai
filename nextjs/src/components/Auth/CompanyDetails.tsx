@@ -242,7 +242,7 @@ const CompanyDetails = () => {
                         field={'confirmPassword'}
                     />
                 </div>
-                <div className="relative mb-4 w-full md:w-1/2 px-2">
+                {/* <div className="relative mb-4 w-full md:w-1/2 px-2">
                     <Label 
                         title={'Country'} 
                         htmlFor={'country'} 
@@ -272,7 +272,7 @@ const CompanyDetails = () => {
                         }}
                     />
                     <ValidationError errors={errors} field={'country'} />
-                </div>
+                </div> */}
 
                 {/* Honeypot field */}
                 <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
