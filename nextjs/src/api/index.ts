@@ -60,7 +60,7 @@ export type CommonApiType<T = unknown, U = FetchConfig> = {
 }
 
 export let CONFIG: ConfigOptions = {
-    baseUrl: `${LINK.NODE_API_URL}${NODE_API_PREFIX}`,
+    baseUrl: `${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}`,
     tokenPrefix: 'jwt',
 };
 
@@ -73,7 +73,6 @@ const makeResponse = (response: APIResponseType<any>) => {
 };
 
 const handleErrorToast = (errorToast: boolean) => (error: AxiosError) => { 
-    console.log("🚀 ~ error:", error)
     if (Object.getPrototypeOf(error).toString() !== 'Cancel') {
         const { data = {}, status } = error.response as AxiosResponse || {};
         if (status === RESPONSE_STATUS.FORBIDDEN && [RESPONSE_STATUS_CODE.CSRF_TOKEN_NOT_FOUND, RESPONSE_STATUS_CODE.INVALID_CSRF_TOKEN].includes(data.code)) {
@@ -98,7 +97,6 @@ export const setAPIConfig = (conf: ConfigOptions) => {
         ...CONFIG,
         ...conf,
     };
-    console.log("🚀 ~ setAPIConfig ~ CONFIG:", JSON.stringify(CONFIG, null, 2))
 };
 
 let cache = [];
@@ -138,8 +136,6 @@ const getUrl = (config: ConfigOptions, resourceUrl: string, query?: string) => {
 export const getHeaders = async (config: ConfigOptions, fetchConfig: FetchConfig) => {
     let headers = {};
     const token = config.getToken;
-    console.log("🚀 ~ getHeaders ~ token:", token)
-
     // if token exits then set it to Authorization
     if (token) {
         // pass false to avoid any prefix
@@ -261,6 +257,7 @@ const commonApi = async ({
         // const { decryptedCsrfToken, decryptedCsrfTokenRaw } = extractCsrfTokenData();
         if (api) {
             setAPIConfig({
+                baseUrl: `${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}`,
                 getToken: config?.token || token,
                 onError: handleErrorToast(errorToast),
                 handleCache,

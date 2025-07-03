@@ -6,7 +6,6 @@ import { LoginPayload } from '@/types/user';
 import { CompanyDetailSchemaType } from '@/schema/company';
 
 export async function loginAction(payload: LoginPayload) {
-    console.log("🚀 ~ loginAction ~ payload:", payload)
     const response = await serverApi({
         action: MODULE_ACTIONS.LOGIN,
         module: MODULE_ACTIONS.AUTH,
@@ -14,7 +13,6 @@ export async function loginAction(payload: LoginPayload) {
         data: { email: payload.email.toLowerCase(), password: payload.password },
         common: true,
     });
-    console.log("🚀 ~ loginAction ~ response:", response)
     return response;
 }
 

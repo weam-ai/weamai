@@ -54,10 +54,8 @@ const useLogin = () => {
     }, []);
     
     const handleLogin = async (payload: LoginPayload) => {
-        console.log("🚀 ~ handleLogin ~ payload:", payload)
         try {
             const response = await runLogin(payload);
-            console.log("🚀 ~ handleLogin ~ response:", response)
             // if (response.status === RESPONSE_STATUS.FORBIDDEN && response?.code === RESPONSE_STATUS_CODE.CSRF_TOKEN_MISSING) {
             //     Toast('Your request has been blocked for security reasons.', 'error');
             //     return;
@@ -71,7 +69,6 @@ const useLogin = () => {
                 await fcmTokenSaveInDb();
                 const userInfo = setUserData(response.data);
                 encryptedPersist(userInfo, USER);
-                console.log("🚀 ~ handleLogin ~ response:", response)
                 Toast(response.message);
                 pushToMainChat(response, router);
             }

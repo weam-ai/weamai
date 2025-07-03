@@ -24,7 +24,6 @@ async function fetchUrl({ type = 'GET', url, data = {}, config = {} }:any) {
         getToken: token,
     }, config);
     
-    console.log("🚀 ~ fetchUrl ~ config:", config)
     try {
         const response = await handler(url, data, config);
         return response;

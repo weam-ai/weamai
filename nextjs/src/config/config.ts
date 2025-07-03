@@ -1,5 +1,5 @@
 export const LINK = {
-    NODE_API_URL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
+    NODE_API_URL: process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:4050/napi',
     SOCKET_CONNECTION_URL: process.env.NEXT_PUBLIC_SOCKET_CONNECTION_URL,
     DOMAIN_URL: process.env.NEXT_PUBLIC_DOMAIN_URL,
     PYTHON_API_URL: process.env.NEXT_PUBLIC_PYTHON_API_URL,
@@ -7,7 +7,8 @@ export const LINK = {
     OPENAI_PLATFORM_URL: process.env.NEXT_PUBLIC_OPENAI_PLATFORM_URL,
     FRESHDESK_SUPPORT_URL: process.env.NEXT_PUBLIC_FRESHDESK_SUPPORT_URL || 'https://weamai.freshdesk.com/support/tickets/new?ticket_form=report_an_issue',
     WEAM_PRICING_URL: process.env.NEXT_PUBLIC_WEAM_PRICING_URL || 'https://weam.ai/pricing',
-    SERVER_NODE_API_URL: process.env.NEXT_PUBLIC_SERVER_NODE_API_URL
+    SERVER_NODE_API_URL: process.env.NEXT_PUBLIC_SERVER_NODE_API_URL,
+    COMMON_NODE_API_URL: process.env.NEXT_PUBLIC_COMMON_NODE_API_URL || 'http://localhost:4050/napi'
 };
 
 export const FIREBASE = {
