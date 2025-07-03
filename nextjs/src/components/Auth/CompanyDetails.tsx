@@ -10,10 +10,8 @@ import Link from 'next/link';
 import routes from '@/utils/routes';
 import useCountry from '@/hooks/common/useCountry';
 import Select from 'react-select';
-import ReCAPTCHA from "react-google-recaptcha";
-import { APP_ENVIRONMENT, RECAPTCHA } from '@/config/config';
 import Toast from '@/utils/toast';
-import useRecaptcha from '@/hooks/auth/useRecaptcha';
+
 import { useRouter } from 'next/navigation';
 import TagManager from 'react-gtm-module';
 
@@ -49,7 +47,6 @@ const CompanyDetails = () => {
         resolver: yupResolver(companyDetailSchema),
     });
     const { countries } = useCountry();
-    console.log("🚀 ~ CompanyDetails ~ countries:", countries)
 
     const initialTypingMetrics = {
       firstName: { startTime: 0, charCount: 0, endTime: 0, isPotentiallyBot: false },
