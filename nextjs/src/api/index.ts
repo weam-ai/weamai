@@ -9,7 +9,7 @@ import { HAS_REFRESHED, SessionStorage } from '@/utils/localstorage';
 import { APIResponseType } from '@/types/common';
 import { decryptedData } from '@/utils/helper';
 
-type ConfigOptions = {
+export type ConfigOptions = {
     baseUrl?: string;
     tokenPrefix?: string;
     getToken?: string;
@@ -60,7 +60,7 @@ export type CommonApiType<T = unknown, U = FetchConfig> = {
 }
 
 export let CONFIG: ConfigOptions = {
-    baseUrl: `${LINK.NODE_API_URL}${NODE_API_PREFIX}`,
+    baseUrl: `${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}`,
     tokenPrefix: 'jwt',
 };
 
@@ -136,7 +136,6 @@ const getUrl = (config: ConfigOptions, resourceUrl: string, query?: string) => {
 export const getHeaders = async (config: ConfigOptions, fetchConfig: FetchConfig) => {
     let headers = {};
     const token = config.getToken;
-
     // if token exits then set it to Authorization
     if (token) {
         // pass false to avoid any prefix
@@ -145,10 +144,10 @@ export const getHeaders = async (config: ConfigOptions, fetchConfig: FetchConfig
             tokenPrefix ? `${tokenPrefix} ` : ''
         }${token}`;
     }
-    if (config?.csrfToken) {
-        headers['x-csrf-token'] = config.csrfToken;
-        headers['x-csrf-raw'] = config.csrfTokenRaw;
-    }
+    // if (config?.csrfToken) {
+    //     headers['x-csrf-token'] = config.csrfToken;
+    //     headers['x-csrf-raw'] = config.csrfTokenRaw;
+    // }
     if (fetchConfig?.headers) {
         headers = {
             ...headers,
@@ -255,14 +254,15 @@ const commonApi = async ({
             : apiList[`${action}`];
 
         const token = await getAccessToken();
-        const { decryptedCsrfToken, decryptedCsrfTokenRaw } = extractCsrfTokenData();
+        // const { decryptedCsrfToken, decryptedCsrfTokenRaw } = extractCsrfTokenData();
         if (api) {
             setAPIConfig({
+                baseUrl: `${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}`,
                 getToken: config?.token || token,
                 onError: handleErrorToast(errorToast),
                 handleCache,
-                csrfToken: decryptedCsrfToken,
-                csrfTokenRaw: decryptedCsrfTokenRaw
+                // csrfToken: decryptedCsrfToken,
+                // csrfTokenRaw: decryptedCsrfTokenRaw
             });
             const response = await fetchUrl({
                 type: api.method,

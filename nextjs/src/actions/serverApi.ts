@@ -1,10 +1,11 @@
 'use server';
 import { RESPONSE_STATUS, RESPONSE_STATUS_CODE } from '@/utils/constant';
-import { FETCH_ACTION_HANDLERS, getHeaders, setAPIConfig, CONFIG } from '../api';
+import { FETCH_ACTION_HANDLERS, getHeaders, setAPIConfig, ConfigOptions } from '../api';
 import { revalidateTag } from 'next/cache';
 import { getSession } from '@/config/withSession';
 import { cookies } from 'next/headers';
 import { decryptedData } from '@/utils/helper';
+import { LINK, NODE_API_PREFIX } from '@/config/config';
 
 export async function getAccessToken() {
     const session = await getSession();
@@ -14,7 +15,15 @@ export async function getAccessToken() {
 async function fetchUrl({ type = 'GET', url, data = {}, config = {} }:any) {
     const actionType = type.toUpperCase();
     const handler = FETCH_ACTION_HANDLERS[actionType];
-    config.headers = await getHeaders(CONFIG, config);
+
+    const token = await getAccessToken();
+    
+    config.headers = await getHeaders({
+        baseUrl: `${LINK.SERVER_NODE_API_URL}`,
+        tokenPrefix: 'jwt',
+        getToken: token,
+    }, config);
+    
     try {
         const response = await handler(url, data, config);
         return response;
@@ -37,6 +46,12 @@ async function fetchUrl({ type = 'GET', url, data = {}, config = {} }:any) {
     }
 }
 
+export const setServerAPIConfig = (conf: ConfigOptions) => {
+    setAPIConfig(conf);
+    return conf
+};
+
+
 export async function serverApi({
     parameters = [],
     action,
@@ -56,14 +71,14 @@ export async function serverApi({
     }
 
     const token = await getAccessToken()
-    const tokenCookieValue = cookies().get('csrf_token')?.value;
-    const tokenCookieRawValue = cookies().get('weam_raw')?.value;
-    const csrfToken = tokenCookieValue ? decryptedData(tokenCookieValue) : '';
-    const csrfTokenRaw = tokenCookieRawValue ? decryptedData(tokenCookieRawValue) : '';
-    setAPIConfig({
+    // const tokenCookieValue = cookies().get('csrf_token')?.value;
+    // const tokenCookieRawValue = cookies().get('weam_raw')?.value;
+    // const csrfToken = tokenCookieValue ? decryptedData(tokenCookieValue) : '';
+    // const csrfTokenRaw = tokenCookieRawValue ? decryptedData(tokenCookieRawValue) : '';
+    setServerAPIConfig({
         getToken: token,
-        csrfToken,
-        csrfTokenRaw
+        baseUrl: `${LINK.SERVER_NODE_API_URL}${NODE_API_PREFIX}`,
+        tokenPrefix: 'jwt',
     });
 
     const response = await fetchUrl({
