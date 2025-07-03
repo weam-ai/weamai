@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-const ScrollToBottomButton = React.memo(({ contentRef }) => {
+const ScrollToBottomButton = React.memo(({ contentRef }:any) => {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ if (process.env.DB_PORT == '') {
 
 module.exports = {
     SERVER: {
-        PORT: process.env.SERVER_PORT || 4500,
+        PORT: process.env.SERVER_PORT || 4051,
         NODE_ENV: process.env.NODE_ENV,
         LOCAL_LOG: process.env.LOCAL_LOG
     },

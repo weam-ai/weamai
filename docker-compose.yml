@@ -1,0 +1,63 @@
+services:
+  redis:
+    image: "redis/redis-stack:latest" # Image name local developement with dashboard
+    container_name: redis_container # Container name
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+  app:
+    build:
+      context: ./nextjs
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
+      args:
+        BACKEND_API_URL: ${NEXT_PUBLIC_BACKEND_API_URL}
+        HTTPS_PROTOCOL: ${NEXT_PUBLIC_HTTPS_PROTOCOL}
+        IMAGE_DOMAIN: ${NEXT_PUBLIC_IMAGE_DOMAIN}
+    container_name: weam-frontend-container
+    ports:
+      - "3000:3000"
+    restart: always
+    env_file:
+      - .env  # Load environment variables from a .env file
+    environment:
+      - NEXT_PUBLIC_BACKEND_API_URL=http://node_app:4050/napi
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # volumes:
+    #   - ./nextjs:/usr/src/app        # 👈 bind local code to container
+    #   - /usr/src/app/node_modules 
+    networks:
+      - app-network
+  
+  nodejs:
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
+    container_name: node_app
+    ports:
+      - "4050:4050"
+    env_file:
+      - .env  # Load environment variables from a .env file
+    # volumes:
+    #   - ./nodejs:/usr/src/app        # 👈 bind local code to container
+    #   - /usr/src/app/node_modules    # 👈 avoid node_modules conflicts
+    networks:
+      - app-network
+  
+  
+  
+    
+networks:
+  app-network:
+    driver: bridge
+
+
+
+volumes:
+  redis_data:

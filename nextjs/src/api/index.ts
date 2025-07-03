@@ -9,7 +9,7 @@ import { HAS_REFRESHED, SessionStorage } from '@/utils/localstorage';
 import { APIResponseType } from '@/types/common';
 import { decryptedData } from '@/utils/helper';
 
-type ConfigOptions = {
+export type ConfigOptions = {
     baseUrl?: string;
     tokenPrefix?: string;
     getToken?: string;
@@ -73,6 +73,7 @@ const makeResponse = (response: APIResponseType<any>) => {
 };
 
 const handleErrorToast = (errorToast: boolean) => (error: AxiosError) => { 
+    console.log("🚀 ~ error:", error)
     if (Object.getPrototypeOf(error).toString() !== 'Cancel') {
         const { data = {}, status } = error.response as AxiosResponse || {};
         if (status === RESPONSE_STATUS.FORBIDDEN && [RESPONSE_STATUS_CODE.CSRF_TOKEN_NOT_FOUND, RESPONSE_STATUS_CODE.INVALID_CSRF_TOKEN].includes(data.code)) {
@@ -97,6 +98,7 @@ export const setAPIConfig = (conf: ConfigOptions) => {
         ...CONFIG,
         ...conf,
     };
+    console.log("🚀 ~ setAPIConfig ~ CONFIG:", JSON.stringify(CONFIG, null, 2))
 };
 
 let cache = [];
@@ -136,6 +138,7 @@ const getUrl = (config: ConfigOptions, resourceUrl: string, query?: string) => {
 export const getHeaders = async (config: ConfigOptions, fetchConfig: FetchConfig) => {
     let headers = {};
     const token = config.getToken;
+    console.log("🚀 ~ getHeaders ~ token:", token)
 
     // if token exits then set it to Authorization
     if (token) {
@@ -145,10 +148,10 @@ export const getHeaders = async (config: ConfigOptions, fetchConfig: FetchConfig
             tokenPrefix ? `${tokenPrefix} ` : ''
         }${token}`;
     }
-    if (config?.csrfToken) {
-        headers['x-csrf-token'] = config.csrfToken;
-        headers['x-csrf-raw'] = config.csrfTokenRaw;
-    }
+    // if (config?.csrfToken) {
+    //     headers['x-csrf-token'] = config.csrfToken;
+    //     headers['x-csrf-raw'] = config.csrfTokenRaw;
+    // }
     if (fetchConfig?.headers) {
         headers = {
             ...headers,
@@ -255,14 +258,14 @@ const commonApi = async ({
             : apiList[`${action}`];
 
         const token = await getAccessToken();
-        const { decryptedCsrfToken, decryptedCsrfTokenRaw } = extractCsrfTokenData();
+        // const { decryptedCsrfToken, decryptedCsrfTokenRaw } = extractCsrfTokenData();
         if (api) {
             setAPIConfig({
                 getToken: config?.token || token,
                 onError: handleErrorToast(errorToast),
                 handleCache,
-                csrfToken: decryptedCsrfToken,
-                csrfTokenRaw: decryptedCsrfTokenRaw
+                // csrfToken: decryptedCsrfToken,
+                // csrfTokenRaw: decryptedCsrfTokenRaw
             });
             const response = await fetchUrl({
                 type: api.method,

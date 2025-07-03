@@ -8,6 +8,7 @@ const { permit } = require('../services/rolePermission');
 
 const authentication = catchAsync(async (req, res, next) => {
     try {
+        console.log("🚀 ~ authentication ~ req.headers:", req.headers)
         const token = req.headers['authorization']?.split(JWT_STRING)[1] || req.query.authorization?.split(JWT_STRING)[1];
 
         if (!token) {
