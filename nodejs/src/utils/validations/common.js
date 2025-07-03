@@ -66,8 +66,8 @@ const companyCreateKeys = joi.object({
         ),
     confirmPassword: joi.ref('password'),
     companyNm: joi.string().required(),
-    countryName: joi.string().required(),
-    countryCode: joi.string().required(),
+    // countryName: joi.string().required(),
+    // countryCode: joi.string().required(),
 }).options({ abortEarly: true });
 
 const companyUpdateKeys = joi.object({

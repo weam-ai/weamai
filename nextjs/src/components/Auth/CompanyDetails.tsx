@@ -49,6 +49,7 @@ const CompanyDetails = () => {
         resolver: yupResolver(companyDetailSchema),
     });
     const { countries } = useCountry();
+    console.log("🚀 ~ CompanyDetails ~ countries:", countries)
 
     const initialTypingMetrics = {
       firstName: { startTime: 0, charCount: 0, endTime: 0, isPotentiallyBot: false },
