@@ -6,7 +6,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - local_enterprise_network
+      - ai_network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 3s
@@ -32,7 +32,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - local_enterprise_network
+      - ai_network
     entrypoint: /usr/local/bin/celery_entrypoint.sh
     volumes:
       - .:/app
@@ -49,7 +49,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - local_enterprise_network
+      - ai_network
     entrypoint: /usr/local/bin/extraction_worker.sh
     volumes:
       - .:/app
@@ -65,7 +65,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - local_enterprise_network
+      - ai_network
     entrypoint: /usr/local/bin/scraper_worker.sh
     volumes:
       - .:/app
@@ -81,7 +81,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - local_enterprise_network
+      - ai_network
     entrypoint: /usr/local/bin/import_chat_worker.sh
     volumes:
       - .:/app
@@ -104,7 +104,7 @@ services:
       - extraction_worker
       - qdrant_primary
     networks:
-      - local_enterprise_network
+      - ai_network
     command: uvicorn src.gateway.web:app --host 0.0.0.0 --port ${GATEWAY_PORT} --reload --workers 2
     volumes:
       - .:/app
@@ -114,7 +114,7 @@ services:
     image: kozea/wdb:3.3.0
     container_name: web-wdb
     networks:
-      - local_enterprise_network
+      - ai_network
     ports:
       - ${WDB_PORT}:${WDB_PORT}
     depends_on:
@@ -148,7 +148,7 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - local_enterprise_network
+      - ai_network
 
   qdrant_secondary:
     image: "qdrant/qdrant:latest"
@@ -173,7 +173,7 @@ services:
       timeout: 20s  # Increased timeout
       retries: 10   # Increased retries
     networks:
-      - local_enterprise_network
+      - ai_network
   mongodb:
     image: mongo:latest
     ports:
@@ -184,7 +184,7 @@ services:
     volumes:
       - mongo-data:/data/db
     networks:
-      - local_enterprise_network
+      - ai_network
 
   
   minio:
@@ -205,7 +205,7 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - local_enterprise_network
+      - ai_network
   
   minio-init:
     image: minio/mc
@@ -217,7 +217,7 @@ services:
     volumes:
       - ./minio.sh:/minio.sh:ro
     networks:
-      - local_enterprise_network
+      - ai_network
 
 
 
@@ -239,6 +239,6 @@ volumes:
   qdrant_secondary_snapshots:
 
 networks:
-  local_enterprise_network:
-    name: local_enterprise_network
+  ai_network:
+    name: ai_network
     driver: bridge

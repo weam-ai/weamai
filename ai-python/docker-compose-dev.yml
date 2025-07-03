@@ -6,7 +6,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - enterprise_network
+      - ai_dev_network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 3s
@@ -28,7 +28,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - enterprise_network
+      - ai_dev_network
     entrypoint: /usr/local/bin/celery_entrypoint.sh
    
 
@@ -40,7 +40,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - enterprise_network
+      - ai_dev_network
     entrypoint: /usr/local/bin/extraction_worker.sh
 
   scrapper_worker:
@@ -51,7 +51,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - enterprise_network
+      - ai_dev_network
     entrypoint: /usr/local/bin/scraper_worker.sh
     
 
@@ -63,7 +63,7 @@ services:
       - pybase_docker
       - redis
     networks:
-      - enterprise_network
+      - ai_dev_network
     entrypoint: /usr/local/bin/import_chat_worker.sh
     
   
@@ -81,7 +81,7 @@ services:
       - extraction_worker
       - qdrant_primary
     networks:
-      - enterprise_network
+      - ai_dev_network
     command: uvicorn src.gateway.web:app --host 0.0.0.0 --port ${GATEWAY_PORT} --reload --workers 2
 
   qdrant_primary:
@@ -111,7 +111,7 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - enterprise_network
+      - ai_dev_network
 
   qdrant_secondary:
     image: "qdrant/qdrant:latest"
@@ -138,7 +138,7 @@ services:
       timeout: 20s  # Increased timeout
       retries: 10   # Increased retries
     networks:
-      - enterprise_network
+      - ai_dev_network
   mongodb:
     image: mongo:latest
     ports:
@@ -149,7 +149,7 @@ services:
     volumes:
       - mongo-data:/data/db
     networks:
-      - enterprise_network
+      - ai_dev_network
 
 
   
@@ -167,6 +167,6 @@ volumes:
   qdrant_secondary_snapshots:
 
 networks:
-  enterprise_network:
-    name: enterprise_network
+  ai_dev_network:
+    name: ai_dev_network
     driver: bridge

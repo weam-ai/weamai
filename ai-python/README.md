@@ -1,32 +1,33 @@
-## 🚀 Enterprise Development Setup
+# 🚀 Open Source Development Setup
 
-This project supports multiple environments using Docker Compose. Use the following commands to build and run each environment.
+This project supports multiple environments using Docker Compose. Use the commands below to build and run each environment.
 
 ---
 
-### 🔧 Local Development
+## 🔧 Local Development
 
-Use this setup for day-to-day local development.
+Use this setup for day-to-day development on your local machine.
 
 ```bash
-docker-compose -f docker-compose-enterprise-local.yml --env-file .env_enterprise_local up --build
+docker-compose -f docker-compose-local.yml --env-file .env_local up --build
+# or
+docker-compose -f docker-compose-local.yml --env-file .env up --build
 ```
 
-- Loads environment variables from `.env_enterprise_local`.
-- Builds and starts all enterprise services locally.
+- Loads environment variables from `.env_local` or `.env`.
+- Builds and starts all core services locally.
+- Ideal for active feature development and testing.
 
 ---
-### 🛠️ Dev Environment
 
-Run the development image to simulate a production-like environment, ideal for pre-deployment checks or CI/CD pipelines.
+## 🛠️ Development (CI/CD or Pre-Prod)
+
+Use this environment to simulate a production-like setup. It's suitable for CI/CD pipelines, integration testing, or pre-deployment checks.
 
 ```bash
-docker-compose -f docker-compose-enterprise-dev.yml --env-file .env_enterprise_dev up --build
+docker-compose -f docker-compose-dev.yml --env-file .env_dev up --build
 ```
 
-- Uses `.env_enterprise_dev` for environment variables.
-- Builds and runs services as they would appear in staging or production.
-
----
-
-
+- Loads variables from `.env_dev`.
+- Builds and runs services with production-ready configurations.
+- Ideal for automated testing or team-level staging environments.
