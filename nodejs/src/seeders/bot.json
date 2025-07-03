@@ -53,5 +53,15 @@
         "title": "Llama4",
         "code": "LLAMA4",
         "seq": 11
+    },
+    {
+        "title": "Qwen",
+        "code": "QWEN",
+        "seq": 12
+    },
+    {
+        "title": "Grok",
+        "code": "GROK",
+        "seq": 13
     }
 ]

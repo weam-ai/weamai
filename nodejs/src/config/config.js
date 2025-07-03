@@ -46,11 +46,13 @@ module.exports = {
         WEAM_HUGGING_FACE_KEY: process.env.HUGGING_FACE_AUTH_TOKEN,
         WEAM_GEMINI_KEY: process.env.WEAM_GEMINI_KEY,
         GEMINI_API_URL: process.env.GEMINI_API_URL,
+        PERPLEXITY_API_URL: process.env.PERPLEXITY_API_URL,
+        OPEN_ROUTER_API_URL: process.env.OPEN_ROUTER_API_URL,
         WEAM_PERPLEXITY_KEY: process.env.WEAM_PERPLEXITY_KEY,
         WEAM_DEEPSEEK_KEY: process.env.WEAM_DEEPSEEK_KEY,
         WEAM_LLAMA4_KEY: process.env.WEAM_LLAMA4_KEY,
         WEAM_GROK_KEY: process.env.WEAM_OPEN_ROUTER_KEY,
-        WEAM_QWEN_KEY: process.env.WEAM_OPEN_ROUTER_KEY,
+        WEAM_QWEN_KEY: process.env.WEAM_OPEN_ROUTER_KEY        
     },
     AUTH: {
         JWT_SECRET: process.env.JWT_SECRET,

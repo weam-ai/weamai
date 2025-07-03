@@ -12,6 +12,7 @@ const routes = {
     main: '/',
     notification: '/notification',
     setting: '/settings/general',
+    Settingconfig: '/settings/config',
     chat: '/chat',
     customGPT: '/custom-gpt',
     customTemplates: '/custom-templates',

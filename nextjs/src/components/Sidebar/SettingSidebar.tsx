@@ -76,6 +76,19 @@ const SettingSidebar = async () => {
             slug: '/settings/data-controls',
         },
         {
+            name: 'Configuration',
+            icon: (
+                <DataControlIcon
+                    height={20}
+                    width={20}
+                    className={'w-5 h-5 object-contain fill-b2'}
+                />
+            ),
+            hasAccess: (userDetail?.roleCode == ROLE_TYPE.USER) ? false : true,
+            navigate: `${LINK.DOMAIN_URL}/settings/config`,
+            slug: '/settings/config',
+        },
+        {
             name: 'Members',
             icon: (
                 <MembersIcon

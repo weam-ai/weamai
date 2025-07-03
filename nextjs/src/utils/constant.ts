@@ -58,6 +58,7 @@ export const MODULES = {
     TAB_PROMPT_LIST: 'tabPromptList',
     TAB_AGENT_LIST: 'tabAgentList',
     TAB_DOCUMENT_LIST: 'tabDocumentList',
+    CONFIGURATION_ENV: 'configurationEnv',
 } as const;
 
 export const MODULE_ACTIONS = {
@@ -144,7 +145,7 @@ export const MODULE_ACTIONS = {
     GET_USAGE: 'getUsage',
     GET_USER_USAGE: 'getUserUsage',
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
-    GET_WEEKLY_USAGE: 'getWeeklyUsage'
+    GET_WEEKLY_USAGE: 'getWeeklyUsage',    
 } as const;
 
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm A';
@@ -235,6 +236,7 @@ export const AI_MODEL_CODE = {
     LLAMA4: 'LLAMA4',
     GROK: 'GROK',
     QWEN: 'QWEN',
+    OPEN_ROUTER: 'OPEN_ROUTER',
     // error conversation response
     CONVERSATION_ERROR: `We encountered an issue and were unable to receive a response. This could be due to a variety of reasons including network issues, server problems, or unexpected errors.Please try your request again later. If the problem persists, check your network connection or [contact support](mailto:hello@weam.ai) for further assistance.`,
 }
@@ -542,7 +544,8 @@ export const MODAL_NAME_CONVERSION = {
     DEEPSEEK: 'DeepSeek',
     LLAMA4: 'Llama4',
     GROK: 'Grok',
-    QWEN: 'Qwen'
+    QWEN: 'Qwen',
+    OPEN_ROUTER: 'Open Router'
 }
 
 export const MODEL_CREDIT_INFO = [

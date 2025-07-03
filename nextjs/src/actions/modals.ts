@@ -1,10 +1,10 @@
 'use server';
 
-import { serverApi } from '@/actions/serverApi';
+import { serverApi, revalidateTagging } from '@/actions/serverApi';
 import { getSession } from '@/config/withSession';
 import { AiModalType } from '@/types/aimodels';
 import { APIResponseType } from '@/types/common';
-import { AI_MODAL_NAME, DEFAULT_SORT, MODULE_ACTIONS, MODULES, SEQUENCE_MODEL_LIST } from '@/utils/constant';
+import { AI_MODAL_NAME, DEFAULT_SORT, MODULE_ACTIONS, MODULES, REVALIDATE_TAG_NAME, SEQUENCE_MODEL_LIST } from '@/utils/constant';
 
 export async function fetchAiModal(): Promise<APIResponseType<AiModalType[]>> {
     const session = await getSession();
@@ -32,9 +32,10 @@ export async function fetchAiModal(): Promise<APIResponseType<AiModalType[]>> {
                 ]
             },   
         },
-        config: { next: { revalidate: 86400 } },
+        config: { next: { revalidate: 86400, tags: [`${REVALIDATE_TAG_NAME.AI_MODAL}`] } },
         common: true,
     });
+    
     if (response.data?.length > 0) {
         const orderedList = response.data?.reduce((acc: any, item: any) => {
             const index = SEQUENCE_MODEL_LIST.indexOf(item?.bot?.code);
@@ -64,4 +65,30 @@ export async function fetchAiModal(): Promise<APIResponseType<AiModalType[]>> {
         return { ...response, data: filteredModelList };
     }
     return { ...response };
+}
+
+export async function deleteAiModal(modelCode: string): Promise<APIResponseType<unknown>> {
+    const response = await serverApi({
+        action: MODULE_ACTIONS.REMOVE,
+        module: MODULES.USER_MODEL,
+        prefix: MODULE_ACTIONS.WEB_PREFIX,
+        common: true,
+        data: {
+            code: modelCode,
+        }
+    })
+    revalidateTagging(response, `${REVALIDATE_TAG_NAME.AI_MODAL}`);
+    return response;
+}
+
+export async function checkApiKeyAction(modelCode: string, key: string): Promise<APIResponseType<boolean>> {
+    const response = await serverApi({
+        action: MODULE_ACTIONS.CHECK_API_KEY,
+        data: {
+            code: modelCode,
+            key,
+        }
+    });
+    revalidateTagging(response, `${REVALIDATE_TAG_NAME.AI_MODAL}`);
+    return response;
 }
