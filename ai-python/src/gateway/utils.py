@@ -232,7 +232,7 @@ def get_swagger_redoc_settings():
     current_environment = os.getenv("WEAM_ENVIRONMENT", "dev")
 
     # Check if the environment is 'dev' and set enable_swagger and enable_redoc to True
-    if current_environment == "dev":
+    if current_environment == "dev" or "enterprise":
         enable_swagger = True
         enable_redoc = True
     else:

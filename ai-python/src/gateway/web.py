@@ -41,9 +41,8 @@ async def startup_event():
 
 
 # regex_patterns = [r".weam\.ai"]
-regex_patterns = get_regex_patterns()
-
-app.add_middleware(RegexCORSMiddleware, regex_patterns=regex_patterns)
+# regex_patterns = get_regex_patterns()
+# app.add_middleware(RegexCORSMiddleware, regex_patterns=regex_patterns)
 # app.add_middleware(APICountMiddleware)
 # app.add_middleware(APICountMiddlewareRedis)
 # app.add_middleware(MultiAPICountMiddlewareRedis)
