@@ -4,7 +4,7 @@ import { getSubscriptionStatusAction } from '@/actions/chat';
 import { HomeAiModelWrapper, HomeChatInputWrapper, RefreshTokenClientWrapper } from '@/components/Chat/ChatWrapper';
 
 export default async function Home() {
-    const [aiModals, subscriptionStatus] = await Promise.all([
+    const [aiModals] = await Promise.all([
         fetchAiModal(),
         getSubscriptionStatusAction()
     ])
@@ -16,7 +16,7 @@ export default async function Home() {
                 aiModals.status === RESPONSE_STATUS.SUCCESS && (
                     <>
                         <HomeAiModelWrapper aiModals={modelSequence} />
-                        <HomeChatInputWrapper aiModals={modelSequence} subscriptionStatus={subscriptionStatus.data}/>
+                        <HomeChatInputWrapper aiModals={modelSequence} />
                     </>
                 )
             }

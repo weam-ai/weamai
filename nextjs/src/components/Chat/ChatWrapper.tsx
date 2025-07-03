@@ -48,8 +48,8 @@ export const RefreshTokenClientWrapper = () => {
     return <RefreshTokenClient />;
 };
 
-export const HomeChatInputWrapper = ({ aiModals, subscriptionStatus }) => {
-    return <HomeChatInput aiModals={aiModals} subscriptionStatus={subscriptionStatus} />;
+export const HomeChatInputWrapper = ({ aiModals }) => {
+    return <HomeChatInput aiModals={aiModals} />;
 };
 
 export const HomeAiModelWrapper = ({ aiModals }) => {
