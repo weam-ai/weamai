@@ -1129,7 +1129,7 @@ const ChatPage = memo(() => {
                 {isFileDragging && <DrapDropUploader isFileDragging={isFileDragging} />}
                 {/*Chat page Start  */}
                 <div
-                    className="h-full overflow-y-auto w-full relative"
+                    className="h-full overflow-y-auto w-full relative max-md:max-h-[calc(100vh-200px)]"
                     ref={contentRef}
                 >
                     {/* chat start */}
