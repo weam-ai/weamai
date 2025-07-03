@@ -124,7 +124,7 @@ services:
     image: "qdrant/qdrant:latest"
     container_name: qdrant_primary_container  # 👈 Add this to both nodes
     ports:
-      - "${QDRANT_DASHBOARD_PORT}:${QDRANT_DASHBOARD_PORT}"
+     
       - "${QDRANT_NODE_PORT}:${QDRANT_NODE_PORT}"  # 👈 Add this to both nodes
     environment:
       QDRANT__CLUSTER__ENABLED: "true"
