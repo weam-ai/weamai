@@ -29,9 +29,9 @@ services:
       - NEXT_PUBLIC_BACKEND_API_URL=http://node_app:4050/napi
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    # volumes:
-    #   - ./nextjs:/usr/src/app        # 👈 bind local code to container
-    #   - /usr/src/app/node_modules 
+    volumes:
+      - ./nextjs:/usr/src/app        # 👈 bind local code to container
+      - /usr/src/app/node_modules 
     networks:
       - app-network
   
@@ -44,9 +44,9 @@ services:
       - "4050:4050"
     env_file:
       - .env  # Load environment variables from a .env file
-    # volumes:
-    #   - ./nodejs:/usr/src/app        # 👈 bind local code to container
-    #   - /usr/src/app/node_modules    # 👈 avoid node_modules conflicts
+    volumes:
+      - ./nodejs:/usr/src/app        # 👈 bind local code to container
+      - /usr/src/app/node_modules    # 👈 avoid node_modules conflicts
     networks:
       - app-network
   
