@@ -16,7 +16,7 @@ const registerCompany = catchAsync(async (req, res) => {
 
 const checkApiKey = catchAsync(async (req, res) => {
     const result = await companyService.checkApiKey(req);
-    if (result.error) {
+    if (result.error || !result) {
         res.message = INCORRECT_API_KEY;
         return util.failureResponse(null, res)
     }

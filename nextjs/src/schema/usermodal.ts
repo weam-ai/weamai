@@ -6,7 +6,11 @@ export const defaultModalKeys = yup.object({
 })
 
 export const setModalAPIKeys = yup.object({
-    key: yup.string().required('please enter your key')
+    key: yup.string().required('please enter your key'),
+    model: yup.object({
+        value: yup.string().required(),
+        label: yup.string().required()
+    }).nullable().required('provider is required')
 })
 
 export const onBoardAPIKeys = yup.object().shape({
@@ -36,3 +40,5 @@ export const anthropicKeys = yup.object({
 export const geminiKeys = yup.object({
     key: yup.string().required('please enter your key')
 })
+
+export type ModelKeysSchemaType = yup.InferType<typeof setModalAPIKeys>;

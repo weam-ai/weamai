@@ -6,7 +6,7 @@ const { getTemplate } = require('../utils/renderTemplate');
 const { sendSESMail } = require('./email');
 const { EMAIL_TEMPLATE, MOMENT_FORMAT, EXPORT_TYPE, ROLE_TYPE, INVITATION_TYPE, JWT_STRING, MODEL_CODE, APPLICATION_ENVIRONMENT } = require('../config/constants/common');
 const moment = require('moment-timezone');
-const { randomPasswordGenerator, encryptedData, generateRandomToken, genHash, getCompanyId } = require('../utils/helper');
+const { randomPasswordGenerator, encryptedData, generateRandomToken, genHash, getCompanyId, formatBot } = require('../utils/helper');
 const bcrypt = require('bcrypt');
 const Role = require('../models/role');
 const UserBot = require('../models/userBot');
@@ -298,28 +298,20 @@ async function aiModalCreation(req) {
 
 const checkApiKey = async (req) => {
     try {
+        const { code } = req.body;
 
-        const companyId = getCompanyId(req.user);
-       
-        const response = await fetch(LINK.OPEN_AI_MODAL, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${req.body.key}`
-            }
-        });
-        
-        const data = await response.json();
-        if (!response.ok) {
-            return data;
+        const providerObj = {
+            [AI_MODAL_PROVIDER.OPEN_AI]: openAIApiChecker,
+            [AI_MODAL_PROVIDER.ANTHROPIC]: anthropicApiChecker,
+            [AI_MODAL_PROVIDER.GEMINI]: geminiApiKeyChecker,
+            [AI_MODAL_PROVIDER.PERPLEXITY]: perplexityApiChecker,
+            [AI_MODAL_PROVIDER.OPEN_ROUTER]: openRouterApiChecker,
         }
-        
-        await Promise.all([
-            Company.updateOne({ _id: companyId }, { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.OPEN_AI}`]: '' }}),
-            openAIBillingChecker(req),
-        ])
-
-        return aiModalCreation(req);
+        const provider = await providerObj[code](req);
+        return provider;
+       
     } catch (error) {
+        console.log(req.body);
         handleError(error, 'Error - checkApiKey');
     }
 };
@@ -542,24 +534,22 @@ async function anthropicApiChecker(req) {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                model: MODAL_NAME.CLAUDE_3_5_SONNET_LATEST,
+                model: MODAL_NAME.CLAUDE_SONNET_4_20250514,
                 max_tokens: 1024,
                 messages: [
                     { role: 'user', content: 'Hello, world' }
                 ]
             })
         });
+        console.log('anthropicApiChecker',response.status, `${LINK.ANTHROPIC_AI_API_URL}/messages`);
         if (!response.ok) return false;
         const companyId = getCompanyId(req.user);
+        const companydetails = req.user.company;
 
-        const [company, existingBots] = await Promise.all([
-            Company.findById(companyId, { companyNm: 1, slug: 1 }),
-            UserBot.find({ 'company.id': companyId, 'bot.code': req.body.bot.code })
-
+        const [existingBots, anthropicBot] = await Promise.all([
+            UserBot.find({ 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.ANTHROPIC }),
+            Bot.findOne({ code: AI_MODAL_PROVIDER.ANTHROPIC }, { title: 1, code: 1 })
         ]);
-        if (!company) throw new Error(_localize('module.notFound', req, 'company'));
-
-        const { companyNm, slug, _id: companyDbId } = company;
 
         const updates = [];
         const inserts = [];
@@ -569,8 +559,8 @@ async function anthropicApiChecker(req) {
             const existingBot = existingBots.find(bot => bot.name === element.name);
             const modelConfig = {
                 name: element.name,
-                bot: req.body.bot,
-                company: { name: companyNm, slug, id: companyDbId },
+                bot: formatBot(anthropicBot),
+                company: companydetails,
                 config: { apikey: encryptedKey },
                 modelType: element.type,
                 extraConfig: {
@@ -584,7 +574,7 @@ async function anthropicApiChecker(req) {
             if (existingBot)
                 updates.push({
                     updateOne: {
-                        filter: { name: element.name, 'company.id': companyId, 'bot.code': req.body.bot.code },
+                        filter: { name: element.name, 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.ANTHROPIC },
                         update: { $set: modelConfig, $unset: { deletedAt: 1 } }
                     }
                 });
@@ -596,7 +586,6 @@ async function anthropicApiChecker(req) {
 
         if (inserts.length) return UserBot.insertMany(inserts);
 
-        await Company.updateOne({ _id: companyId }, { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.ANTHROPIC}`]: '' }});
         return existingBots[0]?.deletedAt ? existingBots : true;
     } catch (error) {
         handleError(error, 'Error - anthropicApiChecker');
@@ -830,27 +819,24 @@ async function createGeminiModels(req) {
     try {
         const companydetails = req.user.company;
         const companyId = companydetails.id;
-        
-        const existing = await UserBot.find({ 'company.id': companyId, 'bot.code': req.body.bot.code });
-        
-        const geminiModels = [
-            'gemini-1.5-pro',
-            // 'gemini-1.5-flash-8b',
-            // 'gemini-1.5-flash',
-            'gemini-2.0-flash',
-        ];
+
+        const [geminiBot, existing] = await Promise.all([
+            Bot.findOne({ code: AI_MODAL_PROVIDER.GEMINI }, { title: 1, code: 1 }),
+            UserBot.find({ 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.GEMINI })
+        ]);
 
         const updates = [];
         const inserts = [];
+        const encryptedKey = encryptedData(req.body.key);
 
-        for (const modelName of geminiModels) {
-            const existingEntry = existing.find(entry => entry.name === modelName);
+        GEMINI_MODAL.forEach(element => {
+            const existingEntry = existing.find(entry => entry.name === element.name);
             const modelConfig = {
-                name: modelName,
-                bot: req.body.bot,
+                name: element.name,
+                bot: formatBot(geminiBot),
                 company: companydetails,
                 config: {
-                    apikey: encryptedData(req.body.key),
+                    apikey: encryptedKey,
                 },
                 modelType: 2,
                 isActive: true,
@@ -860,25 +846,17 @@ async function createGeminiModels(req) {
                     topK: 10
                 }
             };
-            
             if (existingEntry) {
                 updates.push({
                     updateOne: {
-                        filter: { name: modelName, 'company.id': companyId, 'bot.code': req.body.bot.code },
+                        filter: { name: element.name, 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.GEMINI },
                         update: { $set: modelConfig, $unset: { deletedAt: 1 } }
                     }
                 });
             } else {
                 inserts.push(modelConfig);
             }
-        }
-
-        await Promise.all([
-            Company.updateOne(
-                { _id: companyId }, 
-                { $unset: { [`queryLimit.${AI_MODAL_PROVIDER.GEMINI}`]: '' }}
-            )
-        ]);
+        });
         
         if (updates.length) {
             return UserBot.bulkWrite(updates);
@@ -897,15 +875,34 @@ async function createGeminiModels(req) {
 async function geminiApiKeyChecker(req) {
     try {
         const response = await fetch(
-            `${LINK.GEMINI_API_URL}?key=${req.body.key}`,
+            `${LINK.GEMINI_API_URL}/v1beta/models/gemini-2.0-flash:generateContent?key=${req.body.key}`,
             {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(
+                    {
+                        system_instruction: {
+                            parts: [
+                                {
+                                    text: 'You are a cat. Your name is Neko.'
+                                }
+                            ]
+                        },
+                        contents: [
+                            {
+                                parts: [
+                                    {
+                                        text: 'Hello there'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                )
             }
         );
-
         if (!response.ok) {
             return false;
         }
@@ -945,6 +942,256 @@ const addBlockedDomain = async (req) => {
         return blockedDomain;
     } catch (error) {
         handleError(error, 'Error - addBlockedDomain');     
+    }
+}
+
+async function openAIApiChecker(req) {
+    try {
+        const companyId = getCompanyId(req.user);
+        
+        const response = await fetch(LINK.OPEN_AI_MODAL, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${req.body.key}`
+            }
+        });
+        
+        const jsonData = await response.json();
+        if (!response.ok) {
+            return jsonData;
+        }
+        const { data } = jsonData;
+        const companydetails = req.user.company;
+        const [openAiBot, existing] = await Promise.all([
+            Bot.findOne({ code: AI_MODAL_PROVIDER.OPEN_AI }, { title: 1, code: 1 }),
+            UserBot.find({ 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.OPEN_AI })
+        ]);
+        // diffrentiate between embedding and chat models
+        const modalMap = OPENAI_MODAL.reduce((map, val) => {
+            map[val.name] = val.type;
+            return map;
+        }, {});
+
+        const updates = [];
+        const inserts = [];
+        const encryptedKey = encryptedData(req.body.key);
+
+        for (const model of data) {
+            if (!modalMap.hasOwnProperty(model.id)) continue;
+            const existingEntry = existing.find(entry => entry.name === model.id);
+            const modelConfig = {
+                bot: formatBot(openAiBot),
+                company: companydetails,
+                name: model.id,
+                config: {
+                    apikey: encryptedKey,
+                }
+            }
+            if (modalMap[model.id] === 1) {
+                modelConfig['modelType'] = modalMap[model.id];
+                modelConfig['dimensions'] = 1536;
+            }
+            else {
+                if ([MODAL_NAME.GPT_4_1, MODAL_NAME.GPT_4_1_MINI, MODAL_NAME.GPT_4_1_NANO, MODAL_NAME.O4_MINI, MODAL_NAME.O3, MODAL_NAME.CHATGPT_4O_LATEST].includes(model.id)) {
+                    modelConfig['extraConfig'] = {
+                        temperature: 1
+                    }
+                }
+                modelConfig['modelType'] = modalMap[model.id];
+            }
+
+            if (existingEntry)
+                updates.push({
+                    updateOne: {
+                        filter: { name: model.id, 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.OPEN_AI },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else inserts.push(modelConfig);
+            
+        }
+
+        if(updates.length){
+            await UserBot.bulkWrite(updates)
+        }
+
+        if(inserts.length){
+            return UserBot.insertMany(inserts)
+        }
+        
+        return existing;
+    } catch (error) {
+        handleError(error, 'Error - openAIApiChecker');
+    }
+}
+
+async function perplexityApiChecker(req) {
+    try {
+        const companyId = getCompanyId(req.user);
+        const companydetails = req.user.company;
+        const response = await fetch(`${LINK.PERPLEXITY_API_URL}/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${req.body.key}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: MODAL_NAME.SONAR,
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'Be precise and concise.'
+                    },
+                    {
+                        role: 'user',
+                        content: 'How many stars are there in our galaxy?'
+                    }
+                ]
+            })
+        });
+        console.log('perplexityApiChecker',response.status);
+        if (!response.ok) return false
+        const [perplexityBot, existing] = await Promise.all([
+            Bot.findOne({ code: AI_MODAL_PROVIDER.PERPLEXITY }, { title: 1, code: 1 }),
+            UserBot.find({ 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.PERPLEXITY })
+        ]);
+        const updates = [];
+        const inserts = [];
+        const encryptedKey = encryptedData(req.body.key);
+
+        PERPLEXITY_MODAL.forEach(element => {
+            const existingBot = existing.find(bot => bot.name === element.name);
+            const modelConfig = {
+                name: element.name,
+                bot: formatBot(perplexityBot),
+                company: companydetails,
+                config: {
+                    apikey: encryptedKey,
+                },
+                modelType: element.type,
+                isActive: true,
+                extraConfig: {
+                    stream: true,
+                    temperature: 0.7,
+                    topP: 0.9,
+                    topK: 10
+                }
+            };
+            if (existingBot)
+                updates.push({
+                    updateOne: {
+                        filter: { name: element.name, 'company.id': companyId, 'bot.code': AI_MODAL_PROVIDER.PERPLEXITY },
+                        update: { $set: modelConfig, $unset: { deletedAt: 1 } }
+                    }
+                });
+            else inserts.push(modelConfig);
+        });
+        if (updates.length) {
+            return UserBot.bulkWrite(updates);
+        }
+
+        if (inserts.length) {
+            return UserBot.insertMany(inserts);
+        }
+
+        return existing;
+    } catch (error) {
+        handleError(error, 'Error - perplexityApiChecker');
+    }
+}
+
+async function openRouterApiChecker(req) {
+    try {
+        const companyId = getCompanyId(req.user);
+        const companydetails = req.user.company;
+        
+        const response = await fetch(`${LINK.OPEN_ROUTER_API_URL}/v1/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${req.body.key}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: MODAL_NAME.GPT_4O_MINI,
+                messages: [
+                    { role: 'user', content: 'What is the meaning of life?' }
+                ]
+            })
+        });
+        console.log('openRouterApiChecker',response.status);
+        if (!response.ok) return false;
+        const query = Object.keys(OPENROUTER_PROVIDER);
+        const [openRouterBot, existing] = await Promise.all([
+            Bot.find({ code: { $in: query } }, { title: 1, code: 1 }),
+            UserBot.find({ 'company.id': companyId, 'bot.code': { $in: query } })
+        ]);
+        
+        const updates = [];
+        const inserts = [];
+        const encryptedKey = encryptedData(req.body.key);
+
+        const commonConfig = {
+            company: companydetails,
+            config: {
+                apikey: encryptedKey,
+            },
+            isActive: true,
+            extraConfig: {
+                stream: true,
+                temperature: 0.7,
+                topP: 0.9,
+                topK: 10
+            },
+        }
+
+        const processModalBots = (modalList, providerKey, providerName) => {
+            const botMeta = openRouterBot.find(bot => bot.code === providerKey);
+            modalList.forEach((element) => {
+                const existingBot = existing.find(bot => bot.name === element.name);
+                const modelConfig = {
+                    name: element.name,
+                    bot: formatBot(botMeta),
+                    modelType: element.type,
+                    provider: providerName,
+                    ...commonConfig,
+                };
+
+                if (existingBot) {
+                    updates.push({
+                        updateOne: {
+                            filter: {
+                                name: element.name,
+                                'company.id': companyId,
+                                'bot.code': providerKey
+                            },
+                            update: {
+                                $set: modelConfig,
+                                $unset: { deletedAt: 1 }
+                            }
+                        }
+                    });
+                } else {
+                    inserts.push(modelConfig);
+                }
+            });
+        };
+
+        processModalBots(DEEPSEEK_MODAL, AI_MODAL_PROVIDER.DEEPSEEK, OPENROUTER_PROVIDER.DEEPSEEK);
+        processModalBots(LLAMA4_MODAL, AI_MODAL_PROVIDER.LLAMA4, OPENROUTER_PROVIDER.LLAMA4);
+        processModalBots(QWEN_MODAL, AI_MODAL_PROVIDER.QWEN, OPENROUTER_PROVIDER.QWEN);
+        processModalBots(GROK_MODAL, AI_MODAL_PROVIDER.GROK, OPENROUTER_PROVIDER.GROK);
+
+        if (updates.length) {
+            return UserBot.bulkWrite(updates);
+        }
+
+        if (inserts.length) {
+            return UserBot.insertMany(inserts);
+        }
+
+        return existing;
+    } catch (error) {
+        handleError(error, 'Error - openRouterApiChecker');
     }
 }
 

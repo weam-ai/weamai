@@ -679,6 +679,14 @@ const getFileExtension = (filename) => {
     return filename.split('.').pop()?.toLowerCase() || '';
 };
 
+const formatBot = (bot) => {
+    return {
+        title: bot.title,
+        code: bot.code,
+        id: bot.id,
+    }
+}
+
 module.exports = {
     catchAsync,
     localize,
@@ -730,5 +738,6 @@ module.exports = {
     hasNotRestrictedExtension,
     validateFileUpload,
     getFileExtension,
-    NOT_RESTRICTED_FILE_EXTENSIONS
+    NOT_RESTRICTED_FILE_EXTENSIONS,
+    formatBot
 };

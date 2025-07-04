@@ -87,7 +87,7 @@ export async function serverApi({
         data,
         config,
     });
-
+    
     return response;
 }
 
