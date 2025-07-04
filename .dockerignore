@@ -1,5 +1,4 @@
-./nextjs/node_modules
-./nodejs/node_modules
+node_modules/
 .git
 .env
 .DS_Store
