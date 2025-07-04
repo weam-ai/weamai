@@ -21,7 +21,7 @@ class Boto3S3Client(metaclass=Singleton):
         # Read AWS credentials from environment variables
         self.aws_access_key_id = os.environ.get('AWS_S3_ACCESS_KEY')
         self.aws_secret_access_key = os.environ.get('AWS_SECRET_KEY')
-        self.bucket_name = os.environ.get("AWS_S3_BUCKET")
+        self.bucket_name = os.environ.get("AWS_BUCKET")
         self.cdn_url=os.environ.get("AWS_S3_URL")
         self.vectors_backup =os.environ.get("AWS_VECTORS_BACKUP","vectors-backup")
         self.profiler = os.environ.get("PROFILER_S3_BUCKET", "profiler")

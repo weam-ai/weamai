@@ -12,9 +12,9 @@ BASE_URL_CDN= os.environ.get("AWS_CDN_URL")
 S3_BUCKET=os.environ.get("AWS_BUCKET")
 
 LSTACK_BASE_URL_CDN = os.environ.get("LSTACK_CDN_URL")
-LSTACK_BUCKET=os.environ.get("AWS_S3_BUCKET")
+LSTACK_BUCKET=os.environ.get("AWS_BUCKET")
 MINIO_CDN_URL = os.environ.get("MINIO_ENDPOINT")
-MINIO_BUCKET = os.environ.get("AWS_S3_BUCKET")
+MINIO_BUCKET = os.environ.get("AWS_BUCKET")
 
 
 def map_s3_url(url: Optional[str]) -> Optional[str]:
