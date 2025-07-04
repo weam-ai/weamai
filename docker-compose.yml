@@ -247,7 +247,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=password
       - ME_CONFIG_BASICAUTH_USERNAME=weam
       - ME_CONFIG_BASICAUTH_PASSWORD=password
-      - ME_CONFIG_MONGODB_SERVER=mongo-1
+      - ME_CONFIG_MONGODB_SERVER=mongo
     networks:
       - app-network
     depends_on:
