@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const Role = require('../models/role');
 const UserBot = require('../models/userBot');
 const { OPENAI_MODAL, AI_MODAL_PROVIDER, PINECORN_STATIC_KEY, MODAL_NAME, ANTHROPIC_MODAL, GEMINI_MODAL, PERPLEXITY_MODAL, OPENROUTER_PROVIDER, DEEPSEEK_MODAL, LLAMA4_MODAL, GROK_MODAL, QWEN_MODAL } = require('../config/constants/aimodal');
-const { LINK, FRESHDESK_SUPPORT_URL, API, SERVER } = require('../config/config');
+const { LINK, FRESHDESK_SUPPORT_URL, API, SERVER, DEFAULT_MSG_CREDIT } = require('../config/config');
 const mongoose = require('mongoose');
 const Bot = require('../models/bot');
 const { isBlockedDomain, isDisposableEmail } = require('../utils/validations/emailValidation');
@@ -44,7 +44,7 @@ async function addCompany(req, flag = true) {
             slug: company.slug, 
             id: company._id
         }
-        const user = await User.create({ ...req.body, company: companyObj });
+        const user = await User.create({ ...req.body, company: companyObj, msgCredit: DEFAULT_MSG_CREDIT });
         const defaultWorkSpace = await addDefaultWorkSpace(company, user);
         if (defaultWorkSpace) {
             await defaultCompanyBrain(defaultWorkSpace._id, user);
