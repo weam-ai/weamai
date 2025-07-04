@@ -49,7 +49,7 @@ async function addCompany(req, flag = true) {
         if (defaultWorkSpace) {
             await defaultCompanyBrain(defaultWorkSpace._id, user);
         }
-        //createPinecornIndex(user, req);
+        createPinecornIndex(user, req);
 
         return true;
     } catch (error) {
@@ -412,7 +412,7 @@ async function createPinecornIndex(user, req) {
             req.roleCode = user.roleCode
             aiModalCreation(req);
         }
-        createFreeTierApiKey(user);
+        //createFreeTierApiKey(user);
     } catch (error) {
         handleError(error, 'Error - createPinecornIndex'); 
     }
