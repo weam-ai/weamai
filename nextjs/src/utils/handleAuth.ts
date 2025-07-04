@@ -137,7 +137,7 @@ export const getSessionUser = async (): Promise<SessionUserType> => {
 export const pythonRefreshToken = async () => {
     const session = await getSession();
     const refresh_token = session?.user?.refresh_token;
-    const response = await fetch(`${LINK.NODE_API_URL}${NODE_API_PREFIX}/web/auth/refresh-token`, {
+    const response = await fetch(`${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}/web/auth/refresh-token`, {
         method: 'POST',
         headers: {
             authorization: `jwt ${refresh_token}`,
