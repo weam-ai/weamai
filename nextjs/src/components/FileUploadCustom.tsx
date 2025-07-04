@@ -98,8 +98,8 @@ const FileUploadCustom = ({
                         onClick={handleRemove}
                     >
                         <RemoveIcon
-                            width={'15'}
-                            height={'17'}
+                            width={15}
+                            height={17}
                             className="fill-b7 h-4 w-4 object-contain"
                         />
                     </div>

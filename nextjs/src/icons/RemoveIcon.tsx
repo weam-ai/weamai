@@ -1,6 +1,6 @@
 import { SvgProps } from "@/types/assets";
 
-const RemoveIcon = ({ height, width, className, onClick }: SvgProps) => {
+const RemoveIcon = ({ height, width, className='fill-b5', onClick }: SvgProps) => {
   return (
       <svg
           className={className}

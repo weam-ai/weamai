@@ -286,7 +286,7 @@ const ChatItem = () => {
                                                         }}
                                                         className="md:group-hover/item:opacity-100 md:opacity-0 rounded md:bg-white bg-b11 md:mb-0 mb-2 flex items-center justify-center w-6 min-w-6 h-6 p-0.5 [&>svg]:w-[11] [&>svg]:h-[11] [&>svg]:fill-b5"
                                                     >
-                                                        <RemoveIcon width={14} height={14} />
+                                                        <RemoveIcon width={14} height={14} className='fill-b5' />
                                                     </Link>
                                                     <Link
                                                         href={'#'}
