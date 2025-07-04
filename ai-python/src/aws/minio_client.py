@@ -3,11 +3,7 @@ from fastapi.responses import FileResponse
 from botocore.client import Config
 import boto3
 from src.logger.default_logger import logger
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor,MessageEncryptor
-key = os.getenv("SECURITY_KEY").encode("utf-8")
 
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):

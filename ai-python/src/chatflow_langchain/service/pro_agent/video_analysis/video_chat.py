@@ -23,19 +23,17 @@ from src.custom_lib.langchain.callbacks.gemini.mongodb.context_manager import ge
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from src.chatflow_langchain.service.pro_agent.video_analysis.utils import get_cached_token_cost
 from src.chatflow_langchain.service.config.model_config_gemini import DefaultGEMINI20FlashModelRepository,GEMINIMODEL
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.chatflow_langchain.service.pro_agent.video_analysis.config import VideoModel
 from src.custom_lib.langchain.callbacks.gemini.cost.context_manager import gemini_async_cost_handler,gemini_sync_cost_handler
-
 from src.chatflow_langchain.repositories.openai_error_messages_config import DEV_MESSAGES_CONFIG, GENAI_ERROR_MESSAGES_CONFIG
 from src.chatflow_langchain.service.gemini.doc.utils import extract_google_error_message,extract_google_genai_error_message
 from langchain_google_genai._common import GoogleGenerativeAIError
 from google.api_core.exceptions import GoogleAPIError, ResourceExhausted, GoogleAPICallError
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.db.config import get_field_by_name
-
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(security_key)
+from dotenv import load_dotenv
+load_dotenv()
 
 class VideoChatService:
     def __init__(self):
@@ -87,7 +85,7 @@ class VideoChatService:
             local_environment = os.getenv("WEAM_ENVIRONMENT", "local")
             if local_environment in ["prod"]:          
                 Qa_specialist_api = self.pro_agent_details.get("qa_specialist").get("gemini")
-                self.api_key = decryptor.decrypt(Qa_specialist_api)
+                self.api_key = crypto_service.decrypt(Qa_specialist_api)
 
             self.client=genai.Client(api_key=self.api_key)
             self.file_metadata = self.client.files.get(name=self.file)

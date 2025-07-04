@@ -7,18 +7,16 @@ import os
 from dotenv import load_dotenv
 from src.db.config import get_field_by_name
 from google import genai
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 load_dotenv()
 
 @celery_app.task
 def delete_old_records():
     """Delete old files from Gemini."""
     try:
-        key = os.getenv("SECURITY_KEY").encode("utf-8")
         qa_specialist_key = get_field_by_name(collection_name="setting",name="PRO_AGENT",field_name="details")
-        decryptor = MessageDecryptor(key)
         gemini_key = qa_specialist_key.get("qa_specialist").get("gemini")
-        client = genai.Client(api_key=decryptor.decrypt(gemini_key))
+        client = genai.Client(api_key=crypto_service.decrypt(gemini_key))
         deleted_file=[]
 
 

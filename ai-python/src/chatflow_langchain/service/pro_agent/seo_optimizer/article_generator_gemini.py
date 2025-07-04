@@ -26,17 +26,15 @@ from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusEr
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 from src.chatflow_langchain.service.pro_agent.seo_optimizer.utils import generate_seo_friendly_url
 from src.chatflow_langchain.service.openai.config.model_config import DefaultGPT4oMiniModelRepository,DefaultGemini2oFlashModelRepository
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.custom_lib.langchain.callbacks.gemini.cost.context_manager import gemini_async_cost_handler
-
 from src.chatflow_langchain.repositories.openai_error_messages_config import DEV_MESSAGES_CONFIG, GENAI_ERROR_MESSAGES_CONFIG
 from src.chatflow_langchain.service.gemini.doc.utils import extract_google_error_message,extract_google_genai_error_message
 from langchain_google_genai._common import GoogleGenerativeAIError
 from google.api_core.exceptions import GoogleAPIError, ResourceExhausted, GoogleAPICallError
 from langchain_google_genai import ChatGoogleGenerativeAI
-
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(security_key)
+from dotenv import load_dotenv
+load_dotenv()
 
 class ArticleGeneratorService:
     def __init__(self):
@@ -109,7 +107,7 @@ class ArticleGeneratorService:
             local_environment = os.getenv("WEAM_ENVIRONMENT", "local")
             if local_environment in ["prod"]:          
                 Qa_specialist_api = self.pro_agent_details.get("qa_specialist").get("gemini")
-                self.api_key = decryptor.decrypt(Qa_specialist_api)
+                self.api_key = crypto_service.decrypt(Qa_specialist_api)
 
             self.llm = ChatGoogleGenerativeAI(model= self.llm_apikey_decrypt_service.model_name,
                 temperature=0.7,

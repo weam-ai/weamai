@@ -1,7 +1,6 @@
 from src.crypto_hub.repositories.openai.llm_model_repo import LLMModelRepository
 from src.logger.default_logger import logger
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
-from dotenv import load_dotenv
+from src.crypto_hub.utils.crypto_utils import crypto_service
 import os
 from bson.objectid import ObjectId
 from pymongo.errors import PyMongoError
@@ -9,10 +8,6 @@ from src.db.config import db_instance
 from src.round_robin.llm_key_manager import APIKeySelectorService
 
 llm_model_repo = LLMModelRepository()
-
-load_dotenv()
-
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
 
 class LLMAPIKeyDecryptionHandler:
     """
@@ -54,15 +49,15 @@ class LLMAPIKeyDecryptionHandler:
             self.companyKeys = False
             self.companyRedis_id = str(llm_model_repo.result['company']['id']) if self.companyKeys else 'default'
             # self.apikey = self.api_key_selector_service.sync_get_best_api_key(provider=self.bot_data.get('code', 'ANTHROPIC'), model=self.model_name, functionality=self.functionality,company_id=self.companyRedis_id)
-            if not security_key:
+            if not crypto_service:
                 logger.error(
-                    "Security key is missing in the environment file. Please ensure that the SECURITY_KEY is properly set.",
+                    "crypto_service is not enable. Please ensure that the crypto_service is properly set.",
                     extra={"tags": {
                         "method": "LLMAPIKeyDecryptionHandler.initialization",
                         "api_id": api_key_id
                     }})
-                raise ValueError("Security key is missing in the environment file. Please ensure that the SECURITY_KEY is properly set.")
-            self.decryptor = MessageDecryptor(security_key)
+                raise ValueError("Crypto service is not rechable. Please ensure that the crypto_service is properly set.")
+            self.decryptor = crypto_service.decryptor
             if not self.apikey:
                 if self.__encrypted_data:
                     self.apikey = self.__encrypted_data.get('apikey')

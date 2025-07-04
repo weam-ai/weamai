@@ -7,7 +7,7 @@ import os
 from bson.objectid import ObjectId
 import requests
 from io import BytesIO
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 import requests
 from io import BytesIO
 from dotenv import load_dotenv
@@ -15,12 +15,7 @@ from src.celery_service.utils import get_default_header
 from tempfile import SpooledTemporaryFile,NamedTemporaryFile
 from pathlib import Path
 import ffmpeg
-load_dotenv()
 import asyncio
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 @celery_app.task(bind=True, autoretry_for=(Exception,), retry_kwargs={'max_retries': 0, 'countdown': 0},queue="gemini")
 def upload_gemini_video(self, url: str, encrypt_api_key: str):
@@ -39,7 +34,7 @@ def upload_gemini_video(self, url: str, encrypt_api_key: str):
         # s3_client = LocalStackS3Client().client
         # bucket_name = os.environ.get("AWS_BUCKET", "gocustomai")
         header=get_default_header()
-        api_key=decryptor.decrypt(encrypt_api_key)
+        api_key=crypto_service.decrypt(encrypt_api_key)
     
         with NamedTemporaryFile(mode='w+b', suffix='.mp4', delete=False) as temp_file:
             with requests.get(url, stream=True,headers=header) as response:

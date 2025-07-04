@@ -3,14 +3,8 @@ from src.db.config import db_instance
 from src.logger.default_logger import logger
 from bson.objectid import ObjectId
 from pymongo.errors import PyMongoError
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
-from dotenv import load_dotenv
-load_dotenv()
+from src.crypto_hub.utils.crypto_utils import crypto_service
 
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 class OPENAIMODEL:
     GPT_4o_MINI = 'gpt-4.1-mini'
     GPT_4o = 'gpt-4.1'
@@ -142,7 +136,7 @@ class DefaultGemini2oFlashModelRepository(BaseDefaultModelRepository):
       
         
         try:
-            decrypted_key = decryptor.decrypt(self.encrypt_key)
+            decrypted_key = crypto_service.decrypt(self.encrypt_key)
             return decrypted_key
         except Exception as e:
             logger.error(f"Failed to decrypt the key for company id {self.company_id}: {e}")

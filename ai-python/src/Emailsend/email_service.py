@@ -9,12 +9,8 @@ import smtplib
 from src.db.config import  db_instance
 from email.message import EmailMessage
 from abc import ABC, abstractmethod
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
 load_dotenv()
 
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 # ---------- Mongo Helper ----------
 
 class BaseEmailProvider(ABC):

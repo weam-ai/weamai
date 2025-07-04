@@ -6,7 +6,7 @@ from src.logger.default_logger import logger
 from src.gateway.jwt_decode import get_user_data
 from pydantic import BaseModel
 import os
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor, MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from datetime import datetime
 import pytz
 from dotenv import load_dotenv
@@ -19,10 +19,6 @@ load_dotenv()
 router = APIRouter()
 
 collection = db_instance.get_collection("prompts")
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 @router.post(
     "/migrate-summaries",
@@ -273,7 +269,7 @@ async def migrate_company_models(current_user=Depends(get_user_data)):
             "id": model_data["_id"]
         }
 
-        api_key = encryptor.encrypt("AIzaSyBR32fpOFicRB5-HRsQKQ6Has_YZ03Bx0w")  
+        api_key = crypto_service.encrypt("AIzaSyBR32fpOFicRB5-HRsQKQ6Has_YZ03Bx0w")  
 
         companies = company_collection.find({})
         for company in companies:
@@ -334,7 +330,7 @@ async def migrate_company_models(current_user=Depends(get_user_data)):
         model_collection = db_instance.get_collection("model")
 
         openai_key = os.getenv("OPENAI_API_KEY")
-        api_key = encryptor.encrypt(openai_key)                  
+        api_key = crypto_service.encrypt(openai_key)                  
         
         timezone = pytz.timezone("Asia/Kolkata")
         current_datetime = datetime.now(timezone)

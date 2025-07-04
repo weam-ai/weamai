@@ -9,19 +9,13 @@ import os
 from src.chatflow_langchain.utils.hash_generator import generate_unique_number
 from src.chatflow_langchain.utils.pipeline_query import get_pipeline_v2,get_latest_checkpoint,retrieve_thread_checkpoint,regenerate_history_pipeline
 from src.db.config import db_instance
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 from src.chatflow_langchain.repositories.config import HistoryConfig
 # Default database and collection names
 DEFAULT_DBNAME = "customai"
 DEFAULT_COLLECTION_NAME = "messages"
 
-load_dotenv()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 FLAG_MAPPING = {(False):'simple_pipeline',(True):'regenerate_pipeline'}
 
 class CustomAIMongoDBChatMessageHistory(AbstractChatMessageHistory):
@@ -87,7 +81,7 @@ class CustomAIMongoDBChatMessageHistory(AbstractChatMessageHistory):
 
     def _parse_messages(self, messages: List[Dict]) -> List[BaseMessage]:
         try:
-            messages = [json.loads(decryptor.decrypt(msg)) for msg in messages]
+            messages = [json.loads(crypto_service.decrypt(msg)) for msg in messages]
             return messages_from_dict(messages)
         except (json.JSONDecodeError, KeyError) as error:
             logger.error(f"Failed to parse messages: {error}")
@@ -139,7 +133,7 @@ class CustomAIMongoDBChatMessageHistory(AbstractChatMessageHistory):
             upsert_query = {"chat_session_id": ObjectId(self.chat_session_id), "_id": ObjectId(thread_id)}
             upsert_update = {
                 "$set": {
-                    message_type: encryptor.encrypt(json.dumps(msg_dict))
+                    message_type: crypto_service.encrypt(json.dumps(msg_dict))
                 }
             }
             if message_type == "system":
@@ -209,7 +203,7 @@ class CustomAIMongoDBChatMessageHistory(AbstractChatMessageHistory):
             upsert_query = {"chat_session_id": ObjectId(self.chat_session_id), "_id": ObjectId(thread_id)}
             upsert_update = {
                 "$set": {
-                    message_type: encryptor.encrypt(json.dumps(msg_dict))
+                    message_type: crypto_service.encrypt(json.dumps(msg_dict))
                 }
             }
             if message_type == "system":
@@ -236,6 +230,6 @@ class CustomAIMongoDBChatMessageHistory(AbstractChatMessageHistory):
         if image_gen_prmpt:
            
             message = f"Previous image request: {image_gen_prmpt}"
-            return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
+            return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
         else:
-            return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
+            return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))

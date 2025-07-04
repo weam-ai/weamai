@@ -20,7 +20,7 @@ import gc
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.chatflow_langchain.service.gemini.canvas.utils import extract_google_error_message,extract_google_genai_error_message,extract_languages,get_word_boundary_substring,regex_replace,regex_replace_v2
 from src.chatflow_langchain.repositories.openai_error_messages_config import GENAI_ERROR_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 import os
 from langchain_google_genai._common import GoogleGenerativeAIError
@@ -36,16 +36,7 @@ llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 new_thread_repo = ThreadRepostiory()
 qdrant_vector_store= QdrantVectorStoreService()
-
-
 custom_gpt_repo=CustomGPTRepository()
-
-load_dotenv()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 class GeminiCanvasService():
     """
@@ -80,7 +71,7 @@ class GeminiCanvasService():
             if self.ai_answer is None:
                 self.ai_answer=thread_repo.result.get("openai_error")['content']
             else:
-                self.ai_answer = json.loads(decryptor.decrypt(self.ai_answer))['data']['content']
+                self.ai_answer = json.loads(crypto_service.decrypt(self.ai_answer))['data']['content']
             if self.end_index is None:
                 self.end_index=len(self.ai_answer)
             if self.regenerated_flag:

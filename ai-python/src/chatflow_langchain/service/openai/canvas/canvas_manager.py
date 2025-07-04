@@ -22,8 +22,7 @@ from src.chatflow_langchain.service.openai.canvas.utils import extract_error_mes
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusError,NotFoundError
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
-from dotenv import load_dotenv
+from src.crypto_hub.utils.crypto_utils import crypto_service
 import os
 from src.chatflow_langchain.repositories.chatdocs_repo import ChatDocsRepository
 from src.chatflow_langchain.repositories.company_repository import CompanyRepostiory
@@ -36,13 +35,6 @@ thread_repo = ThreadRepostiory()
 new_thread_repo = ThreadRepostiory()
 custom_gpt_repo=CustomGPTRepository()
 qdrant_vector_store= QdrantVectorStoreService()
-
-load_dotenv()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 class OpenAICanvasService():
     """
@@ -77,7 +69,7 @@ class OpenAICanvasService():
             if self.ai_answer is None:
                 self.ai_answer=thread_repo.result.get("openai_error")['content']
             else:
-                self.ai_answer = json.loads(decryptor.decrypt(self.ai_answer))['data']['content']
+                self.ai_answer = json.loads(crypto_service.decrypt(self.ai_answer))['data']['content']
             if self.end_index is None:
                 self.end_index=len(self.ai_answer)
             if self.regenerated_flag:

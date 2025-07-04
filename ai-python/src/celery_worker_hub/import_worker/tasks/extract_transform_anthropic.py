@@ -1,7 +1,7 @@
 from src.celery_worker_hub.import_worker.celery_app import celery_app
 from langchain_core.prompts import PromptTemplate
 from langchain_community.callbacks.manager import get_bedrock_anthropic_callback
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.custom_lib.langchain.chat_models.anthropic.chatanthropic_cache import MyChatAnthropic as ChatAnthropic
 from dotenv import load_dotenv
 from bson import ObjectId
@@ -18,9 +18,7 @@ from src.logger.default_logger import logger
 import tiktoken
 from datetime import datetime
 import pytz
-load_dotenv()
 
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
 
 @celery_app.task(
     bind=True,
@@ -57,7 +55,6 @@ def extract_and_transform_anthropic(self,config, conversation, chat_id, import_i
             )
         )
         memory = ConversationSummaryMemory(llm=llm, max_token_limit=SUM_MEMORY_LIMIT.MAX_TOKEN_LIMIT, memory_key="summary", prompt=SUMMARY_PROMPT)
-        encryptor = MessageEncryptor(security_key)
 
         chat_messages = conversation["chat_messages"]
 
@@ -174,7 +171,7 @@ def extract_and_transform_anthropic(self,config, conversation, chat_id, import_i
                 seq_current_datetime = datetime.now(timezone)
                 document.append({
                     "_id": ObjectId(),
-                    "message": encryptor.encrypt(json.dumps({
+                    "message": crypto_service.encrypt(json.dumps({
                         "type": "human",
                         "data": {
                             "content": current_user_message,
@@ -214,7 +211,7 @@ def extract_and_transform_anthropic(self,config, conversation, chat_id, import_i
                     "updatedAt": updated_time,
                     "__v": {"$numberInt": "0"},
                     "isMedia": False,
-                    "ai": encryptor.encrypt(json.dumps({
+                    "ai": crypto_service.encrypt(json.dumps({
                         "type": "ai",
                         "data": {
                             "content": assistant_message,
@@ -230,7 +227,7 @@ def extract_and_transform_anthropic(self,config, conversation, chat_id, import_i
                         }
                     })),
                     "sumhistory_checkpoint": str(sumhistory_checkpoint),
-                    "system": encryptor.encrypt(json.dumps({
+                    "system": crypto_service.encrypt(json.dumps({
                         "type": "system",
                         "data": {
                             "content": summarized_history,

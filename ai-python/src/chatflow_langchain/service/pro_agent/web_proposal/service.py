@@ -18,8 +18,6 @@ from langchain_community.callbacks.manager import get_openai_callback
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
 import os
 from src.db.config import get_field_by_name
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
-from dotenv import load_dotenv
 import pandas as pd
 from src.chatflow_langchain.service.config.model_config_openai import OPENAIMODEL,DefaultOpenAIModelRepository
 from datetime import datetime
@@ -28,9 +26,6 @@ from src.chatflow_langchain.service.openai.image.utils import extract_error_mess
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 import gc
-load_dotenv()
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(security_key)
 
 class WebProposalService:
     def __init__(self):

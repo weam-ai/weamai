@@ -17,7 +17,7 @@ from urllib.parse import urljoin, urlparse
 import re
 import json
 import socket
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.db.config import get_field_by_name
 from threading import Thread, Lock
 import time
@@ -28,8 +28,6 @@ TOKEN_LIMIT = 1_000_000  # 1,000,000 tokens max per file
 
 from src.custom_lib.langchain.tiktoken_load.encoding_cache import get_cached_encoding
 from src.aws.storageClient_service import ClientService
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(key)
 
 
 def attach_status_icon(status: str, message: str) -> str:
@@ -910,7 +908,7 @@ class GeminiAPIKeyManager(metaclass=Singleton):
             # Track usage
             self.key_usage[key_name] += 1
 
-            return decryptor.decrypt(encrypted_key)
+            return crypto_service.decrypt(encrypted_key)
 
     def _reset_key_usage(self):
         """

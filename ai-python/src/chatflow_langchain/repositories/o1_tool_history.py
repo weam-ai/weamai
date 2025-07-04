@@ -9,16 +9,9 @@ import os
 from src.chatflow_langchain.utils.hash_generator import generate_unique_number
 from src.chatflow_langchain.utils.tool_pipeline_query import get_pipeline_v2,get_latest_checkpoint,regenerate_history_pipeline,retrieve_thread_checkpoint
 from src.db.config import db_instance
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 from src.chatflow_langchain.repositories.config import HistoryConfig
-
-load_dotenv()
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
-
 
 # Default database and collection names
 DEFAULT_DBNAME = "customai"
@@ -108,7 +101,7 @@ class CustomAIMongoDBChatMessageHistory(BaseChatMessageHistory):
 
     def _parse_messages(self, messages: List[Dict]) -> List[BaseMessage]:
         try:
-            messages = [json.loads(decryptor.decrypt(msg)) for msg in messages]
+            messages = [json.loads(crypto_service.decrypt(msg)) for msg in messages]
             return messages_from_dict(messages)
         except (json.JSONDecodeError, KeyError) as error:
             logger.error(f"Failed to parse messages: {error}")
@@ -169,7 +162,7 @@ class CustomAIMongoDBChatMessageHistory(BaseChatMessageHistory):
             upsert_query = {"chat_session_id": ObjectId(self.chat_session_id), "_id": ObjectId(thread_id)}
             upsert_update = {
                 "$set": {
-                    message_type: encryptor.encrypt(json.dumps(msg_dict))
+                    message_type: crypto_service.encrypt(json.dumps(msg_dict))
                 }
             }
             if message_type == "system":
@@ -235,9 +228,9 @@ class CustomAIMongoDBChatMessageHistory(BaseChatMessageHistory):
                         if file_flag:
                             file_msg.append(f"User file details - file_name: {file_name}, file_tag: {file_tag}")
                     message = " | ".join(file_msg)
-                    return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
+                    return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
                 else:
-                    return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
+                    return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
             else:
                 # Safely get keys with defaults
                 if file.get('name',None):
@@ -247,20 +240,20 @@ class CustomAIMongoDBChatMessageHistory(BaseChatMessageHistory):
                     
                     message = f"User file details - file_name: {file_name}, file_tag: {file_tag}"
 
-                    return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
+                    return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
                 else:
-                    return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
+                    return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
         else:
             # If media is falsy, return empty content
-            return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
+            return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
     
     def convert_img_gen_to_human(self, image_gen_prmpt,**kwargs):
         if image_gen_prmpt:
            
             message = f"Previous image request: {image_gen_prmpt}"
-            return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
+            return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=message))))
         else:
-            return encryptor.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
+            return crypto_service.encrypt(json.dumps(message_to_dict(HumanMessage(content=''))))
 
 
     

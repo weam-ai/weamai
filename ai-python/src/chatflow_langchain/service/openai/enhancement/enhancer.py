@@ -13,7 +13,7 @@ from src.chatflow_langchain.service.openai.title.utils import extract_error_mess
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusError,NotFoundError
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.chatflow_langchain.service.config.model_config_openai import DefaultOpenAIModelRepository,OPENAIMODEL
 from src.chatflow_langchain.repositories.enhacement import EnhanceRepostiory
 from src.round_robin.llm_key_manager import APIKeySelectorService,APIKeyUsageService
@@ -23,13 +23,6 @@ import os
 from datetime import datetime
 import pytz
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
-
-load_dotenv()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 class OpenAIQueryEnhancerService():
     """
@@ -145,8 +138,8 @@ class OpenAIQueryEnhancerService():
             "_id":ObjectId(self.enhance_id),
             "queryId": ObjectId(self.query_id),
             "versionNumber": (current_max_version+1),
-            "query": encryptor.encrypt(self.query),
-            "enhancedContent": encryptor.encrypt(enhance_response),
+            "query": crypto_service.encrypt(self.query),
+            "enhancedContent": crypto_service.encrypt(enhance_response),
             "createdAt":current_datetime,
             "updatedAt": current_datetime,
             "chatId": ObjectId(self.chat_id),

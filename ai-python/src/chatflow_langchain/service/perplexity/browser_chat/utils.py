@@ -6,7 +6,7 @@ from fastapi import status
 import json
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.db.config import get_field_by_name
 from threading import Thread, Lock
 import os
@@ -15,9 +15,6 @@ import aiohttp
 import asyncio
 
 thread_repo = ThreadRepostiory()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(key)
 
 async def replace_citations(text, urls, full_message):
     def replacement(match):

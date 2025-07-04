@@ -2,7 +2,7 @@ from src.crypto_hub.repositories.openai.embedding_model_repo import EmbeddingMod
 from src.logger.default_logger import logger
 from dotenv import load_dotenv
 import os
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 
 load_dotenv()
 
@@ -45,16 +45,15 @@ class EmbeddingAPIKeyDecryptionHandler:
             if self.__encrypted_data:
                 self.apikey = self.__encrypted_data.get('apikey')
 
-                if not security_key:
+                if not crypto_service:
                     logger.error(
-                        "Security key is missing in the environment file. Please ensure that the SECURITY_KEY is properly set.",
+                        "crypto_service is not enable. Please ensure that the crypto_service is properly set.",
                         extra={"tags": {
                             "method": "EmbeddingAPIKeyDecryptionHandler.initialization",
                             "api_id": api_key_id
                         }})
-                    raise ValueError("Security key is missing in the environment file. Please ensure that the SECURITY_KEY is properly set.")
-
-                self.decryptor = MessageDecryptor(security_key)
+                    raise ValueError("Crypto service is not rechable. Please ensure that the crypto_service is properly set.")
+                self.decryptor = crypto_service.decryptor
             else:
                 logger.error(
                     f"No encrypted data found for API key ID: {api_key_id}",

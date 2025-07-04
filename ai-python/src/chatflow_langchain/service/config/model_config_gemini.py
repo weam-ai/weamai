@@ -1,15 +1,10 @@
 from bson.objectid import ObjectId
 from src.chatflow_langchain.service.config.baseModel_repository import BaseDefaultModelRepository
 from src.logger.default_logger import logger
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 import os
-load_dotenv()
 
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 class GEMINIMODEL:
     GEMINI_2O_FLASH= 'gemini-2.0-flash'
     DEFAULT_TOOL_MODEL = 'gemini-2.0-flash'
@@ -60,7 +55,7 @@ class DefaultGEMINI20FlashModelRepository(BaseDefaultModelRepository):
       
         
         try:
-            decrypted_key = decryptor.decrypt(self.encrypt_key)
+            decrypted_key = crypto_service.decrypt(self.encrypt_key)
             return decrypted_key
         except Exception as e:
             logger.error(f"Failed to decrypt the key for company id {self.company_id}: {e}")

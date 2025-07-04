@@ -22,7 +22,7 @@ from src.chatflow_langchain.service.openai.title.utils import extract_error_mess
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG
 from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusError,NotFoundError
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 import os
 from src.round_robin.llm_key_manager import APIKeySelectorService,APIKeyUsageService
@@ -33,12 +33,6 @@ thread_repo = ThreadRepostiory()
 chat_repo = ChatSessionRepository()
 chat_member_repo = ChatMemberRepository()
 openai_llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
-load_dotenv()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 class PerplexityTitleGenerationService(AbstractTitleGeneration):
     """
@@ -206,19 +200,19 @@ class PerplexityTitleGenerationService(AbstractTitleGeneration):
         """
         try:
             with get_openai_callback() as cb :
-                query = json.loads(decryptor.decrypt(thread_repo.result['message']))['data']['content']
+                query = json.loads(crypto_service.decrypt(thread_repo.result['message']))['data']['content']
                 if self.ai_answer is None:
                     if len(query)>REFORMED_QUERY.QUERY_LIMIT_CHECK:
                         query=query[:REFORMED_QUERY.REFORMED_QUERY_LIMIT]
                     response = self.llm_chain.run({"question": query})
                 else:
-                    temp_ans = json.loads(decryptor.decrypt(self.ai_answer))['data']['content']
+                    temp_ans = json.loads(crypto_service.decrypt(self.ai_answer))['data']['content']
                     if (len(query)+len(temp_ans)) > REFORMED_QUERY.QUERY_LIMIT_CHECK:
                         reformed_query = query+temp_ans
                         reformed_query = reformed_query[:REFORMED_QUERY.REFORMED_QUERY_LIMIT]
                         response = self.llm_chain.run({"question": reformed_query,"answer":" "})
                     else:
-                        response = self.llm_chain.run({"question": query, "answer": json.loads(decryptor.decrypt(self.ai_answer))['data']['content']})
+                        response = self.llm_chain.run({"question": query, "answer": json.loads(crypto_service.decrypt(self.ai_answer))['data']['content']})
                 # self.api_usage_service.update_usage_sync(provider=openai_llm_apikey_decrypt_service.bot_data.get('code', 'OPEN_AI'), tokens_used=cb.total_tokens, model=self.model_name, api_key=openai_llm_apikey_decrypt_service.apikey, functionality=Functionality.CHAT,company_id=openai_llm_apikey_decrypt_service.companyRedis_id)
                 self.update_chat_session_title(chat_session_id, response,collection_name=collection_name)
                 self.update_chat_member_title(chat_session_id,response,collection_name=collection_chatmember)

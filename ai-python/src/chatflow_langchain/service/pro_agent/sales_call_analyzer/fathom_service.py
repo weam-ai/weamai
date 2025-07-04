@@ -15,7 +15,7 @@ from src.chatflow_langchain.service.pro_agent.sales_call_analyzer.chat_prompt_fa
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
 import os
 from src.db.config import get_field_by_name
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 import pandas as pd
 from src.chatflow_langchain.service.config.model_config_gemini import DefaultGEMINI20FlashModelRepository,GEMINIMODEL
@@ -43,8 +43,6 @@ from src.chatflow_langchain.service.pro_agent.sales_call_analyzer.utils import l
 from src.celery_worker_hub.web_scraper.tasks.scraping_sitemap import crawler_scraper_task_sales
 # Define the API endpoint and the payload
 load_dotenv()
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(security_key)
 
 class SalesFathomService:
     def __init__(self):
@@ -101,7 +99,7 @@ class SalesFathomService:
             if local_environment in ["prod"]:          
                 Qa_specialist_api = self.pro_agent_details.get("qa_specialist").get("gemini")
                 self.encrypted_key = Qa_specialist_api
-                self.api_key = decryptor.decrypt(Qa_specialist_api)
+                self.api_key = crypto_service.decrypt(Qa_specialist_api)
 
             self.llm = ChatGoogleGenerativeAI(model= self.llm_apikey_decrypt_service.model_name,
                 temperature=1,

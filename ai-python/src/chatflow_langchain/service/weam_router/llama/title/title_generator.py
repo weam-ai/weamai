@@ -18,7 +18,7 @@ from src.chatflow_langchain.service.weam_router.llama.title.utils import extract
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 from src.chatflow_langchain.repositories.openai_error_messages_config import WEAM_ROUTER_MESSAGES_CONFIG
 from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusError,NotFoundError
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 from src.custom_lib.langchain.callbacks.weam_router.open_router.cost.context_manager import openrouter_sync_callback
 import os
@@ -30,11 +30,6 @@ chat_repo = ChatSessionRepository()
 chat_member_repo = ChatMemberRepository()
 
 load_dotenv()
-
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 
 class WeamLlamaTitleGenerationService(AbstractTitleGeneration):
     """
@@ -201,19 +196,19 @@ class WeamLlamaTitleGenerationService(AbstractTitleGeneration):
         """
         try:
             with openrouter_sync_callback(model_name=self.model_name) as cb :
-                query = json.loads(decryptor.decrypt(thread_repo.result['message']))['data']['content']
+                query = json.loads(crypto_service.decrypt(thread_repo.result['message']))['data']['content']
                 if self.ai_answer is None:
                     if len(query)>REFORMED_QUERY.QUERY_LIMIT_CHECK:
                         query=query[:REFORMED_QUERY.REFORMED_QUERY_LIMIT]
                     response = self.llm_chain.run({"question": query})
                 else:
-                    temp_ans = json.loads(decryptor.decrypt(self.ai_answer))['data']['content']
+                    temp_ans = json.loads(crypto_service.decrypt(self.ai_answer))['data']['content']
                     if (len(query)+len(temp_ans)) > REFORMED_QUERY.QUERY_LIMIT_CHECK:
                         reformed_query = query+temp_ans
                         reformed_query = reformed_query[:REFORMED_QUERY.REFORMED_QUERY_LIMIT]
                         response = self.llm_chain.run({"question": reformed_query,"answer":" "})
                     else:
-                        response = self.llm_chain.run({"question": query, "answer": json.loads(decryptor.decrypt(self.ai_answer))['data']['content']})
+                        response = self.llm_chain.run({"question": query, "answer": json.loads(crypto_service.decrypt(self.ai_answer))['data']['content']})
                 if response=='':
                     response = get_default_title("default")
                 self.update_chat_session_title(chat_session_id, response,collection_name=collection_name)

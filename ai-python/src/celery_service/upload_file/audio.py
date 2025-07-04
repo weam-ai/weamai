@@ -7,7 +7,7 @@ import os
 from bson.objectid import ObjectId
 import requests
 from io import BytesIO
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor,MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 import requests
 from io import BytesIO
 from dotenv import load_dotenv
@@ -15,12 +15,7 @@ from src.celery_service.utils import get_default_header
 from tempfile import SpooledTemporaryFile,NamedTemporaryFile
 from pathlib import Path
 import ffmpeg
-load_dotenv()
 import asyncio
-key = os.getenv("SECURITY_KEY").encode("utf-8")
-
-encryptor = MessageEncryptor(key)
-decryptor = MessageDecryptor(key)
 from urllib.parse import urlparse
 
 def get_extension_from_content_type(content_type):
@@ -46,7 +41,7 @@ def upload_gemini_audio(self, url: str, encrypt_api_key: str):
     """
     try:
         header = get_default_header()
-        api_key = decryptor.decrypt(encrypt_api_key)
+        api_key = crypto_service.decrypt(encrypt_api_key)
 
         with requests.get(url, stream=True, headers=header) as response:
             response.raise_for_status()

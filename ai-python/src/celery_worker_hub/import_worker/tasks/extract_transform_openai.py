@@ -3,7 +3,7 @@ from src.celery_worker_hub.import_worker.celery_app import celery_app
 from src.custom_lib.langchain.chat_models.openai.chatopenai_cache import MyChatOpenAI as ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_community.callbacks.manager import get_openai_callback
-from src.crypto_hub.utils.crypto_utils import MessageEncryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 from bson import ObjectId
 from src.celery_worker_hub.import_worker.utils import ConversationSummaryMemory
@@ -17,10 +17,8 @@ from src.logger.default_logger import logger
 from datetime import datetime
 from src.chatflow_langchain.service.config.model_config_openai import OPENAIMODEL
 import pytz
-load_dotenv()
 import tiktoken
 
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
 @celery_app.task(
     bind=True,
     autoretry_for=(Exception,),
@@ -58,7 +56,6 @@ def extract_and_transform_openai(self,config, conversation, chat_id, import_id,c
             )
         )
         memory = ConversationSummaryMemory(llm=llm, max_token_limit=SUM_MEMORY_LIMIT.MAX_TOKEN_LIMIT, memory_key="summary", prompt=SUMMARY_PROMPT)
-        encryptor = MessageEncryptor(security_key)
 
         # Filter out invalid mappings and sort by create_time (oldest to newest)
         filtered_sorted_mappings = sorted(
@@ -194,7 +191,7 @@ def extract_and_transform_openai(self,config, conversation, chat_id, import_id,c
                 seq_current_datetime = datetime.now(timezone)
                 document.append({
                     "_id": ObjectId(),
-                    "message": encryptor.encrypt(json.dumps({
+                    "message": crypto_service.encrypt(json.dumps({
                         "type": "human",
                         "data": {
                             "content": current_user_message,
@@ -235,7 +232,7 @@ def extract_and_transform_openai(self,config, conversation, chat_id, import_id,c
                     "updatedAt": updated_time,
                     "__v": {"$numberInt": "0"},
                     "isMedia": False,
-                    "ai": encryptor.encrypt(json.dumps({
+                    "ai": crypto_service.encrypt(json.dumps({
                         "type": "ai",
                         "data": {
                             "content": assistant_message,
@@ -251,7 +248,7 @@ def extract_and_transform_openai(self,config, conversation, chat_id, import_id,c
                         }
                     })),
                     "sumhistory_checkpoint": str(sumhistory_checkpoint),
-                    "system": encryptor.encrypt(json.dumps({
+                    "system": crypto_service.encrypt(json.dumps({
                         "type": "system",
                         "data": {
                             "content": summarized_history,

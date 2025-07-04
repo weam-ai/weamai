@@ -7,15 +7,14 @@ from src.chatflow_langchain.repositories.file_repository import FileRepository
 from src.chatflow_langchain.service.pro_agent.video_analysis.utils import extract_video_id, get_video_url,extract_main_domain
 from src.chatflow_langchain.service.pro_agent.video_analysis.config import  VideoValidation
 from src.celery_service.upload_file.video import upload_gemini_video
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from src.gateway.exceptions import PayloadTooLargeException
 from fastapi.encoders import jsonable_encoder
 from src.db.config import get_field_by_name
 from fastapi import HTTPException, status
 from dotenv import load_dotenv
 load_dotenv()
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(security_key)
+
 class UploadFileService:
     def __init__(self):
         """
@@ -59,7 +58,7 @@ class UploadFileService:
             local_environment = os.getenv("WEAM_ENVIRONMENT", "local")
             if local_environment in ["prod"]:          
                 self.encrypt_key = self.pro_agent_details.get("qa_specialist").get("gemini")
-                self.decrypt_key = decryptor.decrypt(self.encrypt_key)
+                self.decrypt_key = crypto_service.decrypt(self.encrypt_key)
 
             else:
                 self.model = DefaultGEMINI20FlashModelRepository(company_id=self.company_id,companymodel=self.companymodel)

@@ -30,7 +30,7 @@ from google.api_core.exceptions import GoogleAPIError, ResourceExhausted, Google
 from langchain_google_genai._common import GoogleGenerativeAIError
 import os
 from src.db.config import get_field_by_name
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from src.crypto_hub.utils.crypto_utils import crypto_service
 from dotenv import load_dotenv
 import pandas as pd
 import gc
@@ -40,8 +40,6 @@ from src.chatflow_langchain.utils.crawler4ai_scrapper import CrawlerService
 from src.chatflow_langchain.service.pro_agent.qa_special.utils import split_and_write_text_by_token_limit
 from src.celery_worker_hub.web_scraper.tasks.scraping_sitemap import crawler_scraper_task_qa
 load_dotenv()
-security_key = os.getenv("SECURITY_KEY").encode("utf-8")
-decryptor = MessageDecryptor(security_key)
 
 class WebQASpecialService:
     def __init__(self):
@@ -114,7 +112,7 @@ class WebQASpecialService:
     async def get_pageSpeed_desktop_analysis(self):
         try:   
             PageSpeed_api = self.pro_agent_details.get("qa_specialist").get("pageSpeed")
-            pageSpeedAPIKey = decryptor.decrypt(PageSpeed_api)
+            pageSpeedAPIKey = crypto_service.decrypt(PageSpeed_api)
             api_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
             params = {
                 "url": self.url,
@@ -141,7 +139,7 @@ class WebQASpecialService:
     async def get_pageSpeed_mobile_analysis(self):
         try:   
             PageSpeed_api = self.pro_agent_details.get("qa_specialist").get("pageSpeed")
-            pageSpeedAPIKey = decryptor.decrypt(PageSpeed_api)
+            pageSpeedAPIKey = crypto_service.decrypt(PageSpeed_api)
             api_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
             params = {
                 "url": self.url,
