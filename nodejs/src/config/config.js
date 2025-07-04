@@ -107,5 +107,6 @@ module.exports = {
     FRESHSALES: {
         API_KEY: process.env.FRESHSALES_CRM_API_KEY,
         DOMAIN: process.env.FRESHSALES_CRM_DOMAIN_NAME
-    }
+    },
+    DEFAULT_MSG_CREDIT: process.env.FREE_TIER_CREDIT || 100
 };

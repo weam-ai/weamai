@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const { AUTH, LINK, SUPPORT_EMAIL, SERVER } = require('../config/config');
+const { AUTH, LINK, SUPPORT_EMAIL, SERVER, DEFAULT_MSG_CREDIT } = require('../config/config');
 const { EMAIL_TEMPLATE, MOMENT_FORMAT, ROLE_TYPE, INVITATION_TYPE, RESPONSE_CODE, APPLICATION_ENVIRONMENT } = require('../config/constants/common');
 const { getTemplate } = require('../utils/renderTemplate');
 const { sendSESMail } = require('../services/email');
@@ -432,7 +432,7 @@ const inviteUsers = async (req) => {
                     invitedBy: companyId,
                     inviteSts: INVITATION_TYPE.PENDING,
                     company: companyObj,
-                    msgCredit: 0
+                    msgCredit: DEFAULT_MSG_CREDIT
                 };
                newUsers.push(newUser);
             }

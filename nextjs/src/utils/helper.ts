@@ -148,7 +148,7 @@ export const formatFileData = (file) => {
 
 export const persistBrainData = (payload) => {
     const data = {
-        _id: payload._id,
+        _id: payload?._id,
         title: payload.title,
         slug: payload.slug,
         workspaceId: payload.workspaceId,
