@@ -1,8 +1,8 @@
 const User = require('../models/user');
 const dbService = require('../utils/dbService');
-const { randomPasswordGenerator, handleError, getCompanyId, formatUser, getRemainingDaysCredit, isSubscriptionActive } = require('../utils/helper');
+const { randomPasswordGenerator, handleError, getCompanyId, formatUser } = require('../utils/helper');
 const { getTemplate } = require('../utils/renderTemplate');
-const { EMAIL_TEMPLATE, MOMENT_FORMAT, EXPORT_TYPE, ROLE_TYPE, STORAGE_REQUEST_STATUS, GPT_TYPES, SUBSCRIPTION_TYPE } = require('../config/constants/common');
+const { EMAIL_TEMPLATE, MOMENT_FORMAT, EXPORT_TYPE, ROLE_TYPE, STORAGE_REQUEST_STATUS, GPT_TYPES } = require('../config/constants/common');
 const { sendSESMail } = require('../services/email');
 const moment = require('moment-timezone');
 const WorkSpaceUser = require('../models/workspaceuser');
@@ -68,11 +68,10 @@ const updateUser = async (req) => {
 const getUser = async (req) => {
     try {
 
-        const subscription = await Subscription.findOne({ 'company.id': req.user.company.id }, { status: 1,startDate:1,endDate:1 })
         const [result, company, credit] = await Promise.all([
             checkExisting(req),
             Company.findOne({ _id: req.user.company.id }, { freeCredit: 1,freeTrialStartDate: 1 }).lean(),
-            getUsedCredit({ companyId: req.user.company.id, userId: req.user.id }, req.user, subscription, isSubscriptionActive(subscription?.status)),
+            getUsedCredit({ companyId: req.user.company.id, userId: req.user.id }, req.user),
             
         ]);
         const removeFields = ['password', 'fcmTokens', 'mfaSecret', 'resetHash'];
@@ -88,7 +87,7 @@ const getUser = async (req) => {
               : {}),
             msgCreditLimit: credit.msgCreditLimit,
             msgCreditUsed: credit.msgCreditUsed,
-            subscriptionStatus: subscription?.status,
+            //subscriptionStatus: null,
           },
         };
     } catch (error) {
@@ -394,43 +393,6 @@ const addUserMsgCredit = async (companyId, msgCredit) => {
     }
 }
 
-const updateUserMsgCredit = async (companyId, newPlanMsgLimit) => {
-    try {
-        // Get all users in the company
-        const companyUsers = await User.find({ 'company.id': companyId }).lean();
-        
-        const subscriptionRecord = await subscription.findOne({ 'company.id': companyId })
-            .select('startDate endDate')
-            .lean();
-
-        //Caculate per day credit
-        const remainingDaysCredit = await getRemainingDaysCredit(subscriptionRecord?.startDate, subscriptionRecord?.endDate, newPlanMsgLimit);
-        
-        // Prepare bulk operations
-        const bulkOps = await Promise.all(companyUsers.map(async user => {
-            const creditInfo = await getUsedCredit({ companyId, userId: user._id}, user, subscriptionRecord);
-            const oldPlanRemainingLimit = Number(creditInfo.msgCreditLimit) - Number(creditInfo.msgCreditUsed);
-            
-            const newCredit = Number(oldPlanRemainingLimit) + Number(remainingDaysCredit);
-             
-            return {
-                updateOne: {
-                    filter: { _id: user._id },
-                    update: { $set: { msgCredit: newCredit } }
-                }
-            };
-        }));
-        
-        sendUserSubscriptionUpdate(companyId, {});
-        // Execute all updates in a single database call
-        return User.bulkWrite(bulkOps);
-        
-    } catch (error) {
-        handleError(error, 'Error - updateCompanyUsersCredit');
-        return false;
-    }
-}
-
 const userFavoriteList = async (req) => {
     try {
         const { search } = req.body.query;
@@ -500,6 +462,5 @@ module.exports = {
     approveStorageRequest,
     toggleUserBrain,
     addUserMsgCredit,
-    updateUserMsgCredit,
     userFavoriteList
 }

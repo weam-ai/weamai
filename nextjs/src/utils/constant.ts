@@ -127,11 +127,9 @@ export const MODULE_ACTIONS = {
     GET_INVOICE_LIST:'getInvoiceList',
     APPROVE_STORAGE_REQUEST:'approveStorageRequest',
     DECLINE_STORAGE_REQUEST:'declineStorageRequest',
-    CONFIRM_STORAGE_PAYMENT:'confirmStoragePayment',
     CHECK_COUPON_CODE:'checkCouponCode',
     RESEND_VERIFICATION_EMAIL: 'resendVerification',
     ON_BOARD_LOGIN: 'onBoardLogin',
-    FREE_MESSAGE_COUNT: 'freeMessageCount',
     CHANGE_PASSWORD: 'changePassword',
     HUGGING_FACE_HEALTH: 'huggingFaceKeyCheck',
     ANTHROPIC_HEALTH: 'anthropicKeyCheck',
@@ -141,7 +139,6 @@ export const MODULE_ACTIONS = {
     FAVORITE_LIST: 'userFavoriteList',
     FAVORITE: 'favorite',
     GLOBAL_SEARCH: 'globalSearch',
-    GET_RAZORPAY_STORAGE_PRICE: 'getRazorpayStoragePrice',
     GET_USAGE: 'getUsage',
     GET_USER_USAGE: 'getUserUsage',
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
@@ -298,10 +295,10 @@ export const SOCKET_EVENTS = {
     DISABLE_QUERY_INPUT: 'disableinput',
     NEW_CHAT_MESSAGE: 'newmessage',
     JOIN_COMPANY_ROOM: 'joincompanyroom',
-    USER_MESSAGE_COUNT: 'messagecount',
+    //USER_MESSAGE_COUNT: 'messagecount',
     SUBSCRIPTION_STATUS: 'subscriptionstatus',
     AI_MODEL_KEY_REMOVE: 'aimodelkeyremove',
-    NOTIFY_MESSAGE_LIMIT: 'messageexceeded',
+    //NOTIFY_MESSAGE_LIMIT: 'messageexceeded',
     API_KEY_REQUIRED:'apikeyrequired',
     LOAD_CONVERSATION: 'loadconversation',
     FETCH_MODAL_LIST: 'fetchmodal',
@@ -496,12 +493,12 @@ export const SUBSCRIPTION_STATUS = {
     CANCELED: 'CANCELED'   
 }
 
-export const RAZORPAY_SUBSCRIPTION_STATUS = {
-    ACTIVE: 'ACTIVE',
-    EXPIRED: 'EXPIRED',
-    CANCELED: 'CANCELLED',
-    PENDING_CANCELLATION: 'PENDING_CANCELLATION'   
-}
+// export const RAZORPAY_SUBSCRIPTION_STATUS = {
+//     ACTIVE: 'ACTIVE',
+//     EXPIRED: 'EXPIRED',
+//     CANCELED: 'CANCELLED',
+//     PENDING_CANCELLATION: 'PENDING_CANCELLATION'   
+// }
 
 export const APPLICATION_ENVIRONMENT = {
     DEVELOPMENT: 'development',

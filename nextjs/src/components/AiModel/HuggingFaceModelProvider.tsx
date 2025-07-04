@@ -100,8 +100,7 @@ const HuggingFaceModelProvider = ({ configs }) => {
       tool: false,
       sample: false,
    });
-   const {subscriptionStatus} = useSelector((store: RootState)=>store.chat.creditInfo) 
-
+   
    const [isExtraConfigVisible, setIsExtraConfigVisible] = useState(false);
    const { register, handleSubmit, errors, setValue, huggingFaceHealthCheck, loading, taskname } = useHuggingFace();
 
@@ -524,7 +523,7 @@ const HuggingFaceModelProvider = ({ configs }) => {
             className="btn btn-black" 
             type="button"
             onClick={handleSubmit(submitHandler)}
-             disabled={loading || !subscriptionStatus} 
+             disabled={loading} 
          >
             Save
          </button>   

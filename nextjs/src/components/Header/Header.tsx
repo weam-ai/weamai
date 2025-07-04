@@ -20,9 +20,6 @@ import { decodedObjectId } from '@/utils/helper';
 import { RootState } from '@/lib/store';
 import { matchedBrain } from '../Brains/BrainList';
 import DocumentIcon from '@/icons/DocumentIcon';
-import CircularProgress from './CircularProgress';
-import { FREE_TRIAL } from '@/config/config';
-import { isSubscriptionActive, freeTrialDaysLeft } from '@/utils/common';
 import useConversation from '@/hooks/conversation/useConversation';
 
 const HeaderLayout = () => {
@@ -32,18 +29,8 @@ const HeaderLayout = () => {
     const socket = useSocket();
     const currentUser = useMemo(() => getCurrentUser(), []);
     const companyId = useMemo(() => getCompanyId(currentUser), [currentUser]);
-    const creditInfo = useSelector((store:RootState) => store.chat.creditInfo);
-    const freeDaysLeft = useMemo(() => freeTrialDaysLeft(creditInfo), [creditInfo]);
     const {conversations} = useConversation()
     
-    // Move this logic to a memoized function
-    const shouldShowProgress = useMemo(() => {
-        return chatAccess && 
-               creditInfo?.freeTrialStartDate &&
-               Object.keys(creditInfo).length > 0 &&
-               !isSubscriptionActive(creditInfo.subscriptionStatus);
-    }, [chatAccess, creditInfo]);
-
     useEffect(() => {
         if (socket) {
             socket.emit(SOCKET_EVENTS.JOIN_CHAT_ROOM, { chatId: params.id, companyId, userId: currentUser._id });
@@ -68,13 +55,6 @@ const HeaderLayout = () => {
         <header className="top-header md:h-[68px] min-h-[68px] flex md:border-b-0 border-b border-b10  items-center md:justify-between py-2 lg:pl-[15px] pl-[50px] pr-[15px]">
             {chatAccess && <UserModel />}
             <div className="header-right ml-auto flex items-center md:gap-2.5 gap-1.5 md:mt-0">
-                {shouldShowProgress && (
-                    <CircularProgress
-                        value={freeDaysLeft}
-                        max={parseInt(FREE_TRIAL.DAYS)}
-                        width={40}
-                    />
-                )}
                 {chatAccess && (
                     <MemberList className="flex-shrink-0" />
                 )}

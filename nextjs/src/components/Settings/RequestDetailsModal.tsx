@@ -58,6 +58,8 @@ const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageReq
                     currency: 'USD'
                 }
                 const response = await approveStorageRequest(payload);
+                setRefreshStorageRequests(true);
+                closeModal();
             } catch (error) {
                 console.error(error);
             }

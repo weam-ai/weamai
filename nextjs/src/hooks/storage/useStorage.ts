@@ -3,14 +3,6 @@ import { MODULE_ACTIONS, MODULES, DEFAULT_SORT, CURRENCY } from '@/utils/constan
 import { getCompanyId, getCurrentUser } from '@/utils/handleAuth';
 import Toast from '@/utils/toast';
 import { useState } from 'react';
-import { STRIPE_STORAGE_PRICE_ID, STRIPE_STORAGE_PRICE_ID_IND } from '@/config/config';
-import { isIndiaByTimezone } from '@/utils/helper';
-
-type ConfirmStoragePaymentPayload = {
-    paymentIntentId: string;
-    storageRequestId: string;
-    updatedStorageSize: number;
-}
 
 const useStorage = () => {
     const [storageDetails, setStorageDetails] = useState(null);
@@ -117,102 +109,12 @@ const useStorage = () => {
             setLoading(false);
         }
     }
-
-    // const getStorageProductPrice = async (currency) => {
-    //     try{
-    //         setDataLoading(true);
-    //         let priceId = '';
-    //         if(currency){
-    //         priceId = (currency === CURRENCY.INR) ? STRIPE_STORAGE_PRICE_ID_IND : STRIPE_STORAGE_PRICE_ID;
-    //     } else {
-    //         priceId = isIndiaByTimezone() ? STRIPE_STORAGE_PRICE_ID_IND : STRIPE_STORAGE_PRICE_ID;
-    //     }
-            
-    //     const response = await commonApi({
-    //         action: MODULE_ACTIONS.GET_PRODUCT_PRICE,
-    //         parameters:[priceId]
-    //     });
-
-    //         setProductPrice(response?.data);
-    //         setDataLoading(false);
-    //     } catch (error) {
-    //         console.error('Error fetching storage product price: ', error);
-    //     } finally {
-    //         setDataLoading(false);
-    //     }
-    // }
-
-    // const getRazorpayStoragePrice = async () => {
-    //     try{
-    //         setLoading(true);
-    //         const response = await commonApi({
-    //             action: MODULE_ACTIONS.GET_RAZORPAY_STORAGE_PRICE
-    //         })
-    //         setRazorpayStoragePrice(response?.data);
-
-    //     } catch (error) {
-    //         console.error('Error fetching razorpay storage price: ', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-        
-    // }
-
-    // const razorpayStorageApprove = async (payload) => {
-    //     try{
-    //         setLoading(true);
-    //         const response = await commonApi({
-    //             action: MODULE_ACTIONS.RAZORPAY_STORAGE_APPROVE,
-    //             data: payload
-    //         })
-           
-    //         return response;
-    //     } catch (error) {
-    //         console.error('Error approving razorpay storage payment: ', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
-
-    // const verifyRazorpayStoragePayment = async (payload,storageRequestId,updatedStorageSize) => {
-    //     try{
-    //         const response = await commonApi({
-    //             action: MODULE_ACTIONS.VERIFY_RAZORPAY_STORAGE_PAYMENT,
-    //             data: {
-    //                 ...payload,
-    //                 storageRequestId,
-    //                 updatedStorageSize
-    //             }
-    //         })
-    //         return response;
-    //     } catch (error) {
-    //         console.error('Error verifying razorpay storage payment: ', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
-
-    const confirmStoragePayment = async (payload: ConfirmStoragePaymentPayload) => {
-        try{
-            setLoading(true);
-            const response = await commonApi({
-                action: MODULE_ACTIONS.CONFIRM_STORAGE_PAYMENT,
-                data: payload
-            })
-            return response;
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    }
     
-
     return { 
         getStorage, storageDetails, setStorageDetails, 
         updateStorage, getPendingStorageRequest, storageRequestList,
         loading, totalRecords, approveStorageRequest, declineStorageRequest,
-        productPrice, dataLoading, confirmStoragePayment
+        productPrice, dataLoading
     };
 };
 
