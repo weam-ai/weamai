@@ -24,7 +24,7 @@ class MinioClient(metaclass=Singleton):
         self.secret_key = os.environ.get("AWS_SECRET_ACCESS_KEY", "minioadmin123")
         self.bucket_name = os.environ.get("AWS_S3_BUCKET")
         self.cdn_url=os.environ.get("MINIO_ENDPOINT")
-        self.vectors_backup =os.environ.get("MINIO_VECTORS_BACKUP","vectors-backup")
+        self.vectors_backup =os.environ.get("AWS_VECTORS_BACKUP","vectors-backup")
         self.profiler = os.environ.get("PROFILER_S3_BUCKET", "profiler")
         logger.info("🔐 Initializing MinIO S3 client")
         self.client = boto3.client(

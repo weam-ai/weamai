@@ -83,12 +83,12 @@ class MinioTextExtractor(TextExtractor):
     def _validate_url(self):
         """Validate that the URL points to a Minio S3 object and is a supported file format."""
   
-        minio_pattern = re.compile(os.environ.get("MINO_REGEX_FILE_PATTERN"))
+        # minio_pattern = re.compile(os.environ.get("MINO_REGEX_FILE_PATTERN"))
         
 
-        if not re.match(minio_pattern, self.source):
-            logger.error("Invalid Minio URL format", extra={"tags": {"method": "MinioTextExtractor._validate_url"}})
-            raise ValueError("Invalid Minio URL format")
+        # if not re.match(minio_pattern, self.source):
+        #     logger.error("Invalid Minio URL format", extra={"tags": {"method": "MinioTextExtractor._validate_url"}})
+        #     raise ValueError("Invalid Minio URL format")
 
         file_extension = self.source.split('.')[-1].lower()
         if file_extension not in self.SUPPORTED_FORMATS:

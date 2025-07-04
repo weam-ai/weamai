@@ -354,58 +354,25 @@ const createVerifyLink = async (user, payload, expireTime = 60) => {
 
 async function createPinecornIndex(user, req) {
     try {
-        const data = mongoose.connection;
-        const result = data.db.collection('companypinecone');
-        // // ⚠️ WARNING: Do not use await keyword here
-        result.insertOne({
-            company: {
-                name: user.company.name,
-                slug: user.company.slug,
-                id: user.company.id
+        const token = extractAuthToken(req);
+        
+        const response = await fetch(`http://gateway_service:9089/pyapi/api/qdrant/create-qdrant-index`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${JWT_STRING}${token}`,
+                Origin: LINK.FRONT_URL
             },
-            vector_index: user.company.id,
-            dimensions: 1536,
-            environment: 'us-west-2',
-            metric: 'cosine',
-            cloud: 'aws',
-            region: 'us-west-2',
-            // pass static data for python
-            config: {
-                apikey: PINECORN_STATIC_KEY,
-            }
-        }).then(async () => {
-            const token = extractAuthToken(req);
-            const response = await fetch(`${LINK.PYTHON_API_URL}/api/qdrant/create-qdrant-index`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `${JWT_STRING}${token}`,
-                    Origin: LINK.FRONT_URL
-                },
-                body: JSON.stringify({
-                    companypinecone: 'companypinecone',
-                    company_id: user.company.id
-                })
+            body: JSON.stringify({
+                companypinecone: 'companypinecone',
+                company_id: user.company.id
             })
-            logger.info(`pinecone serverless index return ${response.status}`);
-        });
-        const openAiBot = await Bot.findOne({ code: AI_MODAL_PROVIDER.OPEN_AI }, { title: 1, code: 1 });
-        if (openAiBot) {
-            req.body = {
-                ...req.body,
-                bot: {
-                    id: openAiBot._id,
-                    title: openAiBot.title,
-                    code: openAiBot.code,
-                },
-                key: LINK.WEAM_OPEN_AI_KEY,
-            };
-            req.user = user;
-            req.roleCode = user.roleCode
-            aiModalCreation(req);
-        }
+        })
+        logger.info(`pinecone serverless index return ${response.status}`);
+
         //createFreeTierApiKey(user);
     } catch (error) {
+        console.log("🚀 ~ createPinecornIndex ~ error:", error)
         handleError(error, 'Error - createPinecornIndex'); 
     }
 }

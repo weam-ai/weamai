@@ -28,7 +28,7 @@ class NodeTextEmbedderOpenAI(AbstractEmbedder):
             api_key (str, optional): The API key for accessing OpenAI's API.
             **encode_kwargs: Additional keyword arguments for the encoding method.
         """
-        self.embedding_model = OpenAIEmbeddings(model=model_name, api_key=api_key, **encode_kwargs)
+        self.embedding_model = OpenAIEmbeddings(model=model_name, openai_api_key=api_key, **encode_kwargs)
 
     def embed_documents(self, texts: List[str]) -> List[Any]:
         """

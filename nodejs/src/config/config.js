@@ -58,7 +58,7 @@ module.exports = {
     },
     AWS_CONFIG: {
         BUCKET_TYPE: process.env.BUCKET_TYPE,
-        AWS_S3_BUCKET_NAME: process.env.AWS_BUCKET,
+        AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET,
         AWS_S3_URL: process.env.AWS_CDN_URL,
         AWS_S3_API_VERSION: process.env.AWS_S3_API_VERSION,
         AWS_ACCESS_ID: process.env.AWS_ACCESS_KEY_ID,

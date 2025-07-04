@@ -34,6 +34,9 @@ services:
       - /usr/src/app/node_modules 
     networks:
       - app-network
+    depends_on:
+      - nodejs
+      - mongodb
   
   nodejs:
     build:
@@ -49,6 +52,8 @@ services:
       - /usr/src/app/node_modules    # 👈 avoid node_modules conflicts
     networks:
       - app-network
+    depends_on:
+      - mongodb
   
   pybase_docker:
     env_file: ${ENV_FILE}
@@ -68,11 +73,13 @@ services:
     depends_on:
       - pybase_docker
       - redis
+      - mongodb
     networks:
       - app-network
     entrypoint: /usr/local/bin/celery_entrypoint.sh
     volumes:
       - .:/app
+    
 
 
   extraction_worker:
@@ -85,11 +92,13 @@ services:
     depends_on:
       - pybase_docker
       - redis
+      - mongodb
     networks:
       - app-network
     entrypoint: /usr/local/bin/extraction_worker.sh
     volumes:
       - .:/app
+  
 
   scrapper_worker:
     env_file: ${ENV_FILE}
@@ -101,12 +110,13 @@ services:
     depends_on:
       - pybase_docker
       - redis
+      - mongodb
     networks:
       - app-network
     entrypoint: /usr/local/bin/scraper_worker.sh
     volumes:
       - .:/app
-
+   
   import_worker:
     env_file: ${ENV_FILE}
     build:
@@ -117,12 +127,13 @@ services:
     depends_on:
       - pybase_docker
       - redis
+      - mongodb
     networks:
       - app-network
     entrypoint: /usr/local/bin/import_chat_worker.sh
     volumes:
       - .:/app
-  
+   
 
   
   gateway:
@@ -140,6 +151,7 @@ services:
       - celery_service
       - extraction_worker
       - qdrant_primary
+      - mongodb
     networks:
       - app-network
     command: uvicorn src.gateway.web:app --host 0.0.0.0 --port ${GATEWAY_PORT} --reload --workers 2
@@ -161,7 +173,7 @@ services:
     image: "qdrant/qdrant:latest"
     container_name: qdrant_primary_container  # 👈 Add this to both nodes
     ports:
-     
+      - "6333:6333"
       - "${QDRANT_NODE_PORT}:${QDRANT_NODE_PORT}"  # 👈 Add this to both nodes
     environment:
       QDRANT__CLUSTER__ENABLED: "true"
@@ -218,10 +230,17 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=test
     volumes:
       - mongo-data:/data/db
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
     networks:
       - app-network
+
+
+
+
+
 
   
   minio:
@@ -244,6 +263,7 @@ services:
     networks:
       - app-network
   
+  
   minio-init:
     image: minio/mc
     env_file: ${ENV_FILE}
@@ -252,7 +272,7 @@ services:
         condition: service_healthy
     entrypoint: ["/bin/sh", "/minio.sh"]
     volumes:
-      - ./minio.sh:/minio.sh:ro
+      - ./ai-python/minio.sh:/minio.sh:ro
     networks:
       - app-network
 
