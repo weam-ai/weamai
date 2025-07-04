@@ -28,7 +28,7 @@ const schema = new Schema(
         users: [userSchema],
         freeCredit: {
             type: Number,
-            default: config.FREE_TIER.CREDIT
+            default: 0
         },
         freeTrialStartDate: {
             type: Date,

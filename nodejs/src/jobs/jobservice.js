@@ -1,7 +1,7 @@
 const { sendEmail } = require('../services/email');
 const { updateDBRef, deleteDBRef } = require('../utils/helper');
 const { sendPushNotification } = require('../services/notification');
-const { connectedClients } = require('../services/subscriptionSSE');
+//const { connectedClients } = require('../services/subscriptionSSE');
 const logger = require('../utils/logger');
 
 module.exports = {
@@ -47,33 +47,33 @@ module.exports = {
                 return { succeed: false };
             }
         },
-        sendSubscription: async ({data}) => {
+        // sendSubscription: async ({data}) => {
 
-            try {
-                logger.info('Processing SSE broadcast');
-                const { companyId } = data.data;
+        //     try {
+        //         logger.info('Processing SSE broadcast');
+        //         const { companyId } = data.data;
 
-                if (!connectedClients[companyId]) {
-                    logger.info(`No connected clients for company ${companyId}`);
-                    return { succeed: true };
-                }
+        //         if (!connectedClients[companyId]) {
+        //             logger.info(`No connected clients for company ${companyId}`);
+        //             return { succeed: true };
+        //         }
 
-                Object.values(connectedClients[companyId]).forEach(userConnections => {
-                    userConnections.forEach(({res}) => {
-                        try {
-                            res.write(`data: ${JSON.stringify(data)}\n\n`);
-                        } catch (error) {
-                            logger.error('Error sending SSE event to client:', error);
-                            throw error; 
-                        }
-                    });
-                });
+        //         Object.values(connectedClients[companyId]).forEach(userConnections => {
+        //             userConnections.forEach(({res}) => {
+        //                 try {
+        //                     res.write(`data: ${JSON.stringify(data)}\n\n`);
+        //                 } catch (error) {
+        //                     logger.error('Error sending SSE event to client:', error);
+        //                     throw error; 
+        //                 }
+        //             });
+        //         });
 
-                // return { succeed: true };
-            } catch (error) {
-                logger.error('Error in SSE broadcast:', error);
-                return { succeed: false };
-            }
-        }
+        //         // return { succeed: true };
+        //     } catch (error) {
+        //         logger.error('Error in SSE broadcast:', error);
+        //         return { succeed: false };
+        //     }
+        // }
     }
 }

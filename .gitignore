@@ -49,9 +49,7 @@ next-env.d.ts
 
 # Node JS
 .prettierrc.json
-nodejs/storage/
-
-
+nodejs/storage
 .env
 uploads/*
 dump.rdb

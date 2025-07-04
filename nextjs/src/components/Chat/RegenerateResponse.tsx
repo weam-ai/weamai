@@ -17,7 +17,7 @@ import { AI_MODAL_NAME, API_TYPE_OPTIONS, SUBSCRIPTION_STATUS } from '@/utils/co
 import { Socket } from 'socket.io-client';
 import { allowImageConversation, allowImageGeneration, getModelCredit } from '@/utils/helper';
 import { setCreditInfoAction } from '@/lib/slices/chat/chatSlice';
-import { isSubscriptionActive, modelNameConvert } from '@/utils/common';
+import { modelNameConvert } from '@/utils/common';
 import { getResponseModel, DEEPSEEK_WORD } from './UploadFileInput';
 
 type RegenerateResponseProps = {
@@ -39,8 +39,7 @@ const RegenerateResponse = React.memo(({ conversation, chatId, socket, getAINorm
     const lastMessage = useMemo(() => conversation[conversation.length - 1], []);
     const dispatch = useDispatch();
     const creditInfo = useSelector((store: RootState) => store.chat.creditInfo);
-    const subscriptionStatus = useSelector((store: RootState) => store.chat.creditInfo.subscriptionStatus);
-
+    
     const hasImage = lastMessage.response.startsWith('images');
     const hasUploadedImage = Array.isArray(lastMessage.cloneMedia) && lastMessage.cloneMedia.some((file: UploadedFileType) => file.mime_type?.startsWith('image/'));
     const webSearch = [AI_MODAL_NAME.SONAR, AI_MODAL_NAME.SONAR_REASONING_PRO].includes(lastMessage.responseModel);
@@ -105,8 +104,7 @@ const RegenerateResponse = React.memo(({ conversation, chatId, socket, getAINorm
             provider: model.provider,
             isregenerated: true,
             media: lastMessage.cloneMedia,
-            msgCredit: getModelCredit(matchedModel),
-            is_paid_user: isSubscriptionActive(subscriptionStatus)
+            msgCredit: getModelCredit(matchedModel)
         }
         if (lastMessage.responseAPI === API_TYPE_OPTIONS.OPEN_AI && !isWebSearch) {
             getAINormatChatResponse({ ...payload, img_url: lastMessage?.img_url }, socket);

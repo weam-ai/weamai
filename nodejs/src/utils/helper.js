@@ -1,4 +1,4 @@
-const { RANDOM_PASSWORD_CHAR, PASSWORD_REGEX, ATRATE, GLOBAL_ERROR_CODE, ROLE_TYPE, SUBSCRIPTION_TYPE, INVITATION_TYPE } = require('../config/constants/common');
+const { RANDOM_PASSWORD_CHAR, PASSWORD_REGEX, ATRATE, GLOBAL_ERROR_CODE, ROLE_TYPE, INVITATION_TYPE } = require('../config/constants/common');
 const bcrypt = require('bcrypt');
 const { createTopic } = require('../kafka/admin');
 const CryptoJS = require('crypto-js');
@@ -417,19 +417,6 @@ const timestampToDate = (timestamp) => {
     });
 };
 
-const getSubscriptionStatus = async (companyId) => {
-    const result = await Subscription.findOne({
-        'company.id': companyId
-    });
-
-    return result;
-}
-
-const checkSubscriptionWithGateway = async (req) => {
-    const subscriptionPlan = await Subscription.findOne({ 'company.id': getCompanyId(req.user), gateway: req.body.gateway });
-    return subscriptionPlan;
-}
-
 const getRemainingDaysCredit = async (startDate, endDate, msgLimit) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -472,18 +459,6 @@ const catchSocketAsync = (fn) => {
     };
 };
 
-
-const isSubscriptionActive = (subscriptionStatus) => {
-    return [SUBSCRIPTION_TYPE.ACTIVE,SUBSCRIPTION_TYPE.PENDING_CANCELLATION].includes(subscriptionStatus)
-}
-
-const isSubscriptionFinished = (subscriptionStatus) => {
-    return [SUBSCRIPTION_TYPE.EXPIRED,SUBSCRIPTION_TYPE.CANCEL].includes(subscriptionStatus)
-}
-
-const isSubscriptionFree = (subscriptionStatus) => {
-    return subscriptionStatus == undefined || subscriptionStatus == null
-}
 
 const dateForMongoQuery = (dateStr, isStart) => {
     const [month, day, year] = dateStr.split('/').map(Number);
@@ -718,8 +693,6 @@ module.exports = {
     getCompanyId,
     convertPaginationResult,
     timestampToDate,
-    getSubscriptionStatus,
-    checkSubscriptionWithGateway,
     getRemainingDaysCredit,
     getDefaultBrainSlug,
     cleanText,
@@ -728,9 +701,6 @@ module.exports = {
     bytesToMegabytes,
     megabytesToBytes,
     catchSocketAsync,
-    isSubscriptionActive,
-    isSubscriptionFinished,
-    isSubscriptionFree,
     isInviteAccepted,
     getFileNameWithoutExtension,
     getDateRangeByCode,

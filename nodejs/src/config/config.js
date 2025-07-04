@@ -22,17 +22,7 @@ module.exports = {
         PYTHON_API_PREFIX: process.env.PYTHON_API_PREFIX || 'api'
     },
     MONGODB: {
-        DB_URI: process.env.MONOGODB_URI,
-        // DB_CONNECTION: process.env.DB_CONNECTION,
-        // DB_HOST: process.env.DB_HOST,
-        // DB_PORT: dbPort,
-        // DB_DATABASE: process.env.DB_DATABASE,
-        // DB_USERNAME: process.env.DB_USERNAME
-        //     ? `${process.env.DB_USERNAME}:`
-        //     : '',
-        // DB_PASSWORD: process.env.DB_PASSWORD
-        //     ? `${process.env.DB_PASSWORD}@`
-        //     : '',
+        DB_URI: process.env.MONOGODB_URI
     },
     LINK: {
         FRONT_URL: process.env.FRONT_URL,
@@ -74,8 +64,6 @@ module.exports = {
         AWS_ACCESS_ID: process.env.AWS_ACCESS_KEY_ID,
         AWS_SECRET_KEY: process.env.AWS_SECRET_KEY,
         REGION: process.env.AWS_REGION,
-        //MINIO_ENDPOINT: process.env.MINIO_ENDPOINT || 'localhost',
-        //MINIO_PORT: process.env.MINIO_PORT || 9000,
         MINIO_USE_SSL: false,
         ENDPOINT: process.env.MINIO_ENDPOINT,
     },
@@ -93,16 +81,6 @@ module.exports = {
         CERT_URL: process.env.FIREBASE_CERT_URL,
         UNIVERSE_DOMAIN: process.env.FIREBASE_UNIVERSE_DOMAIN,
     },
-    PAYMENT: {
-        STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
-        STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-        SUBSCRIPTION_BASIC: process.env.SUBSCRIPTION_BASIC,
-        SUBSCRIPTION_PRO: process.env.SUBSCRIPTION_PRO,
-        SUBSCRIPTION_BUSSINESS: process.env.SUBSCRIPTION_BUSSINESS,
-        BASIC_PLAN: process.env.BASIC_PLAN,
-        PRO_PLAN: process.env.PRO_PLAN,
-        BUSSINESS_PLAN: process.env.BUSSINESS_PLAN,
-    },
     KAFKA: {
         PRIVATE_HOST: process.env.KAFKA_PRIVATE_HOST, 
         PRIVATE_PORT: process.env.KAFKA_PRIVATE_PORT, 
@@ -118,25 +96,13 @@ module.exports = {
     ENCRYPTION_KEY: process.env.SECURITY_KEY,
     SUPPORT_EMAIL: process.env.SUPPORT_EMAIL,
     FRESHDESK_SUPPORT_URL: process.env.FRESHDESK_SUPPORT_URL,
-    RAZORPAY:{
-        KEY_ID: process.env.RAZORPAY_KEY_ID,
-        KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
-        WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET,
-        LITE_PLAN_ID: process.env.RAZORPAY_LITE,
-        PRO_PLAN_ID: process.env.RAZORPAY_PRO,
-        STORAGE_PLAN_ID: process.env.RAZORPAY_STORAGE
-    },
     EMAIL: {
-        SUBSCRIPTION_EMAIL: process.env.SUBSCRIPTION_EMAIL,
         EMAIL_PROVIDER: process.env.EMAIL_PROVIDER,
         SMTP_SERVER: process.env.SMTP_SERVER,
         SMTP_PORT: process.env.SMTP_PORT,
         SMTP_USER: process.env.SMTP_USER,
         SMTP_PASSWORD: process.env.SMTP_PASSWORD,
         SENDER_EMAIL: process.env.SENDER_EMAIL,
-    },
-    FREE_TIER :{
-        CREDIT: process.env.FREE_TIER_CREDIT
     },
     FRESHSALES: {
         API_KEY: process.env.FRESHSALES_CRM_API_KEY,

@@ -13,7 +13,6 @@ const queueOptions = {
 const defaultQueue = new Queue(QUEUE_NAME.DEFAULT, { ...queueOptions, db: 1 });
 const mailQueue = new Queue(QUEUE_NAME.MAIL, { ...queueOptions, db: 2 });
 const notificationQueue = new Queue(QUEUE_NAME.NOTIFICATION, { ...queueOptions, db: 3 });
-const subscriptionQueue = new Queue(QUEUE_NAME.SUBSCRIPTION, { ...queueOptions, db: 4 });
 
 logger.info('bull-job-queue loaded 🍺🍻');
 
@@ -43,7 +42,7 @@ const handleStalled = (job) => {
     logger.info(`🌿   Job ${job.name} stalled`);
 };
 
-const processQueue = [defaultQueue, mailQueue, notificationQueue,subscriptionQueue];
+const processQueue = [defaultQueue, mailQueue, notificationQueue];
 
 processQueue.forEach(queue => {
     queue.on('failed', handleFailure);
@@ -54,6 +53,5 @@ processQueue.forEach(queue => {
 module.exports = {
     defaultQueue,
     mailQueue,
-    notificationQueue,
-    subscriptionQueue
+    notificationQueue
 }
