@@ -1,8 +1,8 @@
 [
     {
-        "username": "deeprb",
-        "email": "drabadiya@taskme.biz",
-        "mobNo": "9874561230",
+        "username": "admin",
+        "email": "admin@example.com",
+        "mobNo": "7878787878",
         "role": "SUPER_ADMIN",
         "canDel": false
     }
