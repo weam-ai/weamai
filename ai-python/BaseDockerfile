@@ -22,10 +22,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpulse-dev \
     && rm -rf /var/lib/apt/lists/* \
     && pip install crawl4ai \
-    && pip install lxml-html-clean \
-    && pip install playwright==1.51.0 \
-    && playwright install \
-    && playwright install-deps 
+    && pip install lxml-html-clean 
+    # && pip install playwright==1.51.0 \
+    # && playwright install \
+    # && playwright install-deps 
 
 # Copy the requirements file first to leverage Docker caching
 COPY requirements.txt .
