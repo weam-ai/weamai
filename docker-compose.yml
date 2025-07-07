@@ -12,13 +12,7 @@ services:
       timeout: 5s
       retries: 5
   app:
-    build:
-      context: ./nextjs
-      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
-      args:
-        BACKEND_API_URL: ${NEXT_PUBLIC_BACKEND_API_URL}
-        HTTPS_PROTOCOL: ${NEXT_PUBLIC_HTTPS_PROTOCOL}
-        IMAGE_DOMAIN: ${NEXT_PUBLIC_IMAGE_DOMAIN}
+    image: weamai-app:latest
     container_name: weam-frontend-container
     ports:
       - "3000:3000"
@@ -29,14 +23,12 @@ services:
       - NEXT_PUBLIC_BACKEND_API_URL=http://node_app:4050/napi
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - ./nextjs:/usr/src/app        # 👈 bind local code to container
-      - /usr/src/app/node_modules 
     networks:
       - app-network
     depends_on:
       - nodejs
       - mongo
+    
   
   nodejs:
     build:
