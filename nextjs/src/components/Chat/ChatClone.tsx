@@ -220,7 +220,7 @@ const ChatPage = memo(() => {
         const images = [];
         if (hasImage) {
             files.forEach((file) => {
-                images.push(`${LINK.AWS_S3_URL}${file.uri}`)
+                images.push(`${file.uri}`)
             })
             removeUploadedFile();
         }

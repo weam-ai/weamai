@@ -113,19 +113,22 @@ def validate_local_url(url: Optional[str]) -> Optional[str]:
     if url is None:
         logger.info("No URL provided for local file validation.")
         return None
+    else:
+        return url
     
-    # Assuming local file paths should start with '/' and have valid extensions
-    image_url_regex = re.compile(r'^/.*\.(?:png|jpg|jpeg|gif|bmp|tiff|svg|webp)$')
-    if not image_url_regex.match(url):
-        raise ValueError('Invalid local file URL format')
-    return url
+    # # Assuming local file paths should start with '/' and have valid extensions
+    # image_url_regex = re.compile(r'^/.*\.(?:png|jpg|jpeg|gif|bmp|tiff|svg|webp)$')
+    # if not image_url_regex.match(url):
+    #     raise ValueError('Invalid local file URL format')
+    # return url
 
 # Define validations for different source types
 SOURCE_VALIDATION = {
     's3_url': validate_s3_url,
     "localstack": validate_localstack_url,
     'public_url': validate_public_url,
-    'local_file': validate_local_url
+    'local_file': validate_local_url,
+    'minio': validate_local_url
 }
 
 def validate_file_url(file_url: Optional[str], source: str) -> Optional[str]:
