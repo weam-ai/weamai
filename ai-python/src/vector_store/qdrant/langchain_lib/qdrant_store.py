@@ -16,6 +16,16 @@ import re
 from src.vector_store.qdrant.langchain_lib.config import ExcelVectorStoreConfig
 from src.celery_service.openai.excel_agent import run_excel_query
 from src.celery_worker_hub.extraction.utils import map_file_url
+import os
+BUCKET_TYPE_MAP = {
+    "LOCALSTACK": "localstack",  # Localstack is used for local development
+    "AWS_S3": "s3_url",
+    "MINIO": "minio",  # Minio is used for local development
+                              # S3 is used for production
+}
+
+IMAGE_SOURCE_BUCKET = BUCKET_TYPE_MAP.get(os.environ.get("BUCKET_TYPE"))
+FILE_SOURCE_BUCKET = BUCKET_TYPE_MAP.get(os.environ.get("BUCKET_TYPE"))
 
 embedding_apikey_decrypt_service=EmbeddingAPIKeyDecryptionHandler()
 class QdrantVectorStoreService(AbstractQdrantVectorStore):
@@ -207,7 +217,7 @@ class ExcelRetriever(BaseRetriever):
     companymodel:str
     
     def _get_relevant_documents(self, query: str,run_manager: CallbackManagerForRetrieverRun) -> List[Document]:
-        self.file_path=map_file_url('/documents/'+ self.file_path, 's3_url')
+        self.file_path=map_file_url('/documents/'+ self.file_path, FILE_SOURCE_BUCKET)
         text_content = run_excel_query.delay(file_path=self.file_path, query=query, company_id=self.company_id, companymodel=self.companymodel).get()['response']
         results=[Document(text_content)]
         return results
