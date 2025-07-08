@@ -356,7 +356,7 @@ async function createPinecornIndex(user, req) {
     try {
         const token = extractAuthToken(req);
     
-        const response = await fetch(`${LINK.PYTHON_API_URL}${API.PREFIX}/qdrant/create-qdrant-index`, {
+        const response = await fetch(`${LINK.PYTHON_API_URL}/${API.PYTHON_API_PREFIX}/qdrant/create-qdrant-index`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
