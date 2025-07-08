@@ -28,6 +28,7 @@ import { SettingActiveIcon, TemplateLibrary } from './SettingSelection';
 import ReportIcon from '@/icons/ReportIcon';
 import PrivateVisible from '../Brains/PrivateVisible';
 import dynamic from 'next/dynamic';
+import CreditControlIcon from '@/icons/CreditControlIcon';
 
 const BackButton = dynamic(() => import('./BackButton'), { ssr: false });
 const SettingsLink = dynamic(() => import('./SettingsLink'), { ssr: false });
@@ -127,7 +128,20 @@ const SettingSidebar = async () => {
             navigate: 'https://weamai.freshdesk.com/support/tickets/new?ticket_form=report_an_issue',
             slug: '/support',
             target: '_blank',
-        }
+        },
+        {
+            name: 'Credit Control',
+            icon: (
+                <CreditControlIcon
+                    height={20}
+                    width={20}
+                    className={'w-5 h-5 object-contain fill-b2'}
+                />
+            ),
+            hasAccess: (userDetail?.roleCode == ROLE_TYPE.COMPANY) ? true : false,
+            navigate: `${LINK.DOMAIN_URL}/settings/credit-control`,
+            slug: '/settings/credit-control',
+        },
     ];
     return (
         <>

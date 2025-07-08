@@ -31,7 +31,8 @@
             "invoice.list",
             "report.companyUsage",
             "report.userUsage",
-            "report.weeklyUsage"
+            "report.weeklyUsage",
+            "creditControl.addCreditById"
         ]
     },
     {
@@ -59,7 +60,8 @@
             "storagerequest.list",
             "storagerequest.decline",
             "storagerequest.approve",
-            "invoice.list"            
+            "invoice.list"            ,
+            "creditControl.addCreditById"
         ]
     }
 ]

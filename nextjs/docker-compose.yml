@@ -9,21 +9,8 @@ services:
     restart: always
     env_file:
       - .env  # Load environment variables from a .env file
-    environment:
-      - NEXT_PUBLIC_HTTPS_PROTOCOL=${NEXT_PUBLIC_HTTPS_PROTOCOL}
-      - NEXT_PUBLIC_IMAGE_DOMAIN=${NEXT_PUBLIC_IMAGE_DOMAIN}
-      - NEXT_PUBLIC_BACKEND_API_URL=${NEXT_PUBLIC_BACKEND_API_URL}
     volumes:
       - .:/usr/src/app  # Mount the current directory into the container (useful for development)
-    command: >
-      /bin/sh -c '
-        echo "✅ NEXT_PUBLIC_HTTPS_PROTOCOL = $NEXT_PUBLIC_HTTPS_PROTOCOL";
-        echo "✅ NEXT_PUBLIC_IMAGE_DOMAIN = $NEXT_PUBLIC_IMAGE_DOMAIN";
-        echo "✅ NEXT_PUBLIC_BACKEND_API_URL = $NEXT_PUBLIC_BACKEND_API_URL";
-        echo "✅ NEXT_PUBLIC_BACKEND_API_URL = $NEXT_PUBLIC_BACKEND_API_URL";
-        echo "🚀 Starting the Next.js app...";
-        pnpm run start
-      '
     networks:
       - app-network
 
