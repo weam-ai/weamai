@@ -167,8 +167,6 @@ export const retrieveBrainData = () => {
 
 export const encryptedPersist = (payload, key) => {
     const jsonData = JSON.stringify(payload);
-    console.log("🚀 ~ encryptedPersist ~ jsonData:", jsonData)
-
     // Encrypt the JSON string
     const encryptedData = CryptoJS.AES.encrypt(jsonData, AUTH.COOKIE_PASSWORD).toString();
 

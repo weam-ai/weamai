@@ -1,5 +1,4 @@
 export const LINK = {
-    NODE_API_URL: process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:4050/napi',
     SOCKET_CONNECTION_URL: process.env.NEXT_PUBLIC_SOCKET_CONNECTION_URL,
     DOMAIN_URL: process.env.NEXT_PUBLIC_DOMAIN_URL,
     PYTHON_API_URL: process.env.NEXT_PUBLIC_PYTHON_API_URL,

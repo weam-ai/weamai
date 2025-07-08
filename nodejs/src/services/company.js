@@ -355,8 +355,8 @@ const createVerifyLink = async (user, payload, expireTime = 60) => {
 async function createPinecornIndex(user, req) {
     try {
         const token = extractAuthToken(req);
-        
-        const response = await fetch(`http://gateway_service:9089/pyapi/api/qdrant/create-qdrant-index`, {
+    
+        const response = await fetch(`${LINK.PYTHON_API_URL}${API.PREFIX}/qdrant/create-qdrant-index`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

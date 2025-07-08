@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { LINK, AUTH } from './config/config';
 import { encryptedData } from './utils/helper';
 
-const CSRF_API_URL = `${LINK.NODE_API_URL}/v1/csrf`;
+const CSRF_API_URL = `${LINK.COMMON_NODE_API_URL}/v1/csrf`;
 const CSRF_PASSWORD = AUTH.CSRF_TOKEN_SECRET || 'secret';
 const COOKIE_EXPIRE_SECONDS = 60 * 60;
 

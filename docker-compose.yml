@@ -19,8 +19,6 @@ services:
     restart: always
     env_file:
       - .env  # Load environment variables from a .env file
-    environment:
-      - NEXT_PUBLIC_BACKEND_API_URL=http://node_app:4050/napi
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
