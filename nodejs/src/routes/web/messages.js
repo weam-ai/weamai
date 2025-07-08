@@ -9,7 +9,6 @@ router.post('/list', authentication, checkPromptLimit, threadController.getAll);
 router.post('/add-reaction', validate(addReactionKeys), authentication, threadController.addReaction);
 router.post('/send', validate(createConversationKeys), authentication, threadController.sendMessage)
 router.post('/save-time', validate(saveResponseTimeKeys), authentication, threadController.saveTime);
-router.get('/count', authentication, threadController.getRemainingMessageCount);
 router.get('/credit', authentication, threadController.getUserMsgCredit);
 router.post('/global-search', authentication, checkPromptLimit, threadController.searchMessage);
 

@@ -82,6 +82,7 @@ const AI_MODAL_PROVIDER = {
     LLAMA4: 'LLAMA4',
     GROK: 'GROK',
     QWEN: 'QWEN',
+    OPEN_ROUTER: 'OPEN_ROUTER',
 }
 
 const OPENROUTER_PROVIDER = {
@@ -123,6 +124,8 @@ const MODAL_NAME = {
     GPT_4_1_SEARCH_MEDIUM: 'gpt-4.1-search-medium',
     CLAUDE_SONNET_4_20250514: 'claude-sonnet-4-20250514',
     CLAUDE_OPUS_4_20250514: 'claude-opus-4-20250514',
+    SONAR: 'sonar',
+    SONAR_REASONING_PRO: 'sonar-reasoning-pro',
 }
 
 module.exports = {

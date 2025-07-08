@@ -8,9 +8,9 @@ COPY src/celery_worker_hub/web_scraper/scraper_worker.sh /usr/local/bin/
 # # Make the entrypoint scripts executable
 RUN chmod +x  /usr/local/bin/scraper_worker.sh
 # Set the working directory in the container to /app
-WORKDIR /app
+WORKDIR /app/ai-python
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY .  /app/ai-python
 
 # # Make port 80 available to the world outside this container
 # EXPOSE 80

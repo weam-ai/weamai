@@ -9,8 +9,8 @@ mc alias set local http://minio:9000 "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KE
 
 
 # Create and set policy for weam-dev-01-frontend-media bucket
-mc mb --with-lock --ignore-existing local/"$AWS_S3_BUCKET"
-mc anonymous set public local/"$AWS_S3_BUCKET"
+mc mb --with-lock --ignore-existing local/"$AWS_BUCKET"
+mc anonymous set public local/"$AWS_BUCKET"
 
 # Create and set policy for vectors-backup bucket
 mc mb --with-lock --ignore-existing local/"$AWS_VECTORS_BACKUP"

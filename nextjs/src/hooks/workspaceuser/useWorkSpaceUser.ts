@@ -2,12 +2,11 @@ import commonApi from '@/api';
 import { DEFAULT_SORT, MODULES, MODULE_ACTIONS, SEARCH_AND_FILTER_OPTIONS } from '@/utils/constant';
 import Toast from '@/utils/toast';
 import { useState } from 'react';
-import { useSubscription } from '../subscription/useSubscription';
+
 const useWorkSpaceUser = () => {
     const [loading, setLoading] = useState(false);
     const [workspaceMembers, setWorkSpaceMembers] = useState([]);
 
-    const { isSubscriptionActive } = useSubscription();
     const getList = async (id) => {
         try {
             setLoading(true);
@@ -68,7 +67,6 @@ const useWorkSpaceUser = () => {
 
     const addWorkspaceMember = async (workspaceId, companyId, users) => {
         try {
-            if(!isSubscriptionActive()) return false;
             const response = await commonApi({
                 action: MODULE_ACTIONS.CREATE,
                 prefix: MODULE_ACTIONS.ADMIN_PREFIX,

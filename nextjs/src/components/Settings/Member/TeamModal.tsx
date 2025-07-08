@@ -19,7 +19,6 @@ import { getCurrentUser } from '@/utils/handleAuth';
 import { updateTeamAction } from '@/actions/team';
 import useServerAction from '@/hooks/common/useServerActions';
 import Toast from '@/utils/toast';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
 const TeamModal = ({
     register,
     clearErrors,
@@ -58,11 +57,9 @@ const TeamModal = ({
     const [filterInput,setFilterInput]=useState('')
     const [membersOptions, setMemberOptions] = useState([]);
     const [updateTeam, isUpdateTeamPending] = useServerAction(updateTeamAction);
-    const { isSubscriptionActive } = useSubscription();
     const handleTeamSubmit = async (payload) => {
         try {
             if (isEdit) {
-                if(!isSubscriptionActive()) return false;
                 const response = await updateTeam({ ...payload, teamId: team._id });
                 setTeams((prevTeams) => {
                     return prevTeams.map((pteam) =>

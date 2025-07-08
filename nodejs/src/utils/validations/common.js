@@ -66,8 +66,8 @@ const companyCreateKeys = joi.object({
         ),
     confirmPassword: joi.ref('password'),
     companyNm: joi.string().required(),
-    countryName: joi.string().required(),
-    countryCode: joi.string().required(),
+    countryName: joi.string().optional(),
+    countryCode: joi.string().optional(),
 }).options({ abortEarly: true });
 
 const companyUpdateKeys = joi.object({
@@ -122,11 +122,7 @@ const addTeamMembersKeys = joi.object({
 
 const checkApiKeys = joi.object({
     key: joi.string().required(),
-    bot: joi.object({
-        title: joi.string().required(),
-        code: joi.string().required(),
-        id: joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
-    }).required()
+    code: joi.string().required(),
 })
 
 const resendVerification = joi.object({

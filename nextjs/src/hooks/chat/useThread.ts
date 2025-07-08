@@ -3,15 +3,12 @@ import {  setListThreadAction } from '@/lib/slices/chat/chatSlice';
 import {  MODULES, MODULE_ACTIONS } from '@/utils/constant';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
 const useThread = () => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-    const { isSubscriptionActive } = useSubscription();
-
+    
     const addNewThread = async (nextIndex, payload) => {
         try {
-            if(!isSubscriptionActive()) return false;
             const response = await commonApi({
                 action: MODULE_ACTIONS.CREATE,
                 prefix: MODULE_ACTIONS.WEB_PREFIX,

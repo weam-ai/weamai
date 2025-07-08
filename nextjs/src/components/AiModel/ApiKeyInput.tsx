@@ -15,7 +15,6 @@ import { MODULE_ACTIONS, SEARCH_AND_FILTER_OPTIONS } from '@/utils/constant';
 import { assignModelListAction } from '@/lib/slices/aimodel/assignmodelslice';
 import { encryptedPersist } from '@/utils/helper';
 import { CONFIG_API } from '@/utils/localstorage';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
 import { RootState } from '@/lib/store';
 
 const ApiKeyInput = ({
@@ -42,11 +41,8 @@ const ApiKeyInput = ({
     });
     const [loading, setLoading] = React.useState(false);
 
-    const { isSubscriptionActive } = useSubscription();
-    const {subscriptionStatus} = useSelector((store: RootState)=>store.chat.creditInfo)     
     const handleButtonClick = async (data) => {
         try {
-            if(!isSubscriptionActive()) return false;
             setLoading(true);
             const response = await commonApi({
                 action: MODULE_ACTIONS.CHECK_API_KEY,
@@ -110,7 +106,6 @@ const ApiKeyInput = ({
                     type="text"
                     className="default-form-input"
                     id={inputId}
-                    disabled={!subscriptionStatus}
                     {...register('key')}
                     defaultValue={apikey ? 'sk-xxxxxxxxxxxxxxxxxx' : ''}
                 />
@@ -119,7 +114,7 @@ const ApiKeyInput = ({
                         className="btn btn-black"
                         type="button"
                         onClick={handleSubmit(handleButtonClick)}
-                        disabled={loading || !subscriptionStatus}
+                        disabled={loading}
                     >
                         Save
                     </button>            

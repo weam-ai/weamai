@@ -56,10 +56,10 @@ const useLogin = () => {
     const handleLogin = async (payload: LoginPayload) => {
         try {
             const response = await runLogin(payload);
-            if (response.status === RESPONSE_STATUS.FORBIDDEN && response?.code === RESPONSE_STATUS_CODE.CSRF_TOKEN_MISSING) {
-                Toast('Your request has been blocked for security reasons.', 'error');
-                return;
-            }
+            // if (response.status === RESPONSE_STATUS.FORBIDDEN && response?.code === RESPONSE_STATUS_CODE.CSRF_TOKEN_MISSING) {
+            //     Toast('Your request has been blocked for security reasons.', 'error');
+            //     return;
+            // }
 
             if (response?.data?.mfa) {
                 tempAccessToken = response?.data?.access_token;

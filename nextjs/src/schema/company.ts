@@ -32,7 +32,7 @@ export const companyDetailSchema = yup.object({
         ),
     password: yup.string().min(8, PASSWORD_MIN_LENGTH_MESSAGE).matches(REGEX.PASSWORD, PASSWORD_REGEX_MESSAGE).required('Please enter your password.'),
     confirmPassword: yup.string().required('Please retype your password.').oneOf([yup.ref('password')], PASSWORD_CONFIRM_MESSAGE),
-    country: yup.object().nullable().required('Please select country.'),
+    country: yup.object().nullable().optional(),
 }) 
 
 export const companySummarySchema = yup.object({

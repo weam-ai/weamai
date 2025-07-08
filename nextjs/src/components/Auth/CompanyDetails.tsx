@@ -10,11 +10,8 @@ import Link from 'next/link';
 import routes from '@/utils/routes';
 import useCountry from '@/hooks/common/useCountry';
 import Select from 'react-select';
-import ReCAPTCHA from "react-google-recaptcha";
-import { APP_ENVIRONMENT, RECAPTCHA } from '@/config/config';
-import Script from "next/script"; 
 import Toast from '@/utils/toast';
-import useRecaptcha from '@/hooks/auth/useRecaptcha';
+
 import { useRouter } from 'next/navigation';
 import TagManager from 'react-gtm-module';
 
@@ -50,8 +47,6 @@ const CompanyDetails = () => {
         resolver: yupResolver(companyDetailSchema),
     });
     const { countries } = useCountry();
-    const { verifyCaptcha, showReCaptchaV2, captchaToken, setCaptchaToken } = useRecaptcha();
-    const [useV2Captcha, setUseV2Captcha] = useState(true);
 
     const initialTypingMetrics = {
       firstName: { startTime: 0, charCount: 0, endTime: 0, isPotentiallyBot: false },
@@ -125,24 +120,6 @@ const CompanyDetails = () => {
       }));
     };
 
-     // Add this new function to prevent copy and paste
-    const preventCopyPaste = (e: React.ClipboardEvent) => {
-        e.preventDefault();
-        Toast("Copy and paste functionality is disabled for security reasons", "error");
-    };
-    
-    const recaptchaRef = useRef(null);
-
-    const handleCaptchaChangeV2 = (token) => {
-        setCaptchaToken(token);
-        verifyCaptcha(token, "v2");
-    };
-
-    const handleCaptchaChangeV3 = (token) => {
-        setCaptchaToken(token);
-        verifyCaptcha(token, "v3");
-    };
-
     /**
      * onSubmit is called by React Hook Form after successful validation.
      * We:
@@ -151,99 +128,21 @@ const CompanyDetails = () => {
      *  3) If captcha is valid, call registerCompany with the form data.
      */
     const onSubmitWithCaptcha = async (formData) => {
-        // Honeypot check
-        const honeypotInput = document.getElementById('website_url_honeypot') as HTMLInputElement | null;
-        if (honeypotInput && honeypotInput.value) {
-            Toast("We detect you as a bot.", "error");
-            return; 
-        }
-
-        // Typing speed bot check
-        const monitoredFields = ['firstName', 'lastName', 'companyNm', 'email'];
-        for (const fieldName of monitoredFields) {
-            if (typingMetrics[fieldName].isPotentiallyBot) {
-                Toast("We detect you as a bot.", "error");
-                return;
-            }
-        }
-        
-        // Check if the environment is production and the email is present
-        if (
-            process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'production') {
-            // Ensure the window object is available
-            if (typeof window !== 'undefined') {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                event: 'app_sign_up_form_submit',
-                email: formData.email.toLowerCase(),
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-                country: formData.country ? formData.country.nm : null,
-            });
-            }
-        }
-
         try {
-            if (!captchaToken) {
-                Toast("Please complete the reCAPTCHA verification first.", "error");
-                return;
-            }
            
             const response = await registerCompany(formData);
             if (response.status === RESPONSE_STATUS.CREATED) {
                 Toast(response.message);
-                router.push(routes.sendVerification);
+                router.push(routes.login);
             }
-           else if ((window as any).grecaptcha) {
-             
-              (window as any).grecaptcha.ready(async () => {
-                const token = await (window as any).grecaptcha.execute(RECAPTCHA.SITE_KEY_V3, {
-                  action: 'submit',
-                });
-                setCaptchaToken(token);
-    
-                // Verify token with your server
-                await verifyCaptcha(token, 'v3');
-    
-                if (showReCaptchaV2) {
-                  Toast("Please complete the reCAPTCHA checkbox","error");
-                  return;
-                }
-
-                const response = await registerCompany(formData);
-                if (response.status === RESPONSE_STATUS.CREATED) {
-                    Toast(response.message);
-                    router.push(routes.sendVerification);
-                }
-              });
-            }
-            else {
-             alert("reCAPTCHA is not loaded. Please refresh the page and try again.");
-           }
         } catch (err) {
             console.error("Error on form submit:", err);
         }
     };
 
-      useEffect(() => {
-        if(APP_ENVIRONMENT === 'production'){
-            const tagManagerArgs = {
-                gtmId: 'GTM-WW8CBLMZ'
-                };
-                TagManager.initialize(tagManagerArgs);
-            }
-
-    }, []);
-
       
     return (   
         <>
-            {/* Load reCAPTCHA v2 script */}
-            <Script
-                src={`https://www.google.com/recaptcha/api.js`}
-                strategy="afterInteractive"
-            />
-
             <form
                 className="w-full max-w-[730px] mx-auto flex flex-wrap"
                 onSubmit={handleSubmit(onSubmitWithCaptcha)}
@@ -255,9 +154,7 @@ const CompanyDetails = () => {
                             id={'FirstName'}
                             placeholder={'First Name'}
                             maxLength={30}
-                            onCopy={preventCopyPaste}
-                            onPaste={preventCopyPaste}
-                            onCut={preventCopyPaste}
+      
                             autoComplete="new-password" // Use non-standard value to trick browsers
                             autoFill="off"
                             onKeyDown={() => handleTypingStart('firstName')}
@@ -273,9 +170,6 @@ const CompanyDetails = () => {
                             id={'LastName'}
                             placeholder={'Last Name'}
                             maxLength={30}
-                            onCopy={preventCopyPaste}
-                            onPaste={preventCopyPaste}
-                            onCut={preventCopyPaste}
                             autoComplete="new-password" // Use non-standard value to trick browsers
                             autoFill="off"
                             onKeyDown={() => handleTypingStart('lastName')}
@@ -290,9 +184,6 @@ const CompanyDetails = () => {
                     <CommonInput
                         id={'CompanyName'}
                         placeholder={'Advance Care Inc.'}
-                        onCopy={preventCopyPaste}
-                        onPaste={preventCopyPaste}
-                        onCut={preventCopyPaste}
                         autoComplete="new-password" // Use non-standard value to trick browsers
                         autoFill="off"
                         onKeyDown={() => handleTypingStart('companyNm')}
@@ -309,9 +200,6 @@ const CompanyDetails = () => {
                         type={'email'}
                         id={'email'}
                         placeholder={'example@company.com'}
-                        onCopy={preventCopyPaste}
-                        onPaste={preventCopyPaste}
-                        onCut={preventCopyPaste}
                         autoComplete="new-password" // Use non-standard value to trick browsers
                         autoFill="off"
                         onKeyDown={() => handleTypingStart('email')}
@@ -331,9 +219,6 @@ const CompanyDetails = () => {
                         id={'password'}
                         type={'password'}
                         placeholder={'Type your password'}
-                        onCopy={preventCopyPaste}
-                        onPaste={preventCopyPaste}
-                        onCut={preventCopyPaste}
                         autoComplete="new-password" // Use non-standard value to trick browsers
                         autoFill="off"
                         {...register('password')}
@@ -347,9 +232,6 @@ const CompanyDetails = () => {
                         id={'ConfirmPassword'}
                         type={'password'}
                         placeholder={'Confirm Password'}
-                        onCopy={preventCopyPaste}
-                        onPaste={preventCopyPaste}
-                        onCut={preventCopyPaste}
                         autoComplete="new-password" // Use non-standard value to trick browsers
                         autoFill="off"
                         {...register('confirmPassword')}
@@ -360,7 +242,7 @@ const CompanyDetails = () => {
                         field={'confirmPassword'}
                     />
                 </div>
-                <div className="relative mb-4 w-full md:w-1/2 px-2">
+                {/* <div className="relative mb-4 w-full md:w-1/2 px-2">
                     <Label 
                         title={'Country'} 
                         htmlFor={'country'} 
@@ -390,7 +272,7 @@ const CompanyDetails = () => {
                         }}
                     />
                     <ValidationError errors={errors} field={'country'} />
-                </div>
+                </div> */}
 
                 {/* Honeypot field */}
                 <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
@@ -398,23 +280,6 @@ const CompanyDetails = () => {
                   <input type="text" id="website_url_honeypot" name="website_url" autoComplete="off" tabIndex={-1} />
                 </div>
 
-                {/* Visible reCAPTCHA with image challenges */}
-                <div className="w-full flex justify-center my-4">
-                    <ReCAPTCHA
-                        ref={recaptchaRef}
-                        sitekey={RECAPTCHA.SITE_KEY_V2}
-                        onChange={handleCaptchaChangeV2}
-                        size="normal"
-                        theme="light"
-                        badge="bottomright"
-                        onExpired={() => setCaptchaToken('')}
-                        onError={() => {
-                            Toast("Error loading reCAPTCHA. Please refresh the page.", "error");
-                            setCaptchaToken('');
-                        }}
-                    />
-                </div>
-                
                 <div className="submit-wrap flex items-center justify-center mt-2 md:mt-10 mx-auto w-full">
                     <button className="btn btn-blue py-[12px] w-full max-w-[300px]" disabled={loading}>
                         Sign Up

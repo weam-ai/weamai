@@ -10,7 +10,7 @@ const nextConfig = {
     //             key: "Content-Security-Policy",
     //             value: `
     //               script-src 'self' https://checkout.razorpay.com 'unsafe-inline';
-    //               frame-src https://*.razorpay.com;
+    //               frame-src https://*.com;
     //             `.replace(/\s{2,}/g, " "), // Minify CSP value
     //           },
     //         ],
@@ -28,11 +28,11 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: process.env.NEXT_PUBLIC_HTTPS_PROTOCOL,
-                hostname: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+                protocol: process.env.NEXT_PUBLIC_HTTPS_PROTOCOL || 'https',  // Default to 'https' if not set
+                hostname: process.env.NEXT_PUBLIC_IMAGE_DOMAIN || 'default.cdn.com' // Default domain if not set
             }
         ],
-        domains: ['www.google.com','localhost'],
+        domains: ['www.google.com', 'localhost'], // Add any other domains you expect images from
     },
     logging: {
         fetches: {

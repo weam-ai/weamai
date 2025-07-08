@@ -26,6 +26,7 @@ const SidebarPages: React.FC<SidebarPagesProps> = ({ children, settingSidebar })
         [routes.weeklyReport]: settingSidebar,
         [routes.settingBilling]: settingSidebar,
         [routes.settingSubscription]: settingSidebar,
+        [routes.Settingconfig]: settingSidebar,
         [routes.profileSetting]: <ProfileSidebar />, 
         [routes.twoFactorAuthentication]: <ProfileSidebar />,
         [routes.changePassword]: <ProfileSidebar/>,

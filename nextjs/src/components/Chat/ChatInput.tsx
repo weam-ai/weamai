@@ -109,7 +109,6 @@ export const TextAreaFileInput = ({ fileInputRef, handleFileChange, multiple }: 
 
 type ChatInputProps = {
     aiModals: AiModalType[];
-    subscriptionStatus: SubscriptionActionStatusType;
 }
 
 
@@ -120,7 +119,7 @@ const URL_PARAMS_AGENT_CODE = {
     [ProAgentCode.WEB_PROJECT_PROPOSAL]: 'PROJECT',
 }
 
-const ChatInput = ({ aiModals, subscriptionStatus }: ChatInputProps) => {
+const ChatInput = ({ aiModals }: ChatInputProps) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -219,7 +218,6 @@ const ChatInput = ({ aiModals, subscriptionStatus }: ChatInputProps) => {
             dispatch(setChatAccessAction(true));
             dispatch(
                 setCreditInfoAction({
-                    ...subscriptionStatus,
                     msgCreditLimit: creditInfoSelector?.msgCreditLimit,
                     msgCreditUsed: creditInfoSelector?.msgCreditUsed,
                 })

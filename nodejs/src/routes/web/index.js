@@ -9,7 +9,6 @@ router.use('/notification', require('./notification'));
 router.use('/auth', require('./auth'));
 router.use('/userbot', require('./userbot'));
 router.use('/chatlog', require('./chatlog'));
-router.use('/payment', require('./payment'));
 router.use('/message', require('./messages'));
 router.use('/reply-thread', require('./replythread'));
 router.use('/favourite', require('./favourite'));

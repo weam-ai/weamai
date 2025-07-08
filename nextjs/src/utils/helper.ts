@@ -148,7 +148,7 @@ export const formatFileData = (file) => {
 
 export const persistBrainData = (payload) => {
     const data = {
-        _id: payload._id,
+        _id: payload?._id,
         title: payload.title,
         slug: payload.slug,
         workspaceId: payload.workspaceId,
@@ -167,7 +167,6 @@ export const retrieveBrainData = () => {
 
 export const encryptedPersist = (payload, key) => {
     const jsonData = JSON.stringify(payload);
-
     // Encrypt the JSON string
     const encryptedData = CryptoJS.AES.encrypt(jsonData, AUTH.COOKIE_PASSWORD).toString();
 

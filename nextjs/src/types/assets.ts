@@ -3,4 +3,5 @@ export type SvgProps = {
     width: number,
     className: string,
     fill?: string
+    onClick?: () => void
 }

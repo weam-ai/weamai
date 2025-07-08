@@ -58,6 +58,7 @@ export const MODULES = {
     TAB_PROMPT_LIST: 'tabPromptList',
     TAB_AGENT_LIST: 'tabAgentList',
     TAB_DOCUMENT_LIST: 'tabDocumentList',
+    CONFIGURATION_ENV: 'configurationEnv',
 } as const;
 
 export const MODULE_ACTIONS = {
@@ -117,11 +118,8 @@ export const MODULE_ACTIONS = {
     REFRESH_TOKEN: 'refreshToken',
     ASSIGN_GPT: 'assigngpt',
     TOGGLE: 'toggle',
-    GET_PRODUCT_PRICE: 'getProductPrice',
-    GET_SUBSCRIPTION_DETAILS: 'getSubscriptionDetails',  
     GET_SUBSCRIPTION_STATUS: 'getSubscriptionStatus',
     CHAT_TEAM_DELETE:'chatTeamDelete',
-    CANCEL_SUBSCRIPTION:'cancelSubscription',
     UPCOMING_INVOICE:'upcomingInvoice',
     UPGRADE_SUBSCRIPTION:'upgradeSubscription',
     UPDATE_PAYMENT_METHOD:'updatePaymentMethod',
@@ -129,42 +127,23 @@ export const MODULE_ACTIONS = {
     GET_INVOICE_LIST:'getInvoiceList',
     APPROVE_STORAGE_REQUEST:'approveStorageRequest',
     DECLINE_STORAGE_REQUEST:'declineStorageRequest',
-    CONFIRM_STORAGE_PAYMENT:'confirmStoragePayment',
     CHECK_COUPON_CODE:'checkCouponCode',
     RESEND_VERIFICATION_EMAIL: 'resendVerification',
     ON_BOARD_LOGIN: 'onBoardLogin',
-    FREE_MESSAGE_COUNT: 'freeMessageCount',
     CHANGE_PASSWORD: 'changePassword',
     HUGGING_FACE_HEALTH: 'huggingFaceKeyCheck',
     ANTHROPIC_HEALTH: 'anthropicKeyCheck',
-    UNCANCEL_SUBSCRIPTION:'unCancelSubscription',
-    HANDLE_3D_SECURE_SUBSCRIPTION:'handlePayment3dSecure',
     CHECK_GEMINI_API_KEY: 'geminiKeyCheck',
     BRAIN_LIST_ALL: 'brainListAll',
-    CREATE_RAZORPAY_SUBSCRIPTION: 'createRazorpaySubscription',
-    GET_RAZORPAY_PLAN: 'getRazorpayPlan',
-    UPDATE_RAZORPAY_SUBSCRIPTION: 'updateRazorpaySubscription',
-    CREATE_RAZORPAY_ORDER: 'createRazorpayOrder',
-    VERIFY_RAZORPAY_PAYMENT: 'verifyRazorpayPayment',
-    GET_RAZORPAY_SUBSCRIPTION: 'getRazorpaySubscription',
-    GET_RAZORPAY_INVOICE_LIST: 'getRazorpayInvoiceList',
-    CANCEL_RAZORPAY_SUBSCRIPTION: 'cancelRazorpaySubscription',
-    UNCANCEL_RAZORPAY_SUBSCRIPTION: 'uncancelRazorpaySubscription',
-    UPDATE_RAZORPAY_CARD: 'updateRazorpayCard',
-    GET_RAZORPAY_PAYMENT_METHOD: 'getRazorpayPaymentMethod',
-    GET_STRIPE_PLANS: 'getStripePlans',
     GET_MESSAGE_CREDITS: 'getMessageCredits',
     FAVORITE_LIST: 'userFavoriteList',
     FAVORITE: 'favorite',
     GLOBAL_SEARCH: 'globalSearch',
-    GET_RAZORPAY_STORAGE_PRICE: 'getRazorpayStoragePrice',
-    RAZORPAY_STORAGE_APPROVE: 'razorpayStorageApprove',
-    VERIFY_RAZORPAY_STORAGE_PAYMENT: 'verifyRazorpayStoragePayment',
     GET_USAGE: 'getUsage',
     GET_USER_USAGE: 'getUserUsage',
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
     GET_WEEKLY_USAGE: 'getWeeklyUsage',
-    ADD_CREDIT: 'addCredit'
+    ADD_CREDIT: 'addCredit',    
 } as const;
 
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm A';
@@ -255,6 +234,7 @@ export const AI_MODEL_CODE = {
     LLAMA4: 'LLAMA4',
     GROK: 'GROK',
     QWEN: 'QWEN',
+    OPEN_ROUTER: 'OPEN_ROUTER',
     // error conversation response
     CONVERSATION_ERROR: `We encountered an issue and were unable to receive a response. This could be due to a variety of reasons including network issues, server problems, or unexpected errors.Please try your request again later. If the problem persists, check your network connection or [contact support](mailto:hello@weam.ai) for further assistance.`,
 }
@@ -316,10 +296,10 @@ export const SOCKET_EVENTS = {
     DISABLE_QUERY_INPUT: 'disableinput',
     NEW_CHAT_MESSAGE: 'newmessage',
     JOIN_COMPANY_ROOM: 'joincompanyroom',
-    USER_MESSAGE_COUNT: 'messagecount',
+    //USER_MESSAGE_COUNT: 'messagecount',
     SUBSCRIPTION_STATUS: 'subscriptionstatus',
     AI_MODEL_KEY_REMOVE: 'aimodelkeyremove',
-    NOTIFY_MESSAGE_LIMIT: 'messageexceeded',
+    //NOTIFY_MESSAGE_LIMIT: 'messageexceeded',
     API_KEY_REQUIRED:'apikeyrequired',
     LOAD_CONVERSATION: 'loadconversation',
     FETCH_MODAL_LIST: 'fetchmodal',
@@ -514,12 +494,12 @@ export const SUBSCRIPTION_STATUS = {
     CANCELED: 'CANCELED'   
 }
 
-export const RAZORPAY_SUBSCRIPTION_STATUS = {
-    ACTIVE: 'ACTIVE',
-    EXPIRED: 'EXPIRED',
-    CANCELED: 'CANCELLED',
-    PENDING_CANCELLATION: 'PENDING_CANCELLATION'   
-}
+// export const RAZORPAY_SUBSCRIPTION_STATUS = {
+//     ACTIVE: 'ACTIVE',
+//     EXPIRED: 'EXPIRED',
+//     CANCELED: 'CANCELLED',
+//     PENDING_CANCELLATION: 'PENDING_CANCELLATION'   
+// }
 
 export const APPLICATION_ENVIRONMENT = {
     DEVELOPMENT: 'development',
@@ -562,7 +542,8 @@ export const MODAL_NAME_CONVERSION = {
     DEEPSEEK: 'DeepSeek',
     LLAMA4: 'Llama4',
     GROK: 'Grok',
-    QWEN: 'Qwen'
+    QWEN: 'Qwen',
+    OPEN_ROUTER: 'Open Router'
 }
 
 export const MODEL_CREDIT_INFO = [

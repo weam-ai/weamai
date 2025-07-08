@@ -29,25 +29,25 @@ const checkStorageRequest = async (storageRequestId, status, companyId) => {
     }
 }
 
-const approveStorageRequest = async (storageRequestId, updatedStorageSize) => {
+const approveStorageRequest = async (req) => {
     try {
         const storageRequest = await dbService.findOneAndUpdateDocument(StorageRequest, 
-            { _id: storageRequestId }, 
+            { _id: req.body.storageRequestId }, 
             { 
                 status: STORAGE_REQUEST_STATUS.ACCEPT, 
-                requestSize: updatedStorageSize 
+                requestSize: req.body.updatedStorageSize 
             }
         );
-        
+
         const userId = storageRequest.user.id;        
         const user = await User.findOneAndUpdate(
           { _id: userId },
-          { $inc: { fileSize: updatedStorageSize }, $unset: { requestSize: 1 } }
+          { $inc: { fileSize: req.body.updatedStorageSize }, $unset: { requestSize: 1 } }
         );
 
         const emailData = {
             name: user.fname + ' ' + user.lname,
-            storageSize: updatedStorageSize / (1024 * 1024)
+            storageSize: req.body.updatedStorageSize / (1024 * 1024)
         }
         
         getTemplate(EMAIL_TEMPLATE.STORAGE_REQUEST_APPROVED, emailData).then(async (template) => {

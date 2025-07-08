@@ -294,7 +294,7 @@ const storeVectorData = async (req, payloads) => {
         
         const jsonPayload = payloads.map(payload => ({
             file_type: payload.type,
-            source: 's3_url',
+            // source: 's3_url',
             file_url: payload.uri,
             page_wise: 'False',
             vector_index: payload.companyId.toString(),
@@ -308,7 +308,7 @@ const storeVectorData = async (req, payloads) => {
         }));
 
         const response = await fetch(
-            `${LINK.PYTHON_API_URL}/${API.PYTHON_API_PREFIX}/vector/openai-multi-store-vector`,
+            `${LINK.PYTHON_API_URL}/${API.PYTHON_API_PREFIX}/vector/general-multi-store-vector`,
             {
                 method: 'POST',
                 body: JSON.stringify({'payload_list':jsonPayload}),

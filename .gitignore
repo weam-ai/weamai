@@ -49,8 +49,9 @@ next-env.d.ts
 
 # Node JS
 .prettierrc.json
-storage/
+nodejs/storage
 .env
 uploads/*
 dump.rdb
 newrelic_agent.log
+

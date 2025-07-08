@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from src.gateway.custom_fastapi.streaming_response import StreamingResponseWithStatusCode
+from fastapi.middleware.cors import CORSMiddleware
 from src.gateway.api_router import api_router
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -30,6 +31,14 @@ app = FastAPI(
 )
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or specific origins
+    allow_credentials=True,
+    allow_methods=["*"],  # or explicitly ["GET", "POST", "OPTIONS"]
+    allow_headers=["*"],  # or specific headers
+)
+
 @app.on_event("startup")
 async def startup_event():
     print("⚡ Starting up the FastAPI application...")
@@ -41,9 +50,8 @@ async def startup_event():
 
 
 # regex_patterns = [r".weam\.ai"]
-regex_patterns = get_regex_patterns()
-
-app.add_middleware(RegexCORSMiddleware, regex_patterns=regex_patterns)
+# regex_patterns = get_regex_patterns()
+# app.add_middleware(RegexCORSMiddleware, regex_patterns=regex_patterns)
 # app.add_middleware(APICountMiddleware)
 # app.add_middleware(APICountMiddlewareRedis)
 # app.add_middleware(MultiAPICountMiddlewareRedis)

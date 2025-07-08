@@ -104,7 +104,6 @@ export const AddNewModel = ({ isAddAiModel }) => {
     const keystatus = useSelector((store:any) => store.aiModal.inputKey);
     const updatetitle = useSelector((store:any) => store.aiModal.updatetitle);
     const cleartitle = useSelector((store:any) => store.aiModal.cleartitle);
-    const {subscriptionStatus} = useSelector((store: RootState)=>store.chat.creditInfo)
     const message = useSelector((store:any) => store.aiModal.message);
 
     // TODO: remove unnecessary useSelector like clear title ,update title
@@ -196,7 +195,7 @@ export const AddNewModel = ({ isAddAiModel }) => {
             dispatch(setInputStatus(true));
         }
 
-        setShowCancelAPI(!!(selectedUserModels && selectedUserModels?.bot?.code === selected?.code && subscriptionStatus));
+        setShowCancelAPI(!!(selectedUserModels && selectedUserModels?.bot?.code === selected?.code));
 
     }, [selected, apiKeyUpdated]);
 
@@ -291,8 +290,7 @@ export const AddNewModel = ({ isAddAiModel }) => {
                     {cleartitle && (
                         <button
                             className="btn btn-outline-gray"
-                            onClick={handleUpdate}
-                            disabled={!subscriptionStatus}
+                            onClick={handleUpdate}                            
                         >
                             {cleartitle ? 'Ok' : 'Update API Key'}
                         </button>

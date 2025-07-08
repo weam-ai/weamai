@@ -1,6 +1,6 @@
 const mongoose = require('../config/db');
 const mongoosePaginate = require('mongoose-paginate-v2');
-const { CUSTOM_PAGINATE_LABELS, SUBSCRIPTION_TYPE } = require('../config/constants/common');
+const { CUSTOM_PAGINATE_LABELS } = require('../config/constants/common');
 const { companySchema } = require('../utils/commonSchema');
 
 mongoosePaginate.paginate.options = { customLabels: CUSTOM_PAGINATE_LABELS };
@@ -11,7 +11,7 @@ const schema = new Schema(
     {
         status: {
             type: String, 
-            default: SUBSCRIPTION_TYPE.PENDING
+            default: 'pending'
         },
         subscriptionId: {
             type: String

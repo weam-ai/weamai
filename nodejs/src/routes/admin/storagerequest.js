@@ -7,5 +7,6 @@ const { checkPromptLimit } = require('../../middleware/promptlimit');
 
 router.post('/list', authentication, checkPermission,checkPromptLimit, storageRequestController.getAllStorageRequest).descriptor('storagerequest.list');
 router.post('/decline', authentication, checkPermission, storageRequestController.declineStorageRequest).descriptor('storagerequest.decline');
+router.post('/approve', authentication, checkPermission, storageRequestController.approveStorageRequest).descriptor('storagerequest.approve');
 
 module.exports = router;

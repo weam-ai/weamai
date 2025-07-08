@@ -50,7 +50,7 @@ import ProfileImage from '@/components/Profile/ProfileImage';
 import ChatResponse from '@/components/Chat/ChatResponse';
 import ResponseTime from '@/components/Chat/ResponseTime';
 import { getCompanyId, getCurrentUser } from '@/utils/handleAuth';
-import { filterUniqueByNestedField, isEmptyObject, isFreeTierSubscription, freeTrialDaysLeft, chatHasConversation } from '@/utils/common';
+import { filterUniqueByNestedField, isEmptyObject, chatHasConversation } from '@/utils/common';
 import { getModelCredit, formatMessageUser, generateObjectId, formatBrain, decodedObjectId, formatDateToISO, isUserNameComplete, getDisplayModelName } from '@/utils/helper';
 import ThunderIcon from '@/icons/ThunderIcon';
 import usePrompt from '@/hooks/prompt/usePrompt';
@@ -61,7 +61,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSubscription } from '@/hooks/subscription/useSubscription';
 import { setIsWebSearchActive, setSelectedAIModal } from '@/lib/slices/aimodel/assignmodelslice';
 import { UploadedFileType } from '@/types/chat';
 import { AiModalType } from '@/types/aimodels';
@@ -112,8 +111,7 @@ const ChatPage = memo(() => {
     
     // For the tab GPT prompts
     const { getTabPromptList, promptList: prompts, loading: promptLoader, setLoading: setPromptLoader, paginator: promptPaginator, setPromptList } = usePrompt();
-    const { freeSubscriptionChecker, isSubscriptionActive } = useSubscription();
-
+    
     const userModal = useSelector((store:RootState) => store.assignmodel.list);
     const selectedAIModal = useSelector(
         (store: RootState) => store.assignmodel.selectedModal
@@ -123,7 +121,6 @@ const ChatPage = memo(() => {
         (store: RootState) => store.conversation.uploadData
     );
     const canvasOptions = useSelector((store: RootState) => store.chat.canvasOptions);
-    const { subscriptionStatus } = useSelector((store: RootState) => store.chat.creditInfo);
     const isWebSearchActive = useSelector((store:RootState) => store.assignmodel.isWebSearchActive);
     const params = useParams();
     const queryParams = useSearchParams();
@@ -223,7 +220,7 @@ const ChatPage = memo(() => {
         const images = [];
         if (hasImage) {
             files.forEach((file) => {
-                images.push(`${LINK.AWS_S3_URL}${file.uri}`)
+                images.push(`${file.uri}`)
             })
             removeUploadedFile();
         }
@@ -239,74 +236,26 @@ const ChatPage = memo(() => {
             setText('');
             return;
         }
-
-        if (!isSubscriptionActive()) {
-            setText('');
-            return;
-            
-        }
         
         const modalCode = selectedAIModal.bot.code;
-
-        //if (isEmptyObject(serializableProAgentData)) {
             
-            if(subscriptionStatus){
-                const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
-                if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit) && 
-                    (subscriptionStatus == SUBSCRIPTION_STATUS.ACTIVE || subscriptionStatus == SUBSCRIPTION_STATUS.PENDING_CANCELLATION))
-                {
-                    const updatedCreditInfo = {
-                        ...creditInfoSelector,
-                        msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
-                    };
-                    dispatch(setCreditInfoAction(updatedCreditInfo));
-                    
-                } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector?.msgCreditUsed + modelCredit) && 
-                (subscriptionStatus == SUBSCRIPTION_STATUS.ACTIVE || subscriptionStatus == SUBSCRIPTION_STATUS.PENDING_CANCELLATION)) {
-                    Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
-                    setText('');
-                    return;
-                } else {
-                    Toast(EXPIRED_SUBSCRIPTION_MESSAGE, 'error');
-                    setText('');
-                    return;
-                }
-            } else {
-                const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
-                if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
-                {
-                    const updatedCreditInfo = {
-                        ...creditInfoSelector,
-                        msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
-                    };
-                    dispatch(setCreditInfoAction(updatedCreditInfo));
-
-                    socket.emit(SOCKET_EVENTS.USER_MESSAGE_COUNT, {
-                        freeTierCreditCount: {
-                            msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit,
-                            msgCreditLimit: creditInfoSelector.msgCreditLimit,
-                            freeTrialStartDate: creditInfoSelector?.freeTrialStartDate,
-                            subscriptionStatus: creditInfoSelector?.subscriptionStatus
-                        },
-                        companyId,
-                        modalCode,
-                    });
-                    
-                } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector ?.msgCreditUsed + modelCredit)) {
-                    Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
-                    setText('');
-                    return;
-                }else if(freeTrialDaysLeft(creditInfoSelector) == 0){
-                    Toast(FREE_TIER_END_MESSAGE, 'error');
-                    setText('');
-                    return;
-                } else {
-                    Toast(EXPIRED_SUBSCRIPTION_MESSAGE, 'error');
-                    setText('');
-                    return;
-                }
-            }
-        //}
+        const modelCredit = (isEmptyObject(serializableProAgentData)) ? getModelCredit(persistTagData?.responseModel || selectedAIModal?.name) : getModelCredit(proAgentData?.code);
+        if((creditInfoSelector?.msgCreditLimit >= creditInfoSelector?.msgCreditUsed + modelCredit))
+        {
+            const updatedCreditInfo = {
+                ...creditInfoSelector,
+                msgCreditUsed: creditInfoSelector.msgCreditUsed + modelCredit
+            };
+            dispatch(setCreditInfoAction(updatedCreditInfo));
+            
+        } else if((creditInfoSelector?.msgCreditLimit <= creditInfoSelector?.msgCreditUsed + modelCredit)) {
+            Toast(MESSAGE_CREDIT_LIMIT_REACHED, 'error');
+            setText('');
+            return;
+        } else {
+            setText('');
+            return;
+        }
 
         //Chat Member Create and reset URL to remove isNew
         if (!chatHasConversation(conversations)) {
@@ -386,7 +335,7 @@ const ChatPage = memo(() => {
             messageId: messageId,
             companyId: companyId,
             user: formatMessageUser(currentUser),
-            isPaid: subscriptionStatus
+            isPaid: false
         };
       
         img_url = handleImageConversation(globalUploadedFile);
@@ -420,9 +369,7 @@ const ChatPage = memo(() => {
             modelId: selectedAIModal._id,
             chatId: params.id,
             model_name: modalName,
-            // isregenerated: false,
-            msgCredit: getModelCredit(modalName),
-            // is_paid_user: [SUBSCRIPTION_STATUS.ACTIVE, SUBSCRIPTION_STATUS.PENDING_CANCELLATION].includes(subscriptionStatus)
+            msgCredit: getModelCredit(modalName)
         }
 
         if (API_TYPE == API_TYPE_OPTIONS.PERPLEXITY) {
@@ -1009,10 +956,6 @@ const ChatPage = memo(() => {
 
             socket.on(SOCKET_EVENTS.DISABLE_QUERY_INPUT, handleDisableInput);
 
-            // socket.on(SOCKET_EVENTS.SUBSCRIPTION_STATUS, handleSubscriptionStatus);
-
-            // socket.on(SOCKET_EVENTS.AI_MODEL_KEY_REMOVE, handleAIModelKeyRemove);
-
             socket.on(SOCKET_EVENTS.USER_SUBSCRIPTION_UPDATE, handleUserSubscriptionUpdate);
 
             socket.emit(SOCKET_EVENTS.MESSAGE_LIST, { chatId: params.id, companyId, userId: currentUser._id, offset:conversationPagination?.offset || 0, limit:conversationPagination?.perPage || 10 });
@@ -1043,27 +986,6 @@ const ChatPage = memo(() => {
                 socketChatById(chat);
             });
 
-            // socket.emit(SOCKET_EVENTS.FETCH_SUBSCRIPTION, {companyId,userId:currentUser._id});
-            // socket.on(SOCKET_EVENTS.FETCH_SUBSCRIPTION, (data) => {
-            //     dispatch(
-            //         setCreditInfoAction({
-            //             ...creditInfoSelector,
-            //             subscriptionStatus:data.subscriptionStatus,
-            //             msgCreditLimit:data.msgCreditLimit,
-            //             msgCreditUsed:data.msgCreditUsed,
-            //             ...(data.freeTrialStartDate && { freeTrialStartDate:data.freeTrialStartDate }),
-            //         })
-            //     );
-            // });
-
-            const isFree =  isFreeTierSubscription(creditInfoSelector.subscriptionStatus)
-            if (isFree) {
-                socket.on(SOCKET_EVENTS.USER_MESSAGE_COUNT, ({ creditInfo }) => {
-                    dispatch(setCreditInfoAction({...creditInfoSelector, ...creditInfo}));
-                    
-                });                
-            }
-
             socket.on(SOCKET_EVENTS.API_KEY_REQUIRED, handleApiKeyRequired);
 
             socket.on('disconnect', () => {
@@ -1073,9 +995,7 @@ const ChatPage = memo(() => {
                 socket.off(SOCKET_EVENTS.STOP_STREAMING, handleSocketStreamingStop);
                 socket.off(SOCKET_EVENTS.ON_QUERY_TYPING, handleOnQueryTyping);
                 socket.off(SOCKET_EVENTS.DISABLE_QUERY_INPUT, handleDisableInput);
-                // socket.off(SOCKET_EVENTS.SUBSCRIPTION_STATUS, handleSubscriptionStatus);
                 socket.off(SOCKET_EVENTS.FETCH_SUBSCRIPTION, () => {});
-                // socket.off(SOCKET_EVENTS.AI_MODEL_KEY_REMOVE, handleAIModelKeyRemove);
                 socket.off(SOCKET_EVENTS.API_KEY_REQUIRED, handleApiKeyRequired);
                 socket.off(SOCKET_EVENTS.FETCH_CHAT_BY_ID, socketChatById);
                 socket.off(SOCKET_EVENTS.MESSAGE_LIST, socketAllConversation);

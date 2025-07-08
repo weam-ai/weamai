@@ -1,9 +1,7 @@
 'use client';
 import React, { useState, useMemo } from 'react';
 import {
-    freeTrialDaysLeft,
-    isEmptyObject,
-    isSubscriptionActive,
+    isEmptyObject
 } from '@/utils/common';
 import {
     AI_MODEL_CODE,
@@ -15,8 +13,6 @@ import { useSearchParams } from 'next/navigation';
 import { modelNameConvert } from '@/utils/common';
 import { AiModalType } from '@/types/aimodels';
 import { usePathname } from 'next/navigation';
-import CircularProgress from './CircularProgress';
-import { FREE_TRIAL } from '@/config/config';
 import UserModalPopOver from './UserModalPopOver';
 
 export const useDefaultModel = (aiModals) => {
@@ -49,9 +45,7 @@ const HomeAiModel = ({ aiModals }) => {
     const selectedAIModal = useSelector(
         (store: RootState) => store.assignmodel.selectedModal
     );
-    const creditInfo = useSelector((store: RootState) => store.chat.creditInfo);
-    const freeDaysLeft = useMemo(() => freeTrialDaysLeft(creditInfo), [creditInfo]);
-
+    
     const handleModelChange = (model: AiModalType) => {
         setOpen(false);
         if (agent) return;
@@ -60,12 +54,6 @@ const HomeAiModel = ({ aiModals }) => {
         dispatch(setSelectedAIModal(model));
     };
 
-    const shouldShowProgress = useMemo(() => {
-        return creditInfo?.freeTrialStartDate &&
-               Object.keys(creditInfo).length > 0 &&
-               !isSubscriptionActive(creditInfo.subscriptionStatus);
-    }, [ creditInfo]);
-    
     return (
         <>
             {aiModals?.length > 0 && model ? (
@@ -78,17 +66,7 @@ const HomeAiModel = ({ aiModals }) => {
                             handleModelChange={handleModelChange}
                             userModals={aiModals}
                         />
-                    </div>
-
-                    {shouldShowProgress && (
-                        <div className="flex items-center">
-                            <CircularProgress
-                                value={freeDaysLeft}
-                                max={parseInt(FREE_TRIAL.DAYS)}
-                                width={40}
-                            />
-                        </div>
-                    )}
+                    </div>                    
                 </div>
             ) : null}
         </>

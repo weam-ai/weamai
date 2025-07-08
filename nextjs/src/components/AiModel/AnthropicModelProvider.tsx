@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 const AnthropicModelProvider = ({ configs }) => {
     const { register, handleSubmit, anthropicHealthCheck, loading, errors } = useAnthropic();
-    const {subscriptionStatus} = useSelector((store: RootState)=>store.chat.creditInfo)
     return (
         <div className={`relative mb-4`}>
             <label className="font-semibold mb-2 inline-block">
@@ -28,9 +27,8 @@ const AnthropicModelProvider = ({ configs }) => {
                     {...register('key')}
                     placeholder={'sk-ant-xxxxxxxxxxxxxxxxxx'}
                     defaultValue={configs?.apikey ? 'sk-ant-xxxxxxxxxxxxxxxxxx' : ''}
-                    disabled={!subscriptionStatus}
                 />
-                <button className="btn btn-black" type="button" disabled={loading || !subscriptionStatus} onClick={handleSubmit(anthropicHealthCheck)}>
+                <button className="btn btn-black" type="button" disabled={loading} onClick={handleSubmit(anthropicHealthCheck)}>
                     Save
                 </button>
             </div>
