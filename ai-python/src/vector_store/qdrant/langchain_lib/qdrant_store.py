@@ -23,6 +23,7 @@ BUCKET_TYPE_MAP = {
     "MINIO": "minio",  # Minio is used for local development
                               # S3 is used for production
 }
+chunk_pattern = re.compile(r'chunk:(\d+):')
 
 IMAGE_SOURCE_BUCKET = BUCKET_TYPE_MAP.get(os.environ.get("BUCKET_TYPE"))
 FILE_SOURCE_BUCKET = BUCKET_TYPE_MAP.get(os.environ.get("BUCKET_TYPE"))
@@ -106,7 +107,7 @@ class QdrantVectorStoreService(AbstractQdrantVectorStore):
                             # Add more FieldCondition's here as needed
                         ]
                     )
-        retriever=self.vectorstore.as_retriever(search_kwargs={'k': top_k, "filter": filter})
+        retriever=self.vectorstore.as_retriever(search_kwargs={'k': top_k, "filter": filter,'with_payload': True})
         description = retriever.get_relevant_documents(query_text)
         for chunk in description:
             chunk_str+=chunk.page_content
@@ -159,7 +160,7 @@ class QdrantVectorStoreService(AbstractQdrantVectorStore):
                             # Add more FieldCondition's here as needed
                         ]
                     )
-            retriever=self.vectorstore.as_retriever(search_kwargs={'k': top_k, "filter":filter,'with_payload': True,})
+            retriever=self.vectorstore.as_retriever(search_kwargs={'k': top_k, "filter":filter,'with_payload': True})
             reteriver_list.append(retriever)
         lotr = MergerRetriever(retrievers=reteriver_list)
         return lotr
@@ -179,7 +180,7 @@ class QdrantVectorStoreService(AbstractQdrantVectorStore):
                             models.FieldCondition(
                                 key="tag",
                                 match=models.MatchValue(value=tag),
-                            ),
+                            )
                             # Add more FieldCondition's here as needed
                         ]
                     )
@@ -199,14 +200,20 @@ class CodeRetriever(BaseRetriever):
     vectorstore: BaseRetriever
     search_type: str = "mmr"
     search_kwargs: dict = Field(default_factory=dict)
+
     
     def _get_relevant_documents(self, query: str,run_manager: CallbackManagerForRetrieverRun) -> List[Document]:
         results = self.vectorstore.get_relevant_documents(query=query)
-        results.sort(key=lambda x: x.metadata["index"])
-        text_content=[doc.page_content for doc in results]      
-        text_content = "".join(text_content)
-        results = [Document(text_content)]
-        return results
+        def chunk_key(doc):
+            match = chunk_pattern.search(doc.page_content)
+            return int(match.group(1)) if match else float('inf')
+
+        results.sort(key=chunk_key)
+
+        # Join sorted content
+        text_content = "".join(doc.page_content for doc in results)
+
+        return [Document(page_content=text_content)]
     
 class ExcelRetriever(BaseRetriever):
     vectorstore: BaseRetriever
