@@ -19,6 +19,10 @@ services:
     restart: always
     env_file:
       - .env  # Load environment variables from a .env file
+    volumes:
+      - ./nextjs:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
@@ -38,8 +42,9 @@ services:
     env_file:
       - .env  # Load environment variables from a .env file
     volumes:
-      - ./nodejs:/usr/src/app        # 👈 bind local code to container
-      - /usr/src/app/node_modules    # 👈 avoid node_modules conflicts
+      - ./nodejs:/usr/src/app        
+      - /usr/src/app/node_modules 
+      - ./nodejs/storage:/usr/src/app/storage
     networks:
       - app-network
     depends_on:
@@ -161,19 +166,16 @@ services:
   
   qdrant_primary:
     image: "qdrant/qdrant:latest"
-    container_name: qdrant_primary_container  # 👈 Add this to both nodes
+    container_name: qdrant_primary  # 👈 Add this to both nodes
     ports:
-      - "6333:6333"
-      - "${QDRANT_NODE_PORT}:${QDRANT_NODE_PORT}"  # 👈 Add this to both nodes
+      - "${QDRANT_DASHBOARD_PORT}:${QDRANT_DASHBOARD_PORT}"
     environment:
-      QDRANT__CLUSTER__ENABLED: "true"
-      RUST_LOG: "trace"
-    command: ["./qdrant", "--uri", "http://qdrant_primary:${QDRANT_NODE_PORT}","--config-path", "/qdrant/config/config.yml"]
+      QDRANT__CLUSTER__ENABLED: true
+      QDRANT__LOG_LEVEL: INFO
+    command: "./qdrant --uri http://qdrant_primary:${QDRANT_NODE_PORT}"
     volumes:
-      - qdrant_primary_data:/qdrant/storage
-      - qdrant_primary_snapshots:/qdrant/snapshots
-      - ./config_files/qdrant:/qdrant/config:ro
-
+      - ./data/qdrant_primary_data:/qdrant/storage
+    restart: always
     deploy:
       mode: replicated
       replicas: 1
@@ -183,22 +185,24 @@ services:
           memory: 2G
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
-      interval: 30s
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
       retries: 5
     networks:
       - app-network
 
+
   qdrant_secondary:
     image: "qdrant/qdrant:latest"
+    container_name: qdrant_secondary
+    depends_on:
+      - qdrant_primary
     environment:
-      QDRANT__CLUSTER__ENABLED: "true"
-      RUST_LOG: "trace"
-    command: ["./qdrant", "--bootstrap", "http://qdrant_primary:${QDRANT_NODE_PORT}", "--config-path", "/qdrant/config/config.yml"]
+      QDRANT__CLUSTER__ENABLED: true
+      QDRANT__LOG_LEVEL: INFO
+    command: "./qdrant --bootstrap http://qdrant_primary:${QDRANT_NODE_PORT} --uri http://qdrant_secondary:${QDRANT_NODE_PORT}"
     volumes:
-      - qdrant_secondary_data:/qdrant/storage
-      - qdrant_secondary_snapshots:/qdrant/snapshots
-      - ./config_files/qdrant:/qdrant/config:ro
+      - ./data/qdrant_secondary_data:/qdrant/storage
     deploy:
       mode: replicated
       replicas: 1
@@ -208,11 +212,13 @@ services:
           memory: 2G
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
-      interval: 60s  # Increased interval
-      timeout: 20s  # Increased timeout
+      interval: 10s  # Increased interval
+      timeout: 5s  # Increased timeout
       retries: 10   # Increased retries
+    restart: always
     networks:
       - app-network
+    
   mongo:
     image: mongo:latest
     ports:
@@ -296,9 +302,7 @@ volumes:
   minio_data:
   app:
   db:
+  data:
   localstack:
-  qdrant_primary_data:
-  qdrant_primary_snapshots:
-  qdrant_secondary_data:
-  qdrant_secondary_snapshots:
+
 
