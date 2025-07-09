@@ -113,8 +113,9 @@ class WebQASpecialService:
     
     async def get_pageSpeed_desktop_analysis(self):
         try:   
-            PageSpeed_api = self.pro_agent_details.get("qa_specialist").get("pageSpeed")
-            pageSpeedAPIKey = decryptor.decrypt(PageSpeed_api)
+            # PageSpeed_api = self.pro_agent_details.get("qa_specialist").get("pageSpeed")
+            # pageSpeedAPIKey = decryptor.decrypt(PageSpeed_api)
+            pageSpeedAPIKey=os.environ.get("GOOGLE_PAGE_SPEED")
             api_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
             params = {
                 "url": self.url,
