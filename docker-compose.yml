@@ -19,6 +19,10 @@ services:
     restart: always
     env_file:
       - .env  # Load environment variables from a .env file
+    volumes:
+      - ./nextjs:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
@@ -38,8 +42,9 @@ services:
     env_file:
       - .env  # Load environment variables from a .env file
     volumes:
-      - ./nodejs:/usr/src/app        # 👈 bind local code to container
-      - /usr/src/app/node_modules    # 👈 avoid node_modules conflicts
+      - ./nodejs:/usr/src/app        
+      - /usr/src/app/node_modules 
+      - ./nodejs/storage:/usr/src/app/storage
     networks:
       - app-network
     depends_on:
