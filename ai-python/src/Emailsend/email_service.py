@@ -16,6 +16,12 @@ key = os.getenv("SECURITY_KEY").encode("utf-8")
 encryptor = MessageEncryptor(key)
 decryptor = MessageDecryptor(key)
 # ---------- Mongo Helper ----------
+def get_env_var(key: str, default: str = None, required: bool = False):
+    value = os.environ.get(key, default)
+
+    if required and (value is None or value.strip() == ''):
+        return False
+    return value
 
 class BaseEmailProvider(ABC):
     @abstractmethod
@@ -88,32 +94,49 @@ class SESEmailService(BaseEmailProvider):
 
 class SMTPEmailService(BaseEmailProvider):
     def __init__(self,config = None):
-        self.smtp_server = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
-        self.smtp_port = int(os.environ.get("SMTP_PORT", 587))
-        self.smtp_user = os.environ.get("SMTP_USER", "your_email@gmail.com")
-        self.smtp_password = os.environ.get("SMTP_PASSWORD", "your_password")
+        self.smtp_server = get_env_var("SMTP_SERVER", "smtp.gmail.com",required=True)
+        self.smtp_port = int(get_env_var("SMTP_PORT", 587,required=True))
+        self.smtp_user = get_env_var("SMTP_USER", required=True)
+        self.smtp_password = get_env_var("SMTP_PASSWORD", required=True)
         self.from_email = self.smtp_user
-        self.environment_url = os.environ.get("ENVIRONMENT_URL", "http://localhost:8000")
+        self.environment_url = get_env_var("ENVIRONMENT_URL", "http://localhost:8000",required=True)
+
+        self.is_config_valid = all([
+            self.smtp_user,
+            self.smtp_password,
+            self.smtp_user,
+            self.smtp_server,
+            self.smtp_port,
+            self.environment_url
+
+
+        ])
+        
+
 
         template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../Emailsend/templates'))
         self.load_template = Environment(loader=FileSystemLoader(template_dir))
 
     def send_email(self, email: str, subject: str, username: str, content_body: str, slug: str, template_name: str, show_button: bool = True, url_type: str = "prompts"):
-        try:
-            template_html = self.load_template.get_template(f'{template_name}.html')
-            html_content = template_html.render(
-                username=username,
-                content_body=content_body,
-                url=f"{self.environment_url}/{url_type}?b={slug}",
-                show_button=show_button
-            )
-            logger.info(f"Email template '{template_name}.html' rendered successfully.")
-        except FileNotFoundError:
-            logger.error(f"Email template '{template_name}' not found.")
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Email template not found")
+        if self.is_config_valid:
+            try:
+                template_html = self.load_template.get_template(f'{template_name}.html')
+                html_content = template_html.render(
+                    username=username,
+                    content_body=content_body,
+                    url=f"{self.environment_url}/{url_type}?b={slug}",
+                    show_button=show_button
+                )
+                logger.info(f"Email template '{template_name}.html' rendered successfully.")
+            except FileNotFoundError:
+                logger.error(f"Email template '{template_name}' not found.")
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Email template not found")
 
-        logger.info(f"Preparing to send email to: {email}")
-        return self._send_email_via_smtp(email, subject, html_content)
+            logger.info(f"Preparing to send email to: {email}")
+            return self._send_email_via_smtp(email, subject, html_content)
+        else:
+            logger.error(f"❌ Failed to send email: ")
+            return False
 
     def _send_email_via_smtp(self, to_email: str, subject: str, html_content: str):
         try:
@@ -164,9 +187,14 @@ class EmailService:
     def send_email(self, email, subject, username, content_body, slug, template_name, show_button=True, url_type="prompts"):
         try:
             if self.initialization:
-                 logger.info(f"Sending email using {self.provider.__class__.__name__} provider.")
-                 self.provider.send_email(email, subject, username, content_body, slug, template_name, show_button, url_type)
-                 return {"message": "Email sent successfully"}
+                logger.info(f"Sending email using {self.provider.__class__.__name__} provider.")
+                status=self.provider.send_email(email, subject, username, content_body, slug, template_name, show_button, url_type)
+                if status:
+                    return {"message": "Email sent successfully"}
+                else:
+                    logger.error(f"❌ Failed to send email:")
+                    return {"message": "Failed to send email"}
+                
             else:
                 logger.warning("Email provider not initialized or credentials missing.")
                 return {"message": "Email provider not initialized or credentials missing."}

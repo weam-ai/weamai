@@ -14,8 +14,9 @@ def add_notification_data(message, user_data, collection_name) -> str:
         str: The ID of the inserted notification.
     """
     user_data["id"] = ObjectId(user_data["id"])
-    if user_data.get("profile", {}).get("id") is not None:
-        user_data["profile"]["id"] = ObjectId(user_data["profile"]["id"])
+    if user_data.get("profile") is not None:
+        if user_data.get("profile", {}).get("id") is not None:
+            user_data["profile"]["id"] = ObjectId(user_data["profile"]["id"])
 
     timezone = pytz.timezone("Asia/Kolkata")  # Adjust timezone if needed
     current_datetime = datetime.now(timezone)
