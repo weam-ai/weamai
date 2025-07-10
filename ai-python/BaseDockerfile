@@ -4,6 +4,9 @@ FROM python:3.9-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
+    build-essential \
+    python3-dev \
+    libev-dev \
     libpoppler-cpp-dev \
     pkg-config \
     python3-dev \

@@ -88,7 +88,7 @@ async def process_and_store_text_openai(
                     file_name=input.file_name,
                     file_type=input.file_type,
                     brain_id=input.brain_id,
-                ),
+                ).set(queue='openai_embedding'),
                 TASK_CHAIN_DICT['embed'].s(
                     node_text_embedder=openai_input.node_text_embedder,
                     api_key_id=input.api_key_id,
@@ -99,7 +99,7 @@ async def process_and_store_text_openai(
                     companymodel=openai_input.companymodel,
                     file_collection=openai_input.file,
                     brain_id=input.brain_id,
-                ),
+                ).set(queue='openai_embedding'),
                 TASK_CHAIN_DICT['insert'].s(
                     environment=openai_input.environment,
                     company_id=input.company_id,
@@ -108,7 +108,7 @@ async def process_and_store_text_openai(
                     tag=input.tag,
                     id=input.id,
                     companypinecone=openai_input.companypinecone
-                ),
+                ).set(queue='qdrant_insertion'),
             )
             task_chains.append(task_chain)
 
