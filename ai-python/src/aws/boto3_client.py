@@ -23,6 +23,7 @@ class Boto3S3Client(metaclass=Singleton):
         self.aws_secret_access_key = os.environ.get('AWS_SECRET_KEY')
         self.bucket_name = os.environ.get("AWS_BUCKET")
         self.cdn_url=os.environ.get("AWS_S3_URL")
+        self.public_url=self.cdn_url
         self.vectors_backup =os.environ.get("AWS_VECTORS_BACKUP","vectors-backup")
         self.profiler = os.environ.get("PROFILER_S3_BUCKET", "profiler")
         config = Config(
