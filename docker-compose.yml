@@ -49,6 +49,7 @@ services:
       - app-network
     depends_on:
       - mongo
+      - minio
   
   pybase_docker:
     env_file: ${ENV_FILE}

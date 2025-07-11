@@ -26,7 +26,24 @@ AWS.config.update({
     })
 })
 
-const S3 = new AWS.S3({});
+// For internal Node.js service uploads (inside Docker)
+const internalS3 = new AWS.S3({
+    accessKeyId: AWS_CONFIG.AWS_ACCESS_ID,
+    secretAccessKey: AWS_CONFIG.AWS_SECRET_KEY,
+    endpoint: AWS_CONFIG.ENDPOINT, // accessible from container
+    s3ForcePathStyle: true,
+    signatureVersion: 'v4',
+    sslEnabled: false,
+});
+// For generating presigned URLs to return to browser
+const publicS3 = new AWS.S3({
+    accessKeyId: AWS_CONFIG.AWS_ACCESS_ID,
+    secretAccessKey: AWS_CONFIG.AWS_SECRET_KEY,
+    endpoint: AWS_CONFIG.INTERNAL_ENDPOINT, // accessible from browser
+    s3ForcePathStyle: true,
+    signatureVersion: 'v4',
+    sslEnabled: false,
+});
 
 const uploadFileToS3 = async (file, filename) => {
     try {
@@ -40,9 +57,11 @@ const uploadFileToS3 = async (file, filename) => {
             ACL: 'public-read',
             ContentType: file.mimetype,
         };
-        // await S3.upload(params).promise();
+        // await internalS3.upload(params).promise();
+        logger.info(`File uploaded successfully to S3: ${filename}`);
     } catch (error) {
         logger.error('Error in uploadFileToS3', error);
+        return;
     }
 }
 
@@ -53,7 +72,8 @@ async function deleteFromS3 (filename) {
             Bucket: AWS_CONFIG.AWS_S3_BUCKET_NAME,
             Key: filename.replace(/^\/+/g, ''),
         }
-        await S3.deleteObject(params).promise();
+        await internalS3.deleteObject(params).promise();
+        logger.info(`File deleted successfully from S3: ${filename}`);
     } catch (error) {
         logger.error('Error in deleteFromS3', error);
     }
@@ -111,7 +131,7 @@ const getImageDimensions = async (req) => {
             Key: key
         };
 
-        const s3Object = await S3.getObject(s3Params).promise();
+        const s3Object = await internalS3.getObject(s3Params).promise();
 
         // s3Object.Body contains the file buffer
         const fileBuffer = s3Object.Body;
@@ -292,7 +312,7 @@ const fetchS3UsageAndCost = async (req) => {
         const params = {
             Bucket: AWS_CONFIG.AWS_S3_BUCKET_NAME,
         }
-        const objectList = await S3.listObjectsV2(params).promise();
+        const objectList = await internalS3.listObjectsV2(params).promise();
 
         // Filter objects based on last modified timestamps within the specified time range
         const filteredObjects = objectList.Contents.filter(object => {
@@ -385,7 +405,14 @@ async function generatePresignedUrl(req) {
             fileExtension = fileExtension || originalExtension;
             const extractedFileName = getFileNameWithoutExtension(fileKey.key);
             const fileName = `${req.body.folder}/${extractedFileName}-${id}.${fileExtension}`;
-            const url = await S3.getSignedUrlPromise('putObject', { ...params, Key: fileName, ContentType: fileKey.type });
+            
+            // Use publicS3 for presigned URLs (accessible from browser)
+            const url = await publicS3.getSignedUrlPromise('putObject', { 
+                ...params, 
+                Key: fileName, 
+                ContentType: fileKey.type 
+            });
+            
             presignedUrl.push(url);
         }
         return presignedUrl;

@@ -66,6 +66,7 @@ module.exports = {
         REGION: process.env.AWS_REGION,
         MINIO_USE_SSL: false,
         ENDPOINT: process.env.MINIO_ENDPOINT,
+        INTERNAL_ENDPOINT: process.env.INTERNAL_ENDPOINT,
     },
     FIREBASE: {
         PROJECT_TYPE: process.env.FIREBASE_PROJECT_TYPE,
