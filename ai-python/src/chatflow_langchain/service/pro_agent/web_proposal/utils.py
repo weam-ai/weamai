@@ -443,9 +443,11 @@ async def upload_doc_to_s3(doc):
         s3_client = client_service.client_type.client
         bucket_name = client_service.client_type.bucket_name
         cdn_url = client_service.client_type.cdn_url
+        public_url=client_service.client_type.public_url
         s3_client.put_object(Bucket=bucket_name, Key=s3_key, Body=doc_buffer.getvalue())
         logger.info(f"Successfully uploaded to s3://{bucket_name}/{s3_key}")
-        return cdn_url + "/" + s3_key
+        file_url=os.path.join(public_url,bucket_name,s3_key)
+        return file_url
     except Exception as e:
         logger.error(
             f"Error uploading the document: {e}",

@@ -40,6 +40,7 @@ class LLMAPIKeyDecryptionHandler:
     """
     def initialization(self, api_key_id, collection_name,**kwargs):
         try:
+            self.apikey=None
             self.repository = llm_model_repo.initialization(api_key_id, collection_name)
             self.__encrypted_data = llm_model_repo._get_config_data()
             self.model_name = llm_model_repo.get_model_name()
