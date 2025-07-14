@@ -13,6 +13,7 @@ from qdrant_client.models import PointStruct
 import os
 from dotenv import load_dotenv
 load_dotenv()
+CHUNK_SIZE = 400
 API_CALL_COUNT_KEY_REDIS = os.environ.get("API_CALL_COUNT_KEY_REDIS","redis_api_call_count")
 redis_url = os.environ.get("CELERY_BROKEN_URL")
 redis_client = redis.StrictRedis.from_url(redis_url)
