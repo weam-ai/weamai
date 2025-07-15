@@ -23,7 +23,6 @@ import {
     GENERAL_BRAIN_TITLE,
     GPTTypes,
 } from '@/utils/constant';
-import ProAgentList from './ProAgentList'; 
 import {
     setChatAccessAction,
     setCreditInfoAction,
@@ -512,7 +511,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                 <div className="relative w-full">
                                     <input
                                         type="text"
-                                        className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                         id="searchBots"
                                         placeholder="Search Agents"
                                         onChange={handleInputChanges}
@@ -593,7 +592,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                             <div className="relative w-full">
                                 <input
                                     type="text"
-                                    className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                    className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                     id="searchPrompts"
                                     placeholder="Search Prompts"
                                     onChange={handleInputChanges}

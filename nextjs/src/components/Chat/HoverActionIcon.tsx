@@ -138,7 +138,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
             <HoverActionTooltip
                 content='Save this Prompt'
                 onClick={() => openModal()}
-                className="cursor-pointer flex items-center justify-center lg:w-8 w-6 h-8 lg:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
+                className="cursor-pointer flex items-center justify-center lg:w-8 w-6 h-8 lg:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[16px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
             >
                 <PromptIcon
                     open={isOpen}

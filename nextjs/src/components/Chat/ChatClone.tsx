@@ -13,6 +13,8 @@ import TabGptList from '@/components/Chat/TabGptList';
 import Image from 'next/image';
 import defaultCustomGptImage from '../../../public/defaultgpt.jpg';
 import { truncateText } from '@/utils/common';
+import { BrainAgentType } from '@/types/brain';
+import { BrainPromptType } from '@/types/brain';
 import { GPTTypes } from '@/utils/constant';
 import {
     Dialog,
@@ -1361,7 +1363,7 @@ const ChatPage = memo(() => {
                                                 <div className="relative w-full">
                                                     <input
                                                         type="text"
-                                                        className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                                         id="searchBots"
                                                         placeholder="Search Agents"
                                                         onChange={handleInputChanges}
@@ -1441,7 +1443,7 @@ const ChatPage = memo(() => {
                                                 <div className="relative w-full">
                                                     <input
                                                         type="text"
-                                                        className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                                         id="searchPrompts"
                                                         placeholder="Search Prompts"
                                                         onChange={handleInputChanges}
