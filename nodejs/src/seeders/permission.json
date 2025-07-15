@@ -2,6 +2,7 @@
     {
         "roleCode": "COMPANY",
         "permissions":[
+            "check.apikey",
             "workspace.list",
             "user.list",
             "bot.list",
@@ -38,6 +39,7 @@
     {
         "roleCode": "MANAGER",
         "permissions":[
+            "check.apikey",
             "user.list",
             "user.delete",
             "billing.list",

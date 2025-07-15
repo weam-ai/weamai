@@ -5,6 +5,7 @@ import {
 } from '@/utils/common';
 import {
     AI_MODEL_CODE,
+    ROLE_TYPE,
 } from '@/utils/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedAIModal } from '@/lib/slices/aimodel/assignmodelslice';
@@ -15,6 +16,7 @@ import { AiModalType } from '@/types/aimodels';
 import { usePathname } from 'next/navigation';
 import UserModalPopOver from './UserModalPopOver';
 import routes from '@/utils/routes';
+import { getCurrentUser } from '@/utils/handleAuth';
 
 export const useDefaultModel = (aiModals) => {
     const selectedAIModal = useSelector(
@@ -43,7 +45,8 @@ const HomeAiModel = ({ aiModals }) => {
     const agent = queryParams.get('agent');
     const b = queryParams.get('b');
     const model = queryParams.get('model');
-
+    const user = getCurrentUser();
+    
     const selectedAIModal = useSelector(
         (store: RootState) => store.assignmodel.selectedModal
     );
@@ -71,21 +74,23 @@ const HomeAiModel = ({ aiModals }) => {
             </div>
           </div>
         ) : (
-          <div className="top-header flex md:h-[68px] min-h-[68px] md:border-b-0 border-b border-b10 items-center justify-center lg:justify-between py-2 lg:pl-[15px] pl-[50px] pr-[15px]">
-            <button
-              // disabled={addChatLoading}
-              onClick={() => {
-                router.push(routes.Settingconfig);
-              }}
-              className="flex sm:justify-center sm:w-44 gap-x-2 text-font-14 font-medium border px-2 sm:px-3 py-2 group rounded-md hover:bg-black hover:text-white border-b-4 hover:border-b-b4 transition-all duration-200"
-            >
-              <span className="text-font-14 font-medium w-5 h-5 leading-4 rounded-full border border-b5 group-hover:border-b10 flex items-center justify-center">
-                +
-              </span>
-              <span className="hidden sm:inline">Add your API key</span>
-              <span className="sm:hidden">Add API key</span>
-            </button>
-          </div>
+          user?.roleCode !== ROLE_TYPE.USER ? (
+            <div className="top-header flex md:h-[68px] min-h-[68px] md:border-b-0 border-b border-b10 items-center justify-center lg:justify-between py-2 lg:pl-[15px] pl-[50px] pr-[15px]">
+              <button
+                // disabled={addChatLoading}
+                onClick={() => {
+                  router.push(routes.Settingconfig);
+                }}
+                className="flex sm:justify-center sm:w-44 gap-x-2 text-font-14 font-medium border px-2 sm:px-3 py-2 group rounded-md hover:bg-black hover:text-white border-b-4 hover:border-b-b4 transition-all duration-200"
+              >
+                <span className="text-font-14 font-medium w-5 h-5 leading-4 rounded-full border border-b5 group-hover:border-b10 flex items-center justify-center">
+                  +
+                </span>
+                <span className="hidden sm:inline">Add your API key</span>
+                <span className="sm:hidden">Add API key</span>
+              </button>
+            </div>
+          ) : <></>
         )}
       </>
     );
