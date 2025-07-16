@@ -182,7 +182,7 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: '2.0'
+          cpus: '1.0'
           memory: 2G
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
@@ -193,32 +193,32 @@ services:
       - app-network
 
 
-  qdrant_secondary:
-    image: "qdrant/qdrant:latest"
-    container_name: qdrant_secondary
-    depends_on:
-      - qdrant_primary
-    environment:
-      QDRANT__CLUSTER__ENABLED: true
-      QDRANT__LOG_LEVEL: INFO
-    command: "./qdrant --bootstrap http://qdrant_primary:${QDRANT_NODE_PORT} --uri http://qdrant_secondary:${QDRANT_NODE_PORT}"
-    volumes:
-      - ./data/qdrant_secondary_data:/qdrant/storage
-    deploy:
-      mode: replicated
-      replicas: 1
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2G
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
-      interval: 10s  # Increased interval
-      timeout: 5s  # Increased timeout
-      retries: 10   # Increased retries
-    restart: always
-    networks:
-      - app-network
+  # qdrant_secondary:
+  #   image: "qdrant/qdrant:latest"
+  #   container_name: qdrant_secondary
+  #   depends_on:
+  #     - qdrant_primary
+  #   environment:
+  #     QDRANT__CLUSTER__ENABLED: true
+  #     QDRANT__LOG_LEVEL: INFO
+  #   command: "./qdrant --bootstrap http://qdrant_primary:${QDRANT_NODE_PORT} --uri http://qdrant_secondary:${QDRANT_NODE_PORT}"
+  #   volumes:
+  #     - ./data/qdrant_secondary_data:/qdrant/storage
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     resources:
+  #       limits:
+  #         cpus: '2.0'
+  #         memory: 2G
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+  #     interval: 10s  # Increased interval
+  #     timeout: 5s  # Increased timeout
+  #     retries: 10   # Increased retries
+  #   restart: always
+  #   networks:
+  #     - app-network
     
   mongo:
     image: mongo:latest
