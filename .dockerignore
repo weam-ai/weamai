@@ -124,3 +124,4 @@ venv/
 # VS Code
 .vscode/
 /src/Weam-AI-LoadTest/test_venv
+/data
