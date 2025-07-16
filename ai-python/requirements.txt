@@ -92,9 +92,6 @@ langchain==0.3.24
 langchain-community==0.3.23
 langchain-openai==0.3.16
 langchain-core==0.3.59
-# torch==2.2.2
-# transformers==4.45.2
-# sentence-transformers==3.2.0
 httpx[http2]==0.28.1
 pandas==2.2.1
 tiktoken==0.9.0
