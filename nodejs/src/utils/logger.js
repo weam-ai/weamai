@@ -2,7 +2,23 @@ const winston = require('winston');
 require('winston-daily-rotate-file');
 const config = require('../config/config');
 const { format, transports } = winston;
+const fs = require('fs');
+const path = require('path');
 
+
+
+// ✅ Create log folders if they don't exist
+const logDirs = [
+  path.join(__dirname, '..', 'storage', 'info'),
+  path.join(__dirname, '..', 'storage', 'error'),
+];
+
+logDirs.forEach((dirPath) => {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+    console.log(`📁 Created log directory: ${dirPath}`);
+  }
+});
 console.log("🚀 ~  config.SERVER.LOCAL_LOG:",  config.SERVER.LOCAL_LOG)
 
 // Custom format to handle errors and stack traces
@@ -37,41 +53,12 @@ const consoleFormat = format.combine(
   })
 );
 
-const fileFormat = format.combine(
-  errorStackFormat(),
-  format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  format.uncolorize(),
-  format.printf(({ timestamp, level, message, stack, ...metadata }) => {
-    const status = metadata?.status ? ` [STATUS: ${metadata.status}]` : '';
-    const stackTrace = stack ? `\n${stack}` : '';
-    return `${timestamp} ${level}: ${message}${status}${stackTrace}`;
-  })
-);
-
-const infoFileTransport = new transports.DailyRotateFile({
-  filename: 'storage/info/%DATE%.log',
-  datePattern: 'YYYY-MM-DD',
-  level: 'info',
-  maxFiles: '30d',
-  format: fileFormat,
-});
-
-const errorFileTransport = new transports.DailyRotateFile({
-  filename: 'storage/error/%DATE%-error.log',
-  datePattern: 'YYYY-MM-DD',
-  level: 'error',
-  maxFiles: '30d',
-  format: fileFormat,
-});
-
 const logger = winston.createLogger({
   level: 'debug',
   transports: [
     new transports.Console({
       format: consoleFormat,
     }),
-    infoFileTransport,
-    errorFileTransport,
   ],
 });
 

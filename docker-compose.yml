@@ -33,10 +33,12 @@ services:
     
   
   nodejs:
+    image: nodejs_app:latest
     build:
       context: ./nodejs
       dockerfile: Dockerfile  # Use the Dockerfile in the current directory
     container_name: node_app
+
     ports:
       - "4050:4050"
     env_file:
@@ -44,7 +46,6 @@ services:
     volumes:
       - ./nodejs:/usr/src/app        
       - /usr/src/app/node_modules 
-      - ./nodejs/storage:/usr/src/app/storage
     networks:
       - app-network
     depends_on:
@@ -222,6 +223,7 @@ services:
     
   mongo:
     image: mongo:latest
+    container_name: weamai-mongo-1
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     environment:

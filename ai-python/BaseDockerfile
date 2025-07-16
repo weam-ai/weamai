@@ -48,7 +48,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgtk-3-0 \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Python + Node-based tools
 RUN pip install --no-cache-dir \
     crawl4ai \
     lxml-html-clean \
