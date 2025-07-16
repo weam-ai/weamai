@@ -50,10 +50,8 @@ const HoverActionTooltip = ({ children, content, onClick, className }: HoverActi
         >
             <TooltipProvider delayDuration={0} skipDelayDuration={0}>
                 <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Link href="#">
-                            {children}
-                        </Link>
+                    <TooltipTrigger>
+                        {children}
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
                         <p className="text-font-14">{content}</p>
