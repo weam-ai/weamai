@@ -49,7 +49,7 @@ Weam helps modern teams adopt AI at scale with clear direction meaningful tools 
 ## 📝 Changelog
 
 Keep up with the latest updates by visiting the releases page and notes:
-- [Releases](https://github.com/danny-avila/LibreChat/releases)
+- [Releases](https://github.com/weam-ai/weamai/releases)
 - [Changelog](https://www.v0-new-project-f0ty4hh1qrg.vercel.app/changelog) 
 
 **⚠️ Please consult the [changelog](https://www.v0-new-project-f0ty4hh1qrg.vercel.app/changelog) for breaking changes before updating.**
