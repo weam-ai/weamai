@@ -67,7 +67,7 @@ const schema = new Schema(
         },
         company: companySchema,
         stripeCustomerId: {
-            type: String, // stripe customerId 
+            type: String, 
         },
         msgCredit: {
             type: Number,
