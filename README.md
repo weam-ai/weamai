@@ -1,5 +1,4 @@
-# weamai
-Weam helps modern teams adopt AI at scale with clear direction meaningful tools and affordable solutions
+
 <p align="center">
   <a href="https://weam.ai">
     <img src="./nodejs/public/images/weam-logo.png" height="80">
@@ -30,6 +29,7 @@ Weam helps modern teams adopt AI at scale with clear direction meaningful tools 
 
 # ✨ Features
 
+- <p>Weam helps modern teams adopt AI at scale with clear direction meaningful tools and affordable solutions</p>
 [For a thorough review of our features, see our docs here](https://v0-new-project-f0ty4hh1qrg.vercel.app/) 📚
 
 ---
