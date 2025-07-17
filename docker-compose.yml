@@ -54,10 +54,8 @@ services:
   
   pybase_docker:
     env_file: ${ENV_FILE}
-    build:
-      context: ./ai-python
-      dockerfile: BaseDockerfile
-    image: pybase_image
+    image: pybase_image:latest
+    container_name: pybase_container
 
 
   celery_service:
