@@ -126,7 +126,7 @@ Your project should now be running in Docker using WSL2. If any errors occur, ch
 
 * Docker logs
 * `.env` configuration
-* Permissions or line endings in `build.sh`
+* Permissions or line endings in `winbuild.sh`
 
 ---
 

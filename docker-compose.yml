@@ -154,15 +154,15 @@ services:
       - .:/app
     
 
-  wdb:
-    image: kozea/wdb:3.3.0
-    container_name: web-wdb
-    networks:
-      - app-network
-    ports:
-      - ${WDB_PORT}:${WDB_PORT}
-    depends_on:
-      - gateway
+  # wdb:
+  #   image: kozea/wdb:3.3.0
+  #   container_name: web-wdb
+  #   networks:
+  #     - app-network
+  #   ports:
+  #     - ${WDB_PORT}:${WDB_PORT}
+  #   depends_on:
+  #     - gateway
   
   qdrant_primary:
     image: "qdrant/qdrant:latest"

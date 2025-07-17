@@ -5,7 +5,7 @@
 set +e
 echo " 🔨 Step 1: Building pybase_image via docker-compose service pybase_docker..."
 docker build --no-cache \
-  -f ./ai-python/BaseDockerfile \
+  -f ./ai-python/winBaseDockerfile \
   -t pybase_image \
   ./ai-python
 
