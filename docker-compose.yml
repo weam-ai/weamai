@@ -222,6 +222,7 @@ services:
     
   mongo:
     image: mongo:latest
+    container_name: weamai-mongo-1
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     environment:
