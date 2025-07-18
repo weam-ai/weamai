@@ -76,11 +76,7 @@ app.use('/queues', require('./src/jobs').queuesRouter);
 // app.use(rateLimitMiddleware);
 app.set('trust proxy', true);
 app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        /weam\.ai$/,
-        'http://localhost:3001',
-    ],
+    origin: "*",
     allowedHeaders: [
         'Origin',
         'X-Requested-with',

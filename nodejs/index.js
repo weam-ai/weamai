@@ -6,11 +6,7 @@ const socketIo = require('socket.io');
 global.io = socketIo(server,{
     path: '/napi/socket.io',
     cors: {
-        origin: [
-            'http://localhost:3000',
-            /weam\.ai$/,
-           
-        ],
+        origin: "*",
         methods: ['GET', 'POST'],
         credentials: true
     },
