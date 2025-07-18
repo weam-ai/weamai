@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from src.celery_service.celery_worker import celery_app
 from typing import List
+import os
 from src.embedder.embedder_map.embed_model_mapping import  qdrant_text_embedder
 from src.embedder.openai_embedder.qdrant_node import NodeTextEmbedderQdrant
 from src.embedder.chunk_map.chunking_funmap import map_functions
@@ -10,9 +11,34 @@ from src.celery_service.mongodb.task_status import log_task_status
 from src.logger.default_logger import logger
 from src.crypto_hub.services.openai.embedding_api_key_decryption import EmbeddingAPIKeyDecryptionHandler
 from src.custom_lib.langchain.callbacks.openai.cost_embedding.count_embed_tokens import CostEmbedding
+from src.celery_service.qdrant.localstack_backup import upload_df_embed_to_localstack,upload_df_embed_to_s3,upload_df_embed_to_minio
 from src.chatflow_langchain.repositories.file_repository import FileRepository
+from src.db.qdrant_config import qdrant_url,qdrant_client
+from qdrant_client.models import PointStruct
+CHUNK_SIZE = 400
 embedding_apikey_decrypt_service = EmbeddingAPIKeyDecryptionHandler()
 
+
+store_bucket_dict={
+    "LOCALSTACK": upload_df_embed_to_localstack,
+    "AWS_S3":upload_df_embed_to_s3,
+    "MINIO":upload_df_embed_to_minio
+}
+
+# Background task for token cost tracking
+@celery_app.task
+def track_embedding_cost(chunk_texts: List[str], model_name: str, file_id: str, file_collection: str):
+    try:
+        cost_embed = CostEmbedding()
+        file_repo = FileRepository()
+        file_repo.initialization(file_id, file_collection)
+
+        token_data = cost_embed.calculate_cost_for_embedding(chunk_texts, model_name)
+        file_repo.update_tokens(token_data)
+
+        logger.info("Token cost tracking completed", extra={"tags": {"task": "track_embedding_cost"}})
+    except Exception as e:
+        logger.warning(f"Cost tracking failed: {e}")
 
 @celery_app.task(
     bind=True,
@@ -68,7 +94,6 @@ def start_embedding_openai(
     self,
     chunked_data: List = None,
     node_text_embedder: str = None,
-    tag:str=None,
     **kwargs
 ):
     """
@@ -109,18 +134,58 @@ def start_embedding_openai(
             dimensions=embedding_apikey_decrypt_service.dimensions
         )
         chunk_list = [chunk['payload']['text'] for chunk in chunked_data]
-        cost_embed = CostEmbedding()
-        file_repo = FileRepository()
-        file_repo.initialization(file_id=kwargs.get('id'),collection_name=kwargs.get('file_collection'))
-        token_data = cost_embed.calculate_cost_for_embedding(chunk_list,embedding_apikey_decrypt_service.model_name)
-        file_repo.update_tokens(token_data)
-        embedded_nodes = embedder_instance(chunked_data)['embedded_nodes']
+        track_embedding_cost.delay(chunk_list, embedding_apikey_decrypt_service.model_name, kwargs.get("id"), kwargs.get("file_collection"))
+
+        company_id=kwargs.get("company_id")
+        qdrant_client_instance = qdrant_client
+        bucket_type = os.environ.get("BUCKET_TYPE", "MINIO")
+
+       
+
+        # Process chunks in batches asynchronously
+        def embed_and_upload():
+            for i in range(0, len(chunked_data), CHUNK_SIZE):
+                chunk_batch = chunked_data[i:i + CHUNK_SIZE]
+                logger.info(
+                    f"Processing batch {i // CHUNK_SIZE + 1} of {((len(chunked_data) - 1) // CHUNK_SIZE) + 1}",
+                    extra={
+                        "tags": {
+                            "task_function": "start_embedding_openai",
+                            "batch_start_index": i,
+                            "batch_end_index": min(i + CHUNK_SIZE, len(chunked_data)),
+                            "total_chunks": len(chunked_data)
+                        }
+                    }
+                )
+                result =  embedder_instance(node_batch=chunk_batch)
+                vector_nodes = result.get("embedded_nodes", [])
+                if vector_nodes:
+                    s3_key = f"{kwargs.get('company_id')}/{kwargs.get('namespace')}/{kwargs.get('tag')}_{i}.parquet"
+                    store_bucket_dict[bucket_type].apply_async(kwargs={'data_list': vector_nodes, 's3_key': s3_key})
+                    vector_nodes= [PointStruct(id=node['id'], vector=node['vector'], payload=node['payload']) for node in vector_nodes]
+                    qdrant_client_instance.upsert(collection_name=company_id,points=vector_nodes)
+
+        def new_func():
+            logger.info()
+
+        def new_func():
+            logger.info()
+
+        # Run the full batch embedding in one async loop
+        embed_and_upload()
    
         logger.info(
             "Task successfully executed",
             extra={"tags": {"task_function": "start_embedding_openai"}}
         )
-        return embedded_nodes
+        return {
+            "task": "embedding_completed",
+            "chunks_processed": len(chunked_data),
+            "model_used": embedding_apikey_decrypt_service.model_name,
+            "bucket_type": bucket_type,
+            "company_id": company_id,
+            "status": "success"
+        }
     except Exception as e:
         logger.error(
             f"Error executing task: {e}",

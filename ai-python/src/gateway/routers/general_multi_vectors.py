@@ -98,17 +98,11 @@ async def process_and_store_text_openai(
                     id=input.id,
                     companymodel=openai_input.companymodel,
                     file_collection=openai_input.file,
-                    brain_id=input.brain_id,
-                ).set(queue='openai_embedding'),
-                TASK_CHAIN_DICT['insert'].s(
                     environment=openai_input.environment,
                     company_id=input.company_id,
                     namespace=input.brain_id,
-                    vector_index=input.vector_index,
-                    tag=input.tag,
-                    id=input.id,
                     companypinecone=openai_input.companypinecone
-                ).set(queue='qdrant_insertion'),
+                ).set(queue='openai_embedding')
             )
             task_chains.append(task_chain)
 

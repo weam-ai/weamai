@@ -2,24 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog"
 import { setRequestDetailsModalAction } from '@/lib/slices/modalSlice';
 import { useDispatch } from 'react-redux';
-import { bytesToMegabytes, megabytesToBytes, showCurrencySymbol, showPrice } from '@/utils/common';
+import { bytesToMegabytes, megabytesToBytes } from '@/utils/common';
 import StorageSelector from '../StorageSelector';
 import useStorage from '@/hooks/storage/useStorage';
 import { getCurrentUser } from '@/utils/handleAuth';
-import { STRIPE_PUBLISH_KEY } from '@/config/config';
-import Toast from '@/utils/toast';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-
-const stripePromise = loadStripe(STRIPE_PUBLISH_KEY);
-
-const Wrapper = ({ children }) => {
-    return (
-        <Elements stripe={stripePromise}>
-            {children}
-        </Elements>
-    );
-};
 
 const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageRequests, refreshStorageRequests }:any) => {
     const dispatch = useDispatch();
@@ -112,47 +98,10 @@ const RequestDetailsModal = ({ closeModal, selectedRequest, setRefreshStorageReq
                 </DialogContent>
             </Dialog>
         );
-    };
-
-
-    // const getAmountDisplay = () => {
-    //     if (subscriptionLoading || dataLoading) return 'Loading...';
-    //     if (subscriptionData && user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay") && !dataLoading) {
-    //         const amount = Number(showPrice(razorpayStoragePrice?.item?.unit_amount)) || 0;
-    //         return `${showCurrencySymbol(subscriptionData?.planCurrency)} ${(amount * (defaultStorageValue/20)).toFixed(2)}`;
-    //     }else if (subscriptionData && Object.keys(subscriptionData).length > 0 && !dataLoading) {
-    //         const amount = Number(showPrice(productPrice?.unit_amount)) || 0;
-    //         return `${showCurrencySymbol(subscriptionData?.currency)} ${(amount * defaultStorageValue/20).toFixed(2)}`;
-    //     } 
-    //     return NO_ACTIVE_SUBSCRIPTION_FOUND;
-    // };
-
-    // useEffect(() => {
-    //     if(user.countryCode==='IN' && user?.company?.name?.startsWith("Razorpay")){
-    //         getRazorpayStoragePrice()
-    //     } else if (subscriptionData && Object.keys(subscriptionData).length > 0) {
-    //         getStorageProductPrice(subscriptionData?.currency);
-    //     }
-    // }, [subscriptionData]);
-
-    // useEffect(() => {
-    //     user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay") ? fetchActiveSubscription(MODULE_ACTIONS.GET_RAZORPAY_SUBSCRIPTION) : fetchActiveSubscription(null);
-    // }, []);
-
-    // useEffect(() => {
-    //     if(user.countryCode==="IN" && user?.company?.name?.startsWith("Razorpay")){
-    //         const script = document.createElement('script');
-    //         script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    //         script.async = true;
-    //         document.body.appendChild(script);
-    //         return () => {
-    //             document.body.removeChild(script);
-    //         };
-    //     }
-    // }, []);
+    };    
 
     // Return the wrapped component
-    return <Wrapper><BodyContent /></Wrapper>;
+    return <BodyContent />;
 };
 
 export default RequestDetailsModal;

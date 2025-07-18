@@ -1,22 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: false,
-    // async headers() {
-    //     return [
-    //       {
-    //         source: "/(.*)", // Apply CSP to all routes
-    //         headers: [
-    //           {
-    //             key: "Content-Security-Policy",
-    //             value: `
-    //               script-src 'self' https://checkout.razorpay.com 'unsafe-inline';
-    //               frame-src https://*.com;
-    //             `.replace(/\s{2,}/g, " "), // Minify CSP value
-    //           },
-    //         ],
-    //       },
-    //     ];
-    //   },
     async rewrites() {
         return [
             // {

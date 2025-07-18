@@ -508,22 +508,7 @@ export const APPLICATION_ENVIRONMENT = {
 }
 
 export const PROD_COMPANYID = [
-    '66f10d3a724f3133e1058eb1',
-    '66f10e0e49e541e294c32e1c',
-    '66f3adacd15c34b84ee96afb',
-    '670653316836d629fd65464b',
-    '6707b45e3b6672b428da8d10',
-    '67093165b72a0f52ed94376c',
-    '670cb80ddc268059e9a4436e',
-    '670e10c66b15ee446e702cc1',
-    '6716402ee6796c1a64eb5072',
-    '671a306a01d1bcc6d507e628',
-    '671c6cfe01d1bcc6d507fa51',
-    '6731f2a1ae5839eea5f0dd2b',
-    '6731facaae5839eea5f0dead',
-    '6732eb0ce79cdc8073e98f04',
-    '6735802112f4261c3478edfe',
-    '67360956d8c46a0886a0aa8b',
+    
 ];
 
 export const DEFAULT_CHAT_SLUG="default-brain-"
@@ -1387,13 +1372,7 @@ export const FILE_UPLOAD_FOLDER = {
 } as const;
 
 export const WEEKLY_REPORT_CAN_ACCESS = [
-    "rutvi@weam.ai",
-    "ronik@jdsofttech.com",
-    "varun@weam.ai",
-    "vishal@weam.ai",
-    "kashyap@weam.ai",
-    "nitesh@weam.ai",
-    "dhruti@weam.ai"
+    
 ]
 
 export const WEB_RESOURCES_DATA = 'web_resources_data';

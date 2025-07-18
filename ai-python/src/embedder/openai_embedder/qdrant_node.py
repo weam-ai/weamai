@@ -17,7 +17,7 @@ class NodeTextEmbedderQdrant(AbstractEmbedder):
        
     def embed_documents(self, texts: List[str]) -> List[Any]:
         try:
-            batch_size = 80
+            batch_size = 150
             if len(texts) > batch_size:
                 all_embeddings = []
                 for i in range(0, len(texts), batch_size):
