@@ -1,6 +1,7 @@
 const app = require('./app');
 const { SERVER } = require('./src/config/config');
 const http = require('http');
+const { initializeServiceMonitor } = require('./src/utils/initB');
 const server = http.createServer(app);
 const socketIo = require('socket.io');
 global.io = socketIo(server,{
@@ -18,6 +19,7 @@ require('./src/socket/chat');
 const { pubClient, subClient } = require('./src/socket/rooms');
 
 server.listen(SERVER.PORT, async () => {
+    initializeServiceMonitor();
     await Promise.all([pubClient.connect(), subClient.connect()]);
     logger.info(`Backend server is started on port ${SERVER.PORT}`);
 });
