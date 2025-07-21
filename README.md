@@ -1,68 +1,69 @@
-
 <p align="center">
-  <a href="https://weam.ai">
-    <img src="./nodejs/public/images/weam-logo.png" height="80">
-  </a>
-  <h1 align="center">
-    <a href="https://weam.ai">Weam AI</a>
-  </h1>
+  <img src="https://drive.google.com/uc?id=YOUR_IMAGE_ID" alt="Weam AI Logo" width="200"/>
 </p>
 
+<h1 align="center">Weam AI – The #1 Open Source Collaborative AI Platform</h1>
+
 <p align="center">
-  <a href="https://discord.gg/c7qzCDt4"> 
-    <img
-      src="https://img.shields.io/discord/1086345563026489514?label=&logo=discord&style=for-the-badge&logoWidth=20&logoColor=white&labelColor=000000&color=blueviolet">
-  </a>
-  <a href="https://www.youtube.com"> 
-    <img
-      src="https://img.shields.io/badge/YOUTUBE-red.svg?style=for-the-badge&logo=youtube&logoColor=white&labelColor=000000&logoWidth=20">
-  </a>
-  <a href="https://v0-new-project-f0ty4hh1qrg.vercel.app/"> 
-    <img
-      src="https://img.shields.io/badge/DOCS-blue.svg?style=for-the-badge&logo=read-the-docs&logoColor=white&labelColor=000000&logoWidth=20">
-  </a>
-  <a aria-label="Sponsors" href="#">
-    <img
-      src="https://img.shields.io/badge/SPONSORS-brightgreen.svg?style=for-the-badge&logo=github-sponsors&logoColor=white&labelColor=000000&logoWidth=20">
-  </a>
+  <a href="https://weam.ai">Website</a> ·
+  <a href="https://docs.weam.ai">Documentation</a> ·
+  <a href="https://github.com/weam-ai/roadmap">Roadmap</a> ·
+  <a href="https://discord.gg/X5U8R45b">Discord</a>
 </p>
 
-# ✨ Features
+---
 
-- <p>Weam helps modern teams adopt AI at scale with clear direction meaningful tools and affordable solutions</p>
-[For a thorough review of our features, see our docs here](https://v0-new-project-f0ty4hh1qrg.vercel.app/) 📚
+## About Weam AI
+
+**Weam AI is a fully open-source collaborative AI platform** designed to bring teams together in a shared space to adopt and operationalize generative AI. Whether you're a startup or a global organization, Weam helps you scale your AI usage, reduce silos, and unlock cross-team productivity.
 
 ---
 
-## 🌐 Resources
+## Why Choose Weam AI?
 
-**GitHub Repo:**
-  - **Website:** [github.com/weam-ai/weamai](https://github.com/weam-ai/weamai)
+Weam AI offers a unified interface for all your AI needs:
 
-**Other:**
-  - **Website:** [app.weam.ai](https://app.weam.ai)
-  - **Documentation:** [v0-new-project-f0ty4hh1qrg.vercel.app](https://v0-new-project-f0ty4hh1qrg.vercel.app/)
-  - **Blog:** [v0-new-project-f0ty4hh1qrg.vercel.app/blog](https://v0-new-project-f0ty4hh1qrg.vercel.app/blog)
-
----
-
-## 📝 Changelog
-
-Keep up with the latest updates by visiting the releases page and notes:
-- [Releases](https://github.com/weam-ai/weamai/releases)
-- [Changelog](https://www.v0-new-project-f0ty4hh1qrg.vercel.app/changelog) 
-
-**⚠️ Please consult the [changelog](https://www.v0-new-project-f0ty4hh1qrg.vercel.app/changelog) for breaking changes before updating.**
+- One platform to chat with AI, interact with documents, and build team-wide prompts and bots
+- Support for shared "team brains" and individual "private brains"
+- Track company-wide AI engagement and adoption
+- No need for separate subscriptions — access ChatGPT, Claude, Gemini, Llama, and more from one place
 
 ---
 
+## What You Can Do With Weam AI
 
-## ✨ Contributions
+- Collaborate on shared chat threads with your team
+- Create and manage prompt libraries
+- Build and share organization-specific AI bots
+- Interact with your documentation using natural language
+- Monitor team engagement and usage analytics
+- Use prebuilt templates for faster bot and prompt creation
+- Provide enterprise-grade LLM access to your entire team
 
-Contributions, suggestions, bug reports and fixes are welcome!
+---
 
-For new features, components, or extensions, please open an issue and discuss before sending a PR.
+## Installation
 
-If you'd like to help translate Weam into your language, we'd love your contribution! Improving our translations not only makes Weam more accessible to users around the world but also enhances the overall user experience. Please check out our [Translation Guide](https://www.v0-new-project-f0ty4hh1qrg.vercel.app/docs/translation).
+### Local Setup
+
+Follow our Quickstart guide to install Weam AI locally:
+
+👉 [Quickstart Guide](https://docs.weam.ai/quickstart)
+
+---
+
+## Join the Community
+
+- **Star** the repository to support the project
+- **Subscribe** to releases (Watch → Custom → Releases) to stay updated
+- **Follow us on [Twitter](https://twitter.com/weamai)**
+- **Connect with us on [LinkedIn](https://linkedin.com/company/weam-ai)**
+- **Join the conversation on [Discord](https://discord.gg/X5U8R45b)**
+
+---
+
+## Contributing
+
+We welcome all contributions — whether it's fixing bugs, writing documentation, or suggesting new features. Please open an issue or pull request to get started.
 
 ---
