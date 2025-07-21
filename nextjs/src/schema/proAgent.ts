@@ -1,8 +1,6 @@
-import { APP_ENVIRONMENT } from '@/config/config';
-import { APPLICATION_ENVIRONMENT, EMAIL_REGEX_MESSAGE, INVALID_DOMAIN_MESSAGE, INVALID_EMAIL_MESSAGE } from '@/utils/constant';
+import { EMAIL_REGEX_MESSAGE, INVALID_EMAIL_MESSAGE } from '@/utils/constant';
 import { REGEX } from '@/utils/helper';
 import * as yup from 'yup';
-import { DisposableEmailNormalRoute } from './auth';
 
 const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
 const WEBSITE_URL_ERROR_MESSAGE = 'Please provide a valid website URL.';
@@ -106,16 +104,6 @@ export const webProposalAgentSchema = yup.object({
                 const emailRegex = REGEX.EMAIL_DOMAIN_REGEX;
                 const result = email ? emailRegex.test(email) : true;
                 return result;
-            }
-        )
-        .test(
-            'not-disposable',
-            INVALID_DOMAIN_MESSAGE,
-            (email) => {
-                if (APP_ENVIRONMENT === APPLICATION_ENVIRONMENT.PRODUCTION && email) {
-                    return DisposableEmailNormalRoute(email);
-                }
-                return true;
             }
         ),
     location: yup.string().required('Location is required.'),

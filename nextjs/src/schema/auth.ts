@@ -1,19 +1,7 @@
 import * as yup from 'yup'
-import { isDisposableEmail, REGEX } from '@/utils/helper'
-import { EMAIL_REGEX_MESSAGE, PASSWORD_CONFIRM_MESSAGE, PASSWORD_MIN_LENGTH_MESSAGE, PASSWORD_REGEX_MESSAGE, INVALID_EMAIL_MESSAGE, APPLICATION_ENVIRONMENT, CUSTOM_DOMAIN_BLOCK_LIST, INVALID_DOMAIN_MESSAGE } from '@/utils/constant'
-import { APP_ENVIRONMENT } from '@/config/config';
+import { REGEX } from '@/utils/helper'
+import { EMAIL_REGEX_MESSAGE, PASSWORD_CONFIRM_MESSAGE, PASSWORD_MIN_LENGTH_MESSAGE, PASSWORD_REGEX_MESSAGE, INVALID_EMAIL_MESSAGE } from '@/utils/constant'
 
-type CustomDomainBlockList = (typeof CUSTOM_DOMAIN_BLOCK_LIST)[number];
-
-export function DisposableEmailBlocked(email: string): boolean {
-    const domain = email.split('@')[1];
-    const isBlocked = CUSTOM_DOMAIN_BLOCK_LIST.includes(domain as CustomDomainBlockList);
-    return !isDisposableEmail(email) && !isBlocked;
-}
-
-export function DisposableEmailNormalRoute(email: string): boolean {
-    return !isDisposableEmail(email);
-}
 
 export const loginSchemaKeys = yup.object({
     email: yup
@@ -69,18 +57,7 @@ export const onBoardLoginKeys = yup.object({
                 const result = email ? emailRegex.test(email) : true;
                 return result;
             }
-        )
-        // .test(
-        //     'not-disposable',
-        //     INVALID_EMAIL_MESSAGE,
-        //     (email) => {
-        //         if (APP_ENVIRONMENT === APPLICATION_ENVIRONMENT.PRODUCTION && email) {
-        //             return DisposableEmailNormalRoute(email);
-        //         }
-        //         return true;
-        //     }
-        // )
-        ,
+        ),
     password: yup.string().min(8).matches(REGEX.PASSWORD, PASSWORD_REGEX_MESSAGE).required('please enter your password.'),
 })
 

@@ -3,7 +3,6 @@ import { AiModalType } from '@/types/aimodels';
 const CryptoJS = require('crypto-js');
 const { AUTH, ENCRYPTION_KEY } = require('@/config/config');
 const { BRAIN, LocalStorage } = require('./localstorage');
-const disposableEmailDomains = require('disposable-email-domains');
 const { MODEL_CREDIT_INFO } = require('./constant');
 const { RESPONSE_STATUS_CODE, RESPONSE_STATUS } = require('./constant');
 const crypto = require('crypto');
@@ -245,11 +244,6 @@ export const calculateSubscriptionPrice = (units, priceInCents) => {
     // const groupsOf5 = Math.ceil(units / 5);
     // Calculate total price based on number of groups
     return units * priceInDollars;
-}
-
-export const isDisposableEmail=(email:any) => {
-    const domain = email.split('@')[1];
-    return disposableEmailDomains.includes(domain);
 }
 
 export const isIndiaByTimezone = () => {

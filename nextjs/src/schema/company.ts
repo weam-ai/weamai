@@ -1,8 +1,6 @@
 import * as yup from 'yup';
 import { REGEX } from '@/utils/helper';
-import { APPLICATION_ENVIRONMENT, EMAIL_REGEX_MESSAGE, PASSWORD_CONFIRM_MESSAGE, PASSWORD_MIN_LENGTH_MESSAGE, PASSWORD_REGEX_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_DOMAIN_MESSAGE } from '@/utils/constant';
-import { APP_ENVIRONMENT } from '@/config/config';
-import { DisposableEmailBlocked } from './auth';
+import { EMAIL_REGEX_MESSAGE, PASSWORD_CONFIRM_MESSAGE, PASSWORD_MIN_LENGTH_MESSAGE, PASSWORD_REGEX_MESSAGE, INVALID_EMAIL_MESSAGE } from '@/utils/constant';
 
 export const companyDetailSchema = yup.object({
     firstName: yup.string().max(29, 'First name must be 30 characters or less.').required('Please enter your first name.'),
@@ -18,16 +16,6 @@ export const companyDetailSchema = yup.object({
                 const emailRegex = REGEX.EMAIL_DOMAIN_REGEX;
                 const result = email ? emailRegex.test(email) : true;
                 return result;
-            }
-        )
-        .test(
-            'not-disposable',
-            INVALID_DOMAIN_MESSAGE,
-            (email) => {
-                if (APP_ENVIRONMENT === APPLICATION_ENVIRONMENT.PRODUCTION && email) {
-                    return DisposableEmailBlocked(email);
-                }
-                return true;
             }
         ),
     password: yup.string().min(8, PASSWORD_MIN_LENGTH_MESSAGE).matches(REGEX.PASSWORD, PASSWORD_REGEX_MESSAGE).required('Please enter your password.'),
