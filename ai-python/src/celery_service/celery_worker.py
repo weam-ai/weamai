@@ -50,7 +50,7 @@ celery_app.conf.update(
     task_expires=DEFAULT_CELERY_TASK_EXP,
     CELERY_TASK_ALWAYS_EAGER=CELERY_TASK_ALWAYS_EAGER,
     CELERY_TASK_REJECT_ON_WORKER_LOST = True,
-    worker_prefetch_multiplier=2,
+    worker_prefetch_multiplier=1,
     worker_max_tasks_per_child=5,
     broker_transport_options={'visibility_timeout': 300}
 )
