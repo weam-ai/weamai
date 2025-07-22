@@ -39,8 +39,8 @@ const MainPageSidebar = async () => {
 
     return (
         <>
-            {(workspaceResponse?.status === RESPONSE_STATUS.UNAUTHORIZED ||
-                brainResponse?.status === RESPONSE_STATUS.UNAUTHORIZED) &&
+            {(workspaceResponse?.status === RESPONSE_STATUS.FORBIDDEN ||
+                brainResponse?.status === RESPONSE_STATUS.FORBIDDEN) &&
                 (workspaceResponse?.code ===
                     RESPONSE_STATUS_CODE.REFRESH_TOKEN ||
                     brainResponse?.code ===

@@ -3,8 +3,6 @@ import { RESPONSE_STATUS, RESPONSE_STATUS_CODE } from '@/utils/constant';
 import { FETCH_ACTION_HANDLERS, getHeaders, setAPIConfig, ConfigOptions } from '../api';
 import { revalidateTag } from 'next/cache';
 import { getSession } from '@/config/withSession';
-import { cookies } from 'next/headers';
-import { decryptedData } from '@/utils/helper';
 import { LINK, NODE_API_PREFIX } from '@/config/config';
 
 export async function getAccessToken() {
@@ -33,14 +31,16 @@ async function fetchUrl({ type = 'GET', url, data = {}, config = {} }:any) {
         if (status === RESPONSE_STATUS.FORBIDDEN && data.code === RESPONSE_STATUS_CODE.CSRF_TOKEN_MISSING) {
             return { status: RESPONSE_STATUS.FORBIDDEN, code: RESPONSE_STATUS_CODE.CSRF_TOKEN_MISSING }
         }
-        if (status === RESPONSE_STATUS.UNAUTHORIZED || data.code === RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND) {
-            return { status: RESPONSE_STATUS.UNAUTHORIZED, code: RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND }
-        } else if (status === RESPONSE_STATUS.UNAUTHENTICATED) {
-            return { status: RESPONSE_STATUS.UNAUTHORIZED, code: RESPONSE_STATUS_CODE.REFRESH_TOKEN }
-        } else if (status === RESPONSE_STATUS.UNPROCESSABLE_CONTENT) {
+        if (status === RESPONSE_STATUS.FORBIDDEN || data.code === RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND) {
+            return { status: RESPONSE_STATUS.FORBIDDEN, code: RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND }
+        }
+        // else if (status === RESPONSE_STATUS.UNAUTHENTICATED) {
+        //     return { status: RESPONSE_STATUS.UNAUTHORIZED, code: RESPONSE_STATUS_CODE.REFRESH_TOKEN }
+        // } 
+        else if (status === RESPONSE_STATUS.UNPROCESSABLE_CONTENT) {
             return { status: RESPONSE_STATUS.UNPROCESSABLE_CONTENT, code: data.code, message: data.message }
         } else if (status === RESPONSE_STATUS.UNAUTHENTICATED) {
-            return { status: RESPONSE_STATUS.UNAUTHORIZED, code: RESPONSE_STATUS_CODE.CSRF_TOKEN_NOT_FOUND }
+            return { status: RESPONSE_STATUS.FORBIDDEN, code: RESPONSE_STATUS_CODE.CSRF_TOKEN_NOT_FOUND }
         }
         return { status: RESPONSE_STATUS.ERROR, code: RESPONSE_STATUS_CODE.ERROR, message: data.message }
     }

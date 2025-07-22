@@ -291,8 +291,8 @@ export const generateObjectId = () => {
 };
 
 export const handleServerRefreshToken = (response) => {
-    if(response.status === RESPONSE_STATUS.UNAUTHORIZED && response.code === RESPONSE_STATUS_CODE.REFRESH_TOKEN){
-        return { status: RESPONSE_STATUS.UNAUTHORIZED, code: RESPONSE_STATUS_CODE.REFRESH_TOKEN }
+    if(response.status === RESPONSE_STATUS.FORBIDDEN && response.code === RESPONSE_STATUS_CODE.REFRESH_TOKEN){
+        return { status: RESPONSE_STATUS.FORBIDDEN, code: RESPONSE_STATUS_CODE.REFRESH_TOKEN }
     }
     return response.data;
 }
