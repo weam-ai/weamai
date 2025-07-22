@@ -63,11 +63,11 @@ const MentionInput = ({ users, setContent, content, onTyping, handleSubmit }) =>
   const filteredUsers = users.reduce((acc, item) => { 
        
       
-    if(item && item.user) {
-      const display = item?.user?.fname && item?.user?.lname 
-      ? `@${item?.user?.fname} ${item?.user?.lname}`
-      : `@${item?.user?.email || ''}`;
-  const id = item?.user?.id;
+    if(item) {
+      const display = item?.fname && item?.lname 
+      ? `@${item?.fname} ${item?.lname}`
+      : `@${item?.email || ''}`;
+  const id = item?.id;
 
 
         acc.push({  

@@ -79,11 +79,12 @@ const handleErrorToast = (errorToast: boolean) => (error: AxiosError) => {
             Toast('Your request has been blocked for security reasons.', 'error');
             return;
         }
-        if ( status===RESPONSE_STATUS.UNAUTHORIZED || data.code === RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND ) {
+        if ([RESPONSE_STATUS.FORBIDDEN, RESPONSE_STATUS.UNAUTHENTICATED].includes(status) || data.code === RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND ) {
             handleLogout();
-        }else if(status === RESPONSE_STATUS.UNAUTHENTICATED ){
-            accessTokenViaRefresh();
-        } 
+        }
+        // else if(status === RESPONSE_STATUS.UNAUTHENTICATED ){
+        //     accessTokenViaRefresh();
+        // } 
         else if (status === RESPONSE_STATUS.UNPROCESSABLE_CONTENT) {
             Toast(data.message, 'error');
         } else if (errorToast) {
