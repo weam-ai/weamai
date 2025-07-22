@@ -186,7 +186,7 @@ const ChatThreadOffcanvas = ({ queryParams, isBrainDeleted }) => {
     const chatMembers = useSelector((store:RootState) => store.chat.members);
     const { isLoading, getListReplyThread } = useThread();
     const router = useRouter();
-    const [filterMembers, setFilterMembers] = useState(chatMembers);
+    const [filterMembers, setFilterMembers] = useState([]);
     // const [currentPosition, setCurrentPosition] = useState('');
 
     useEffect(() => {
@@ -198,7 +198,22 @@ const ChatThreadOffcanvas = ({ queryParams, isBrainDeleted }) => {
             setTagUsers([]);
             setContent('');
             setShowSearchList(false);
-            setFilterMembers(chatMembers.filter((currentUser)=>!currentUser.teamName));
+            
+            const filterIdSet=new Set()
+            for(const currentUser of chatMembers){
+                if(currentUser.user?.id && !filterIdSet.has(currentUser.user.id) && !currentUser.teamName){
+                    filterIdSet.add(currentUser.user.id);
+                    setFilterMembers((prev)=>[...prev,currentUser.user]);
+                }
+                else if(currentUser.teamName){
+                    for(const currTeamUser of currentUser.teamUsers){
+                        if(currTeamUser?.id && !filterIdSet.has(currTeamUser.id)){
+                            filterIdSet.add(currTeamUser.id);
+                            setFilterMembers((prev)=>[...prev,currTeamUser]);
+                        }
+                    }
+                }
+            }
         }
     }, [isOpenThreadModal]);
 
