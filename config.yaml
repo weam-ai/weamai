@@ -1,0 +1,43 @@
+
+detectors:
+  - name: GeminiApiKeyDetector
+    keywords:
+      - gemini
+      - google
+      - ai
+    regex:
+      token: 'AIza[0-9A-Za-z\-_]{35}'
+    verify:
+      - endpoint: http://localhost:8000/
+        # 'unsafe' must be set to true if the endpoint uses HTTP
+        unsafe: true
+        headers:
+          - "Authorization: super secret authorization header"
+  - name: HuggingFaceApiKeyDetector
+    keywords:
+      - huggingface
+      - hf
+      - transformers
+      - model
+    regex:
+      token: 'hf_[A-Za-z0-9]{39}'
+    verify:
+      - endpoint: http://localhost:8000/
+        # 'unsafe' must be set to true if the endpoint uses HTTP
+        unsafe: true
+        headers:
+          - "Authorization: super secret authorization header"
+  - name: OpenRouterApiKeyDetector
+    keywords:
+      - openrouter
+      - sk-or
+      - router
+      - api
+    regex:
+      token: 'sk-or-v1-[a-zA-Z0-9]{64}'
+    verify:
+      - endpoint: http://localhost:8000/
+        # 'unsafe' must be set to true if the endpoint uses HTTP
+        unsafe: true
+        headers:
+          - "Authorization: super secret authorization header"

@@ -1,0 +1,88 @@
+# Dependencies
+node_modules
+.*/node_modules
+.*/__pycache__
+.*/\.venv
+.*/venv
+.*/env
+
+# Build outputs
+\.next
+build
+dist
+out
+
+# Logs
+.*\.log
+logs
+
+# Environment files (these often contain secrets but are usually legitimate)
+\.env
+\.env\..*
+.*\.env
+
+# Docker
+Dockerfile.*
+docker-compose.*\.yml
+\.dockerignore
+
+# IDE and editor files
+\.vscode
+\.idea
+.*\.swp
+.*\.swo
+
+# OS files
+\.DS_Store
+Thumbs\.db
+
+# Test files
+test
+tests
+__tests__
+.*\.test\.js
+.*\.test\.ts
+.*\.spec\.js
+.*\.spec\.ts
+
+# Documentation
+.*\.md
+docs
+
+# Temporary files
+tmp
+temp
+cache
+
+# Git
+\.git
+
+# Package files
+package-lock\.json
+yarn\.lock
+pnpm-lock\.yaml
+
+# Database files
+.*\.db
+.*\.sqlite
+
+# Upload directories
+uploads
+storage
+
+# Minified files
+.*\.min\.js
+.*\.min\.css
+
+# Compiled files
+.*\.pyc
+.*\.pyo
+__pycache__
+
+# Coverage reports
+coverage
+\.nyc_output
+htmlcov
+
+# Local development
+localstack 
