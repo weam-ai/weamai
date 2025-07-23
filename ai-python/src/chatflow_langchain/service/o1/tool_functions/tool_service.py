@@ -154,16 +154,19 @@ class O1ToolServiceOpenai(AbstractConversationService):
         return END
     
     async def chatbot(self,state,config):
-            if not isinstance(state['messages'][-1], ToolMessage):
-                history_messages = self.chat_repository_history.messages
-                history_messages.extend(state['messages'])
-                new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
-                if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
+        if not isinstance(state['messages'][-1], ToolMessage):
+            history_messages = self.chat_repository_history.messages
+            history_messages.extend(state['messages'])
+            new_message = await self.llm_with_tools.ainvoke(history_messages,config=config)
+            if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
+                if self.image_url:
                     new_message.tool_calls[0]['args']['image_url'] = self.image_url
-            else:
-                new_message = await self.llm_with_tools.ainvoke(state['messages'],config=config)
+                if new_message.tool_calls[0]['name'] == 'image_generate':
+                    self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
+        else:
 
-            return {"messages": [new_message]}
+            new_message = await self.llm_with_tools.ainvoke(state['messages'],config=config)
+        return {"messages": [new_message]}
     
     async def create_graph_node(self):
         # memory = MemorySaver()
@@ -419,7 +422,9 @@ class O1ToolServiceOpenai(AbstractConversationService):
                             yield f"data: {token.encode('utf-8')}\n\n",200
                         # yield f"event:{event['event']}\ndata: {event['data']}\n\n",200
                             await asyncio.sleep(delay_chunk)
-
+                if self.image_gen_prompt:
+                    thread_repo.initialization(thread_id=thread_id, collection_name=collection_name)
+                    thread_repo.update_img_gen_prompt(gen_prompt=self.image_gen_prompt)
         except NotFoundError as e:
             error_content,error_code = extract_error_message(str(e))
             if error_code not in OPENAI_MESSAGES_CONFIG:

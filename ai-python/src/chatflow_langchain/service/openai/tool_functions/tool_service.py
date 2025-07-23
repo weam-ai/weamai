@@ -163,8 +163,10 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                     new_message.tool_calls[0]['args']['image_url'] = self.image_url
                 if new_message.tool_calls[0]['name'] == 'image_generate':
                     self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
+                else:
+                    new_message.tool_calls[0]['args']['user_id'] = '11245'
         else:
-
+            state['messages'][1].tool_calls[0]['args'].pop('user_id')
             new_message = await self.llm_with_tools.ainvoke(state['messages'],config=config)
         return {"messages": [new_message]}
     

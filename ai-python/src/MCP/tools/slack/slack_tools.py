@@ -3,7 +3,8 @@ from typing import Any
 from datetime import datetime
 import httpx
 from src.logger.default_logger import logger
-SLACK_API_BASE = "https://slack.com/api"
+import os 
+SLACK_API_BASE = os.environ.get("SLACK_API_BASE", "https://slack.com/api")
 async def make_slack_request(endpoint: str, bot_token: str, params: dict = None, json_data: dict = None, method: str = "GET") -> dict[str, Any] | None:
     """Make a request to the Slack API with proper error handling."""
     logger.debug(f"Making {method} request to Slack API: {endpoint}")

@@ -85,4 +85,4 @@ class MyDallEAPIWrapper(DallEAPIWrapper):
                 s3_file_name = generate_random_file_name()
                 result=task_upload_huggingfaceimage_to_s3.apply_async(kwargs={'image_bytes': response, 's3_file_name': s3_file_name}).get()
                 response=result
-        return {'type':'text','content':f'![{query}]({response})'}
+        return {'type':'text','content':f'![{query}]({response})',"image_url": response}
