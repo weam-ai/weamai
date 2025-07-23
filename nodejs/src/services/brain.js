@@ -65,14 +65,10 @@ const createBrain = async (req) => {
         }else{
             brains = await Brain.create(data);
         }
-        
-
-       
 
         await shareBrainFormat(req, brains, true);
 
         if(data?.shareWith){
-
             await addWorkSpaceUsers(data.shareWith, workspace, req.user);
         }
         if(req.body.isShare && req.body?.teams?.length>0){
@@ -92,6 +88,7 @@ const createBrain = async (req) => {
         }
 
 
+        console.log("🚀 ~ createBrain ~ brains:", brains)
         return brains;
     } catch (error) {
         handleError(error, 'Error - createBrain');
