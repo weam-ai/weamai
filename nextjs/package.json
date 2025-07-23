@@ -40,7 +40,6 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.11",
-    "disposable-email-domains": "^1.0.62",
     "embla-carousel-react": "^8.6.0",
     "firebase": "^9.23.0",
     "formik": "^2.4.6",

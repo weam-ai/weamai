@@ -20,6 +20,7 @@ import {
     API_TYPE_OPTIONS,
     GENERAL_BRAIN_TITLE,
 } from '@/utils/constant';
+import { getSelectedBrain } from '@/utils/common';
 import {
     setChatAccessAction,
     setCreditInfoAction,
@@ -137,7 +138,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         setMessage(e.target.value);
     };
     const selectedAiModal = useSelector((state: RootState) => state.assignmodel.selectedModal);
-    const brains= useSelector((state: RootState) => state.brain.shareList);
+    const brains= useSelector((state: RootState) => state.brain.combined);
     const isWebSearchActive = useSelector((store: RootState) => store.assignmodel.isWebSearchActive);
     const selectedBrain = useSelector((store: RootState) => store.brain.selectedBrain);
     const creditInfoSelector = useSelector((store: RootState) => store.chat.creditInfo);
@@ -360,14 +361,9 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
     useEffect(() => {
         if (!selectedAiModal?.name) return;
         const modelName = getResponseModel(selectedAiModal.name);
-       if(!searchParams.has('b') || !searchParams.has('model')) {
-            const generalBrain = brains.find((brain) => brain.title === GENERAL_BRAIN_TITLE);
-            history.pushState({}, null, `/?b=${encodedObjectId(generalBrain?._id)}&model=${modelName}`);
-        }else {
-            const brainId =  decodedObjectId(searchParams.get('b'));
-            history.pushState({}, null, `/?b=${encodedObjectId(brainId)}&model=${modelName}`);
-        }
-    }, [selectedAiModal]);
+        const brain = getSelectedBrain(brains,currentUser);
+        history.pushState({}, null, `/?b=${encodedObjectId(brain?._id)}&model=${modelName}`);
+    }, [selectedAiModal,currentUser]);
 
     useEffect(() => {
         if(prompts?.length > 0){

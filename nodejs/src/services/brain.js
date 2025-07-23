@@ -114,7 +114,10 @@ const createDefaultBrain = async (req, workspaceId, currentuser) => {
             isDefault: true,
             user: {
                 email: currentuser.email,
-                id: currentuser._id                
+                id: currentuser._id,
+                fname: currentuser?.fname,
+                lname: currentuser?.lname,
+                profile: currentuser?.profile
             }
         }
         
@@ -499,11 +502,11 @@ const workspaceWiseList = async (req) => {
 
 async function getDefaultBrain(user) {
     try {
-        const title = slugify(DEFAULT_NAME.GENERAL_BRAIN_TITLE);
+        const title = user.isPrivateBrainVisible ? getDefaultBrainSlug(user) : slugify(DEFAULT_NAME.GENERAL_BRAIN_TITLE);
           
         const companyId = getCompanyId(user);
         const workspaceId = await Workspace.find({ 'company.id': companyId }, { _id: 1 }).sort({ createdAt: 1 }).limit(1);
-        const defaultBrain = await Brain.findOne({ slug: title, workspaceId: workspaceId[0]._id }, { __v: 0, isActive: 0, isDefault: 0, updatedAt: 0 });
+        const defaultBrain = await Brain.findOne({ slug: title, workspaceId: workspaceId[0]._id,'user.id': user._id  }, { __v: 0, isActive: 0, isDefault: 0, updatedAt: 0 });
         return defaultBrain;
     } catch (error) {
         handleError(error, 'Error - getDefaultBrain');
