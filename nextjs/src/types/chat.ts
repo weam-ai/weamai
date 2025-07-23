@@ -22,17 +22,18 @@ export type SelectedContextType = {
     isRemove : boolean;
 };
 
-export type UploadedFileType = {
+export interface UploadedFileType {
+    _id: string;
     name: string;
     uri: string;
-    isCustomGpt?: boolean;
-    _id?: string;
+    type: string;
     mime_type?: string;
-    type?: string;
+    isCustomGpt?: boolean;
+    isDocument?: boolean;
+    isPrompt?: boolean;
     gptname?: string;
     gptCoverImage?: string;
     embedding_api_key?: string;
-    isDocument?: boolean;
     responseModel?: string;
     persistTag?: PersistTagType;
 }

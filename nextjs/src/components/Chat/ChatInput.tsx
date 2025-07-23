@@ -23,6 +23,10 @@ import {
     GENERAL_BRAIN_TITLE,
     GPTTypes,
 } from '@/utils/constant';
+
+import { UploadedFileType } from '@/types/chat';
+
+
 import {
     setChatAccessAction,
     setCreditInfoAction,
@@ -672,7 +676,6 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                             setDialogOpen={setDialogOpen}
                             onSelect={onSelectMenu}
                             selectedContext={selectedContext}
-                            setText={setMessage}
                             handlePrompts={handlePrompts}
                             setHandlePrompts={setHandlePrompts}
                             getList={getTabPromptList}
