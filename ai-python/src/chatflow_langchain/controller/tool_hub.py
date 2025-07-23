@@ -86,8 +86,7 @@ class ToolController:
             tool_manager = self._select_manager(chat_input)
             if tool_manager is None:
                 raise ValueError("Invalid Tool code provided.")
-            
-            tool_manager.initialize_llm(
+            await tool_manager.initialize_llm(
             api_key_id=chat_input.llm_apikey,
             companymodel=chat_input.companymodel,
             dalle_wrapper_size = chat_input.dalle_wrapper_size,
@@ -105,9 +104,11 @@ class ToolController:
                 msgCredit=chat_input.msgCredit,
                 is_paid_user=chat_input.is_paid_user
             )
+            await tool_manager.create_graph_node()
+
             # prompt attach
-            tool_manager.prompt_attach(additional_prompt_id=chat_input.prompt_id,collection_name=chat_input.promptmodel)  
-            
+            # tool_manager.prompt_attach(additional_prompt_id=chat_input.prompt_id,collection_name=chat_input.promptmodel)  
+
             ## conversation create
             tool_manager.create_conversation(input_text=chat_input.query, image_url=chat_input.image_url,image_source=chat_input.image_source,regenerate_flag = chat_input.isregenerated)  
 

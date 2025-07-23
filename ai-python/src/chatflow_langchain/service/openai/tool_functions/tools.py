@@ -604,13 +604,10 @@ async def web_search_preview(openai_api_key=None, temprature=None, model_name=No
 
 
 @tool(description=ToolServiceDescription.WEB_ANALYSIS)
-async def website_analysis(openai_api_key=None, temprature=None, model_name=None,implicit_reference_urls:list[str]=[],
-                             image_url=None, thread_id=None, thread_model=None, imageT=0, memory=None,
-                             chat_repository_history=None, original_query=None, api_key_id=None,
-                             regenerated_flag=False, msgCredit=0, is_paid_user=False,encrypted_key=None,companyRedis_id=None):
+async def website_analysis(implicit_reference_urls:list[str]=[]):
     try:
         implicit_reference_urls = [domain for item in implicit_reference_urls for domain in item.split(",")]
-        urls = re.findall(r'https?://[^\s"\'>)]+', original_query)
+        urls = []
         urls.extend(implicit_reference_urls)
         urls = list(set(urls))  # Remove duplicates
     
@@ -619,151 +616,9 @@ async def website_analysis(openai_api_key=None, temprature=None, model_name=None
             web_content = crawler_scraper_task.apply_async(kwargs={'urls': urls}).get()
         else:
             web_content= '' 
-        llm = ChatOpenAI(temperature=1, api_key=openai_api_key,
-                            model=model_name, streaming=True, stream_usage=True,use_responses_api=True)
-        prompt_list = chat_repository_history.messages
-        prompt_list.append(HumanMessagePromptTemplate.from_template(template=[{"type": "text", "text": '{query}'}]))
-        web_query_input = {"query":original_query}
-        if web_content:
-            prompt_list.append(HumanMessagePromptTemplate.from_template(template=[{"type": "text", "text": '{web_content}'}]))
-            web_query_input.update({"web_content": web_content})
-        chat_prompt = ChatPromptTemplate.from_messages(prompt_list)
-        llm_chain = LLMChain(llm=llm, prompt=chat_prompt)
-
-        async with  \
-                get_custom_openai_callback(model_name, cost=cost_callback, thread_id=thread_id, collection_name=thread_model,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id) as cb, \
-                get_mongodb_callback_handler(thread_id=thread_id, chat_history=chat_repository_history, memory=memory,collection_name=thread_model,regenerated_flag=regenerated_flag,msgCredit=msgCredit,is_paid_user=is_paid_user,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id) as mongo_handler:
-                    # Stream the response
-                event_stream = llm_chain.astream_events(web_query_input, {"callbacks": [cb, mongo_handler]}, version="v1", stream_usage=True)
-                stream_iter = event_stream.__aiter__()
-
-
-                async for token in stream_iter:
-                    if token['event'] != "on_chat_model_stream":
-                        continue
-
-                    chunk = token['data']['chunk'].content
-                    if not chunk:
-                        continue
-
-                    content = chunk[0]
-
-                    # Stream text if available
-                    if 'text' in content:
-                        text_chunk = content['text']
-                        yield f"data: {text_chunk.encode('utf-8')}\n\n", 200
-
-    except NotFoundError as e:
-        error_content,error_code = extract_error_message(str(e))
-        if error_code not in OPENAI_MESSAGES_CONFIG:
-            logger.warning(
-                f"👁️ NEW ERROR CODE FOUND: {error_code}, Message: {error_content}",
-                extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.NotFoundError"}})
-        else:
-            logger.error(
-                f"🚨 Model Not Found Error: {error_code}, Message: {error_content}",
-                extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.NotFoundError"}})
-        thread_repo.initialization(thread_id, thread_model)
-        thread_repo.add_message_openai(error_code)
-
-        llm_apikey_decrypt_service.initialization(api_key_id,"companymodel")
-        llm_apikey_decrypt_service.update_deprecated_status(True)
-        content = OPENAI_MESSAGES_CONFIG.get(error_code, OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED, "message": error_content, "data": content}), status.HTTP_417_EXPECTATION_FAILED
-    
-    except RateLimitError as e:
-        error_content,error_code = extract_error_message(str(e))
-        if error_code not in OPENAI_MESSAGES_CONFIG:
-            logger.warning(
-                f"👁️ NEW ERROR CODE FOUND: {error_code}, Message: {error_content}",
-                extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.RateLimitError"}})
-        else:
-            logger.error(
-                f"🚨 OpenAI Rate limit exceeded: {error_code}, Message: {error_content}",
-                extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.RateLimitError"}})
-        thread_repo.initialization(thread_id, thread_model)
-        thread_repo.add_message_openai(error_code)
-        content = OPENAI_MESSAGES_CONFIG.get(error_code, OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_429_TOO_MANY_REQUESTS, "message": error_content, "data": content}), status.HTTP_429_TOO_MANY_REQUESTS
-
-    except APIStatusError as e:
-        error_content,error_code = extract_error_message(str(e))
-        if not error_code or error_code not in OPENAI_MESSAGES_CONFIG:
-            logger.warning(
-                f"👁️ NEW ERROR CODE FOUND: {error_code}, Message: {error_content}",
-                extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.APIStatusError"}})
-            thread_repo.initialization(thread_id, thread_model)
-            thread_repo.add_message_openai("common_response")
-            content = OPENAI_MESSAGES_CONFIG.get("common_response")
-            error_content = DEV_MESSAGES_CONFIG.get("unknown_message")
-        else:
-            logger.error(
-                f"🚨 OpenAI Status Connection Error: {error_code}, Message: {error_content}",
-                extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.APIStatusError"}})
-            thread_repo.initialization(thread_id, thread_model)
-            thread_repo.add_message_openai(error_code)
-            content = OPENAI_MESSAGES_CONFIG.get(error_code, OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED, "message": error_content, "data": content}), status.HTTP_417_EXPECTATION_FAILED
-
-    except LengthFinishReasonError as e:
-        logger.error(
-            f"OpenAI Length Finish Reason Error: {e}",
-            extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.LengthFinishReasonError"}})
-        thread_repo.initialization(thread_id, thread_model)
-        thread_repo.add_message_openai("content_filter_issue")
-        content = OPENAI_MESSAGES_CONFIG.get("content_filter_issue", OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED, "message": e, "data": content}), status.HTTP_417_EXPECTATION_FAILED
-
-    except ContentFilterFinishReasonError as e:
-        logger.error(
-            f"OpenAI Content Filter Error: {e}",
-            extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.ContentFilterFinishReasonError"}})
-        thread_repo.initialization(thread_id, thread_model)
-        thread_repo.add_message_openai("content_filter_issue")
-        content = OPENAI_MESSAGES_CONFIG.get("content_filter_issue", OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED, "message": e, "data": content}), status.HTTP_417_EXPECTATION_FAILED
-
-    except APITimeoutError as e:
-        logger.error(
-            f"OpenAI Timeout Error: {e}",
-            extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.APITimeoutError"}})
-        thread_repo.initialization(thread_id, thread_model)
-        thread_repo.add_message_openai("request_time_out")
-        content = OPENAI_MESSAGES_CONFIG.get("request_time_out", OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED, "message": e, "data": content}), status.HTTP_417_EXPECTATION_FAILED
-
-    except APIConnectionError as e:
-        logger.error(
-            f"OpenAI Connection Error: {e}",
-            extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.APIConnectionError"}})
-        thread_repo.initialization(thread_id, thread_model)
-        thread_repo.add_message_openai("connection_error")
-        content = OPENAI_MESSAGES_CONFIG.get("connection_error", OPENAI_MESSAGES_CONFIG.get("common_response"))
-        yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED, "message": str(e), "data": content}), status.HTTP_417_EXPECTATION_FAILED
-
+        return web_content
     except Exception as e:
-            try:
-                error_content,error_code = extract_error_message(str(e))
-                if error_code not in OPENAI_MESSAGES_CONFIG:
-                    logger.warning(
-                        f"👁️ NEW ERROR CODE FOUND: {error_code}, Message: {error_content}",
-                        extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.Exception_Try"}})
-                else:
-                    logger.error(
-                        f"🚨 Failed to stream run conversation: {error_code}, Message: {error_content}",
-                        extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.Exception_Try"}})
-                thread_repo.initialization(thread_id, thread_model)
-                thread_repo.add_message_openai("connection_error")
-                content = OPENAI_MESSAGES_CONFIG.get("connection_error", OPENAI_MESSAGES_CONFIG.get("common_response"))
-                yield json.dumps({"status": status.HTTP_417_EXPECTATION_FAILED,"message": error_content, "data": content}), status.HTTP_417_EXPECTATION_FAILED  
-            except Exception as e:
-                logger.error(
-                    f"🚨 Failed to stream run conversation: {e}",
-                    extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis.Exception_Except"}})
-                thread_repo.initialization(thread_id, thread_model)
-                thread_repo.add_message_openai("common_response")
-                content = OPENAI_MESSAGES_CONFIG.get("common_response")
-                yield json.dumps({"status": status.HTTP_400_BAD_REQUEST, "message": DEV_MESSAGES_CONFIG.get("dev_message"), "data": content}), status.HTTP_400_BAD_REQUEST
-
-                
-
+        logger.error(
+            f"🚨 Failed to scrape and clean web content: {e}",
+            extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis"}})
+        return ''
