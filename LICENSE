@@ -1,21 +1,47 @@
-MIT License
+Apache License 2.0
 
-Copyright (c) 2025 Weam
+Open Source License – Weam
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Weam is licensed under a modified version of the Apache License 2.0 with the following extra conditions.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+✅ What You Can Do
+
+- ✅ Use Weam for commercial or non‑commercial deployments inside a single organization.
+- ✅ Use Weam to build and deliver solutions for your clients, as long as each client runs on its own **dedicated infrastructure** (not shared across multiple clients).
+- ✅ Contribute improvements or fixes under an open development model.
+
+> We encourage innovation and collaboration — but please read the full license before deploying or redistributing.
+
+
+❌ What You Cannot Do (without a commercial agreement)
+
+- ❌ Offer Weam (or a modified version) as a hosted SaaS or managed service for multiple customers.
+- ❌ Run multi‑tenant or separate single‑tenant instances for unrelated third parties.
+
+> If you want to provide Weam as a service to others, you must get a commercial license from Weam AI Pvt Ltd.
+
+Additional Conditions
+
+1. Contributions
+
+- By contributing code, you allow the maintainers to include it in future versions under different licensing** (more restrictive or more permissive).
+- Your contributions may be used in commercial products run by the maintainers (e.g., Weam Cloud).
+- Contributors are still bound by the “no SaaS” rule above.
+
+2. Third‑Party Dependencies
+
+- If you modify or redistribute third‑party packages bundled with Weam, you must comply with those packages’ licenses.
+
+3. Warranty Disclaimer
+
+> The software is provided “as is” with no warranties of any kind.  
+> The licensor is not liable for any damages from using or being unable to use the software.
+
+
+Other than these specific conditions, all terms of the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) apply.
+
+
+Questions or Clarifications?
+
+📧 Email us at [hello@weam.ai](mailto:hello@weam.ai)
