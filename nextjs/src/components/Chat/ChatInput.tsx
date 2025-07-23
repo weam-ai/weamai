@@ -499,26 +499,34 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         setSearchValue(e.target.value);
     };
 
+    const getTruncatedSystemPrompt = (title: string, systemPrompt: string, maxLength: number = 70) => {
+        const availableLength = Math.max(maxLength - title.length, 0);
+        if (systemPrompt.length > availableLength) {
+            return systemPrompt.slice(0, availableLength - 3) + '...';
+        }
+        return systemPrompt;
+    };
+
     return (
         <>
         <div className="w-full h-full flex items-center justify-center">
             <div className={`w-full mx-auto px-5 md:max-w-[32rem] lg:max-w-[40rem] xl:max-w-[48.75rem] ${isNavigating ? 'opacity-50' : ''}`}>
                 <h2 className='text-center mb-4 font-bold text-font-20'>How Weam can help you today?</h2>
                 {showAgentList && (
-                    <div className='w-full p-5 border rounded-md mb-1'>
+                    <div className='w-full p-4 border rounded-md mb-1'>
                         <div className='normal-agent'>
-                            <div className='flex mb-3'>
+                            <div className='flex mb-1'>
                                 <div className="relative w-full">
                                     <input
                                         type="text"
-                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
+                                        className="text-font-14 pl-[36px] py-2 w-full focus:outline-none focus:border-none"
                                         id="searchBots"
                                         placeholder="Search Agents"
                                         onChange={handleInputChanges}
                                         value={searchValue}
                                     />
                                     <span className="inline-block absolute left-[12px] top-1/2 -translate-y-1/2">
-                                        <SearchIcon className="w-4 h-auto fill-b6" />
+                                        <SearchIcon className="w-3 h-auto fill-b6" />
                                     </span>
                                 </div>
                             </div>
@@ -531,7 +539,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                         return (
                                             <div
                                                 key={gpt._id}
-                                                className={`cursor-pointer border-b border-b10 py-4 px-2.5 transition-all ease-in-out hover:bg-b13 ${    
+                                                className={`cursor-pointer border-b10 py-1.5 px-2.5 transition-all ease-in-out rounded-md hover:bg-b12 ${    
                                                     isSelected
                                                         ? 'bg-b12 border-b10'
                                                         : 'bg-white border-b10'
@@ -540,7 +548,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                                 ref={gptArray.length - 1 === index ? gptListRef : null}
                                             >
                                                 
-                                                <div className="flex items-center flex-wrap">
+                                                <div className="flex items-center flex-wrap xl:flex-nowrap">
                                                     <Image
                                                         src={
                                                             gpt?.coverImg?.uri
@@ -549,27 +557,20 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                                         }
                                                         height={60}
                                                         width={60}
-                                                        className="w-6 h-6 object-contain rounded-custom inline-block me-[9px]"
+                                                        className="w-6 h-6 object-contain rounded-custom inline-block"
                                                         alt={
                                                             gpt?.coverImg
                                                                 ?.name ||
                                                             'Default Image'
                                                         }
                                                     />
-                                                    <p className="text-font-12 font-medium text-b2">
+                                                    <p className="text-font-12 font-medium text-b2 mx-2">
                                                         {gpt.title}
                                                     </p>
-                                                    <span className='text-font-12 ml-2 px-2 py-[2px] bg-b13 border rounded-full'>
-                                                        {getDisplayModelName(gpt.responseModel.name)}
-                                                    </span>
-                                                    <div className='ml-1 text-b6 text-font-12 max-md:w-full'>
-                                                        - {gpt.isShare ? 'Shared' : 'Private'} / {gpt.brain.title}
-                                                    </div>
+                                                    <p className='text-font-12 font-normal text-b6 mt-1'>
+                                                        {getTruncatedSystemPrompt(gpt.title, gpt.systemPrompt, 100)}
+                                                    </p>
                                                 </div>
-                                                <p className='text-font-12 font-normal text-b6 mt-1'>
-                                                    {truncateText(gpt.systemPrompt,190)}                                                
-                                                </p>
-                                                
                                             </div>
                                         );
                                     })
@@ -586,20 +587,20 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                 )}
                 {/* Show Prompt List if first char is '/' */}
             {showPromptList && (
-                <div className='w-full p-5 border rounded-md mb-1'>
+                <div className='w-full p-4 border rounded-md mb-1'>
                     <div className='prompt-list'>
-                        <div className='flex mb-3'>
+                        <div className='flex mb-1'>
                             <div className="relative w-full">
                                 <input
                                     type="text"
-                                    className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
+                                    className="text-font-14 pl-[36px] py-2 w-full focus:outline-none focus:border-none"
                                     id="searchPrompts"
                                     placeholder="Search Prompts"
                                     onChange={handleInputChanges}
                                     value={searchValue}
                                 />
                                 <span className="inline-block absolute left-[12px] top-1/2 -translate-y-1/2">
-                                    <SearchIcon className="w-4 h-auto fill-b6" />
+                                    <SearchIcon className="w-3 h-auto fill-b6" />
                                 </span>
                             </div>
                         </div>
@@ -609,7 +610,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                 handlePrompts?.map((currPrompt: BrainPromptType, index: number, promptArray: BrainPromptType[]) => (
                                     <div
                                         key={currPrompt._id}
-                                        className={`cursor-pointer border-b py-4 px-2.5 transition-all ease-in-out hover:bg-b13 ${
+                                        className={`cursor-pointer border-b10 py-1.5 px-2.5 transition-all ease-in-out rounded-md hover:bg-b12 ${
                                             currPrompt.isActive
                                                 ? 'bg-b12 border-b10'
                                                 : 'bg-white border-b10'
@@ -621,17 +622,20 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                         }}
                                         ref={promptArray.length - 1 === index ? null : null}
                                     >
-                                        <div className="flex items-center flex-wrap">
-                                            <p className="text-font-12 text-b2 font-medium">
+                                        <div className="flex items-center flex-wrap xl:flex-nowrap">
+                                            <p className="text-font-12 font-medium text-b2 mr-2">
                                                 {currPrompt.title}
                                             </p>
-                                            <span className='text-b6 ml-1 text-font-12 max-md:w-full'>
+                                            {/* <span className='text-b6 ml-1 text-font-12 max-md:w-full'>
                                                 - {currPrompt.isShare ? 'Shared' : 'Private'} / {currPrompt.brain.title}
-                                            </span>                                                
+                                            </span> */}
+                                            <p className='text-font-12 font-normal text-b6 mt-1'>
+                                                {getTruncatedSystemPrompt(currPrompt.title, currPrompt.content, 100)}
+                                            </p>
                                         </div>
-                                        <p className='text-font-12 font-normal text-b6 mt-1'>
-                                            {truncateText(currPrompt.content,190)}       
-                                        </p>
+                                        {/* <p className='text-font-12 font-normal text-b6 mt-1'>
+                                            {truncateText(currPrompt.content,100)}       
+                                        </p> */}
                                     </div>
                                 ))
                                 )
