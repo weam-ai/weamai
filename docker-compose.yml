@@ -164,6 +164,18 @@ services:
    container_name: mcp_server
    ports:
       - "${MCP_SERVER_PORT}:${MCP_SERVER_PORT}"
+   networks:
+      - app-network
+   depends_on:
+      - redis
+      - mongo
+   volumes:
+      - .:/app
+   healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # wdb:
   #   image: kozea/wdb:3.3.0

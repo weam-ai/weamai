@@ -104,27 +104,37 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
             self.thread_model = thread_model
             self.model_name = OPENAIMODEL.MODEL_VERSIONS[llm_apikey_decrypt_service.model_name]
             self.tools = [website_analysis,image_generate]
+            self.client = MultiServerMCPClient(
+                {
+                    "slack": {
+                        # make sure you start your weather server on port 8000
+                        "url": "http://mcp:8000/sse",
+                        "transport": "sse",
+                    }
+                }
+            )
+            # Get tools directly without using context manager
+            try:
+                self.mcp_tools = await self.client.get_tools()
+                logger.info(f"MCP tools loaded successfully: {self.mcp_tools}")
+                # Add MCP tools to the existing tools list
+                if self.mcp_tools:
+                    self.tools.extend(self.mcp_tools)
+                    logger.info(f"Added MCP tools to tools list. Total tools: {len(self.tools)}")
+            except Exception as mcp_error:
+                logger.error(f"Failed to connect to MCP server: {mcp_error}")
+                # Continue without MCP tools if connection fails
+                self.mcp_tools = []
             self.tool_node = ToolNode(self.tools)
             if self.original_model_name in WebSearchConfig.MODEL_LIST:
                 search_context_size = WebSearchConfig.SEARCH_CONTEXT_SIZE
                 web_tool = {"type": "web_search_preview", "search_context_size":search_context_size}
                 self.tools = [web_tool,image_generate]
-                print("Langgraph Called=======")
             if self.model_name in OPENAIMODEL.TOOL_NOT_SUPPORTED_MODEL:
                 self.llm_with_tools = self.llm    
             else:
                 self.llm_with_tools = self.llm.bind_tools(
                     self.tools)
-            client = MultiServerMCPClient(
-                {
-                    "slack": {
-                        # make sure you start your weather server on port 8000
-                        "url": "http://localhost:8000",
-                        "transport": "streamable_http",
-                    }
-                }
-            )
-            mpc_tools = await client.get_tools()
 
             logger.info(
             "LLM initialization successful.",
@@ -154,6 +164,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                 if new_message.tool_calls[0]['name'] == 'image_generate':
                     self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
         else:
+
             new_message = await self.llm_with_tools.ainvoke(state['messages'],config=config)
         return {"messages": [new_message]}
     

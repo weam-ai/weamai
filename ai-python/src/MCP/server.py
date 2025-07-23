@@ -3,18 +3,29 @@ import os
 import argparse
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
+from fastapi import FastAPI
 from src.logger.default_logger import logger
 from src.MCP.tools.slack.slack_tools import list_slack_channels, send_slack_message,get_channel_messages   
-import asyncio
-import httpx
-import uvicorn
+
 # Load environment variables
 load_dotenv()
 
 SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
 
+# Initialize FastAPI app for health checks
+app = FastAPI()
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
 # Initialize FastMCP server
-mcp = FastMCP("tools")
+mcp = FastMCP(
+    "tools",  # Name of the MCP server
+    host="0.0.0.0",  # Host address (0.0.0.0 allows connections from any IP)
+    port=8000,  # Port number for the server
+    app=app,  # Pass the FastAPI app for additional endpoints
+)
 
 
 @mcp.tool()
@@ -71,8 +82,4 @@ async def slack_get_messages(channel_id: str, limit: int = 50) -> str:
 
 if __name__ == "__main__":
     # Initialize and run the server
-    logger.info("Starting FastMCP server...")
-    parser = argparse.ArgumentParser(description="Run MCP Streamable HTTP based server")
-    parser.add_argument("--port", type=int, default=8000, help="Localhost port to listen on")
-    args = parser.parse_args()
-    uvicorn.run(mcp.streamable_http_app)
+    mcp.run(transport='sse')

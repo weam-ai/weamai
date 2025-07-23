@@ -44,6 +44,7 @@ from src.custom_lib.langchain.callbacks.openai.mongodb.context_manager import ge
 from src.chatflow_langchain.service.o1.config.o1_tool_description import ToolDescritpion
 from langchain_core.messages.tool import ToolMessage
 from langchain_core.tools import tool
+from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # Service Initilization
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
@@ -111,6 +112,27 @@ class O1ToolServiceOpenai(AbstractConversationService):
            
             self.tools = [website_analysis,image_generate]
             self.tool_node = ToolNode(self.tools)   
+            self.client = MultiServerMCPClient(
+                {
+                    "slack": {
+                        # make sure you start your weather server on port 8000
+                        "url": "http://mcp:8000/sse",
+                        "transport": "sse",
+                    }
+                }
+            )
+            # Get tools directly without using context manager
+            try:
+                self.mcp_tools = await self.client.get_tools()
+                logger.info(f"MCP tools loaded successfully: {self.mcp_tools}")
+                # Add MCP tools to the existing tools list
+                if self.mcp_tools:
+                    self.tools.extend(self.mcp_tools)
+                    logger.info(f"Added MCP tools to tools list. Total tools: {len(self.tools)}")
+            except Exception as mcp_error:
+                logger.error(f"Failed to connect to MCP server: {mcp_error}")
+                # Continue without MCP tools if connection fails
+                self.mcp_tools = []
             self.llm_with_tools = self.llm.bind_tools(
                 self.tools)
 
