@@ -3,12 +3,12 @@ import {
     setSelectedWorkSpaceAction,
     setWorkspaceModalStatus,
 } from '@/lib/slices/workspace/workspacelist';
-import { truncateText } from '@/utils/common';
+import { truncateText, getSelectedBrain } from '@/utils/common';
 import { encodedObjectId, encryptedPersist, generateObjectId } from '@/utils/helper';
 import { WORKSPACE } from '@/utils/localstorage';
 import routes from '@/utils/routes';
 import { useRouter } from 'next/navigation';
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DropdownMenuItem } from '../ui/dropdown-menu';
 import { hasPermission, PERMISSIONS } from '@/utils/permission';
@@ -21,10 +21,12 @@ import { AI_MODEL_CODE, GENERAL_BRAIN_TITLE } from '@/utils/constant';
 import { BrainListType } from '@/types/brain';
 import { chatMemberListAction } from '@/lib/slices/chat/chatSlice';
 import { useSidebar } from '@/context/SidebarContext';
+import { getCurrentUser } from '@/utils/handleAuth';
 
 export const WorkspaceSelection = memo(({ w, brainList }) => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const user= useMemo( () => getCurrentUser(),[])
 
     const selectedWorkSpace = useSelector((state:RootState) => state.workspacelist.selected)
 
@@ -34,12 +36,9 @@ export const WorkspaceSelection = memo(({ w, brainList }) => {
             encryptedPersist(w, WORKSPACE);
             if (!brainList?.length) return;
             const selectedWorkSpaceBrainList = brainList.find(brain => brain._id.toString() === w._id.toString());
-            let generalBrain = selectedWorkSpaceBrainList?.brains.find((brain) => brain.title === GENERAL_BRAIN_TITLE);
-            if(!generalBrain) {
-                generalBrain = selectedWorkSpaceBrainList?.brains[0]
-            }
+            const selectedBrain = getSelectedBrain(selectedWorkSpaceBrainList?.brains,user);
             dispatch(setLastConversationDataAction({}));
-            router.push(`/?b=${encodedObjectId(generalBrain?._id)}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
+            router.push(`/?b=${encodedObjectId(selectedBrain?._id)}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
         }
     }
 
@@ -115,9 +114,10 @@ export const WorkspaceNewChatButton = memo(() => {
     const dispatch = useDispatch();
     const brainData = useSelector((store: RootState) => store.brain.combined);
     const { closeSidebar } = useSidebar();
+    const currentUser= useMemo( () => getCurrentUser(),[])
 
     const handleNewChatClick = () => {
-        const brain = brainData.find((brain: BrainListType) => brain.title === GENERAL_BRAIN_TITLE);
+        const brain = getSelectedBrain(brainData,currentUser);
         
         if (!brain) return;
         const encodedId = encodedObjectId(brain?._id);

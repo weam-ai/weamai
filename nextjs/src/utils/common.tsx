@@ -2,7 +2,7 @@ import DocsIcon from '@/icons/Docs';
 import PdfIcon from '@/icons/PdfIcon';
 import dayjs from 'dayjs';
 import moment from 'moment';
-import { DEFAULT_DATE_FORMAT, MODEL_CREDIT_INFO, MODEL_IMAGE_BY_CODE, SUBSCRIPTION_STATUS, AI_MODEL_CODE } from './constant';
+import { DEFAULT_DATE_FORMAT, MODEL_CREDIT_INFO, MODEL_IMAGE_BY_CODE, SUBSCRIPTION_STATUS, AI_MODEL_CODE, GENERAL_BRAIN_TITLE, DEFAULT_BRAIN_TITLE, DEFAULT_CHAT_SLUG } from './constant';
 import { isIndiaByTimezone } from './helper';
 import { FREE_TRIAL, STRIPE_SUBSCRIPTION_PRICE_ID, STRIPE_SUBSCRIPTION_PRICE_ID_IND } from '@/config/config';
 import ExcelFileIcon from '@/icons/ExcelFileIcon';
@@ -366,3 +366,11 @@ export const chatHasConversation = (chat) => {
 export const isMessageChatPage = (pathname: string) => {
     return pathname.includes('/chat/')
 }
+
+export const getSelectedBrain = (brains: any[], getCurrentUser: any) => {
+    if (!Array.isArray(brains) || brains.length === 0) return null;
+    return (
+       getCurrentUser?.isPrivateBrainVisible ? brains.find(brain => brain.slug === `${DEFAULT_CHAT_SLUG}${getCurrentUser?._id}`) : brains.find(brain => brain.title === GENERAL_BRAIN_TITLE) ?? brains[0]
+    );
+};
+
