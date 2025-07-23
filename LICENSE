@@ -1,47 +1,63 @@
-Apache License 2.0
+# 📄 Weam License — Based on Apache License 2.0
 
-Open Source License – Weam
+Weam is licensed under a **modified version of the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)** with additional terms to protect fair use, encourage contributions, and restrict unauthorized commercialization.
 
-Weam is licensed under a modified version of the Apache License 2.0 with the following extra conditions.
+---
 
+## ✅ Permitted Use
 
-✅ What You Can Do
+You are **free to**:
 
-- ✅ Use Weam for commercial or non‑commercial deployments inside a single organization.
-- ✅ Use Weam to build and deliver solutions for your clients, as long as each client runs on its own **dedicated infrastructure** (not shared across multiple clients).
-- ✅ Contribute improvements or fixes under an open development model.
+* ✅ Use Weam for **commercial or non-commercial** deployments **within a single organization**.
+* ✅ Build and deliver **custom solutions for clients**, provided:
 
-> We encourage innovation and collaboration — but please read the full license before deploying or redistributing.
+  * Each client runs on their **own dedicated infrastructure** (i.e., not shared or multi-tenant).
+* ✅ Contribute improvements or bug fixes to Weam under an **open development model**.
 
+> 💡 *We welcome innovation and collaboration. However, please read the full license terms before deploying or redistributing Weam.*
 
-❌ What You Cannot Do (without a commercial agreement)
+---
 
-- ❌ Offer Weam (or a modified version) as a hosted SaaS or managed service for multiple customers.
-- ❌ Run multi‑tenant or separate single‑tenant instances for unrelated third parties.
+## ❌ Restricted Use (Requires Commercial Agreement)
 
-> If you want to provide Weam as a service to others, you must get a commercial license from Weam AI Pvt Ltd.
+You **may not**, without a separate commercial license from **Weam AI Pvt Ltd**:
 
-Additional Conditions
+* ❌ Offer Weam (original or modified) as a **hosted SaaS** or **managed service** to multiple customers.
+* ❌ Run **multi-tenant** or **separate single-tenant** deployments for unrelated third parties.
 
-1. Contributions
+> 🛑 *If you intend to provide Weam as a service, please contact us for a commercial license.*
 
-- By contributing code, you allow the maintainers to include it in future versions under different licensing** (more restrictive or more permissive).
-- Your contributions may be used in commercial products run by the maintainers (e.g., Weam Cloud).
-- Contributors are still bound by the “no SaaS” rule above.
+---
 
-2. Third‑Party Dependencies
+## ⚙️ Additional Conditions
 
-- If you modify or redistribute third‑party packages bundled with Weam, you must comply with those packages’ licenses.
+### 1. Contributions
 
-3. Warranty Disclaimer
+* By contributing code, you grant the maintainers the right to:
 
-> The software is provided “as is” with no warranties of any kind.  
-> The licensor is not liable for any damages from using or being unable to use the software.
+  * Include it in future versions under **different licenses** (either more restrictive or more permissive).
+  * Use it in **commercial offerings** (e.g., *Weam Cloud*).
+* Contributors remain subject to the same **no-SaaS** restrictions.
 
+### 2. Third-Party Dependencies
 
-Other than these specific conditions, all terms of the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) apply.
+* If you modify or redistribute any third-party components bundled with Weam, you must:
 
+  * **Comply with the original licenses** of those dependencies.
 
-Questions or Clarifications?
+### 3. Warranty Disclaimer
 
-📧 Email us at [hello@weam.ai](mailto:hello@weam.ai)
+> ⚠️ **This software is provided “as is” without any warranties.**
+> The maintainers are **not liable for any damages** resulting from use or inability to use the software.
+
+---
+
+## 📌 License Foundation
+
+Unless specifically overridden by the conditions above, all terms of the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) continue to apply.
+
+---
+
+## 📬 Questions or Commercial Inquiries?
+
+Email us at: [hello@weam.ai](mailto:hello@weam.ai)
