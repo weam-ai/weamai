@@ -1160,6 +1160,13 @@ const ChatPage = memo(() => {
             }
         };
     }, [responseLoading, conversationPagination.hasNextPage, handleContentScroll]);
+    const getTruncatedSystemPrompt = (title: string, systemPrompt: string, maxLength: number = 70) => {
+        const availableLength = Math.max(maxLength - title.length, 0);
+        if (systemPrompt.length > availableLength) {
+            return systemPrompt.slice(0, availableLength - 3) + '...';
+        }
+        return systemPrompt;
+    };
     
     return (
         <>
@@ -1357,20 +1364,20 @@ const ChatPage = memo(() => {
                                 )}
                                 {fileLoader && (<ChatInputFileLoader/>)}
                                 {showAgentList && (
-                                    <div className='w-full p-5 rounded-md mb-1'>
+                                    <div className='w-full px-5 pt-5 pb-3 rounded-md mb-1'>
                                         <div className='normal-agent'>
                                             <div className='flex mb-3'>
                                                 <div className="relative w-full">
                                                     <input
                                                         type="text"
-                                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
+                                                        className="text-font-14 pl-[36px] py-2 w-full focus:outline-none focus:border-none"
                                                         id="searchBots"
                                                         placeholder="Search Agents"
                                                         onChange={handleInputChanges}
                                                         value={searchValue}
                                                     />
                                                     <span className="inline-block absolute left-[12px] top-1/2 -translate-y-1/2">
-                                                        <SearchIcon className="w-4 h-auto fill-b6" />
+                                                        <SearchIcon className="w-3 h-auto fill-b6" />
                                                     </span>
                                                 </div>
                                             </div>
@@ -1383,7 +1390,7 @@ const ChatPage = memo(() => {
                                                         return (
                                                             <div
                                                                 key={gpt._id}
-                                                                className={`cursor-pointer border-b border-b10 py-4 px-2.5 transition-all ease-in-out hover:bg-b13 ${    
+                                                                className={`cursor-pointer border-b10 py-1.5 px-2.5 transition-all ease-in-out rounded-md hover:bg-b12 ${    
                                                                     isSelected
                                                                         ? 'bg-b12 border-b10'
                                                                         : 'bg-white border-b10'
@@ -1391,7 +1398,7 @@ const ChatPage = memo(() => {
                                                                 onClick={() => handleAgentSelection(gpt)}
                                                             >
                                                                 
-                                                                <div className="flex items-center flex-wrap">
+                                                                <div className="flex items-center flex-wrap xl:flex-nowrap">
                                                                     <Image
                                                                         src={
                                                                             gpt?.coverImg?.uri
@@ -1400,27 +1407,27 @@ const ChatPage = memo(() => {
                                                                         }
                                                                         height={60}
                                                                         width={60}
-                                                                        className="w-6 h-6 object-contain rounded-custom inline-block me-[9px]"
+                                                                        className="w-6 h-6 object-contain rounded-custom inline-block"
                                                                         alt={
                                                                             gpt?.coverImg
                                                                                 ?.name ||
                                                                             'Default Image'
                                                                         }
                                                                     />
-                                                                    <p className="text-font-12 font-medium text-b2">
+                                                                    <p className="text-font-12 font-medium text-b2 mx-2">
                                                                         {gpt.title}
                                                                     </p>
-                                                                    <span className='text-font-12 ml-2 px-2 py-[2px] bg-b13 border rounded-full'>
+                                                                    {/* <span className='text-font-12 ml-2 px-2 py-[2px] bg-b13 border rounded-full'>
                                                                         {getDisplayModelName(gpt.responseModel.name)}
                                                                     </span>
                                                                     <div className='ml-1 text-b6 text-font-12 max-md:w-full'>
                                                                         - {gpt.isShare ? 'Shared' : 'Private'} / {gpt.brain.title}
-                                                                    </div>
+                                                                    </div> */}
+                                                                    <p className='text-font-12 font-normal text-b6 mt-1'>
+                                                                        {/* {truncateText(gpt.systemPrompt,190)}                                                 */}
+                                                                        {getTruncatedSystemPrompt(gpt.title, gpt.systemPrompt, 100)}
+                                                                    </p>
                                                                 </div>
-                                                                <p className='text-font-12 font-normal text-b6 mt-1'>
-                                                                    {truncateText(gpt.systemPrompt,190)}                                                
-                                                                </p>
-                                                                
                                                             </div>
                                                         );
                                                     })
@@ -1437,20 +1444,20 @@ const ChatPage = memo(() => {
                                 )}
                                 {/* Show Prompt List if first char is '/' */}
                                 {showPromptList && (
-                                    <div className='w-full p-5 rounded-md mb-1'>
+                                    <div className='w-full px-5 pt-5 pb-3 rounded-md mb-1'>
                                         <div className='prompt-list'>
-                                            <div className='flex mb-3'>
+                                            <div className='flex mb-1'>
                                                 <div className="relative w-full">
                                                     <input
                                                         type="text"
-                                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
+                                                        className="text-font-14 pl-[36px] py-2 w-full focus:outline-none focus:border-none"
                                                         id="searchPrompts"
                                                         placeholder="Search Prompts"
                                                         onChange={handleInputChanges}
                                                         value={searchValue}
                                                     />
                                                     <span className="inline-block absolute left-[12px] top-1/2 -translate-y-1/2">
-                                                        <SearchIcon className="w-4 h-auto fill-b6" />
+                                                        <SearchIcon className="w-3 h-auto fill-b6" />
                                                     </span>
                                                 </div>
                                             </div>
@@ -1460,7 +1467,7 @@ const ChatPage = memo(() => {
                                                     handlePrompts?.map((currPrompt: BrainPromptType, index: number, promptArray: BrainPromptType[]) => (
                                                         <div
                                                             key={currPrompt._id}
-                                                            className={`cursor-pointer border-b py-4 px-2.5 transition-all ease-in-out hover:bg-b13 ${
+                                                            className={`cursor-pointer border-b10 py-1.5 px-2.5 transition-all ease-in-out rounded-md hover:bg-b12 ${
                                                                 currPrompt.isActive
                                                                     ? 'bg-b12 border-b10'
                                                                     : 'bg-white border-b10'
@@ -1471,17 +1478,18 @@ const ChatPage = memo(() => {
                                                                 setShowPromptList(false);
                                                             }}
                                                         >
-                                                            <div className="flex items-center flex-wrap">
-                                                                <p className="text-font-12 text-b2 font-medium">
+                                                            <div className="flex items-center flex-wrap xl:flex-nowrap">
+                                                                <p className="text-font-12 font-medium text-b2 mr-2">
                                                                     {currPrompt.title}
                                                                 </p>
-                                                                <span className='text-b6 ml-1 text-font-12 max-md:w-full'>
+                                                                {/* <span className='text-b6 ml-1 text-font-12 max-md:w-full'>
                                                                     - {currPrompt.isShare ? 'Shared' : 'Private'} / {currPrompt.brain.title}
-                                                                </span>                                                
+                                                                </span>                                                 */}
+                                                                <p className='text-font-12 font-normal text-b6 mt-1'>
+                                                                    {getTruncatedSystemPrompt(currPrompt.title, currPrompt.content, 100)}
+                                                                </p>
                                                             </div>
-                                                            <p className='text-font-12 font-normal text-b6 mt-1'>
-                                                                {truncateText(currPrompt.content,190)}       
-                                                            </p>
+                                                            
                                                         </div>
                                                     ))
                                                     )
