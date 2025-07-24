@@ -6,60 +6,60 @@ from mcp.server.fastmcp import FastMCP
 from fastapi import FastAPI
 from src.logger.default_logger import logger
 from src.MCP.tools.slack.slack_tools import list_slack_channels, send_slack_message,get_channel_messages   
-
+from src.MCP.tools.google.core.server import server
 # Load environment variables
 load_dotenv()
 
-SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
+# SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
 
-# Initialize FastAPI app for health checks
-app = FastAPI()
+# # Initialize FastAPI app for health checks
+# app = FastAPI()
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+# @app.get("/health")
+# async def health_check():
+#     return {"status": "healthy"}
 
-# Initialize FastMCP server
-mcp = FastMCP(
-    "tools",  # Name of the MCP server
-    host="0.0.0.0",  # Host address (0.0.0.0 allows connections from any IP)
-    port=8000,  # Port number for the server
-    app=app,  # Pass the FastAPI app for additional endpoints
-)
-
-
-@mcp.tool()
-async def slack_list_channels(limit: int = 100,user_id:str=None) -> str:
-    """List all channels in the Slack workspace.
-
-    Args:
-        limit: Maximum number of channels to return (default 100, max 1000)
-    """
-    return await list_slack_channels(SLACK_BOT_TOKEN, limit)
+# # Initialize FastMCP server
+# mcp = FastMCP(
+#     "tools",  # Name of the MCP server
+#     host="0.0.0.0",  # Host address (0.0.0.0 allows connections from any IP)
+#     port=8000,  # Port number for the server
+#     app=app,  # Pass the FastAPI app for additional endpoints
+# )
 
 
-@mcp.tool()
-async def slack_send_message(channel_id: str, text: str,user_id:str=None) -> str:
-    """Send a message to a Slack channel.
+# @mcp.tool()
+# async def slack_list_channels(limit: int = 100,user_id:str=None) -> str:
+#     """List all channels in the Slack workspace.
 
-    Args:
-        channel_id: The ID of the channel to send the message to
-        text: The message text to send
-    """
-    return await send_slack_message(SLACK_BOT_TOKEN, channel_id, text)
+#     Args:
+#         limit: Maximum number of channels to return (default 100, max 1000)
+#     """
+#     return await list_slack_channels(SLACK_BOT_TOKEN, limit)
 
 
-@mcp.tool()
-async def slack_get_messages(channel_id: str, limit: int = 50,user_id:str=None) -> str:
-    """Get recent messages from a Slack channel.
+# @mcp.tool()
+# async def slack_send_message(channel_id: str, text: str,user_id:str=None) -> str:
+#     """Send a message to a Slack channel.
 
-    Args:
-        channel_id: The ID of the channel to get messages from
-        limit: Maximum number of messages to return (default 50, max 1000)
-    """
-    return await get_channel_messages(SLACK_BOT_TOKEN, channel_id, limit)
+#     Args:
+#         channel_id: The ID of the channel to send the message to
+#         text: The message text to send
+#     """
+#     return await send_slack_message(SLACK_BOT_TOKEN, channel_id, text)
+
+
+# @mcp.tool()
+# async def slack_get_messages(channel_id: str, limit: int = 50,user_id:str=None) -> str:
+#     """Get recent messages from a Slack channel.
+
+#     Args:
+#         channel_id: The ID of the channel to get messages from
+#         limit: Maximum number of messages to return (default 50, max 1000)
+#     """
+#     return await get_channel_messages(SLACK_BOT_TOKEN, channel_id, limit)
 
 
 if __name__ == "__main__":
     # Initialize and run the server
-    mcp.run(transport='sse')
+    server.run(transport='sse')
