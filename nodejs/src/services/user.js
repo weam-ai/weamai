@@ -49,6 +49,7 @@ const addUser = async (req) => {
 }
 
 const checkExisting = async function (req) {
+    console.log(req.params.id);
     const companyId = getCompanyId(req.user);
     const result = await dbService.getSingleDocumentById(User, req.params.id,[],companyId);
     if (!result) {
