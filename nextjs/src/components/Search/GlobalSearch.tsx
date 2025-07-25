@@ -187,7 +187,7 @@ const GlobalSearch = () => {
             result?.title && (
                 <div
                     key={result.id}
-                    className={`w-full px-4 py-3 rounded-md hover:bg-b12 cursor-pointer mb-1 ${
+                    className={`w-full px-4 py-2 rounded-md hover:bg-b12 cursor-pointer mb-1 ${
                         selectedIndex === index ? 'bg-b12' : ''
                     }`}
                     onClick={() => {
@@ -259,11 +259,6 @@ const GlobalSearch = () => {
                 </DialogHeader>
                 <div className="dialog-body relative h-full w-full md:px-10 px-4 py-5 md:max-h-[calc(100vh-300px)] md:overflow-y-auto" ref={dialogBodyRef}>
                     {loading && <ThreeDotLoader />}
-                    {!loading && searchValue === '' && searchResults.length > 0 && (
-                        <div className="w-full pl-2 pr-8 rounded-md cursor-pointe text-b7 mb-3">
-                            <p>Recent chats</p>                        
-                        </div>
-                    )}
                     {!loading && searchResults.length > 0 && renderedSearchResults}
                     {!loading && searchResults.length === 0 && (
                         <div className="flex justify-center items-center h-full">

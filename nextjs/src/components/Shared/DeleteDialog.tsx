@@ -10,14 +10,17 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-const DeleteDialog = ({ title, openModel, closeModel, onDelete,buttonVisible=true, btnText="Delete", btnClass="btn-red" }:any) => {
+const DeleteDialog = ({ title, openModel, closeModel, onDelete,buttonVisible=true, btnText="Delete", btnClass="btn-red", icon = null, }:any) => {
   
     
     return (
         <AlertDialog open={openModel} close={closeModel}>
 
-           {buttonVisible && <AlertDialogTrigger className={`btn ${btnClass}`}>
-                {btnText}
+           {buttonVisible && <AlertDialogTrigger className={` ${btnClass}`}>
+                <span className="flex items-center">
+                    {icon}
+                    <span className={icon ? "ml-1" : ""}>{btnText}</span>
+                </span>
             </AlertDialogTrigger>}
             <AlertDialogContent className="max-w-[450px] p-[30px]">
                 <AlertDialogHeader>
@@ -31,7 +34,7 @@ const DeleteDialog = ({ title, openModel, closeModel, onDelete,buttonVisible=tru
                     <AlertDialogCancel className="btn btn-outline-gray" onClick={closeModel}>
                         Cancel
                     </AlertDialogCancel>
-                    <button className={`btn ${btnClass}`} onClick={onDelete}>{btnText}</button>
+                    <button className={`btn btn-red ${btnClass}`} onClick={onDelete}>Archive</button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

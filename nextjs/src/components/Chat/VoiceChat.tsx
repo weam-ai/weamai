@@ -130,7 +130,7 @@ const VoiceChat = React.memo(({ setText, text }) => {
                                 {isListening ? (
                                     <MuteMikeIcon width="14"
                                         height="14"
-                                        className="fill-red w-auto h-[18px] ml-auto" />
+                                        className="fill-greendark w-auto h-[18px] ml-auto" />
                                 ) : (
                                     <VoiceChatIcon width="14" height="14" className="fill-b5 w-auto h-[18px]" />
                                 )}

@@ -208,15 +208,17 @@ const AddNewPromptModal = ({ open, closeModal, mycontent, edit, flag, chatprompt
                     <DialogTitle className="font-semibold flex items-center flex-wrap gap-x-1">
                         <PromptIcon width={"16"} height={"16"} className="w-6 h-auto object-contain fill-b2 me-3 inline-block align-text-top" />
                         { flag ? `Edit Prompt Template` : 'New Prompt Template'}
-                        <div className="flex items-center gap-2 md:ml-auto mr-5 md:mt-0 mt-2 cursor-pointer hidden12" onClick={handleToggle}>
+                        <div className="flex items-center gap-2 md:ml-auto ml-1 mr-5 mt-0 cursor-pointer" onClick={handleToggle}>
                         {/* Conditionally render icons */}
-                        {isFavourite ? (
-                            <ActiveBookMark width={15} height={14} className="fill-orange" />
-                        ) : (
-                            <BookMarkIcon width={15} height={14} className="fill-b5" />
-                        )}
+                        
+                            {isFavourite ? (
+                                <ActiveBookMark width={15} height={14} className="fill-orange" />
+                            ) : (
+                                <BookMarkIcon width={15} height={14} className="fill-b5" />
+                            )}
+                        
                         {/* Toggle text */}
-                        <span className="text-b5 text-font-12">
+                        <span className="text-b5 text-font-12 hidden md:inline">
                             {isFavourite ? 'Favourite' : 'Add to Favourite'}
                         </span>
                         </div>
