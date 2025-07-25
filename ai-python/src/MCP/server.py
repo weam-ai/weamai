@@ -15,7 +15,7 @@ from src.MCP.tools.slack.slack_tools import (
     invite_users_to_channel, kick_user_from_channel,
     # Thread management functions
     reply_to_thread, get_thread_replies, start_thread_with_message,
-    reply_to_thread_with_broadcast, get_thread_info, find_threads_in_channel
+    reply_to_thread_with_broadcast, get_thread_info, find_threads_in_channel,get_channel_id_by_name
 )   
 from fastapi import Request
 from importlib import metadata
@@ -80,17 +80,27 @@ async def slack_send_message(channel_id: str, text: str,mcp_data:str=None) -> st
     user_data = await get_user_by_id(mcp_data)
     return await send_slack_message(user_data['mcpdata']['slack']['token'], channel_id, text)
 
-
 @mcp.tool()
-async def slack_get_messages(channel_name: str, limit: int = 50,mcp_data:str=None) -> str:
-    """Get recent messages from a Slack channel.
+async def get_channel_id(channel_name: str=None,mcp_data:str=None):
+    """Get Channel id From Name from a Slack Workspace.
 
     Args:
-        channel_name: The Name of the channel to get messages from
+        channel_id: The ID of the channel to get messages from
         limit: Maximum number of messages to return (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_messages(user_data['mcpdata']['slack']['token'], channel_name, limit)
+    return await get_channel_id_by_name(user_data['mcpdata']['slack']['token'], channel_name)
+
+@mcp.tool()
+async def slack_get_messages(channel_id: str, limit: int = 50,mcp_data:str=None) -> str:
+    """Get recent messages from a Slack channel.
+
+    Args:
+        channel_id: The ID of the channel to get messages from
+        limit: Maximum number of messages to return (default 50, max 1000)
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_channel_messages(user_data['mcpdata']['slack']['token'], channel_id, limit)
 
 
 @mcp.tool()
