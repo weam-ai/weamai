@@ -45,6 +45,10 @@ from src.custom_lib.langchain.callbacks.openai.cost.context_manager import get_c
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
 from src.custom_lib.langchain.callbacks.openai.mongodb.context_manager import get_mongodb_callback_handler
 from langchain_mcp_adapters.client import MultiServerMCPClient
+from dotenv import load_dotenv
+import os
+load_dotenv()
+mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 # Service Initilization
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
@@ -64,7 +68,7 @@ async def image_generate(query:str=None,image_size:str='1024x1024',
             extra={"tags": {"method": "OpenAIToolServiceOpenai.image_generation"}})
         return ''
 class OpenAIToolServiceOpenai(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -99,32 +103,38 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                 http_client=http_client,
                 http_async_client=http_async_client
             )
+            self.mcp_data = mcp_data
             self.image_gen_prompt = None
             self.thread_id = thread_id
             self.thread_model = thread_model
             self.model_name = OPENAIMODEL.MODEL_VERSIONS[llm_apikey_decrypt_service.model_name]
             self.tools = [website_analysis,image_generate]
-            self.client = MultiServerMCPClient(
-                {
-                    "slack": {
-                        # make sure you start your weather server on port 8000
-                        "url": "http://mcp:8000/sse",
-                        "transport": "sse",
+            if mcp_tools:
+                self.client = MultiServerMCPClient(
+                    {
+                        "slack": {
+                            # make sure you start your weather server on port 8000
+                            "url": mcp_url,
+                            "transport": "sse",
+                        }
                     }
-                }
-            )
-            # Get tools directly without using context manager
-            try:
-                self.mcp_tools = await self.client.get_tools()
-                logger.info(f"MCP tools loaded successfully: {self.mcp_tools}")
-                # Add MCP tools to the existing tools list
-                if self.mcp_tools:
-                    self.tools.extend(self.mcp_tools)
-                    logger.info(f"Added MCP tools to tools list. Total tools: {len(self.tools)}")
-            except Exception as mcp_error:
-                logger.error(f"Failed to connect to MCP server: {mcp_error}")
-                # Continue without MCP tools if connection fails
-                self.mcp_tools = []
+                )
+                # Get tools directly without using context manager
+                try:
+                    self.mcp_tools_list = await self.client.get_tools()
+                    logger.info(f"MCP tools loaded successfully: {self.mcp_tools_list}")
+                    # Add MCP tools to the existing tools list
+                    if self.mcp_tools_list:
+                        self.mcp_tools_list = [
+                                tool for tool in self.mcp_tools_list
+                                if tool.name in {name for tools in mcp_tools.values() for name in ",".join(tools).split(",")}
+                            ]
+                        self.tools.extend(self.mcp_tools_list)
+                        logger.info(f"Added MCP tools to tools list. Total tools: {len(self.tools)}")
+                except Exception as mcp_error:
+                    logger.error(f"Failed to connect to MCP server: {mcp_error}")
+                    # Continue without MCP tools if connection fails
+                    self.mcp_tools_list = []
             self.tool_node = ToolNode(self.tools)
             if self.original_model_name in WebSearchConfig.MODEL_LIST:
                 search_context_size = WebSearchConfig.SEARCH_CONTEXT_SIZE
@@ -154,20 +164,15 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
         return END
     
     async def chatbot(self,state,config):
-        if not isinstance(state['messages'][-1], ToolMessage):
-            history_messages = self.chat_repository_history.messages
-            history_messages.extend(state['messages'])
-            new_message = await self.llm_with_tools.ainvoke(history_messages,config=config)
-            if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
-                if self.image_url:
-                    new_message.tool_calls[0]['args']['image_url'] = self.image_url
-                if new_message.tool_calls[0]['name'] == 'image_generate':
-                    self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
-                else:
-                    new_message.tool_calls[0]['args']['user_id'] = '11245'
-        else:
-            state['messages'][1].tool_calls[0]['args'].pop('user_id')
-            new_message = await self.llm_with_tools.ainvoke(state['messages'],config=config)
+        history_messages = self.chat_repository_history.messages
+        history_messages.extend(state['messages'])
+        new_message = await self.llm_with_tools.ainvoke(history_messages,config=config)
+        if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
+            if self.image_url:
+                new_message.tool_calls[0]['args']['image_url'] = self.image_url
+            if new_message.tool_calls[0]['name'] == 'image_generate':
+                self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
+            new_message.tool_calls[0]['args']['mcp_data'] = self.mcp_data
         return {"messages": [new_message]}
     
     async def create_graph_node(self):

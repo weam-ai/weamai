@@ -34,6 +34,10 @@ from src.custom_lib.langchain.callbacks.weam_router.open_router.cost.context_man
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from src.gateway.utils import SyncHTTPClientSingleton, AsyncHTTPClientSingleton
+import os
+from dotenv import load_dotenv
+load_dotenv()
+mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 # Service Initilization
 # Service Initilization
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
@@ -42,7 +46,7 @@ prompt_repo = PromptRepository()
 cost_callback=CostCalculator()
 
 class RouterServiceTool(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -83,28 +87,34 @@ class RouterServiceTool(AbstractConversationService):
                 http_client=http_client,
                 http_async_client=http_async_client
             )
+            self.mcp_data = mcp_data
             self.tools = [website_analysis]
-            self.client = MultiServerMCPClient(
-                {
-                    "slack": {
-                        # make sure you start your weather server on port 8000
-                        "url": "http://mcp:8000/sse",
-                        "transport": "sse",
+            if mcp_tools:
+                self.client = MultiServerMCPClient(
+                    {
+                        "slack": {
+                            # make sure you start your weather server on port 8000
+                            "url": mcp_url,
+                            "transport": "sse",
+                        }
                     }
-                }
-            )
-            # Get tools directly without using context manager
-            try:
-                self.mcp_tools = await self.client.get_tools()
-                logger.info(f"MCP tools loaded successfully: {self.mcp_tools}")
-                # Add MCP tools to the existing tools list
-                if self.mcp_tools:
-                    self.tools.extend(self.mcp_tools)
-                    logger.info(f"Added MCP tools to tools list. Total tools: {len(self.tools)}")
-            except Exception as mcp_error:
-                logger.error(f"Failed to connect to MCP server: {mcp_error}")
-                # Continue without MCP tools if connection fails
-                self.mcp_tools = []
+                )
+                # Get tools directly without using context manager
+                try:
+                    self.mcp_tools_list = await self.client.get_tools()
+                    logger.info(f"MCP tools loaded successfully: {self.mcp_tools_list}")
+                    # Add MCP tools to the existing tools list
+                    if self.mcp_tools_list:
+                        self.mcp_tools_list = [
+                                tool for tool in self.mcp_tools_list
+                                if tool.name in {name for tools in mcp_tools.values() for name in ",".join(tools).split(",")}
+                            ]
+                        self.tools.extend(self.mcp_tools_list)
+                        logger.info(f"Added MCP tools to tools list. Total tools: {len(self.tools)}")
+                except Exception as mcp_error:
+                    logger.error(f"Failed to connect to MCP server: {mcp_error}")
+                    # Continue without MCP tools if connection fails
+                    self.mcp_tools_list = []
             self.tool_node = ToolNode(self.tools)   
             if self.model_name in ROUTERMODEL.TOOL_NOT_SUPPORTED_MODELS:
                 self.llm_with_tools = self.llm
@@ -134,12 +144,12 @@ class RouterServiceTool(AbstractConversationService):
         return END
     
     async def chatbot(self,state,config):
-            if not isinstance(state['messages'][-1], ToolMessage):
-                history_messages = self.chat_repository_history.messages
-                history_messages.extend(state['messages'])
-                new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
-            else:
-                new_message = await self.llm_with_tools.ainvoke(state['messages'],config=config)
+
+            history_messages = self.chat_repository_history.messages
+            history_messages.extend(state['messages'])
+            new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
+            if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
+                new_message.tool_calls[0]['args']['mcp_data'] = self.mcp_data
 
             return {"messages": [new_message]}
     

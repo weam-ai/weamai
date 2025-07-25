@@ -51,6 +51,8 @@ async def too_chat_with_ai(
     log_api_call("/stream-tool-chat-with-openai")
     try:
         query = chat_input.query
+        if 'mcpdata' in current_user:
+            chat_input.mcp = str(current_user['_id'])
         tool_chat_service=ToolController()
         tool_chat_service.initialization_service_code(code=chat_input.code)
         response_generator = await tool_chat_service.service_hub_handler(chat_input=chat_input)

@@ -95,7 +95,9 @@ class ToolController:
             thread_id=chat_input.thread_id,
             thread_model=chat_input.threadmodel,
             imageT=chat_input.imageT,
-            company_id=chat_input.company_id
+            company_id=chat_input.company_id,
+            mcp_data=chat_input.mcp if hasattr(chat_input, 'mcp') else None,
+            mcp_tools=chat_input.mcp_tools
         )
             tool_manager.initialize_repository(
                 chat_session_id=chat_input.chat_session_id,
