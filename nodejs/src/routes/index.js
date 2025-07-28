@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { csrfMiddleware } = require('../middleware/csrf');
 const router = express.Router();
 
 router.use('/admin', csrfMiddleware, require('./admin'));

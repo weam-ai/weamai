@@ -4,7 +4,6 @@ const commonController = require('../controller/commonController');
 const { emailTemplateKeys, kafkaTopicKeys } = require('../utils/validations/common');
 const { authentication, checkPermission } = require('../middleware/authentication');
 const authController = require('../controller/web/authController');
-const { authentication } = require('../middleware/authentication');
 const { apiBasicAuth} = require('../middleware/apiBasicAuth');
 const { updateCreditKeys } = require('../utils/validations/user');
 
