@@ -1,6 +1,7 @@
 'use client';
 import commonApi from '@/api';
 import { setCreditInfoAction } from '@/lib/slices/chat/chatSlice';
+import { setMCPDataAction } from '@/lib/slices/mcpSlice';
 import { UserMemberList } from '@/types/user';
 import { removeObjectFromArray } from '@/utils/common';
 import { DEFAULT_SORT, MODULES, MODULE_ACTIONS, SEARCH_AND_FILTER_OPTIONS } from '@/utils/constant';
@@ -124,7 +125,8 @@ const useUsers = () => {
             });
             encryptedPersist(setUserData(response.data),USER)
             setLoggedInUser(response.data)
-            dispatch(setCreditInfoAction(response.data.isFreeTrial))     
+            dispatch(setCreditInfoAction(response.data.isFreeTrial));
+            dispatch(setMCPDataAction(response.data.mcpdata));     
         } catch (error) {
             console.error(`Error in getUserById ::: ${error}`)
         }

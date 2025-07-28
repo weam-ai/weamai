@@ -28,6 +28,7 @@ import { SettingActiveIcon, TemplateLibrary } from './SettingSelection';
 import ReportIcon from '@/icons/ReportIcon';
 import PrivateVisible from '../Brains/PrivateVisible';
 import dynamic from 'next/dynamic';
+import AppIcon from '@/icons/AppsIcon';
 import CreditControlIcon from '@/icons/CreditControlIcon';
 
 const BackButton = dynamic(() => import('./BackButton'), { ssr: false });
@@ -49,6 +50,19 @@ const SettingSidebar = async () => {
             hasAccess: true,
             navigate: `${LINK.DOMAIN_URL}/settings/reports`,
             slug: '/settings/reports',
+        },
+        {
+            name: 'MCP',
+            icon: (
+                <AppIcon
+                    height={20}
+                    width={20}
+                    className={'w-5 h-5 object-contain fill-b2'}
+                />
+            ),
+            hasAccess: true,
+            navigate: `${LINK.DOMAIN_URL}/mcp`,
+            slug: '/mcp',
         },
         {
             name: 'General',

@@ -59,7 +59,7 @@ export async function serverApi({
     prefix = '',
     data,
     config = {},
-    common = false,
+    common = false,    
 }:any) {
     const apiList = (await import('../api/list')).default;
     const api = common
