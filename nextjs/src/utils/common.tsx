@@ -369,8 +369,19 @@ export const isMessageChatPage = (pathname: string) => {
 
 export const getSelectedBrain = (brains: any[], getCurrentUser: any) => {
     if (!Array.isArray(brains) || brains.length === 0) return null;
+
+    const { _id, isPrivateBrainVisible } = getCurrentUser || {};
+
+    if (isPrivateBrainVisible) {
+        const privateBrain = brains.find(
+            brain => brain.slug === `${DEFAULT_CHAT_SLUG}${_id}`
+        );
+        if (privateBrain) return privateBrain;
+    }
+
     return (
-       getCurrentUser?.isPrivateBrainVisible ? brains.find(brain => brain.slug === `${DEFAULT_CHAT_SLUG}${getCurrentUser?._id}`) : brains.find(brain => brain.title === GENERAL_BRAIN_TITLE) ?? brains[0]
+        brains.find(brain => brain.title === GENERAL_BRAIN_TITLE) ||
+        brains[0]
     );
 };
 

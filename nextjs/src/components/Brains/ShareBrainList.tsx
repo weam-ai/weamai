@@ -6,11 +6,12 @@ import { getCurrentUser } from '@/utils/handleAuth';
 import { decryptedPersist } from '@/utils/helper';
 import { WORKSPACE } from '@/utils/localstorage';
 import { useDispatch, useSelector } from 'react-redux';
-import { Accordion } from '../ui/accordion';
 import { CommonList } from './BrainList';
 import { useMemo } from 'react';
 import { AllBrainListType } from '@/types/brain';
 import { WorkspaceListType } from '@/types/workspace';
+import { useSidebar } from '@/context/SidebarContext';
+
 
 type ShareBrainListProps = {
     brainList: AllBrainListType[];
@@ -19,6 +20,7 @@ type ShareBrainListProps = {
 
 const ShareBrainList = ({ brainList, workspaceFirst }: ShareBrainListProps) => {
     const dispatch = useDispatch();
+    const { closeSidebar } = useSidebar();
     const selectedWorkSpace = useSelector(
         (store: RootState) => store.workspacelist.selected
     );
@@ -44,19 +46,16 @@ const ShareBrainList = ({ brainList, workspaceFirst }: ShareBrainListProps) => {
     return (
         <>
             {shareBrainList?.length > 0 && (
-                <Accordion
-                    type="single"
-                    collapsible
-                    className="w-full flex flex-col"
-                >
+                <div className="w-full flex flex-col" >
                     {shareBrainList.map((b) => (
                         <CommonList
                             b={b}
                             key={b._id}
                             currentUser={currentUser}
+                            closeSidebar={closeSidebar}
                         />
                     ))}
-                </Accordion>
+                </div>
             )}
         </>
     );
