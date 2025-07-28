@@ -33,7 +33,8 @@ const routes = {
     changePassword: '/profile-setting/password',
     testSubscription: '/test-subscription',
     weeklyReport: '/settings/weekly-report',
-    creditControl: '/settings/credit-control'
+    creditControl: '/settings/credit-control',
+    mcp: '/mcp'
 };
 
 export default routes;

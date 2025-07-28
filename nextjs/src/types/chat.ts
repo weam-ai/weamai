@@ -171,6 +171,7 @@ export type NormalChatPayloadType = {
     // isregenerated: boolean;
     msgCredit: number;
     // is_paid_user: boolean;
+    mcp_tools?: Record<string, string[]>;
 }
 
 export type DocumentChatPayloadType = NormalChatPayloadType & {

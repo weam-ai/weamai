@@ -8,6 +8,7 @@ const { addWorkSpaceTeam } = require("./teamMember");
 const { accessOfWorkspaceToUser } = require("./common");
 const Brain = require('../models/brains');
 const ShareBrain = require("../models/shareBrain");
+const { createDefaultBrain } = require("./brain");
 
 const addWorkSpace = async (req) => {
     try {
@@ -50,6 +51,7 @@ const addWorkSpace = async (req) => {
         if (req.body?.users?.length) users.push(...req.body.users);
         await Promise.any([
             addWorkSpaceUsers(users, createdWorkspace, req.user),
+            createDefaultBrain(req, createdWorkspace._id, req.user),
             addWorkSpaceTeam(req.body.teams, createdWorkspace, req.user)
         ]);
         

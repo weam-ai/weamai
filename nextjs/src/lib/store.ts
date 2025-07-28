@@ -11,6 +11,7 @@ import promptSlice from './slices/prompt/promptSlice';
 import profileSlice from './slices/profile/profileSlice';
 import notificationSlice from './slices/notificationSlice';
 import subscriptionReducer from './slices/subscription/subscriptionSlice';
+import mcpReducer from './slices/mcpSlice';
 
 const errorLoggerMiddleware: Middleware = ((store) => next => action => {
     try {
@@ -33,7 +34,8 @@ const store = configureStore({
         prompt: promptSlice,
         profile: profileSlice,
         notification: notificationSlice,
-        subscription: subscriptionReducer
+        subscription: subscriptionReducer,
+        mcp: mcpReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(errorLoggerMiddleware)
 });

@@ -638,7 +638,9 @@ const EditWorkSpaceModal = ({ open, closeModal, workspace }) => {
         };
 
         const timer = setTimeout(() => {
-            filterMemberByRole();
+            if(filter.search){
+                filterMemberByRole();
+            }
         }, 500);
 
         return () => clearTimeout(timer);
@@ -655,9 +657,6 @@ const EditWorkSpaceModal = ({ open, closeModal, workspace }) => {
             setIsLoading(false);
         }
     }, [workspace]);
-
-    
-
     return (
         <Dialog open={open} onOpenChange={closeModal}>
             <DialogContent className="md:max-w-[700px] md:min-h-[150px] max-w-[calc(100%-30px)] py-7 max-h-screen max-md:max-h-[calc(100vh-70px)] overflow-y-auto">

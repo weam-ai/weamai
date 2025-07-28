@@ -1,9 +1,9 @@
 import { AiModalType } from '@/types/aimodels';
+import { MCP_TOOLS_COOKIE_NAME } from './constant';
 
 const CryptoJS = require('crypto-js');
 const { AUTH, ENCRYPTION_KEY } = require('@/config/config');
 const { BRAIN, LocalStorage } = require('./localstorage');
-const disposableEmailDomains = require('disposable-email-domains');
 const { MODEL_CREDIT_INFO } = require('./constant');
 const { RESPONSE_STATUS_CODE, RESPONSE_STATUS } = require('./constant');
 const crypto = require('crypto');
@@ -247,11 +247,6 @@ export const calculateSubscriptionPrice = (units, priceInCents) => {
     return units * priceInDollars;
 }
 
-export const isDisposableEmail=(email:any) => {
-    const domain = email.split('@')[1];
-    return disposableEmailDomains.includes(domain);
-}
-
 export const isIndiaByTimezone = () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     return timeZone.includes("Calcutta") || timeZone.includes("Kolkata");
@@ -403,4 +398,26 @@ export const formatAgentRequestCopyData = (data: Record<string, unknown>, string
 export const getDisplayModelName = (modelName: string) => {
     const modelInfo = MODEL_CREDIT_INFO.find(item => item.model === modelName);
     return modelInfo?.displayName || modelName;
+}
+
+export const persistMCPToolStates = (toolStates: Record<string, string[]>) => {
+    encryptedPersist(toolStates, MCP_TOOLS_COOKIE_NAME);
+};
+
+export const retrieveMCPToolStates = (): Record<string, string[]> | null => {
+    return decryptedPersist(MCP_TOOLS_COOKIE_NAME);
+};
+
+export function formatToCodeFormat(name: string) {
+    if (!name || typeof name !== 'string') return '';
+
+    return name
+        .trim()
+        .toUpperCase()
+        .replace(/[\s\-]+/g, '_');
+}
+
+export function toIsoDate(timestamp: number) {
+    if (typeof timestamp !== 'number') return null;
+    return new Date(timestamp).toISOString();
 }

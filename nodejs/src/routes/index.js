@@ -1,11 +1,11 @@
 const express = require('express');
-
+const { csrfMiddleware } = require('../middleware/csrf');
 const router = express.Router();
 
-router.use('/admin', require('./admin'));
-router.use('/web', require('./web'));
-router.use('/upload', require('./upload'));
+router.use('/admin', csrfMiddleware, require('./admin'));
+router.use('/web', csrfMiddleware, require('./web'));
+router.use('/upload', csrfMiddleware, require('./upload'));
 router.use('/common', require('./common'));
-router.use('/device', require('./mobile'));
+router.use('/device', csrfMiddleware, require('./mobile'));
 
 module.exports = router;
