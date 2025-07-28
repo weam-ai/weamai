@@ -64,7 +64,7 @@ const BrainButtons = ({ text, share, selectedOption, onChange }: BrainButtonsPro
     return (
         <div className="relative">
             <label
-                className="group cursor-pointer btn btn-gray py-[11px] lg:px-8 px-3 hover:bg-green mx-2 hover:border-green active:bg-green active:border-green checked:bg-green checked:border-green has-[:checked]:text-b15 has-[:checked]:bg-green has-[:checked]:border-green"
+                className="group cursor-pointer btn btn-gray md:py-[11px] my-2 lg:px-8 px-3 hover:bg-green mx-2 hover:border-green active:bg-green active:border-green checked:bg-green checked:border-green has-[:checked]:text-b15 has-[:checked]:bg-green has-[:checked]:border-green text-font-14"
                 htmlFor={text}
             >
                 <input
@@ -76,7 +76,7 @@ const BrainButtons = ({ text, share, selectedOption, onChange }: BrainButtonsPro
                     checked={selectedOption === text}
                     onChange={onChange}
                 />
-
+                <span className='max-md:hidden'>
                 {share ? (
                     <ShareBrainIcon
                         className="fill-b6 peer-checked:fill-b15 group-hover:fill-b15 group-active:fill-b15 transition duration-150 ease-in-out inline-block mr-2.5 w-auto h-[18px] object-contain"
@@ -90,6 +90,7 @@ const BrainButtons = ({ text, share, selectedOption, onChange }: BrainButtonsPro
                         height={'18'}
                     />
                 )}
+                </span>
 
                 {text}
             </label>
@@ -141,14 +142,14 @@ const ForkChatModal = ({ open, closeModal, forkData }) => {
 
     return (
         <Dialog open={open} onOpenChange={closeModal}>
-            <DialogContent className="md:max-w-[730px] max-w-[calc(100%-30px)] overflow-y-auto max-h-screen">
+            <DialogContent className="md:max-w-[730px] max-w-[calc(100%-30px)] overflow-y-auto max-h-[calc(100vh-100px)]">
                 <DialogHeader className="rounded-t-10 px-[30px] pt-6">
                     <DialogTitle className="text-font-18 font-bold text-b2">
                         <ForkIcon className="w-auto h-6 min-w-6 object-contain fill-b2 me-4 inline-block align-text-top" />
                         Fork Chat
                     </DialogTitle>
                     <DialogDescription>
-                    <div className="small-description text-font-15 leading-[24px] text-b5 font-normal mt-5">
+                    <div className="small-description text-font-15 leading-[24px] text-b5 font-normal md:mt-5 mt-3">
                         <p>
                             Forking this conversation will generate a fresh
                             Shared chat that encompasses all prior messages
@@ -157,7 +158,7 @@ const ForkChatModal = ({ open, closeModal, forkData }) => {
                     </div>    
                     </DialogDescription>
                     
-                    <div className="modal-body-title flex items-center justify-between border-x border-t border-b11 bg-b11 md:px-[30px] px-3 py-[13px] rounded-t-10 mt-6">
+                    <div className="modal-body-title flex items-center justify-between border-x border-t border-b11 bg-b11 md:px-[30px] px-3 md:py-[13px] py-2 rounded-t-10 mt-6">
                         {isEditing ? (
                             <input
                                 type="text"
@@ -193,7 +194,7 @@ const ForkChatModal = ({ open, closeModal, forkData }) => {
                 <div className="dialog-body flex flex-col flex-1 relative h-full overflow-hidden px-[30px]">
                     {/*Modal Body start */}
                     <div className="h-full border-x border-b border-b11 rounded-b-10 pr-2.5 pt-5 pb-2">
-                        <div className="h-full overflow-y-auto w-full max-h-[40dvh]">
+                        <div className="h-full w-full">
                             {/* Chat Start*/}
                             {/* Shared Chat start*/}
                             <div className="shared-chat-block chat-wrap flex flex-col flex-1">
@@ -304,7 +305,7 @@ const ForkChatModal = ({ open, closeModal, forkData }) => {
                     {/*Modal Body End */}
                     {/*Modal Footer Start */}
                     
-                    <div className="flex items-center flex-wrap lg:flex-nowrap justify-center mt-7 mb-4">
+                    <div className="flex items-center flex-wrap lg:flex-nowrap justify-center md:mt-7 mt-4 md:mb-4 mb-2">
                         <div className='mb-2'>
                         <BrainButtons
                             text={'Private Fork'}
@@ -336,7 +337,7 @@ const ForkChatModal = ({ open, closeModal, forkData }) => {
                             />
                             <ValidationError field={'type'} errors={errors}/>
                             <button
-                                className="btn btn-blue md:mt-0 mt-3"
+                                className="btn btn-black md:mt-0 mt-3"
                                 disabled={loading}
                                 onClick={handleSubmit(() => {
                                     createNewForkChat({
