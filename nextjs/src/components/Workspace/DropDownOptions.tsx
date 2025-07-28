@@ -131,15 +131,11 @@ export const WorkspaceNewChatButton = memo(() => {
         router.push(`${routes.main}?b=${encodedId}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
     };
     return (
-        <div className='mb-5 mt-2'>
-            <button  
-                // disabled={addChatLoading}
-                onClick={handleNewChatClick}
-                className='flex justify-center gap-x-2 items-center text-font-14 font-medium border px-2 py-2 w-full group rounded-md hover:bg-black hover:text-white border-b-4 hover:border-b-b4'
-            >
-                <span className='text-font-14 font-medium w-5 h-5 leading-4 rounded-full border border-b5 block group-hover:border-b10'>+</span>
+        <div className='mb-3 mt-2' >
+            <div onClick={handleNewChatClick} className='flex items-center gap-x-2 cursor-pointer text-font-14'>
+                <span className='text-font-14 font-medium w-5 h-5 leading-4 text-center rounded-full border border-b5 block group-hover:border-b10'>+</span>
                 New Chat
-            </button>
+            </div>
         </div>
     );
 });

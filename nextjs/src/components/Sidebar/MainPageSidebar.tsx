@@ -20,6 +20,7 @@ import { RESPONSE_STATUS, RESPONSE_STATUS_CODE } from '@/utils/constant';
 import RefreshTokenClient from '../Shared/RefreshTokenClient';
 import { WorkspaceNewChatButton } from '../Workspace/DropDownOptions';
 import dynamic from 'next/dynamic';
+import AppIcon from '@/icons/AppsIcon';
 
 const SettingsLink = dynamic(() => import('./SettingsLink'), { ssr: false });
 const ShareBrainList = dynamic(() => import('../Brains/ShareBrainList'), { ssr: false });
@@ -57,7 +58,14 @@ const MainPageSidebar = async () => {
                 <div className="sidebar-sub-menu-items flex flex-col h-full overflow-hidden">
                     <div className="h-full w-full flex flex-col px-3 overflow-y-auto pb-3 pt-4">
                         <WorkspaceNewChatButton />
-                        <div className="flex w-full justify-between pr-1 group mb-4">
+                        <Link
+                            href="/mcp"
+                            className="flex gap-x-3 text-font-14 items-center mb-5 cursor-pointer"
+                        >
+                            <AppIcon width={16} height={16} className={"size-4 fill-b6"} />
+                            Connected Apps
+                        </Link>
+                        <div className="flex w-full justify-between pr-1 group mb-1">
                             <h2 className="font-bold text-font-14">
                                 SHARED BRAINS
                             </h2>
@@ -68,7 +76,7 @@ const MainPageSidebar = async () => {
                         </div>
                         <ShareBrainList brainList={brainList} workspaceFirst={workspaceList[0]} />
                         <PrivateVisible>
-                            <div className="flex w-full border-t border-b10 mt-5 pt-5 pr-1 justify-between group mb-4">
+                            <div className="flex w-full border-t border-b10 mt-5 pt-5 pr-1 justify-between group mb-1">
                                 <h2 className="font-bold text-font-14">
                                     PRIVATE BRAINS
                                 </h2>

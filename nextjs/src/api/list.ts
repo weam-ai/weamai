@@ -205,6 +205,10 @@ const apiList = {
         url: () => `${ADMIN}/credit-control/add-credit`,
         method: 'POST'
     },
+    updateMcpData: {
+        url: () => `common/update-mcp-data`,
+        method: 'PUT'
+    },
     commonUrl: (prefix: string, module: string) => ({
         list: {
             url: () => `${prefix}/${module}/list`,

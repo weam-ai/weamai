@@ -144,6 +144,7 @@ export const MODULE_ACTIONS = {
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
     GET_WEEKLY_USAGE: 'getWeeklyUsage',
     ADD_CREDIT: 'addCredit',    
+    UPDATE_MCP_DATA: 'updateMcpData'
 } as const;
 
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm A';
@@ -1375,3 +1376,6 @@ export const WEEKLY_REPORT_CAN_ACCESS = [
 ]
 
 export const WEB_RESOURCES_DATA = 'web_resources_data';
+
+// MCP Tool States Cookie Persistence
+export const MCP_TOOLS_COOKIE_NAME = 'mcp_tool_cookie';

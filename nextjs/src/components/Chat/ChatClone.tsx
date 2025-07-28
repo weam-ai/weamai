@@ -83,6 +83,8 @@ import routes from '@/utils/routes';
 import useChatMember from '@/hooks/chat/useChatMember';
 import { useThunderBoltPopup } from '@/hooks/conversation/useThunderBoltPopup';
 import ChatInputFileLoader from '@/components/Loader/ChatInputFileLoader';
+import useMCP from '@/hooks/mcp/useMCP';
+import ToolsConnected from './ToolsConnected';
 const defaultContext = {
     type: null,
     prompt_id: undefined,
@@ -108,6 +110,9 @@ const ChatPage = memo(() => {
     const [handlePrompts, setHandlePrompts] = useState([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [queryId, setQueryId] = useState<string>(''); //enhance prompt id
+
+    // Use MCP hook to get toolStates from Redux
+    const { toolStates, setToolStates } = useMCP();
     
     // For the tab GPT prompts
     const { getTabPromptList, promptList: prompts, loading: promptLoader, setLoading: setPromptLoader, paginator: promptPaginator, setPromptList } = usePrompt();
@@ -388,7 +393,8 @@ const ChatPage = memo(() => {
                 custom_gpt_id: cloneContext.custom_gpt_id,
                 prompt_id: null,
                 provider: selectedAIModal?.provider,
-                code: selectedAIModal?.bot?.code
+                code: selectedAIModal?.bot?.code,
+                mcp_tools: toolStates
             }, socket);
         } else if (API_TYPE == API_TYPE_OPTIONS.OPEN_AI_WITH_DOC) {
             await getAIDocResponse({
@@ -937,6 +943,10 @@ const ChatPage = memo(() => {
         }, 500);
     }, [socket]);
 
+    const handleToolStatesChange = (newToolStates: Record<string, string[]>) => {
+        setToolStates(newToolStates); // Now using Redux action
+    };
+
     // Start Socket Connection and disconnection configuration
     useEffect(() => {
         if (socket) {
@@ -1405,6 +1415,11 @@ const ChatPage = memo(() => {
                                             promptId={selectedContext.prompt_id}
                                             queryId={queryId}
                                             brainId={getDecodedObjectId()}
+                                        />
+                                        <ToolsConnected 
+                                            isWebSearchActive={isWebSearchActive} 
+                                            toolStates={toolStates}
+                                            onToolStatesChange={handleToolStatesChange}
                                         />
 
                                         {/* Voice Chat START */}

@@ -1,4 +1,5 @@
 import { AiModalType } from '@/types/aimodels';
+import { MCP_TOOLS_COOKIE_NAME } from './constant';
 
 const CryptoJS = require('crypto-js');
 const { AUTH, ENCRYPTION_KEY } = require('@/config/config');
@@ -397,4 +398,26 @@ export const formatAgentRequestCopyData = (data: Record<string, unknown>, string
 export const getDisplayModelName = (modelName: string) => {
     const modelInfo = MODEL_CREDIT_INFO.find(item => item.model === modelName);
     return modelInfo?.displayName || modelName;
+}
+
+export const persistMCPToolStates = (toolStates: Record<string, string[]>) => {
+    encryptedPersist(toolStates, MCP_TOOLS_COOKIE_NAME);
+};
+
+export const retrieveMCPToolStates = (): Record<string, string[]> | null => {
+    return decryptedPersist(MCP_TOOLS_COOKIE_NAME);
+};
+
+export function formatToCodeFormat(name: string) {
+    if (!name || typeof name !== 'string') return '';
+
+    return name
+        .trim()
+        .toUpperCase()
+        .replace(/[\s\-]+/g, '_');
+}
+
+export function toIsoDate(timestamp: number) {
+    if (typeof timestamp !== 'number') return null;
+    return new Date(timestamp).toISOString();
 }

@@ -50,6 +50,9 @@ import useConversation from '@/hooks/conversation/useConversation';
 import { useThunderBoltPopup } from '@/hooks/conversation/useThunderBoltPopup';
 import ChatInputFileLoader from '@/components/Loader/ChatInputFileLoader';
 import { setSelectedBrain } from '@/lib/slices/brain/brainlist';
+import useMCP from '@/hooks/mcp/useMCP';
+import ToolsConnected from './ToolsConnected';
+
 
 const defaultContext = {
     type: null,
@@ -131,6 +134,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
     const [handlePrompts, setHandlePrompts] = useState([]);
     const [queryId, setQueryId] = useState<string>(''); //enhance prompt id
     const [isNavigating, setIsNavigating] = useState(false);
+    const { toolStates, setToolStates } = useMCP();
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const dispatch = useDispatch();
@@ -211,6 +215,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
             model: selectedAiModal.bot,
             cloneMedia: uploadedFile || [],
             proAgentData: serializableProAgentData,
+            mcp_tools: toolStates // Now using Redux state
         };
 
         // Batch the dispatches to avoid multiple renders
@@ -422,12 +427,17 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
     
     }, [searchParams, brains, dispatch]); 
 
+    const handleToolStatesChange = (newToolStates: Record<string, string[]>) => {
+        setToolStates(newToolStates);
+        // The persistence is automatically handled in the Redux slice
+    };
+
     return (
         <>
         <div className="w-full h-full flex items-center justify-center">
             <div className={`w-full mx-auto px-5 md:max-w-[32rem] lg:max-w-[40rem] xl:max-w-[48.75rem] ${isNavigating ? 'opacity-50' : ''}`}>
                 <h2 className='text-center mb-4 font-bold text-font-20'>How Weam can help you today?</h2>
-                <div className="flex flex-col text-font-16 mx-auto group overflow-hidden rounded-[12px] [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] w-full flex-grow relative border border-b11">
+                <div className="bg-white flex flex-col text-font-16 mx-auto group overflow-hidden rounded-[18px] [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] w-full flex-grow relative border border-b11">
                     <UploadFileInput
                         removeFile={removeSelectedFile}
                         fileData={uploadedFile}
@@ -442,7 +452,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                         onPaste={handlePasteFiles}
                         ref={textareaRef}
                     />
-                    <div className="flex items-center z-10 px-4 pb-[6px]">
+                    <div className="flex items-center z-10 px-4 pb-[6px] mt-2">
                         <ThunderBoltDialog
                             isWebSearchActive={isWebSearchActive}
                             dialogOpen={dialogOpen}
@@ -483,6 +493,11 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                             promptId={selectedContext.prompt_id}
                             queryId={queryId}
                             brainId={getDecodedObjectId()}
+                        />
+                        <ToolsConnected 
+                            isWebSearchActive={isWebSearchActive} 
+                            toolStates={toolStates}
+                            onToolStatesChange={handleToolStatesChange}
                         />
                         <VoiceChat setText={setMessage} text={message} />
                         <TextAreaFileInput

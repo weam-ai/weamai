@@ -326,7 +326,8 @@ const useConversation = () => {
                         provider: payload.provider,
                         // isregenerated: payload.isregenerated,
                         msgCredit: payload.msgCredit,
-                        // is_paid_user: payload.is_paid_user
+                        // is_paid_user: payload.is_paid_user,
+                        mcp_tools: payload.mcp_tools
                     }),
                     headers: {
                         'Content-Type': 'application/json',

@@ -27,7 +27,7 @@ const cookieParser = require('cookie-parser');
 // const { createTopic } = require('./src/kafka/admin');
 // const { KAFKA_TOPIC } = require('./src/config/constants/common');
 const app = express();
-const { assignCsrfToken, csrfMiddleware, checkAssignTokenAuth } = require('./src/middleware/csrf');
+const { assignCsrfToken, checkAssignTokenAuth } = require('./src/middleware/csrf');
 
 global.logger = require('./src/utils/logger');
 global.util = require('./src/utils/messages');

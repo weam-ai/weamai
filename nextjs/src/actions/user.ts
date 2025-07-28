@@ -1,6 +1,7 @@
 'use server';
 import { MODULE_ACTIONS, MODULES, REVALIDATE_TAG_NAME } from '@/utils/constant';
 import { revalidateTagging, serverApi } from './serverApi';
+import { getSessionUser } from '@/utils/handleAuth';
 
 export const getUserByIdAction = async (userId: string) => {
     const response = await serverApi({
@@ -43,3 +44,13 @@ export const toggleBrainAction = async (
     }
     return response;
 };
+
+export const updateMcpDataAction = async (payload) => { 
+    const session = await getSessionUser();
+    const response = await serverApi({
+        action: MODULE_ACTIONS.UPDATE_MCP_DATA,
+        data: payload,
+    });
+    revalidateTagging(response, `${REVALIDATE_TAG_NAME.USER}-${session._id}`);
+    return response;
+} 
