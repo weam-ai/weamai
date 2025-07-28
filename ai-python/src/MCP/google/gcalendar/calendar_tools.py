@@ -12,9 +12,11 @@ from typing import List, Optional, Dict, Any
 
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
-from core.utils import handle_http_errors
 
-from core.server import server
+from google.service_decorator import acquire_google_service
+from google.utils import handle_http_errors
+
+from server import mcp
 
 
 # Configure module logger
@@ -76,9 +78,9 @@ def _correct_time_format_for_api(
     return time_str
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("list_calendars", is_read_only=True)
-async def list_calendars(service, user_google_email: str) -> str:
+async def list_calendars(mcp_data: str) -> str:
     """
     Retrieves a list of calendars accessible to the authenticated user.
 
@@ -88,32 +90,36 @@ async def list_calendars(service, user_google_email: str) -> str:
     Returns:
         str: A formatted list of the user's calendars (summary, ID, primary status).
     """
-    logger.info(f"[list_calendars] Invoked. Email: '{user_google_email}'")
-
+    logger.info(f"[list_calendars] Invoked.")
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="calendar",
+        scopes="calendar_read",
+        tool_name="list_calendars" # Pass the function's name
+    )
     calendar_list_response = await asyncio.to_thread(
         lambda: service.calendarList().list().execute()
     )
     items = calendar_list_response.get("items", [])
     if not items:
-        return f"No calendars found for {user_google_email}."
+        return f"No calendars found."
 
     calendars_summary_list = [
         f"- \"{cal.get('summary', 'No Summary')}\"{' (Primary)' if cal.get('primary') else ''} (ID: {cal['id']})"
         for cal in items
     ]
     text_output = (
-        f"Successfully listed {len(items)} calendars for {user_google_email}:\n"
+        f"Successfully listed {len(items)} calendars:\n"
         + "\n".join(calendars_summary_list)
     )
-    logger.info(f"Successfully listed {len(items)} calendars for {user_google_email}.")
+    logger.info(f"Successfully listed {len(items)} calendars.")
     return text_output
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("get_events", is_read_only=True)
 async def get_events(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     calendar_id: str = "primary",
     time_min: Optional[str] = None,
     time_max: Optional[str] = None,
@@ -135,7 +141,12 @@ async def get_events(
     logger.info(
         f"[get_events] Raw time parameters - time_min: '{time_min}', time_max: '{time_max}'"
     )
-
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="calendar",
+        scopes="calendar_read",
+        tool_name="get_events" # Pass the function's name
+    )
     # Ensure time_min and time_max are correctly formatted for the API
     formatted_time_min = _correct_time_format_for_api(time_min, "time_min")
     effective_time_min = formatted_time_min or (
@@ -174,7 +185,7 @@ async def get_events(
     )
     items = events_result.get("items", [])
     if not items:
-        return f"No events found in calendar '{calendar_id}' for {user_google_email} for the specified time range."
+        return f"No events found in calendar '{calendar_id}' for the specified time range."
 
     event_details_list = []
     for item in items:
@@ -189,18 +200,17 @@ async def get_events(
         )
 
     text_output = (
-        f"Successfully retrieved {len(items)} events from calendar '{calendar_id}' for {user_google_email}:\n"
+        f"Successfully retrieved {len(items)} events from calendar '{calendar_id}':\n"
         + "\n".join(event_details_list)
     )
-    logger.info(f"Successfully retrieved {len(items)} events for {user_google_email}.")
+    logger.info(f"Successfully retrieved {len(items)} events.")
     return text_output
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("create_event")
 async def create_event(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     summary: str,
     start_time: str,
     end_time: str,
@@ -230,7 +240,13 @@ async def create_event(
         str: Confirmation message of the successful event creation with event link.
     """
     logger.info(
-        f"[create_event] Invoked. Email: '{user_google_email}', Summary: {summary}"
+        f"[create_event] Invoked. Summary: {summary}"
+    )
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="calendar",
+        scopes="calendar_events",
+        tool_name="create_event" # Pass the function's name
     )
     logger.info(f"[create_event] Incoming attachments param: {attachments}")
     # If attachments value is a string, split by comma and strip whitespace
@@ -312,18 +328,17 @@ async def create_event(
             lambda: service.events().insert(calendarId=calendar_id, body=event_body).execute()
         )
     link = created_event.get("htmlLink", "No link available")
-    confirmation_message = f"Successfully created event '{created_event.get('summary', summary)}' for {user_google_email}. Link: {link}"
+    confirmation_message = f"Successfully created event '{created_event.get('summary', summary)}'. Link: {link}"
     logger.info(
-            f"Event created successfully for {user_google_email}. ID: {created_event.get('id')}, Link: {link}"
+            f"Event created successfully. ID: {created_event.get('id')}, Link: {link}"
         )
     return confirmation_message
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("modify_event")
 async def modify_event(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     event_id: str,
     calendar_id: str = "primary",
     summary: Optional[str] = None,
@@ -353,9 +368,14 @@ async def modify_event(
         str: Confirmation message of the successful event modification with event link.
     """
     logger.info(
-        f"[modify_event] Invoked. Email: '{user_google_email}', Event ID: {event_id}"
+        f"[modify_event] Invoked. Event ID: {event_id}"
     )
-
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="calendar",
+        scopes="calendar_events",
+        tool_name="modify_event" # Pass the function's name
+    )
     # Build the event body with only the fields that are provided
     event_body: Dict[str, Any] = {}
     if summary is not None:
@@ -431,16 +451,16 @@ async def modify_event(
     )
 
     link = updated_event.get("htmlLink", "No link available")
-    confirmation_message = f"Successfully modified event '{updated_event.get('summary', summary)}' (ID: {event_id}) for {user_google_email}. Link: {link}"
+    confirmation_message = f"Successfully modified event '{updated_event.get('summary', summary)}' (ID: {event_id}). Link: {link}"
     logger.info(
-        f"Event modified successfully for {user_google_email}. ID: {updated_event.get('id')}, Link: {link}"
+        f"Event modified successfully. ID: {updated_event.get('id')}, Link: {link}"
     )
     return confirmation_message
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("delete_event")
-async def delete_event(service, user_google_email: str, event_id: str, calendar_id: str = "primary") -> str:
+async def delete_event(mcp_data: str, event_id: str, calendar_id: str = "primary") -> str:
     """
     Deletes an existing event.
 
@@ -453,14 +473,19 @@ async def delete_event(service, user_google_email: str, event_id: str, calendar_
         str: Confirmation message of the successful event deletion.
     """
     logger.info(
-        f"[delete_event] Invoked. Email: '{user_google_email}', Event ID: {event_id}"
+        f"[delete_event] Invoked. Event ID: {event_id}"
     )
 
     # Log the event ID for debugging
     logger.info(
         f"[delete_event] Attempting to delete event with ID: '{event_id}' in calendar '{calendar_id}'"
     )
-
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="calendar",
+        scopes="calendar_events",
+        tool_name="delete_event" # Pass the function's name
+    )
     # Try to get the event first to verify it exists
     try:
         await asyncio.to_thread(
@@ -486,16 +511,15 @@ async def delete_event(service, user_google_email: str, event_id: str, calendar_
         lambda: service.events().delete(calendarId=calendar_id, eventId=event_id).execute()
     )
 
-    confirmation_message = f"Successfully deleted event (ID: {event_id}) from calendar '{calendar_id}' for {user_google_email}."
-    logger.info(f"Event deleted successfully for {user_google_email}. ID: {event_id}")
+    confirmation_message = f"Successfully deleted event (ID: {event_id}) from calendar '{calendar_id}'."
+    logger.info(f"Event deleted successfully. ID: {event_id}")
     return confirmation_message
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("get_event", is_read_only=True)
 async def get_event(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     event_id: str,
     calendar_id: str = "primary"
 ) -> str:
@@ -510,7 +534,13 @@ async def get_event(
     Returns:
         str: A formatted string with the event's details.
     """
-    logger.info(f"[get_event] Invoked. Email: '{user_google_email}', Event ID: {event_id}")
+    logger.info(f"[get_event] Invoked. Event ID: {event_id}")
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="calendar",
+        scopes="calendar_read",
+        tool_name="get_event" # Pass the function's name
+    )
     event = await asyncio.to_thread(
         lambda: service.events().get(calendarId=calendar_id, eventId=event_id).execute()
     )
@@ -533,5 +563,5 @@ async def get_event(
         f'- Event ID: {event_id}\n'
         f'- Link: {link}'
     )
-    logger.info(f"[get_event] Successfully retrieved event {event_id} for {user_google_email}.")
+    logger.info(f"[get_event] Successfully retrieved event {event_id}.")
     return event_details

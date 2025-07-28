@@ -12,9 +12,9 @@ from googleapiclient.http import MediaIoBaseDownload, MediaIoBaseUpload
 import io
 import httpx
 
-from auth.service_decorator import require_google_service
-from core.utils import extract_office_xml_text, handle_http_errors
-from core.server import server
+from google.service_decorator import acquire_google_service
+from google.utils import extract_office_xml_text, handle_http_errors
+from server import mcp
 
 logger = logging.getLogger(__name__)
 
@@ -73,12 +73,10 @@ def _build_drive_list_params(
 
     return list_params
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("search_drive_files", is_read_only=True)
-@require_google_service("drive", "drive_read")
 async def search_drive_files(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     query: str,
     page_size: int = 10,
     drive_id: Optional[str] = None,
@@ -101,8 +99,13 @@ async def search_drive_files(
     Returns:
         str: A formatted list of found files/folders with their details (ID, name, type, size, modified time, link).
     """
-    logger.info(f"[search_drive_files] Invoked. Email: '{user_google_email}', Query: '{query}'")
-
+    logger.info(f"[search_drive_files] Invoked. Query: '{query}'")
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="drive",
+        scopes="drive_read",
+        tool_name="search_drive_files" # Pass the function's name
+    )
     # Check if the query looks like a structured Drive query or free text
     # Look for Drive API operators and structured query patterns
     is_structured_query = any(pattern.search(query) for pattern in DRIVE_QUERY_PATTERNS)
@@ -131,7 +134,7 @@ async def search_drive_files(
     if not files:
         return f"No files found for '{query}'."
 
-    formatted_files_text_parts = [f"Found {len(files)} files for {user_google_email} matching '{query}':"]
+    formatted_files_text_parts = [f"Found {len(files)} files matching '{query}':"]
     for item in files:
         size_str = f", Size: {item.get('size', 'N/A')}" if 'size' in item else ""
         formatted_files_text_parts.append(
@@ -140,12 +143,10 @@ async def search_drive_files(
     text_output = "\n".join(formatted_files_text_parts)
     return text_output
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("get_drive_file_content", is_read_only=True)
-@require_google_service("drive", "drive_read")
 async def get_drive_file_content(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     file_id: str,
 ) -> str:
     """
@@ -164,7 +165,12 @@ async def get_drive_file_content(
         str: The file content as plain text with metadata header.
     """
     logger.info(f"[get_drive_file_content] Invoked. File ID: '{file_id}'")
-
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="drive",
+        scopes="drive_read",
+        tool_name="get_drive_file_content" # Pass the function's name
+    )
     file_metadata = await asyncio.to_thread(
         service.files().get(
             fileId=file_id, fields="id, name, mimeType, webViewLink", supportsAllDrives=True
@@ -230,12 +236,10 @@ async def get_drive_file_content(
     return header + body_text
 
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("list_drive_items", is_read_only=True)
-@require_google_service("drive", "drive_read")
 async def list_drive_items(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     folder_id: str = 'root',
     page_size: int = 100,
     drive_id: Optional[str] = None,
@@ -258,8 +262,13 @@ async def list_drive_items(
     Returns:
         str: A formatted list of files/folders in the specified folder.
     """
-    logger.info(f"[list_drive_items] Invoked. Email: '{user_google_email}', Folder ID: '{folder_id}'")
-
+    logger.info(f"[list_drive_items] Invoked. Folder ID: '{folder_id}'")
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="drive",
+        scopes="drive_read",
+        tool_name="list_drive_items" # Pass the function's name
+    )
     final_query = f"'{folder_id}' in parents and trashed=false"
 
     list_params = _build_drive_list_params(
@@ -277,7 +286,7 @@ async def list_drive_items(
     if not files:
         return f"No items found in folder '{folder_id}'."
 
-    formatted_items_text_parts = [f"Found {len(files)} items in folder '{folder_id}' for {user_google_email}:"]
+    formatted_items_text_parts = [f"Found {len(files)} items in folder '{folder_id}':"]
     for item in files:
         size_str = f", Size: {item.get('size', 'N/A')}" if 'size' in item else ""
         formatted_items_text_parts.append(
@@ -286,12 +295,10 @@ async def list_drive_items(
     text_output = "\n".join(formatted_items_text_parts)
     return text_output
 
-@server.tool()
+@mcp.tool()
 @handle_http_errors("create_drive_file")
-@require_google_service("drive", "drive_file")
 async def create_drive_file(
-    service,
-    user_google_email: str,
+    mcp_data: str,
     file_name: str,
     content: Optional[str] = None,  # Now explicitly Optional
     folder_id: str = 'root',
@@ -313,11 +320,16 @@ async def create_drive_file(
     Returns:
         str: Confirmation message of the successful file creation with file link.
     """
-    logger.info(f"[create_drive_file] Invoked. Email: '{user_google_email}', File Name: {file_name}, Folder ID: {folder_id}, fileUrl: {fileUrl}")
+    logger.info(f"[create_drive_file] Invoked. File Name: {file_name}, Folder ID: {folder_id}, fileUrl: {fileUrl}")
 
     if not content and not fileUrl:
         raise Exception("You must provide either 'content' or 'fileUrl'.")
-
+    service, actual_user_email = await acquire_google_service(
+        mcp_data=mcp_data,
+        service_type="drive",
+        scopes="drive_file",
+        tool_name="create_drive_file" # Pass the function's name
+    )
     file_data = None
     # Prefer fileUrl if both are provided
     if fileUrl:
@@ -352,6 +364,6 @@ async def create_drive_file(
     )
 
     link = created_file.get('webViewLink', 'No link available')
-    confirmation_message = f"Successfully created file '{created_file.get('name', file_name)}' (ID: {created_file.get('id', 'N/A')}) in folder '{folder_id}' for {user_google_email}. Link: {link}"
+    confirmation_message = f"Successfully created file '{created_file.get('name', file_name)}' (ID: {created_file.get('id', 'N/A')}) in folder '{folder_id}'. Link: {link}"
     logger.info(f"Successfully created file. Link: {link}")
     return confirmation_message

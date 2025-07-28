@@ -35,6 +35,7 @@ class ToolChatBase(BaseModel):
     provider:str=Field(None,description="Provider to decide which llm to use for response")
     msgCredit:Optional[float]=Field(0,description="Message Credit")
     is_paid_user:bool=Field(True,description='Plan Type Flag')
+    mcp_tools:Optional[dict] = Field(None, description="MCP Tools Data")
     class Config:
         extra = 'allow'
         arbitrary_types_allowed = True

@@ -16,18 +16,21 @@ from src.MCP.tools.slack.slack_tools import (
     # Thread management functions
     reply_to_thread, get_thread_replies, start_thread_with_message,
     reply_to_thread_with_broadcast, get_thread_info, find_threads_in_channel,get_channel_id_by_name
-)   
+)
+from src.MCP.tools.github.github_tools import (
+    get_git_commits, get_user_info, get_github_repositories, get_github_repository_info, 
+    get_repository_branches, get_repository_issues, create_github_branch, create_pull_request, 
+    get_pull_request_details, get_pull_requests, get_tags_or_branches, global_search
+)
 from fastapi import Request
-from importlib import metadata
 from fastapi.responses import JSONResponse
-from datetime import datetime
+from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+key = os.getenv("SECURITY_KEY").encode("utf-8")
+decryptor = MessageDecryptor(key)
 # Load environment variables
 load_dotenv()
 
 mcp_port = os.getenv("MCP_SERVER_PORT", 8000)
-
-# Initialize FastAPI app for health checks
-
 
 # Initialize FastMCP server
 mcp = FastMCP(
@@ -36,26 +39,9 @@ mcp = FastMCP(
     port=mcp_port,  # Port number for the server
 )
 
-@mcp.custom_route("/health", methods=["GET"])
+@mcp.custom_route("/ping", methods=["GET"])
 async def health_check(request: Request):
-    """Health check endpoint for container orchestration."""
-    try:
-        version = metadata.version("workspace-mcp")
-    except metadata.PackageNotFoundError:
-        version = "dev"
-    except Exception as e:
-        version = f"error: {str(e)}"
-
-    return JSONResponse(
-        status_code=200,
-        content={
-            "status": "healthy",
-            "service": "workspace-mcp",
-            "version": version,
-            "transport": "sse",
-            "timestamp": datetime.utcnow().isoformat(),
-        }
-    )
+    return JSONResponse({"message": "mcp server is running"})
 
 @mcp.tool()
 async def slack_list_channels(limit: int = 100,mcp_data:str=None) -> str:
@@ -66,7 +52,7 @@ async def slack_list_channels(limit: int = 100,mcp_data:str=None) -> str:
     """
     user_data = await get_user_by_id(mcp_data)
 
-    return await list_slack_channels(user_data['mcpdata']['slack']['token'], limit)
+    return await list_slack_channels(user_data['mcpdata']['SLACK']['access_token'], limit)
 
 
 @mcp.tool()
@@ -78,7 +64,7 @@ async def slack_send_message(channel_id: str, text: str,mcp_data:str=None) -> st
         text: The message text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await send_slack_message(user_data['mcpdata']['slack']['token'], channel_id, text)
+    return await send_slack_message(user_data['mcpdata']['SLACK']['access_token'], channel_id, text)
 
 @mcp.tool()
 async def get_channel_id(channel_name: str=None,mcp_data:str=None):
@@ -89,7 +75,7 @@ async def get_channel_id(channel_name: str=None,mcp_data:str=None):
         limit: Maximum number of messages to return (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_id_by_name(user_data['mcpdata']['slack']['token'], channel_name)
+    return await get_channel_id_by_name(user_data['mcpdata']['SLACK']['access_token'], channel_name)
 
 @mcp.tool()
 async def slack_get_messages(channel_id: str, limit: int = 50,mcp_data:str=None) -> str:
@@ -100,7 +86,7 @@ async def slack_get_messages(channel_id: str, limit: int = 50,mcp_data:str=None)
         limit: Maximum number of messages to return (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_messages(user_data['mcpdata']['slack']['token'], channel_id, limit)
+    return await get_channel_messages(user_data['mcpdata']['SLACK']['access_token'], channel_id, limit)
 
 
 @mcp.tool()
@@ -112,7 +98,7 @@ async def slack_list_users(limit: int = 200, include_locale: bool = False,mcp_da
         include_locale: Whether to include user locale information
     """
     user_data = await get_user_by_id(mcp_data)    
-    return await list_workspace_users(user_data['mcpdata']['slack']['token'], limit, include_locale)
+    return await list_workspace_users(user_data['mcpdata']['SLACK']['access_token'], limit, include_locale)
 
 
 @mcp.tool()
@@ -123,7 +109,7 @@ async def slack_get_user_info(user_id: str,mcp_data:str=None) -> str:
         user_id: The ID of the user to get information about
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_user_info(user_data['mcpdata']['slack']['token'], user_id)
+    return await get_user_info(user_data['mcpdata']['SLACK']['access_token'], user_id)
 
 
 @mcp.tool()
@@ -134,7 +120,7 @@ async def slack_get_user_profile(user_id: str,mcp_data:str=None) -> str:
         user_id: The ID of the user to get profile for
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_user_profile(user_data['mcpdata']['slack']['token'], user_id)
+    return await get_user_profile(user_data['mcpdata']['SLACK']['access_token'], user_id)
 
 
 @mcp.tool()
@@ -146,7 +132,7 @@ async def slack_get_channel_members(channel_id: str, limit: int = 200,mcp_data:s
         limit: Maximum number of members to return per page
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_members(user_data['mcpdata']['slack']['token'], channel_id, limit)
+    return await get_channel_members(user_data['mcpdata']['SLACK']['access_token'], channel_id, limit)
 
 
 @mcp.tool()
@@ -157,7 +143,7 @@ async def slack_open_dm(user_ids: list[str],mcp_data:str=None) -> str:
         user_ids: List of user IDs (1 for DM, multiple for MPIM)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await open_direct_message(user_data['mcpdata']['slack']['token'], user_ids)
+    return await open_direct_message(user_data['mcpdata']['SLACK']['access_token'], user_ids)
 
 
 @mcp.tool()
@@ -169,7 +155,7 @@ async def slack_send_dm(user_id: str, text: str,mcp_data:str=None) -> str:
         text: The message text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await send_direct_message(user_data['mcpdata']['slack']['token'], user_id, text)
+    return await send_direct_message(user_data['mcpdata']['SLACK']['access_token'], user_id, text)
 
 
 @mcp.tool()
@@ -182,7 +168,7 @@ async def slack_send_ephemeral_message(channel_id: str, user_id: str, text: str,
         text: The message text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await send_ephemeral_message(user_data['mcpdata']['slack']['token'], channel_id, user_id, text)
+    return await send_ephemeral_message(user_data['mcpdata']['SLACK']['access_token'], channel_id, user_id, text)
 
 
 # =============================================================================
@@ -209,7 +195,7 @@ async def slack_create_channel(
     """
     user_data = await get_user_by_id(mcp_data)
     return await create_slack_channel(
-        user_data['mcpdata']['slack']['token'], 
+        user_data['mcpdata']['SLACK']['access_token'], 
         channel_name, 
         is_private, 
         topic, 
@@ -227,7 +213,7 @@ async def slack_set_channel_topic(channel_id: str, topic: str,mcp_data:str=None)
         topic: New topic for the channel
     """
     user_data = await get_user_by_id(mcp_data)
-    return await set_channel_topic(user_data['mcpdata']['slack']['token'], channel_id, topic)
+    return await set_channel_topic(user_data['mcpdata']['SLACK']['access_token'], channel_id, topic)
 
 
 @mcp.tool()
@@ -239,7 +225,7 @@ async def slack_set_channel_purpose(channel_id: str, purpose: str,mcp_data:str=N
         purpose: New purpose for the channel
     """
     user_data = await get_user_by_id(mcp_data)
-    return await set_channel_purpose(mcp['slack']['token'], channel_id, purpose)
+    return await set_channel_purpose(mcp['SLACK']['access_token'], channel_id, purpose)
 
 
 @mcp.tool()
@@ -250,7 +236,7 @@ async def slack_archive_channel(channel_id: str,mcp_data:str=None) -> str:
         channel_id: The ID of the channel to archive
     """
     user_data = await get_user_by_id(mcp_data)
-    return await archive_channel(user_data['mcpdata']['slack']['token'], channel_id)
+    return await archive_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id)
 
 
 @mcp.tool()
@@ -262,7 +248,7 @@ async def slack_invite_users_to_channel(channel_id: str, user_ids: list[str],mcp
         user_ids: List of user IDs to invite
     """
     user_data = await get_user_by_id(mcp_data)
-    return await invite_users_to_channel(user_data['mcpdata']['slack']['token'], channel_id, user_ids)
+    return await invite_users_to_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id, user_ids)
 
 
 @mcp.tool()
@@ -274,7 +260,7 @@ async def slack_kick_user_from_channel(channel_id: str, user_id: str,mcp_data:st
         user_id: The ID of the user to remove
     """
     user_data = await get_user_by_id(mcp_data)
-    return await kick_user_from_channel(user_data['mcpdata']['slack']['token'], channel_id, user_id)
+    return await kick_user_from_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id, user_id)
 
 
 
@@ -293,7 +279,7 @@ async def slack_reply_to_thread(channel_id: str, thread_ts: str, text: str,mcp_d
         text: The reply text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await reply_to_thread(user_data['mcpdata']['slack']['token'], channel_id, thread_ts, text)
+    return await reply_to_thread(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts, text)
 
 
 @mcp.tool()
@@ -306,7 +292,7 @@ async def slack_get_thread_replies(channel_id: str, thread_ts: str, limit: int =
         limit: Maximum number of replies to return (default 100, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_thread_replies(user_data['mcpdata']['slack']['token'], channel_id, thread_ts, limit)
+    return await get_thread_replies(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts, limit)
 
 
 @mcp.tool()
@@ -319,7 +305,7 @@ async def slack_start_thread(channel_id: str, text: str, broadcast: bool = False
         broadcast: Whether to broadcast the thread reply to the channel (default: False)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await start_thread_with_message(user_data['mcpdata']['slack']['token'], channel_id, text, broadcast)
+    return await start_thread_with_message(user_data['mcpdata']['SLACK']['access_token'], channel_id, text, broadcast)
 
 
 @mcp.tool()
@@ -332,7 +318,7 @@ async def slack_reply_to_thread_with_broadcast(channel_id: str, thread_ts: str, 
         text: The reply text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await reply_to_thread_with_broadcast(user_data['mcpdata']['slack']['token'], channel_id, thread_ts, text)
+    return await reply_to_thread_with_broadcast(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts, text)
 
 
 @mcp.tool()
@@ -344,7 +330,7 @@ async def slack_get_thread_info(channel_id: str, thread_ts: str,mcp_data:str=Non
         thread_ts: The timestamp of the parent message (thread identifier)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_thread_info(user_data['mcpdata']['slack']['token'], channel_id, thread_ts)
+    return await get_thread_info(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts)
 
 
 @mcp.tool()
@@ -356,9 +342,259 @@ async def slack_find_threads_in_channel(channel_id: str, limit: int = 50,mcp_dat
         limit: Maximum number of messages to check (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await find_threads_in_channel(user_data['mcpdata']['slack']['token'], channel_id, limit)
+    return await find_threads_in_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id, limit)
+
+# =============================================================================
+# GITHUB TOOLS
+# =============================================================================
+
+@mcp.tool()
+async def github_get_commits(owner: str, repo: str, branch: str, hours_back: int = 24,mcp_data:str=None) -> str:
+    """Get the latest git commits from a repository from an organization of particular branch.
+
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        branch: Branch name to get commits from
+        hours_back: Number of hours back to look for commits (default 24)
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_git_commits(decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), owner, repo, branch, hours_back)
+
+@mcp.tool()
+async def github_get_user_info(mcp_data:str=None) -> str:
+    """Get user information from GitHub.
+
+    Args:
+        
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_user_info(decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']))
 
 
-if __name__ == "__main__":
-    # Initialize and run the server
-    mcp.run(transport='sse')
+@mcp.tool()
+async def github_get_repositories(owner: str, sort: str,mcp_data:str=None) -> str:
+    """Get the latest git commits from a repository from an organization of particular branch.
+
+    Args:
+        owner: Repository owner (user or organization)
+        branch: Branch name to get commits from
+        hours_back: Number of hours back to look for commits (default 24)
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_github_repositories(owner, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), sort)
+
+
+
+@mcp.tool()
+async def github_get_repository_info(owner: str, repo: str,mcp_data:str=None) -> str:
+    """Get detailed information about a specific GitHub repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        
+    Returns:
+        Formatted string containing repository information
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await get_github_repository_info(repo_path, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']))
+
+
+
+@mcp.tool()
+async def github_create_branch(owner: str, repo: str, new_branch: str, base_branch: str = "main",mcp_data:str=None) -> str:
+    """Create a new branch in a specified GitHub repository based on an existing branch.
+
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        new_branch: The name of the new branch to create
+        base_branch: The base branch from which to create the new branch (default is 'main')
+
+    Returns:
+        Status message indicating success or failure
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await create_github_branch(repo_path, new_branch, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), base_branch)
+
+
+
+@mcp.tool()
+async def github_get_repository_branches(owner: str, repo: str, page: int = 1, per_page: int = 30,mcp_data:str=None) -> str:
+    """Get all branches for a specific repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        page: Page number for pagination
+        per_page: Number of branches per page (max 100)
+        
+    Returns:
+        Formatted string containing branch information
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await get_repository_branches(repo_path, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), page, per_page)
+
+
+@mcp.tool()
+async def github_get_repository_issues(owner: str, repo: str, state: str = "open", page: int = 1, per_page: int = 30,mcp_data:str=None) -> str:
+    """Get issues for a specific repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        state: Issue state (open, closed, all)
+        page: Page number for pagination
+        per_page: Number of issues per page (max 100)
+        
+    Returns:
+        Formatted string containing issue information
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await get_repository_issues(repo_path, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), state, page, per_page)
+
+
+
+@mcp.tool()
+async def github_create_pull_request(
+    owner: str,
+    repo: str,
+    target_branch: str,
+    base_branch: str = "main",
+    title: str = "Update branch",
+    body: str = "Merging changes from base branch.",
+    mcp_data:str=None
+) -> str:
+    """Creates a pull request in a specified GitHub repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        target_branch: The name of the branch to update (head branch)
+        base_branch: The base branch from which to merge changes (default is 'main')
+        title: The title of the pull request
+        body: The body of the pull request
+        
+    Returns:
+        Formatted string containing pull request information or error message
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await create_pull_request(repo_path, target_branch, base_branch, title, body, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']))
+
+
+@mcp.tool()
+async def github_get_pull_request_details(owner: str, repo: str, pull_number: int,mcp_data:str=None) -> str:
+    """Fetch detailed information about a specific pull request from a GitHub repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        pull_number: The number of the pull request to retrieve details for
+        
+    Returns:
+        Formatted string containing pull request details or error message
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await get_pull_request_details(repo_path, pull_number, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']))
+
+
+@mcp.tool()
+async def github_get_pull_requests(
+    owner: str,
+    repo: str,
+    state: str = "open",
+    sort: str = None,
+    direction: str = None,
+    page: int = 1,
+    per_page: int = 30,
+    mcp_data:str=None
+) -> str:
+    """Fetch pull requests from a specified GitHub repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        state: State of the pull requests (open, closed, all)
+        sort: Sorting criteria (created, updated, popularity, long-running)
+        direction: Order of results (asc, desc)
+        page: Page number for pagination
+        per_page: Number of pull requests per page (max 100)
+        
+    Returns:
+        Formatted string containing pull request information or error message
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await get_pull_requests(repo_path, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), state, sort, direction, page, per_page)
+
+
+@mcp.tool()
+async def github_get_tags_or_branches(
+    owner: str,
+    repo: str,
+    resource_type: str,
+    page: int = 1,
+    per_page: int = 30,
+    mcp_data:str=None
+) -> str:
+    """List either tags or branches in a GitHub repository.
+    
+    Args:
+        owner: Repository owner (user or organization)
+        repo: Repository name
+        resource_type: Specify 'tags' to list tags or 'branches' to list branches
+        page: Page number for pagination
+        per_page: Number of items per page (max 100)
+        
+    Returns:
+        Formatted string containing the list of tags or branches or error message
+    """
+    
+    # Combine owner and repo into the format expected by the original function
+    repo_path = f"{owner}/{repo}"
+    user_data = await get_user_by_id(mcp_data)
+    return await get_tags_or_branches(repo_path, resource_type, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), page, per_page)
+
+
+@mcp.tool()
+async def github_global_search(
+    search_type: str,
+    query: str,
+    page: int = 1,
+    per_page: int = 30,
+    mcp_data:str=None
+) -> str:
+    """Perform a global search on GitHub based on the specified search type and query string.
+    
+    Args:
+        search_type: The type of search to perform (repositories, issues, pulls, code, commits, users)
+        query: The string to search for
+        page: Page number for pagination
+        per_page: Number of results per page (max 100)
+        
+    Returns:
+        Formatted string containing search results or error message
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await global_search(search_type, query, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), page, per_page)
