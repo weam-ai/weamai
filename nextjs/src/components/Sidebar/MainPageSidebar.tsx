@@ -1,4 +1,3 @@
-import AddBrainButton from '../Brains/AddBrainButton';
 import WorkspaceDropdown from '../Workspace/WorkspaceList';
 import {
     Tooltip,
@@ -11,15 +10,13 @@ import Notification from './Notification';
 import NotificationDot from './NotificationDot';
 import UserProfile from './UserProfile';
 import { getSession } from '@/config/withSession';
-import { hasPermission, PERMISSIONS } from '@/utils/permission';
 import { fetchWorkspaceList } from '@/actions/workspace';
 import { fetchBrainList } from '@/actions/brains';
 import { TemplateLibrary } from './SettingSelection';
 import { PrivateVisibleProps } from '../Brains/PrivateVisible';
-import { RESPONSE_STATUS, RESPONSE_STATUS_CODE } from '@/utils/constant';
-import RefreshTokenClient from '../Shared/RefreshTokenClient';
 import { WorkspaceNewChatButton } from '../Workspace/DropDownOptions';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; 
+import AddBrainButton from '../Brains/AddBrainButton';
 
 const SettingsLink = dynamic(() => import('./SettingsLink'), { ssr: false });
 const ShareBrainList = dynamic(() => import('../Brains/ShareBrainList'), { ssr: false });
@@ -39,14 +36,14 @@ const MainPageSidebar = async () => {
 
     return (
         <>
-            {(workspaceResponse?.status === RESPONSE_STATUS.FORBIDDEN ||
+            {/* {(workspaceResponse?.status === RESPONSE_STATUS.FORBIDDEN ||
                 brainResponse?.status === RESPONSE_STATUS.FORBIDDEN) &&
                 (workspaceResponse?.code ===
                     RESPONSE_STATUS_CODE.REFRESH_TOKEN ||
                     brainResponse?.code ===
                         RESPONSE_STATUS_CODE.REFRESH_TOKEN) && (
                     <RefreshTokenClient />
-                )}
+                )} */}
             <WorkspaceDropdown
                 workspaceList={workspaceList}
                 session={session}
@@ -57,27 +54,39 @@ const MainPageSidebar = async () => {
                 <div className="sidebar-sub-menu-items flex flex-col h-full overflow-hidden">
                     <div className="h-full w-full flex flex-col px-3 overflow-y-auto pb-3 pt-4">
                         <WorkspaceNewChatButton />
-                        <div className="flex w-full justify-between pr-1 group mb-4">
-                            <h2 className="font-bold text-font-14">
-                                SHARED BRAINS
-                            </h2>
-                            <AddBrainButton
-                                text={'Add a Shared Brain'}
-                                isPrivate={false}
-                            />
-                        </div>
-                        <ShareBrainList brainList={brainList} workspaceFirst={workspaceList[0]} />
-                        <PrivateVisible>
-                            <div className="flex w-full border-t border-b10 mt-5 pt-5 pr-1 justify-between group mb-4">
-                                <h2 className="font-bold text-font-14">
-                                    PRIVATE BRAINS
-                                </h2>
-                                <AddBrainButton
-                                    text={'Add a Private Brain'}
-                                    isPrivate={true}
+                        <div className="w-full">
+                            <div className="flex w-full justify-between pr-1 group mb-4 font-bold text-font-14">
+                                <div className="flex justify-between w-full">
+                                    <span className="pl-2">
+                                        SHARED BRAINS
+                                    </span>
+                                </div>
+                                <AddBrainButton text="Add Shared Brain" isPrivate={false} />
+                            </div>
+                            <div className="w-full flex flex-col mb-4 ml-3 text-b6">
+                                <ShareBrainList
+                                    brainList={brainList}
+                                    workspaceFirst={workspaceList[0]}
                                 />
                             </div>
-                            <PrivateBrainList brainList={brainList} workspaceFirst={workspaceList[0]} />
+                        </div>
+                        <PrivateVisible>
+                            <div className="w-full border-t mt-5 pt-5">
+                                <div className="flex w-full pr-1 justify-between group mb-4 font-bold text-font-14">
+                                    <div className="flex justify-between w-full">
+                                        <span className="pl-2">
+                                            PRIVATE BRAINS
+                                        </span>
+                                    </div>
+                                    <AddBrainButton text="Add Private Brain" isPrivate={true} />
+                                </div>
+                                <div className="w-full flex flex-col mb-4 ml-3 text-b6">
+                                    <PrivateBrainList
+                                        brainList={brainList}
+                                        workspaceFirst={workspaceList[0]}
+                                    />
+                                </div>
+                            </div>
                         </PrivateVisible>
                     </div>
 

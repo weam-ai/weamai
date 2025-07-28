@@ -11,6 +11,7 @@ import { CommonList } from './BrainList';
 import { useMemo } from 'react';
 import { AllBrainListType } from '@/types/brain';
 import { WorkspaceListType } from '@/types/workspace';
+import { useSidebar } from '@/context/SidebarContext';
 
 type PrivateBrainListProps = {
     brainList: AllBrainListType[];
@@ -19,7 +20,7 @@ type PrivateBrainListProps = {
 
 const PrivateBrainList = ({ brainList, workspaceFirst }: PrivateBrainListProps) => {
     const dispatch = useDispatch();
-
+    const { closeSidebar } = useSidebar();
     const selectedWorkSpace = useSelector((store: RootState) => store.workspacelist.selected);
 
 
@@ -41,15 +42,11 @@ const PrivateBrainList = ({ brainList, workspaceFirst }: PrivateBrainListProps) 
     return (
         <>
             {privateBrains?.length > 0 && (
-                <Accordion
-                    type="single"
-                    collapsible
-                    className="w-full flex flex-col"
-                >
+                <div className="w-full flex flex-col">
                     {privateBrains.map((b) => (
-                        <CommonList b={b} key={b._id} currentUser={currentUser} />
+                        <CommonList key={b._id} b={b} currentUser={currentUser} closeSidebar={closeSidebar} />
                     ))}
-                </Accordion>
+                </div>
             )}
         </>
     );
