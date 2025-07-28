@@ -211,25 +211,25 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
 
         const listOptions = [
             {
-                icon: <ChatIcon width={20} height={20}  className="fill-b6"/>,
+                icon: <ChatIcon width={18} height={18}  className="fill-b6 w-4 h-auto"/>,
                 text: 'Chats',
                 id: 1,
                 href: routes.chat,
             },
             {
-                icon: <PromptIcon width={20} height={20} className="fill-b6" />,
+                icon: <PromptIcon width={18} height={18} className="fill-b6 w-4 h-auto" />,
                 text: 'Prompts',
                 id: 2,
                 href: routes.prompts,
             },
             {
-                icon: <Customgpt width={20} height={20} className="fill-b6" />,
+                icon: <Customgpt width={18} height={18} className="fill-b6 w-4 h-auto" />,
                 text: 'Agents',
                 id: 3,
                 href: routes.customGPT,
             },
             {
-                icon: <DocumentIcon width={20} height={20} className="fill-b6" />,
+                icon: <DocumentIcon width={18} height={18} className="fill-b6 w-4 h-auto" />,
                 text: 'Docs',
                 id: 4,
                 href: routes.docs,
@@ -241,6 +241,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                 {listOptions.map((option) => (
                     <button
                         key={option.id}
+                        className="flex text-font-14 flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-md border border-gray-300 bg-white hover:bg-b12"
                         className="flex text-font-14 flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-md border border-gray-300 bg-white hover:bg-b12"
                         onClick={() => handleNavigation(option.href)}
                     >
