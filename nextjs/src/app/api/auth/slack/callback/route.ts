@@ -54,14 +54,14 @@ export async function GET(request: NextRequest) {
         } else {
 
             const payload = {
-                access_token: encryptedData(tokenData.access_token), // Bot token
+                access_token: encryptedData(tokenData.authed_user?.access_token), // Bot token
                 user_access_token: tokenData.authed_user?.access_token || null, // User token (might be null)
                 team_id: tokenData.team?.id,
                 team_name: tokenData.team?.name,
                 user_id: tokenData.authed_user?.id,
                 user_scope: tokenData.authed_user?.scope || null,
                 state: state,
-                has_user_token: !!tokenData.authed_user?.access_token, // Flag to check if user token is available
+                //has_user_token: !!tokenData.authed_user?.access_token, // Flag to check if user token is available
                 token_type: tokenData.token_type
             }
             

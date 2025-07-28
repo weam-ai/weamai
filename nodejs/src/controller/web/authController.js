@@ -172,6 +172,15 @@ const seedGeneralBrain = catchAsync(async (req, res) => {
     }
 })
 
+const updateMcpData = catchAsync(async (req, res) => {
+    const result = await authService.updateMcpData(req);
+    if (result) {
+        res.message = _localize('module.update', req, 'Mcp records')
+        return util.successResponse(result, res);
+    }
+    return util.failureResponse(_localize('module.updateError', req, 'Mcp records'), res);
+}) 
+
 module.exports = {
     resendLoginOtp,
     refreshToken,
@@ -189,5 +198,6 @@ module.exports = {
     generateMfaSecret,
     verifyMfaOtp,
     onBoardProfile,
-    seedGeneralBrain
+    seedGeneralBrain,
+    updateMcpData
 }

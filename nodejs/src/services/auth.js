@@ -738,6 +738,21 @@ const seedGeneralBrainAPI = async (req) => {
     }
 };
 
+const updateMcpData = async (req) => {
+    try {
+        const existingUser = await User.findOne({ _id: req.userId });
+        if (!existingUser) throw new Error(_localize('auth.account_not_found', req, 'email'));
+
+        const payload = { ...req.body };
+        const updateQuery = payload.isDeleted ? { $unset: payload } : { $set: payload };
+        const updated = await User.findByIdAndUpdate({ _id: req.userId }, updateQuery, { new: true });
+
+        return updated;
+    } catch (error) {
+        handleError(error, 'Error in updateMcpData');
+    }
+}
+
 module.exports = {
     logIn,
     refreshToken,
@@ -756,5 +771,6 @@ module.exports = {
     generateMfaSecret,
     onBoardProfile,
     seedGeneralBrainAPI,
-    seedGeneralBrainAPI
+    seedGeneralBrainAPI,
+    updateMcpData
 }

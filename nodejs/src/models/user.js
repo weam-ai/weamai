@@ -54,6 +54,7 @@ const schema = new Schema(
             type: String
         },
         invited: { type: Boolean },
+        mcpdata: { type: Object },
         fileSize: {
             type: Number,
             default: FILE.DEFAULT_SIZE,
