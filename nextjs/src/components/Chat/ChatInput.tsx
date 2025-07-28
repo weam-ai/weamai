@@ -195,7 +195,11 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         const searchParams = useSearchParams();
         
         const handleNavigation = (href: string) => {
-            const brainId = encodedObjectId(brain?._id);
+            if (!brain?._id) {
+                console.warn('Brain ID is undefined, cannot navigate');
+                return;
+            }
+            const brainId = encodedObjectId(brain._id);
             const modelName = searchParams.get('model') || AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED;
             const url = `${href}?b=${brainId}&model=${modelName}`;
             router.push(url);
@@ -233,14 +237,13 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                 {listOptions.map((option) => (
                     <button
                         key={option.id}
-                        className="flex flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition-colors"
+                        className="flex text-font-14 flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-md border border-gray-300 bg-white hover:bg-b12"
                         onClick={() => handleNavigation(option.href)}
-                        title={option.text}
                     >
                         <div className="flex items-center justify-center">
                             {option.icon}
                         </div>
-                        <span className="text-b6 text-xs font-medium hidden sm:block">{option.text}</span>
+                        <span className="text-b3 transition-all ease-in-out duration-500 text-xs font-medium hidden sm:block">{option.text}</span>
                     </button>
                 ))}
             </>
@@ -368,13 +371,12 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
 
     useEffect(() => {
         router.prefetch(`/chat/${chatId}`);     
-        dispatch(
-            setSelectedAIModal(
-                aiModals.find(
-                    (el: AiModalType) => el.name === AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED
-                )
-            )
+        const defaultModal = aiModals.find(
+            (el: AiModalType) => el.name === AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED
         );
+        if (defaultModal) {
+            dispatch(setSelectedAIModal(defaultModal));
+        }
         dispatch(setChatMessageAction(''));
     }, []);
 
@@ -390,6 +392,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
             );
             if (perplexityAiModal) {
                 if (
+                    selectedAiModal?.name &&
                     ![AI_MODAL_NAME.SONAR, AI_MODAL_NAME.SONAR_REASONING_PRO].includes(
                         selectedAiModal.name
                     )
@@ -414,6 +417,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
             );
             if (
                 openAiModal &&
+                selectedAiModal?.name &&
                 [AI_MODAL_NAME.SONAR, AI_MODAL_NAME.SONAR_REASONING_PRO].includes(
                     selectedAiModal.name
                 )
@@ -474,12 +478,18 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         }
     }, [message]);
 
- useEffect(() => { 
+    useEffect(() => { 
+        if (!brains || brains.length === 0) {
+            return;
+        }
+
         const generalBrain = brains.find((brain) => brain.title === GENERAL_BRAIN_TITLE);
         
         if(!generalBrain){
-            const generalBrain = brains[0];
-            persistBrainData(generalBrain);
+            const firstBrain = brains[0];
+            if (firstBrain) {
+                persistBrainData(firstBrain);
+            }
         }
         else if(isEmptyObject(selectedBrain)){
             dispatch(setSelectedBrain(generalBrain));
@@ -490,7 +500,10 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
             }
         }
 
-        setSelectedAIModal(aiModals.find((modal) => modal.name === AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED));
+        const defaultModal = aiModals.find((modal) => modal.name === AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED);
+        if (defaultModal) {
+            setSelectedAIModal(defaultModal);
+        }
     }, [searchParams, brains, dispatch]); 
         
     const [showAgentList, setShowAgentList] = useState(false);
@@ -727,7 +740,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                     </div>
                     )}
 
-                <div className="flex flex-col text-font-16 mx-auto group overflow-hidden rounded-[12px] [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] w-full flex-grow relative border border-b11">
+                <div className="flex flex-col text-font-16 mx-auto group overflow-hidden rounded-[18px] [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] w-full flex-grow relative border border-b11">
                     <UploadFileInput
                         removeFile={removeSelectedFile}
                         fileData={uploadedFile}
@@ -742,7 +755,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                         onPaste={handlePasteFiles}
                         ref={textareaRef}
                     />
-                    <div className="flex items-center z-10 px-4 pb-[6px]">
+                    <div className="flex items-center z-10 px-4 pb-[6px] mt-3">
                         <ThunderBoltDialog
                             isWebSearchActive={isWebSearchActive}
                             dialogOpen={dialogOpen}
@@ -798,8 +811,8 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                 </div>
                 
                 {!isEmptyObject(selectedBrain) && (
-                <div className="left-0 right-0 bg-white border-t border-b11 px-2 sm:px-4 py-3 sm:py-4">
-                    <div className="flex items-center justify-center gap-2 sm:gap-4 max-w-md mx-auto">
+                <div className="left-0 right-0 bg-white px-2 sm:px-4 py-3 sm:py-4">
+                    <div className="flex items-center justify-center gap-2 max-w-md mx-auto">
                         <DefaultListOption brain={selectedBrain} />
                     </div>
                 </div>
