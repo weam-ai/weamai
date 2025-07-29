@@ -25,8 +25,8 @@ logger = logging.getLogger(__name__)
 def create_credentials_from_mcp_data(mcp_data: Dict[str, Any]) -> Optional[Credentials]:
     """Creates a Credentials object from MCP data."""
     try:
-        client_id = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
-        client_secret = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
+        client_id = os.getenv("NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID")
+        client_secret = os.getenv("NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_SECRET")
         credentials = Credentials(
             token=decryptor.decrypt(mcp_data.get("access_token")),
             refresh_token=decryptor.decrypt(mcp_data.get("refresh_token")),
