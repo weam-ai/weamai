@@ -52,7 +52,7 @@ async def slack_list_channels(limit: int = 100,mcp_data:str=None) -> str:
     """
     user_data = await get_user_by_id(mcp_data)
 
-    return await list_slack_channels(user_data['mcpdata']['SLACK']['access_token'], limit)
+    return await list_slack_channels(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), limit)
 
 
 @mcp.tool()
@@ -64,7 +64,7 @@ async def slack_send_message(channel_id: str, text: str,mcp_data:str=None) -> st
         text: The message text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await send_slack_message(user_data['mcpdata']['SLACK']['access_token'], channel_id, text)
+    return await send_slack_message(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, text)
 
 @mcp.tool()
 async def get_channel_id(channel_name: str=None,mcp_data:str=None):
@@ -75,7 +75,7 @@ async def get_channel_id(channel_name: str=None,mcp_data:str=None):
         limit: Maximum number of messages to return (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_id_by_name(user_data['mcpdata']['SLACK']['access_token'], channel_name)
+    return await get_channel_id_by_name(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_name)
 
 @mcp.tool()
 async def slack_get_messages(channel_id: str, limit: int = 50,mcp_data:str=None) -> str:
@@ -86,7 +86,7 @@ async def slack_get_messages(channel_id: str, limit: int = 50,mcp_data:str=None)
         limit: Maximum number of messages to return (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_messages(user_data['mcpdata']['SLACK']['access_token'], channel_id, limit)
+    return await get_channel_messages(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, limit)
 
 
 @mcp.tool()
@@ -98,7 +98,7 @@ async def slack_list_users(limit: int = 200, include_locale: bool = False,mcp_da
         include_locale: Whether to include user locale information
     """
     user_data = await get_user_by_id(mcp_data)    
-    return await list_workspace_users(user_data['mcpdata']['SLACK']['access_token'], limit, include_locale)
+    return await list_workspace_users(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), limit, include_locale)
 
 
 @mcp.tool()
@@ -109,7 +109,7 @@ async def slack_get_user_info(user_id: str,mcp_data:str=None) -> str:
         user_id: The ID of the user to get information about
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_user_info(user_data['mcpdata']['SLACK']['access_token'], user_id)
+    return await get_user_info(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), user_id)
 
 
 @mcp.tool()
@@ -120,7 +120,7 @@ async def slack_get_user_profile(user_id: str,mcp_data:str=None) -> str:
         user_id: The ID of the user to get profile for
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_user_profile(user_data['mcpdata']['SLACK']['access_token'], user_id)
+    return await get_user_profile(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), user_id)
 
 
 @mcp.tool()
@@ -132,7 +132,7 @@ async def slack_get_channel_members(channel_id: str, limit: int = 200,mcp_data:s
         limit: Maximum number of members to return per page
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_channel_members(user_data['mcpdata']['SLACK']['access_token'], channel_id, limit)
+    return await get_channel_members(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, limit)
 
 
 @mcp.tool()
@@ -143,7 +143,7 @@ async def slack_open_dm(user_ids: list[str],mcp_data:str=None) -> str:
         user_ids: List of user IDs (1 for DM, multiple for MPIM)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await open_direct_message(user_data['mcpdata']['SLACK']['access_token'], user_ids)
+    return await open_direct_message(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), user_ids)
 
 
 @mcp.tool()
@@ -155,7 +155,7 @@ async def slack_send_dm(user_id: str, text: str,mcp_data:str=None) -> str:
         text: The message text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await send_direct_message(user_data['mcpdata']['SLACK']['access_token'], user_id, text)
+    return await send_direct_message(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), user_id, text)
 
 
 @mcp.tool()
@@ -168,7 +168,7 @@ async def slack_send_ephemeral_message(channel_id: str, user_id: str, text: str,
         text: The message text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await send_ephemeral_message(user_data['mcpdata']['SLACK']['access_token'], channel_id, user_id, text)
+    return await send_ephemeral_message(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, user_id, text)
 
 
 # =============================================================================
@@ -195,7 +195,7 @@ async def slack_create_channel(
     """
     user_data = await get_user_by_id(mcp_data)
     return await create_slack_channel(
-        user_data['mcpdata']['SLACK']['access_token'], 
+        decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), 
         channel_name, 
         is_private, 
         topic, 
@@ -213,7 +213,7 @@ async def slack_set_channel_topic(channel_id: str, topic: str,mcp_data:str=None)
         topic: New topic for the channel
     """
     user_data = await get_user_by_id(mcp_data)
-    return await set_channel_topic(user_data['mcpdata']['SLACK']['access_token'], channel_id, topic)
+    return await set_channel_topic(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, topic)
 
 
 @mcp.tool()
@@ -236,7 +236,7 @@ async def slack_archive_channel(channel_id: str,mcp_data:str=None) -> str:
         channel_id: The ID of the channel to archive
     """
     user_data = await get_user_by_id(mcp_data)
-    return await archive_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id)
+    return await archive_channel(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id)
 
 
 @mcp.tool()
@@ -248,7 +248,7 @@ async def slack_invite_users_to_channel(channel_id: str, user_ids: list[str],mcp
         user_ids: List of user IDs to invite
     """
     user_data = await get_user_by_id(mcp_data)
-    return await invite_users_to_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id, user_ids)
+    return await invite_users_to_channel(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, user_ids)
 
 
 @mcp.tool()
@@ -260,7 +260,7 @@ async def slack_kick_user_from_channel(channel_id: str, user_id: str,mcp_data:st
         user_id: The ID of the user to remove
     """
     user_data = await get_user_by_id(mcp_data)
-    return await kick_user_from_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id, user_id)
+    return await kick_user_from_channel(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, user_id)
 
 
 
@@ -279,7 +279,7 @@ async def slack_reply_to_thread(channel_id: str, thread_ts: str, text: str,mcp_d
         text: The reply text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await reply_to_thread(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts, text)
+    return await reply_to_thread(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, thread_ts, text)
 
 
 @mcp.tool()
@@ -292,7 +292,7 @@ async def slack_get_thread_replies(channel_id: str, thread_ts: str, limit: int =
         limit: Maximum number of replies to return (default 100, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_thread_replies(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts, limit)
+    return await get_thread_replies(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, thread_ts, limit)
 
 
 @mcp.tool()
@@ -305,7 +305,7 @@ async def slack_start_thread(channel_id: str, text: str, broadcast: bool = False
         broadcast: Whether to broadcast the thread reply to the channel (default: False)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await start_thread_with_message(user_data['mcpdata']['SLACK']['access_token'], channel_id, text, broadcast)
+    return await start_thread_with_message(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, text, broadcast)
 
 
 @mcp.tool()
@@ -318,7 +318,7 @@ async def slack_reply_to_thread_with_broadcast(channel_id: str, thread_ts: str, 
         text: The reply text to send
     """
     user_data = await get_user_by_id(mcp_data)
-    return await reply_to_thread_with_broadcast(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts, text)
+    return await reply_to_thread_with_broadcast(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, thread_ts, text)
 
 
 @mcp.tool()
@@ -330,7 +330,7 @@ async def slack_get_thread_info(channel_id: str, thread_ts: str,mcp_data:str=Non
         thread_ts: The timestamp of the parent message (thread identifier)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await get_thread_info(user_data['mcpdata']['SLACK']['access_token'], channel_id, thread_ts)
+    return await get_thread_info(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, thread_ts)
 
 
 @mcp.tool()
@@ -342,7 +342,7 @@ async def slack_find_threads_in_channel(channel_id: str, limit: int = 50,mcp_dat
         limit: Maximum number of messages to check (default 50, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-    return await find_threads_in_channel(user_data['mcpdata']['SLACK']['access_token'], channel_id, limit)
+    return await find_threads_in_channel(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), channel_id, limit)
 
 # =============================================================================
 # GITHUB TOOLS
