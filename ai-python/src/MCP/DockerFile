@@ -6,4 +6,4 @@ WORKDIR /app/ai-python
 COPY . /app/ai-python/
 ENV PYTHONPATH=/app/ai-python
 EXPOSE 8000
-CMD ["python", "src/MCP/main.py"]
+CMD ["python", "-m", "src.MCP.main"]
