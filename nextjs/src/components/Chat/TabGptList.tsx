@@ -55,7 +55,6 @@ const FileTypeIcons = {
 export type TabGptListProps = {
     onSelect?: <T>(type: keyof typeof GPTTypes, data: T) => void;
     selectedContext: SelectedContextType;
-    setText: (text: any) => any;
     handlePrompts: BrainPromptType[];
     setHandlePrompts: (prompts: any) => void;
     getList: (searchValue: string,pagination?: DefaultPaginationType ) => Promise<BrainPromptType[]>;
@@ -83,7 +82,6 @@ const TabRecordNotFound = React.memo(({ message }: TabRecordNotFoundProps) => {
 const TabGptList: React.FC<TabGptListProps> = ({
     onSelect,
     uploadedFile,
-    setText,
     handlePrompts,
     setHandlePrompts,
     getList,
@@ -139,48 +137,6 @@ const TabGptList: React.FC<TabGptListProps> = ({
             [GPTTypes.Docs]: setBrainDocLoader
         }
         triggerObj[value](true)
-    };
-
-    const handleSelectedPrompts = (promptId) => {
-        const matchedPrompt = handlePrompts?.find((currPrompt) => currPrompt._id === promptId);
-        if (!matchedPrompt) return;
-        
-        try {
-            // Check if the prompt is already in the text - if so, remove it
-            if (matchedPrompt.isActive) {
-                setText((prevText) => {
-                    const summaries = matchedPrompt?.summaries
-                        ? Object.values(matchedPrompt.summaries)
-                            .map((currSummary: any) => `${currSummary.website} : ${currSummary.summary}`)
-                            .join('\n')
-                        : '';
-                    const promptContent = matchedPrompt.content + (summaries ? '\n' + summaries : '');
-                    return prevText.replace(promptContent, '').trim();
-                });
-                
-                // Close dialog after selection
-                setDialogOpen(false);
-                return;
-            }
-    
-            // Otherwise, add the prompt
-            setText((prevText) => {
-                let existingText = prevText;
-                const summaries = matchedPrompt?.summaries
-                    ? Object.values(matchedPrompt.summaries)
-                        .map((currSummary: any) => `${currSummary.website} : ${currSummary.summary}`)
-                        .join('\n')
-                    : '';
-                const promptContent = matchedPrompt.content + (summaries ? '\n' + summaries : '');
-                existingText += (existingText ? '\n' : '') + promptContent;
-                return existingText;
-            });
-            
-            // Close dialog after selection
-            setDialogOpen(false);
-        } catch (error) {
-            console.error('Error in the handleSelectedPrompts:', error);
-        }
     };
 
     useEffect(() => {
@@ -340,7 +296,7 @@ const TabGptList: React.FC<TabGptListProps> = ({
                         <div className="relative w-full">
                             <input
                                 type="text"
-                                className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                 id="searchDocs"
                                 placeholder="Search Docs"
                                 onChange={handleInputChanges}
@@ -420,7 +376,7 @@ const TabGptList: React.FC<TabGptListProps> = ({
                         <div className="relative w-full">
                             <input
                                 type="text"
-                                className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                 id="searchPrompts"
                                 placeholder="Search Prompts"
                                 onChange={handleInputChanges}
@@ -453,9 +409,7 @@ const TabGptList: React.FC<TabGptListProps> = ({
                                             GPTTypes.Prompts as GPTTypesOptions,
                                             currPrompt
                                         );
-                                        handleSelectedPrompts(
-                                            currPrompt._id
-                                        );
+                                        setDialogOpen(false);
                                     }}
                                     ref={promptArray.length - 1 === index ? promptListRef : null}
                                 >
@@ -540,7 +494,7 @@ const TabGptList: React.FC<TabGptListProps> = ({
                                 <div className="relative w-full">
                                     <input
                                         type="text"
-                                        className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-[36px]"
+                                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-[36px]"
                                         id="searchBots"
                                         placeholder="Search Agents"
                                         onChange={handleInputChanges}

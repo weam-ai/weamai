@@ -34,6 +34,12 @@ type FileViewProps = {
     uri: string;
 }
 
+type RenderPromptProps = {
+    promptData: UploadedFileType;
+    removeFile: (index: number) => void;
+    index: number;
+}
+
 export const DEEPSEEK_WORD = 'deepseek';
 export const LLAMA4_WORD = 'llama4';
 export const META_LLAMA4_WORD = 'meta-llama';
@@ -124,7 +130,7 @@ const RenderAgent = ({ agentData, removeFile, index }: RenderAgentProps) => {
     return (
         <div className="attach-item flex flex-wrap items-center gap-2 group/item relative w-full p-2 rounded-[10px] border-b-2">
             <span
-                className="opacity-0 group-hover/item:opacity-100 invisible group-hover/item:visible absolute top-0.5 right-0.5 cursor-pointer p-1"
+                className="lg:opacity-0 group-hover/item:opacity-100 lg:invisible group-hover/item:visible absolute top-0.5 right-0.5 cursor-pointer p-1"
                 onClick={() => removeFile(index)}
             >
                 <Close
@@ -141,9 +147,7 @@ const RenderAgent = ({ agentData, removeFile, index }: RenderAgentProps) => {
                 className="size-10 object-contain rounded"
                 placeholder="blur"
             />
-            <div>
-                <p>{agentData.gptname}</p>
-            </div>
+            <p className="text-font-14">{agentData.gptname}</p>
             <p className="block text-font-14 text-b2 bg-b12 px-2 py-[2px] rounded-lg">
                 {getDisplayModelName(agentData?.responseModel)}
             </p>
@@ -177,9 +181,7 @@ const RenderImageAndDocuments = ({ file, removeFile, index }: RenderImageAndDocu
                         className="size-10 object-contain rounded"
                         placeholder="blur"
                     />
-                    <div>
-                        <p>{file.gptname || file.name}</p>
-                    </div>
+                    <p className="text-font-14">{file.gptname || file.name}</p>
                     <p className="block text-font-14 text-b2 bg-b12 px-2 py-[2px] rounded-lg">
                         {file?.responseModel || extractFileType(file.mime_type)}
                     </p>
@@ -192,6 +194,27 @@ const RenderImageAndDocuments = ({ file, removeFile, index }: RenderImageAndDocu
                     uri={file.uri}
                 />
             )}
+        </div>
+    );
+};
+
+const RenderPrompt = ({ promptData, removeFile, index }: RenderPromptProps) => {
+    if (!promptData) return null;
+    return (
+        <div className="attach-item flex flex-wrap items-center gap-2 group/item relative w-full p-2 rounded-[10px] border-b-2">
+            <span
+                className="opacity-0 group-hover/item:opacity-100 invisible group-hover/item:visible absolute top-0.5 right-0.5 cursor-pointer p-1"
+                onClick={() => removeFile(index)}
+            >
+                <Close
+                    width={'8'}
+                    height={'8'}
+                    className="fill-b7 size-2 object-contain"
+                />
+            </span>
+            <div>
+                <p>{promptData.name}</p>
+            </div>
         </div>
     );
 };
@@ -213,6 +236,10 @@ const RenderAgentAndDocument = ({ fileData, removeFile }: RenderAgentAndDocument
                                     file.isCustomGpt &&
                                     <RenderAgent agentData={file} removeFile={removeFile} index={index}/>
                                 }
+                                {
+                                    file.isPrompt &&
+                                    <RenderPrompt promptData={file} removeFile={removeFile} index={index}/>
+                                }
                                 </React.Fragment>
                             ))
                         }
@@ -227,22 +254,26 @@ const UploadFileInput = ({ fileData, removeFile}: UploadFileInputProps) => {
     if (!fileData.length) return null;
     const hasAgent = Array.isArray(fileData) && fileData.some(file => file.isCustomGpt);
     const hasDocument = Array.isArray(fileData) && fileData.some(file => file.isDocument);
+    const hasPrompt = Array.isArray(fileData) && fileData.some(file => file.isPrompt);
     const agentData = Array.isArray(fileData) && fileData.find(file => file.isCustomGpt);
-    if (hasAgent && hasDocument) {
+    const promptData = Array.isArray(fileData) && fileData.find(file => file.isPrompt);
+    if ((hasAgent && hasDocument) || (hasAgent && hasPrompt) || (hasPrompt && hasDocument)) {
         return <RenderAgentAndDocument fileData={fileData} removeFile={removeFile}/>
     }
     return (
         <div className="attached-files p-2">
             <div className="flex gap-2 flex-wrap">
-                {Array.isArray(fileData) && !hasAgent ? (
+                {Array.isArray(fileData) && !hasAgent && !hasPrompt ? (
                     fileData.map((file, index) => (
                         <React.Fragment key={file._id}>
                             <RenderImageAndDocuments file={file} removeFile={removeFile} index={index}/>
                         </React.Fragment>
                     ))
-                ) : 
+                ) : hasAgent ? (
                     <RenderAgent agentData={agentData} removeFile={removeFile} index={0}/>
-                }
+                ) : (
+                    <RenderPrompt promptData={promptData} removeFile={removeFile} index={0}/>
+                )}
             </div>
         </div>
     );

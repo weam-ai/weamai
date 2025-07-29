@@ -25,6 +25,7 @@ type ThunderBoltDialogProps = ThunderBoltToopTipProps & TabGptListProps & {
     setDialogOpen: (isOpen: boolean) => void;
     dialogOpen: boolean;
     promptList: BrainPromptType[];
+    setText?: (text: string) => void; // <-- Add this line
 };
 
 const ThunderBoltToopTip = ({ isWebSearchActive }: ThunderBoltToopTipProps) => {

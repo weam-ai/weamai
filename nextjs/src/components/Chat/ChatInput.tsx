@@ -45,7 +45,6 @@ import AttachMentToolTip from './AttachMentToolTip';
 import WebSearchToolTip from './WebSearchToolTip';
 import ThunderBoltDialog from '../Shared/ThunderBoltDialog';
 import { AiModalType } from '@/types/aimodels';
-import { SubscriptionActionStatusType } from '@/types/subscription';
 import TextAreaBox from '@/widgets/TextAreaBox';
 import { ProAgentCode } from '@/types/common';
 import useConversationHelper from '@/hooks/conversation/useConversationHelper'
@@ -68,7 +67,8 @@ import DocumentIcon from '@/icons/DocumentIcon';
 import { getSelectedBrain, isEmptyObject } from '@/utils/common';
 import useMCP from '@/hooks/mcp/useMCP';
 import ToolsConnected from './ToolsConnected';
-
+import { getDisplayModelName } from '@/utils/helper';
+import { truncateText } from '@/utils/common';
 
 const defaultContext = {
     type: null,
@@ -191,7 +191,8 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         selectedContext,
         setSelectedContext,
         selectedAIModal: selectedAiModal,
-        uploadedFile
+        uploadedFile,
+        setText: setMessage,
     });
 
     const DefaultListOption = React.memo(({ brain } : { brain: BrainListType }) => {
@@ -268,7 +269,7 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         const serializableProAgentData = proAgentData?.code ? { ...proAgentData } : {};
 
         const payload = {
-            message: message.trim(),
+            message: message,
             response: '',
             responseModel: uploadedFile.some((file) => file.isCustomGpt) 
                 ? uploadedFile.find((file) => file.isCustomGpt)?.responseModel 
@@ -357,8 +358,13 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
     const removeSelectedFile = (index: number) => {
         const updatedFiles = uploadedFile.filter((_, i) => i !== index);
         const isEmptyFiles = updatedFiles.length === 0;
-        if (isEmptyFiles) dispatch(setUploadDataAction([]));
-        else dispatch(setUploadDataAction(updatedFiles));
+        if (isEmptyFiles) {
+            dispatch(setUploadDataAction([]));
+            setSelectedContext(defaultContext);
+        }
+        else {
+            dispatch(setUploadDataAction(updatedFiles));
+        }
         if (fileInputRef.current && isEmptyFiles) {
             fileInputRef.current.value = null; // Reset the file input value
         }
@@ -773,7 +779,6 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                             setDialogOpen={setDialogOpen}
                             onSelect={onSelectMenu}
                             selectedContext={selectedContext}
-                            setText={setMessage}
                             handlePrompts={handlePrompts}
                             setHandlePrompts={setHandlePrompts}
                             getList={getTabPromptList}

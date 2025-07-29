@@ -10,6 +10,12 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import useMediaUpload from '@/hooks/common/useMediaUpload';
 import UploadFileInput from '@/components/Chat/UploadFileInput';
 import TabGptList from '@/components/Chat/TabGptList';
+import Image from 'next/image';
+import defaultCustomGptImage from '../../../public/defaultgpt.jpg';
+import { truncateText } from '@/utils/common';
+import { BrainAgentType } from '@/types/brain';
+import { BrainPromptType } from '@/types/brain';
+import { GPTTypes } from '@/utils/constant';
 import {
     Dialog,
     DialogContent,
@@ -69,6 +75,8 @@ import BookmarkDialog from './BookMark';
 import PromptEnhance from './PromptEnhance';
 import VoiceChat from './VoiceChat';
 import useConversationHelper from '@/hooks/conversation/useConversationHelper';
+import useCustomGpt from '@/hooks/customgpt/useCustomGpt';
+import useDebounce from '@/hooks/common/useDebounce';
 import RenderAIModalImage from './RenderAIModalImage';
 import AttachMentToolTip from './AttachMentToolTip';
 import WebSearchToolTip from './WebSearchToolTip';
@@ -85,6 +93,8 @@ import { useThunderBoltPopup } from '@/hooks/conversation/useThunderBoltPopup';
 import ChatInputFileLoader from '@/components/Loader/ChatInputFileLoader';
 import useMCP from '@/hooks/mcp/useMCP';
 import ToolsConnected from './ToolsConnected';
+import SearchIcon from '@/icons/Search';
+import ThreeDotLoader from '../Loader/ThreeDotLoader';
 const defaultContext = {
     type: null,
     prompt_id: undefined,
@@ -113,6 +123,9 @@ const ChatPage = memo(() => {
 
     // Use MCP hook to get toolStates from Redux
     const { toolStates, setToolStates } = useMCP();
+    const [showAgentList, setShowAgentList] = useState(false);
+    const [showPromptList, setShowPromptList] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     
     // For the tab GPT prompts
     const { getTabPromptList, promptList: prompts, loading: promptLoader, setLoading: setPromptLoader, paginator: promptPaginator, setPromptList } = usePrompt();
@@ -137,6 +150,25 @@ const ChatPage = memo(() => {
     const brainData = useSelector((store: RootState) => store.brain.combined);
     const globalUploadedFile = useSelector((store: RootState) => store.conversation.uploadData);
     const initialMessage = useSelector((store:RootState) => store.chat.initialMessage);
+    const agentPromptDropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+        if (
+            agentPromptDropdownRef.current &&
+            !agentPromptDropdownRef.current.contains(event.target as Node)
+        ) {
+            setShowAgentList(false);
+            setShowPromptList(false);
+        }
+    }
+    if (showAgentList || showPromptList) {
+        document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, [showAgentList, showPromptList]);
    
     const agentRecord = useMemo(() => {
         return globalUploadedFile.find((file) => file.isCustomGpt);
@@ -162,6 +194,18 @@ const ChatPage = memo(() => {
         const { value } = event.target;
         setText(value);
         onQueryTyping();
+        setShowAgentList(value.startsWith('@'));
+        setShowPromptList(value.startsWith('/'));
+    };
+
+    const handleInputChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+    };
+
+    const handleAgentSelection = (gpt) => {
+        onSelectMenu(GPTTypes.CustomGPT, gpt);
+        setShowAgentList(false);
+        setText('');
     };
 
  
@@ -213,8 +257,31 @@ const ChatPage = memo(() => {
         setSelectedContext,
         selectedAIModal,
         uploadedFile: globalUploadedFile,
-        removeSelectedContext
+        removeSelectedContext,
+        setText,
     });
+    const {
+        customgptList,
+        loading: customgptLoading,
+        getTabAgentList,
+        paginator: agentPaginator,
+        setCustomGptList
+    } = useCustomGpt();
+    const [debouncedSearchValue] = useDebounce(searchValue, 500);
+
+    useEffect(() => {
+        if (debouncedSearchValue) {
+            setCustomGptList([]);
+            getTabAgentList(debouncedSearchValue);
+            setPromptList([]);
+            getTabPromptList(debouncedSearchValue);
+        } else {
+            setCustomGptList([]);
+            getTabAgentList('');
+            setPromptList([]);
+            getTabPromptList('');
+        }
+    }, [debouncedSearchValue]);
 
     const handleWebSearchClick = useCallback(() => {
         dispatch(setIsWebSearchActive(!isWebSearchActive));
@@ -1122,6 +1189,13 @@ const ChatPage = memo(() => {
             }
         };
     }, [responseLoading, conversationPagination.hasNextPage, handleContentScroll]);
+    const getTruncatedSystemPrompt = (title: string, systemPrompt: string, maxLength: number = 70) => {
+        const availableLength = Math.max(maxLength - title.length, 0);
+        if (systemPrompt.length > availableLength) {
+            return systemPrompt.slice(0, availableLength - 3) + '...';
+        }
+        return systemPrompt;
+    };
     
     return (
         <>
@@ -1318,6 +1392,150 @@ const ChatPage = memo(() => {
                                     />
                                 )}
                                 {fileLoader && (<ChatInputFileLoader/>)}
+                                {(showAgentList || showPromptList) && (
+                                    <div ref={agentPromptDropdownRef}>
+                                    {showAgentList && (
+                                        <div className='w-full px-5 pt-5 pb-3 rounded-md mb-1'>
+                                            <div className='normal-agent'>
+                                                <div className='flex mb-3'>
+                                                    <div className="relative w-full">
+                                                        <input
+                                                            type="text"
+                                                            className="text-font-14 pl-[36px] py-2 w-full focus:outline-none focus:border-none"
+                                                            id="searchBots"
+                                                            placeholder="Search Agents"
+                                                            onChange={handleInputChanges}
+                                                            value={searchValue}
+                                                        />
+                                                        <span className="inline-block absolute left-[12px] top-1/2 -translate-y-1/2">
+                                                            <SearchIcon className="w-3 h-auto fill-b6" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="pr-1 h-full overflow-y-auto max-md:overflow-x-hidden w-full max-h-[250px]">
+                                                    {
+                                                        customgptList.length > 0 && (
+                                                        customgptList.map((gpt: BrainAgentType, index: number, gptArray: BrainAgentType[]) => {
+                                                            const isSelected = globalUploadedFile?.some((file: UploadedFileType) => file?._id === gpt._id);
+                                                            
+                                                            return (
+                                                                <div
+                                                                    key={gpt._id}
+                                                                    className={`cursor-pointer border-b10 py-1.5 px-2.5 transition-all ease-in-out rounded-md hover:bg-b12 ${    
+                                                                        isSelected
+                                                                            ? 'bg-b12 border-b10'
+                                                                            : 'bg-white border-b10'
+                                                                    } flex-wrap`}
+                                                                    onClick={() => handleAgentSelection(gpt)}
+                                                                >
+                                                                    
+                                                                    <div className="flex items-center flex-wrap xl:flex-nowrap">
+                                                                        <Image
+                                                                            src={
+                                                                                gpt?.coverImg?.uri
+                                                                                    ? `${LINK.AWS_S3_URL}${gpt.coverImg.uri}`
+                                                                                    : defaultCustomGptImage.src
+                                                                            }
+                                                                            height={60}
+                                                                            width={60}
+                                                                            className="w-6 h-6 object-contain rounded-custom inline-block"
+                                                                            alt={
+                                                                                gpt?.coverImg
+                                                                                    ?.name ||
+                                                                                'Default Image'
+                                                                            }
+                                                                        />
+                                                                        <p className="text-font-12 font-medium text-b2 mx-2">
+                                                                            {gpt.title}
+                                                                        </p>
+                                                                        {/* <span className='text-font-12 ml-2 px-2 py-[2px] bg-b13 border rounded-full'>
+                                                                            {getDisplayModelName(gpt.responseModel.name)}
+                                                                        </span>
+                                                                        <div className='ml-1 text-b6 text-font-12 max-md:w-full'>
+                                                                            - {gpt.isShare ? 'Shared' : 'Private'} / {gpt.brain.title}
+                                                                        </div> */}
+                                                                        <p className='text-font-12 font-normal text-b6 mt-1'>
+                                                                            {/* {truncateText(gpt.systemPrompt,190)}                                                 */}
+                                                                            {getTruncatedSystemPrompt(gpt.title, gpt.systemPrompt, 100)}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })
+                                                        )
+                                                    }
+                                                    {
+                                                        customgptLoading && (
+                                                            <ThreeDotLoader className="justify-start ml-8 mt-3" />
+                                                        )
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {/* Show Prompt List if first char is '/' */}
+                                    {showPromptList && (
+                                        <div className='w-full px-5 pt-5 pb-3 rounded-md mb-1'>
+                                            <div className='prompt-list'>
+                                                <div className='flex mb-1'>
+                                                    <div className="relative w-full">
+                                                        <input
+                                                            type="text"
+                                                            className="text-font-14 pl-[36px] py-2 w-full focus:outline-none focus:border-none"
+                                                            id="searchPrompts"
+                                                            placeholder="Search Prompts"
+                                                            onChange={handleInputChanges}
+                                                            value={searchValue}
+                                                        />
+                                                        <span className="inline-block absolute left-[12px] top-1/2 -translate-y-1/2">
+                                                            <SearchIcon className="w-3 h-auto fill-b6" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="pr-1 h-full overflow-y-auto max-md:overflow-x-hidden w-full max-h-[250px]">
+                                                    {
+                                                        handlePrompts?.length > 0 && (
+                                                        handlePrompts?.map((currPrompt: BrainPromptType, index: number, promptArray: BrainPromptType[]) => (
+                                                            <div
+                                                                key={currPrompt._id}
+                                                                className={`cursor-pointer border-b10 py-1.5 px-2.5 transition-all ease-in-out rounded-md hover:bg-b12 ${
+                                                                    currPrompt.isActive
+                                                                        ? 'bg-b12 border-b10'
+                                                                        : 'bg-white border-b10'
+                                                                }`}
+                                                                onClick={() => {
+                                                                    onSelectMenu(GPTTypes.Prompts, currPrompt);
+                                                                    setText(currPrompt.content);
+                                                                    setShowPromptList(false);
+                                                                }}
+                                                            >
+                                                                <div className="flex items-center flex-wrap xl:flex-nowrap">
+                                                                    <p className="text-font-12 font-medium text-b2 mr-2">
+                                                                        {currPrompt.title}
+                                                                    </p>
+                                                                    {/* <span className='text-b6 ml-1 text-font-12 max-md:w-full'>
+                                                                        - {currPrompt.isShare ? 'Shared' : 'Private'} / {currPrompt.brain.title}
+                                                                    </span>                                                 */}
+                                                                    <p className='text-font-12 font-normal text-b6 mt-1'>
+                                                                        {getTruncatedSystemPrompt(currPrompt.title, currPrompt.content, 100)}
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        ))
+                                                        )
+                                                    }
+                                                    {
+                                                        loading && (
+                                                            <ThreeDotLoader className="justify-start ml-8 mt-3" />
+                                                        )
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                    </div>
+                                )}
                                 <TextAreaBox
                                     message={text}
                                     handleChange={handleChange}

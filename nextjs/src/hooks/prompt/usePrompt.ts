@@ -160,7 +160,11 @@ const usePrompt = (b?: string) => {
                     },
                 },
             })
-            setPromptList((prev: BrainPromptType[]) => [...prev, ...response.data]);
+            if (pagination.offset === 0) {
+                setPromptList(response.data);
+            } else {
+                setPromptList((prev: BrainPromptType[]) => [...prev, ...response.data]);
+            }
             setPaginator(response.paginator as PaginatorType);
             return response.data;
         } catch (error) {
