@@ -223,7 +223,7 @@ async def create_event(
 ) -> str:
     """
     Creates a new event.
-
+    This tool depends on get_current_time tool to get the time/date depending on query like today, tomorrow, next week, etc.
     Args:
         user_google_email (str): The user's Google email address. Required.
         summary (str): Event title.

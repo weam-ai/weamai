@@ -21,7 +21,7 @@ from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import Cos
 from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusError, NotFoundError
 from src.celery_worker_hub.extraction.utils import map_file_url, validate_file_url
 from src.chatflow_langchain.utils.fill_additional_prompt import fill_template,format_website_summary_pairs
-from src.chatflow_langchain.service.openai.tool_functions.tools import simple_chat_v2, image_generate,web_search_preview,website_analysis
+from src.chatflow_langchain.service.openai.tool_functions.tools import simple_chat_v2, image_generate,web_search_preview,website_analysis, get_current_time
 from src.chatflow_langchain.service.openai.tool_functions.utils import extract_error_message
 import gc
 from src.chatflow_langchain.service.openai.tool_functions.utils import extract_error_message
@@ -108,7 +108,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
             self.thread_id = thread_id
             self.thread_model = thread_model
             self.model_name = OPENAIMODEL.MODEL_VERSIONS[llm_apikey_decrypt_service.model_name]
-            self.tools = [website_analysis,image_generate]
+            self.tools = [website_analysis,image_generate, get_current_time]
             if mcp_tools:
                 self.client = MultiServerMCPClient(
                     {

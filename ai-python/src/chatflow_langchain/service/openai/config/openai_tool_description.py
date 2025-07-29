@@ -52,3 +52,11 @@ class ToolServiceDescription:
         Answering factual or information-based questions.
         Assisting with coding tasks, debugging, or generating code snippets.
         Providing descriptive responses for user-provided image prompts or generating new visuals based on detailed requests."""
+    
+    CURRENT_TIME = """
+        A Tool that gives current date and time.
+        Call this tool when prompted with date or time related questions/queries.
+        Call this tool when the user has time related terms in the query like "current time", "now", "today", "tomorrow", etc.
+        Returns:
+            str: Current date and time in ISO and human readable format
+    """

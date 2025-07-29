@@ -622,3 +622,7 @@ async def website_analysis(implicit_reference_urls:list[str]=[]):
             f"🚨 Failed to scrape and clean web content: {e}",
             extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis"}})
         return ''
+
+@tool(description=ToolServiceDescription.CURRENT_TIME)
+async def get_current_time() -> str:
+    return datetime.now()
