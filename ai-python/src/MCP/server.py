@@ -16,7 +16,7 @@ from src.MCP.tools.slack.slack_tools import (
     # Thread management functions
     reply_to_thread, get_thread_replies, start_thread_with_message,
     reply_to_thread_with_broadcast, get_thread_info, find_threads_in_channel,get_channel_id_by_name
-)
+)   
 from src.MCP.tools.github.github_tools import (
     get_git_commits, get_user_info, get_github_repositories, get_github_repository_info, 
     get_repository_branches, get_repository_issues, create_github_branch, create_pull_request, 
@@ -30,7 +30,7 @@ decryptor = MessageDecryptor(key)
 # Load environment variables
 load_dotenv()
 
-mcp_port = os.getenv("MCP_SERVER_PORT", 8000)
+mcp_port = os.getenv("MCP_PORT", 8000)
 
 # Initialize FastMCP server
 mcp = FastMCP(
@@ -51,7 +51,6 @@ async def slack_list_channels(limit: int = 100,mcp_data:str=None) -> str:
         limit: Maximum number of channels to return (default 100, max 1000)
     """
     user_data = await get_user_by_id(mcp_data)
-
     return await list_slack_channels(decryptor.decrypt(user_data['mcpdata']['SLACK']['access_token']), limit)
 
 

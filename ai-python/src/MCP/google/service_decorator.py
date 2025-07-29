@@ -1,8 +1,8 @@
 import logging
 from typing import List, Optional, Any, Union
 
-from google.google_auth import get_authenticated_google_service, get_authenticated_google_service_calendar, get_authenticated_google_service_drive, get_authenticated_google_service_gmail, GoogleAuthenticationError
-from google.scopes import (
+from src.MCP.google.google_auth import get_authenticated_google_service, get_authenticated_google_service_calendar, get_authenticated_google_service_drive, get_authenticated_google_service_gmail, GoogleAuthenticationError
+from src.MCP.google.scopes import (
     GMAIL_READONLY_SCOPE, GMAIL_SEND_SCOPE, GMAIL_COMPOSE_SCOPE, GMAIL_MODIFY_SCOPE, GMAIL_LABELS_SCOPE,
     DRIVE_READONLY_SCOPE, DRIVE_FILE_SCOPE,
     DOCS_READONLY_SCOPE, DOCS_WRITE_SCOPE,

@@ -12,9 +12,9 @@ from googleapiclient.http import MediaIoBaseDownload, MediaIoBaseUpload
 import io
 import httpx
 
-from google.service_decorator import acquire_google_service
-from google.utils import extract_office_xml_text, handle_http_errors
-from server import mcp
+from src.MCP.google.service_decorator import acquire_google_service
+from src.MCP.google.utils import extract_office_xml_text, handle_http_errors
+from src.MCP.server import mcp
 
 logger = logging.getLogger(__name__)
 

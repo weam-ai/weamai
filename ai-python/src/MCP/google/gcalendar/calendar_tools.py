@@ -13,10 +13,10 @@ from typing import List, Optional, Dict, Any
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 
-from google.service_decorator import acquire_google_service
-from google.utils import handle_http_errors
+from src.MCP.google.service_decorator import acquire_google_service
+from src.MCP.google.utils import handle_http_errors
 
-from server import mcp
+from src.MCP.server import mcp
 
 
 # Configure module logger

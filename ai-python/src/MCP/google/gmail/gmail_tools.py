@@ -13,15 +13,15 @@ from email.mime.text import MIMEText
 
 from fastapi import Body
 
-from google.service_decorator import acquire_google_service
-from google.utils import handle_http_errors
-from google.scopes import (
+from src.MCP.google.service_decorator import acquire_google_service
+from src.MCP.google.utils import handle_http_errors
+from src.MCP.google.scopes import (
     GMAIL_SEND_SCOPE,
     GMAIL_COMPOSE_SCOPE,
     GMAIL_MODIFY_SCOPE,
     GMAIL_LABELS_SCOPE,
 )
-from server import mcp
+from src.MCP.server import mcp
 
 logger = logging.getLogger(__name__)
 
