@@ -29,6 +29,7 @@ import RemoveIcon from '@/icons/RemoveIcon';
 import useServerAction from '@/hooks/common/useServerActions';
 import { addBrainMemberAction, deleteBrainAction, deleteShareTeamToBrainAction, removeBrainMemberAction, shareTeamToBrainAction } from '@/actions/brains';
 import Toast from '@/utils/toast';
+import ExitIcon from '@/icons/ExitIcon';
 
 const AddNewMemberModal = ({
     brain,
@@ -139,7 +140,7 @@ const AddNewMemberModal = ({
                                             <div className="flex justify-center mt-5 mb-5">
                                                 <button
                                                     type="submit"
-                                                    className="btn btn-blue"
+                                                    className="btn btn-black"
                                                     disabled={isPending}
                                                 >
                                                     Add a Member
@@ -277,7 +278,7 @@ const AddTeamMemberModal = ({
                                             <div className="flex justify-center mt-5 mb-5">
                                                 <button
                                                     type="submit"
-                                                    className="btn btn-blue"
+                                                    className="btn btn-black"
                                                     disabled={isPending}
                                                 >
                                                     Add a Team
@@ -297,25 +298,27 @@ const AddTeamMemberModal = ({
 
 const AboutBrainDetails = ({ brain, isOwner, onLeaveBrain, onDeleteBrain }) => {
     return (
-        <div className="h-full w-full mt-3">
+        <div className="h-full w-full">
             {/* Leave Chat Start*/}
             {!isOwner && (
                 <div
                     onClick={onLeaveBrain}
-                    className="btn btn-red"
+                    className="text-font-14 text-red cursor-pointer flex items-center gap-x-1"
                 >
-                    Leave Brain
+                    <ExitIcon width={14} height={14} className="fill-red md:w-4 w-5 h-auto" />
+                    <span className='hidden md:inline'>Leave Brain</span>
                 </div>
             )}
             {isOwner && (
-                <div className="text-reddark text-font-14 font-bold hover:underline inline-block mt-3 cursor-pointer">
+                <div className="text-red text-font-14 cursor-pointer flex items-center gap-x-1">
                     <DeleteDialog
                         title={`Are you sure you want to archive "${brain?.title}" brain?`}
-                        visible={true}
                         onDelete={onDeleteBrain}
-                        btnText="Archive"
-                        btnClass="btn-blue"
-                    ></DeleteDialog>
+                        btnText={<span className="hidden md:inline">Archive</span>}
+                        icon={<RemoveIcon width={14} height={14} className="fill-red w-4" />}
+                        btnClass=""
+                        buttonVisible={true}
+                    />
                 </div>
             )}
             {/* Leave Chat End*/}
@@ -382,10 +385,10 @@ const TeamItem = ({ team, handleRemoveTeam, brain }) => {
     return (
         <div className="group/item user-item flex justify-between py-1.5 px-0 border-b border-b11">
             <div className="user-img-name flex items-center">
-            <span className='w-[35px] h-[35px] rounded-full bg-b11 p-1.5'>
+            <span className='w-[35px] h-[35px] rounded-full bg-b11 p-1.5 mr-2.5'>
             <GroupIcon width={35} height={35} className="fill-b5 w-full h-auto" />
                 </span>
-                <p className="m-0 text-font-14 leading-[22px] font-normal text-b2 ml-5">
+                <p className="m-0 text-font-14 leading-[22px] font-normal text-b2">
                     {team.teamName}
                 </p>
                 <p className="m-0 text-font-14 leading-[22px] font-normal text-b2 ml-2">
@@ -546,12 +549,22 @@ const EditBrainModal = ({ open, closeModal, brain }) => {
                                 {brain.title}
                             </DialogTitle>
                             <DialogDescription>
-                                <div className="small-description text-font-14 max-md:text-font-12 leading-[24px] text-b5 font-normal ml-9">
-                                    <span className='mr-0.5'>Created By: </span>
-                                    {`${displayName(brain?.user)} on ${dateDisplay(
-                                        brain?.createdAt
-                                    )}`}
+                                <div className='flex items-center'>
+                                    <div className="small-description text-font-14 max-md:text-font-12 leading-[24px] text-b5 font-normal ml-9">
+                                        <span className='mr-0.5'>Created By: </span>
+                                        {`${displayName(brain?.user)} on ${dateDisplay(
+                                            brain?.createdAt
+                                        )}`}
                                    </div>
+                                   <div className="ml-auto">
+                                        <AboutBrainDetails
+                                            brain={brain}
+                                            isOwner={isOwner}
+                                            onLeaveBrain={onLeaveBrain}
+                                            onDeleteBrain={onDeleteBrain}
+                                        />
+                                    </div>
+                                </div>
                             </DialogDescription>
                         </DialogHeader>
 
@@ -592,7 +605,7 @@ const EditBrainModal = ({ open, closeModal, brain }) => {
                                             <DialogTrigger asChild>
                                                 <div>
                                                     <span
-                                                        className="inline-flex items-center cursor-pointer mr-1 px-3 py-2 rounded-md bg-white border border-b11 hover:bg-b11 transition ease-in-out duration-150 md:mb-0 mb-1"
+                                                        className="inline-flex items-center cursor-pointer mr-1 px-3 py-2 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150 md:mb-0 mb-1"
                                                         onClick={() =>
                                                             setAddMemberModal(
                                                                 true
@@ -615,7 +628,7 @@ const EditBrainModal = ({ open, closeModal, brain }) => {
                                                     </span>
                                 
                                                     <span
-                                                        className="inline-flex items-center cursor-pointer mr-3 px-3 py-2 rounded-md bg-b12 border border-b11 hover:bg-b11 transition ease-in-out duration-150"
+                                                        className="inline-flex items-center cursor-pointer mr-1 px-3 py-2 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150 md:mb-0 mb-1"
                                                         onClick={() =>
                                                             setAddTeamModal(
                                                                 true
@@ -689,19 +702,6 @@ const EditBrainModal = ({ open, closeModal, brain }) => {
                                 </div>
                                 </>
                             )}
-                            
-                            <div className="px-0 font-normal" 
-                            // value="About"
-                            >
-                                <AboutBrainDetails
-                                    brain={brain}
-                                    isOwner={isOwner}
-                                    onLeaveBrain={onLeaveBrain}
-                                    onDeleteBrain={onDeleteBrain}
-                                />
-                            </div>
-
-                          
                         </div>
                         <AddNewMemberModal
                             brain={brain}

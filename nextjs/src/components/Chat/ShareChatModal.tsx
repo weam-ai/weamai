@@ -156,7 +156,7 @@ const AddNewMemberModal = ({ chatInfo, onClose, open, refetchMemebrs, memberList
                                             <div className="flex justify-center mt-5 mb-5">
                                                 <button
                                                     type="submit"
-                                                    className="btn btn-blue"
+                                                    className="btn btn-black"
                                                     disabled={isLoading}
                                                 >
                                                     Add a Member
@@ -266,7 +266,7 @@ const TeamItem = ({ team, handleRemoveTeam }) => {
                 <span className='w-[35px] h-[35px] rounded-full bg-b11 p-1.5'>
                     <GroupIcon width={35} height={35} className="fill-b5 w-full h-auto" />
                 </span>
-                <p className="m-0 text-font-14 leading-[22px]  text-b2 ml-2.5 font-bold">
+                <p className="m-0 text-font-14 leading-[22px]  text-b2 ml-2.5">
                     {team?.teamName}
                 </p>
                 <p className="m-0 text-font-14 leading-[22px] font-normal text-b2 ml-2">

@@ -113,7 +113,7 @@ export const ModelCodeGroup = ({ botCode }: ModelCodeGroupProps) => {
 
 export const ModelCapability = ({ matchedModel }) => {
     return (
-        <div className='flex items-center gap-x-1 ml-auto w-[44%] max-md:w-full max-md:mt-1'>
+        <div className='flex items-center gap-x-1 ml-auto w-[44%] max-md:w-full max-md:mt-1 max-md:ml-8'>
             <div className='md:w-[65%] flex items-center gap-x-1 justify-center'>
                 {capabilities.map(({ key, icon: Icon, label }) =>
                     matchedModel?.[key] ? (

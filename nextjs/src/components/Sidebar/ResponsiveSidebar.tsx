@@ -10,7 +10,7 @@ const ResponsiveSidebar = memo(({ children }) => {
     
     return  (        
         <>
-            <div className='absolute top-[30px] left-[15px] z-[5]' onClick={toggleSidebar}>
+            <div className='absolute max-lg:fixed top-[30px] left-[15px] z-[15]' onClick={toggleSidebar}>
                 <Humburger
                     width={22}
                     height={10}

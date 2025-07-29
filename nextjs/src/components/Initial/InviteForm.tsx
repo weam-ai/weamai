@@ -71,8 +71,9 @@ const InviteForm = () => {
                     onAdd={(chip) => handleAddChip(chip)}
                     disableUnderline
                     className="w-full default-form-input !p-0"
+                    placeholder='Type and press enter, tab or comma to add tags' 
                     // validate={validateChip as any}
-                    newChipKeys={['Enter', 'Tab', ' ']}
+                    newChipKeys={['Enter', 'Tab', ',']}
                     onDelete={(chip, index) => handleDeleteChip(chip, index)}
                     classes={{
                         root: classes.inputRoot,

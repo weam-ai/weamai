@@ -12,7 +12,9 @@ const MODEL_TAB = 'model';
 export default function GeneralSettings({ searchParams }) {   
     const tab = searchParams.tab || MODEL_TAB;
     return (
-        <div className="flex flex-col flex-1 relative h-full overflow-hidden lg:pt-20 pb-10 px-2 max-md:mt-[50px]">
+        <>
+        <div className="max-md:h-[50px] max-md:sticky max-md:top-0 bg-white z-10"></div>
+        <div className="flex flex-col flex-1 relative h-full overflow-hidden lg:pt-20 pb-10 px-2">
             <div className="h-full overflow-y-auto w-full relative">
                 <div className="mx-auto max-w-[950px]">
                     <Tabs defaultValue={tab === MODEL_TAB ? 'model-settings' : 'shared-links'} className="w-full mx-auto mt-0 lg:mt-4">
@@ -41,6 +43,7 @@ export default function GeneralSettings({ searchParams }) {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
