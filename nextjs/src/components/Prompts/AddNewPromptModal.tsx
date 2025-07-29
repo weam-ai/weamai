@@ -219,7 +219,7 @@ const AddNewPromptModal = ({ open, closeModal, mycontent, edit, flag, chatprompt
                         
                         {/* Toggle text */}
                         <span className="text-b5 text-font-12 hidden md:inline">
-                            {isFavourite ? 'Favourite' : 'Add to Favourite'}
+                            {isFavourite ? 'Favorite' : 'Add to Favorite'}
                         </span>
                         </div>
                     </DialogTitle>

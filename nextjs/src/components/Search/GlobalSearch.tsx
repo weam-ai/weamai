@@ -253,7 +253,7 @@ const GlobalSearch = () => {
                                 <SearchIcon className="w-4 h-[17px] fill-b7" />
                             </span>
                             
-                            {/* <RadioDropdown data={data} defaultValue={'Favourite'} /> */}
+                            {/* <RadioDropdown data={data} defaultValue={'Favorite'} /> */}
                         </div>
                     </DialogTitle>
                 </DialogHeader>

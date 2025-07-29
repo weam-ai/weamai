@@ -20,7 +20,7 @@ const AddMember = ({ onNext, onPrev }) => {
                 <div className="search-docs relative mb-2.5">
                     <input
                         type="text"
-                        className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-10"
+                        className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                         id="searchMember"
                         placeholder="Search Member"
                     />

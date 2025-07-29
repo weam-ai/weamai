@@ -75,7 +75,7 @@ export default function Home() {
                             <div className="search-docs relative flex-1 max-md:w-full">
                                 <input
                                     type="text"
-                                    className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-10"
+                                    className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                                     id="searchDocs"
                                     placeholder="Search Prompts"
                                     onChange={handleChange}
@@ -186,7 +186,7 @@ export default function Home() {
                                 {
                                     showFavorites && promptList.length === 0 && !loading &&
                                     (
-                                        <NoResultFound message="You haven't added any prompt to your favourites yet." />
+                                        <NoResultFound message="You haven't added any prompt to your Favorites yet." />
                                     )
                                 }
                             </div>

@@ -28,7 +28,7 @@ const Bookmark = () => {
             </button>
             </TooltipTrigger>
             <TooltipContent>
-            <p className='text-font-14'>Add to favourites</p>
+            <p className='text-font-14'>Add to Favorites</p>
             </TooltipContent>
         </Tooltip>
         </TooltipProvider>
