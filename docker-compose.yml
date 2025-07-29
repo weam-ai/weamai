@@ -163,7 +163,7 @@ services:
    image: "mcp_server"
    container_name: mcp_server
    ports:
-      - "${MCP_SERVER_PORT}:${MCP_SERVER_PORT}"
+      - "${MCP_PORT}:${MCP_PORT}"
    networks:
       - app-network
    depends_on:
