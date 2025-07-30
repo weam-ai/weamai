@@ -116,7 +116,8 @@ export default function DashboardReport() {
     
     return (
         <>
-            <div className="flex flex-col flex-1 relative h-full overflow-hidden lg:pt-20 pb-10 px-2 max-md:mt-[50px]">
+        <div className="max-md:h-[50px] max-md:sticky max-md:top-0 bg-white z-10"></div>
+            <div className="flex flex-col flex-1 relative h-full overflow-hidden lg:pt-20 pb-10 px-2 ">
                 <div className="h-full overflow-y-auto w-full relative">
                     <div className="mx-auto max-w-[950px]">
                         <h5 className="text-font-18 font-bold text-b2 mb-1">

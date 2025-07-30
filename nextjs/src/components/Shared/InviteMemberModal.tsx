@@ -29,10 +29,10 @@ export const useStyles = makeStyles((theme) => ({
     input: {
         // Custom styles for the input field
         color: '#333',
-        fontSize: '16px',
+        fontSize: '14px',
         padding: '15px 15px',
         '&::placeholder': {
-            color: '#999',
+            color: '#111',
         },
     },
     chip: {
@@ -142,8 +142,9 @@ const InviteMemberModal = ({getUsersList}) => {
                                 onAdd={(chip) => handleAddChip(chip)}
                                 disableUnderline
                                 className="w-full default-form-input !p-0"
+                                placeholder='Type and press enter, tab or comma to add tags' 
                                 // validate={validateChip as any}
-                                newChipKeys={['Enter', 'Tab', ' ']}
+                                newChipKeys={['Enter', 'Tab', ',']}
                                 onDelete={(chip, index) => handleDeleteChip(chip, index)}
                                 classes={{
                                     root: classes.inputRoot,

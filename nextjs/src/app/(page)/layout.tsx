@@ -36,7 +36,7 @@ export default async function PageLayout({ children }: PageLayoutProps) {
                             <div className="main-wrapper flex flex-col flex-1 lg:ml-[310px] lg:overflow-hidden lg:p-0 md:pb-10 pb-2">
                                 <Sidebar />
                             {/* Main content Start */}
-                            <main className="main-content flex flex-col flex-1 overflow-hidden">
+                            <main className="main-content flex flex-col flex-1 lg:overflow-hidden">
                                 <Toaster
                                     position="top-right"
                                     reverseOrder={false}

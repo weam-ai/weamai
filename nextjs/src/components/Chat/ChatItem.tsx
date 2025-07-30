@@ -341,7 +341,7 @@ const ChatItem = () => {
                     }
                     {
                         chatList.length === 0 && !isLoading && showFavorites && 
-                            <NoResultFound message="You haven't added any chats to your favourites yet." />
+                            <NoResultFound message="You haven't added any chats to your Favorites yet." />
                     }
                 </div>
                 <LoadMorePagination

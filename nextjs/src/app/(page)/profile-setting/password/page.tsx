@@ -34,7 +34,9 @@ const PasswordChange = () => {
     }, [])
 
     return (
-        <div className="flex flex-col flex-1 relative h-full overflow-hidden lg:pt-20 pb-10 px-2 max-md:mt-[70px]">
+        <>
+        <div className="max-md:h-[50px] max-md:sticky max-md:top-0 bg-white z-10"></div>
+        <div className="flex flex-col flex-1 relative h-full overflow-hidden lg:pt-20 pb-10 px-2">
             <div className="h-full overflow-y-auto w-full relative">
                 <form className="w-full" onSubmit={handleSubmit(formProcessHandler)}>
                     <div className="mx-auto max-w-[600px]">
@@ -106,6 +108,7 @@ const PasswordChange = () => {
                 </form>
             </div>
         </div>
+        </>
     );
 };
 

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '14px',
         padding: '15px 15px',
         '&::placeholder': {
-            color: '#999',
+            color: '#111',
         },
     },
     chip: {
@@ -185,7 +185,7 @@ const SeoArticle = ({setDialogOpen, handleSubmitPrompt }: SeoArticleProps) => {
                                 required
                                 className="w-full default-form-input !p-0 "
                                 id="keywords"
-                                placeholder="Type and press enter or tab"
+                                placeholder='Type and press enter, tab or comma to add tags' 
                                 disableUnderline
                                 newChipKeys={["Enter", "Tab", ',']}
                                 classes={{

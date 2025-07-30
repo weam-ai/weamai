@@ -109,7 +109,7 @@ const BookmarkDialog = React.memo(({ onSelect, isWebSearchActive, selectedAttach
                     <div className="md:min-w-80 relative mt-5 mb-2">
                         <input
                             type="text"
-                            className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-10"
+                            className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                             id="searchDocs"
                             placeholder="Search"
                             onChange={handleInputChange}

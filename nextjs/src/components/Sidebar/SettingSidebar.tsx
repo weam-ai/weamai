@@ -52,7 +52,7 @@ const SettingSidebar = async () => {
             slug: '/settings/reports',
         },
         {
-            name: 'MCP',
+            name: 'Connections',
             icon: (
                 <AppIcon
                     height={20}

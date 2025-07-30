@@ -15,7 +15,7 @@ type InfoItemProps = {
 };
 
 const ICON_SIZE = '16';
-const ITEM_CLASS = 'text-font-14';
+const ITEM_CLASS = 'text-font-14 flex items-center max-md:flex-wrap';
 
 const InfoItem = ({ icon, label, value }: InfoItemProps) => (
     <div className={ITEM_CLASS}>

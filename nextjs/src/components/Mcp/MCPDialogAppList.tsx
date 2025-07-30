@@ -33,7 +33,7 @@ export const MCPDialogAppList = ({ dialogTriggerTitle }: MCPDialogAppListProps) 
     
     <DialogContent className="md:max-w-[900px] max-w-[calc(100%-30px)] py-7">
         <DialogHeader className="rounded-t-10 px-[30px] pb-5 border-b">
-            <DialogTitle className="font-semibold text-font-20 flex items-center">Connected Apps</DialogTitle>
+            <DialogTitle className="font-semibold text-font-20 flex items-center">Connections</DialogTitle>
             <DialogDescription>
                 Unlock more with Weam when you connect these reviewed and recommended tools.
             </DialogDescription>

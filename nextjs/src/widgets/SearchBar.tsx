@@ -59,7 +59,7 @@ const SearchBar = ({ placeholder, btnname, searchValue, setSearchValue, setShowF
             <div className="search-docs relative md:flex-1 max-md:w-full">
                 <input
                     type="text"
-                    className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-10"
+                    className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                     placeholder={placeholder}
                     onChange={handleChange}
                     value={searchValue}

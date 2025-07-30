@@ -33,7 +33,7 @@ const McpApps = async ({ searchParams }: McpAppsProps) => {
         <div className="w-full h-full mt-8 md:px-10 px-4 overflow-hidden">
             <div className="flex items-center">
                 <div>
-                    <h2 className="text-font-22 font-bold">Connected Apps</h2>
+                    <h2 className="text-font-22 font-bold">Connections</h2>
                     <p className="text-b5 text-font-14">
                         Unlock more with Weam when you connect these reviewed
                         and recommended tools.
