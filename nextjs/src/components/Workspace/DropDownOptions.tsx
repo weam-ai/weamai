@@ -117,7 +117,7 @@ export const WorkspaceNewChatButton = memo(() => {
     const currentUser= useMemo( () => getCurrentUser(),[])
 
     const handleNewChatClick = () => {
-        const brain = getSelectedBrain(brainData,currentUser);
+        const brain = getSelectedBrain(brainData,currentUser,true);
         
         if (!brain) return;
         const encodedId = encodedObjectId(brain?._id);
