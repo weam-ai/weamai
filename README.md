@@ -1,69 +1,152 @@
 <p align="center">
-  <img src="https://drive.google.com/uc?id=YOUR_IMAGE_ID" alt="Weam AI Logo" width="200"/>
+  <img src="https://weam.ai/app/uploads/2024/08/logo.png" alt="Weam AI Logo" width="160"/>
 </p>
 
-<h1 align="center">Weam AI – The #1 Open Source Collaborative AI Platform</h1>
+<h1 align="center">Weam AI</h1>
 
 <p align="center">
-  <a href="https://weam.ai">Website</a> ·
-  <a href="https://docs.weam.ai">Documentation</a> ·
-  <a href="https://github.com/weam-ai/roadmap">Roadmap</a> ·
+  <strong>The #1 Open Source Collaborative AI Platform</strong><br/>
+  Chat. Build. Share. Operationalize generative AI across your team with ease.
+</p>
+
+<p align="center">
+  <a href="https://weam.ai">Website</a> •
+  <a href="https://docs.weam.ai">Docs</a> •
+  <a href="https://github.com/weam-ai/roadmap">Roadmap</a> •
   <a href="https://discord.gg/X5U8R45b">Discord</a>
 </p>
 
----
-
-## About Weam AI
-
-**Weam AI is a fully open-source collaborative AI platform** designed to bring teams together in a shared space to adopt and operationalize generative AI. Whether you're a startup or a global organization, Weam helps you scale your AI usage, reduce silos, and unlock cross-team productivity.
-
----
-
-## Why Choose Weam AI?
-
-Weam AI offers a unified interface for all your AI needs:
-
-- One platform to chat with AI, interact with documents, and build team-wide prompts and bots
-- Support for shared "team brains" and individual "private brains"
-- Track company-wide AI engagement and adoption
-- No need for separate subscriptions — access ChatGPT, Claude, Gemini, Llama, and more from one place
+<p align="center">
+  <a href="https://github.com/weam-ai/weam/stargazers"><img src="https://img.shields.io/github/stars/weam-ai/weam?style=flat-square&color=yellow" /></a>
+  <a href="https://github.com/weam-ai/weam/forks"><img src="https://img.shields.io/github/forks/weam-ai/weam?style=flat-square&color=blue" /></a>
+  <a href="https://github.com/weam-ai/weam/issues"><img src="https://img.shields.io/github/issues/weam-ai/weam?style=flat-square" /></a>
+  <a href="https://hub.docker.com/r/weamai/weam"><img src="https://img.shields.io/docker/pulls/weamai/weam?style=flat-square&color=informational" /></a>
+  <a href="https://github.com/weam-ai/weam"><img src="https://img.shields.io/github/commit-activity/m/weam-ai/weam?style=flat-square&color=green" /></a>
+  <a href="https://github.com/weam-ai/weam"><img src="https://img.shields.io/github/license/weam-ai/weam?style=flat-square&color=lightgrey" /></a>
+</p>
 
 ---
 
-## What You Can Do With Weam AI
+## What is Weam AI
 
-- Collaborate on shared chat threads with your team
-- Create and manage prompt libraries
-- Build and share organization-specific AI bots
-- Interact with your documentation using natural language
-- Monitor team engagement and usage analytics
-- Use prebuilt templates for faster bot and prompt creation
-- Provide enterprise-grade LLM access to your entire team
+Weam AI is a fully open-source, self-hosted AI collaboration platform that helps teams operationalize generative AI in a unified workspace. It enables you to chat with multiple LLMs, build agents, organize prompts, analyze documents, and connect external tools — securely and at scale.
+
+---
+
+## Core Features
+
+### Multi‑LLM Switching  
+Seamlessly switch between top LLMs like GPT-4, Claude, Gemini, and more — even mid-conversation — to use the best model for the task.
+
+### Workspaces  
+Create secure, isolated environments for different teams, departments, or business units. Each workspace has its own brains, agents, and analytics.
+
+### Brains  
+Brains store and organize your team’s knowledge, files, prompts, and chats. Ideal for team-wide collaboration on projects or initiatives.
+
+### Chats & Import  
+Structured AI conversations scoped by Brain. Supports sharing via URL and importing chat history from ChatGPT or Claude for continuity.
+
+### Prompts  
+Build, organize, and share reusable prompt templates across your team. Ideal for marketing copy, support responses, code reviews, and more.
+
+### Connections (via MCP)  
+Securely connect tools like Slack, Gmail, GitHub, Notion, and Drive using Model Context Protocol (MCP). Enable real-time data and actions from within the chat interface.
+
+### Agents  
+Deploy smart, reusable AI assistants fine-tuned for department-specific tasks like HR onboarding, engineering help, or marketing automation.
+
+---
+
+## Supported AI Model Providers
+
+<table>
+  <tr>
+    <td><img src="https://img.shields.io/badge/OpenAI-GPT-blue?logo=openai&logoColor=white" /></td>
+    <td><img src="https://img.shields.io/badge/Claude-Anthropic-8B5CF6?logo=anthropic" /></td>
+    <td><img src="https://img.shields.io/badge/Gemini-Google-34A853?logo=google" /></td>
+    <td><img src="https://img.shields.io/badge/LLaMA-Meta-black?logo=meta" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://img.shields.io/badge/HuggingFace-AI-yellow" /></td>
+    <td><img src="https://img.shields.io/badge/Qwen-Alibaba-FF6A00?logo=alibaba" /></td>
+    <td><img src="https://img.shields.io/badge/Grok-xAI-000000" /></td>
+    <td><img src="https://img.shields.io/badge/OpenRouter-LLMs-4B8BBE" /></td>
+  </tr>
+</table>
+
+---
+
+## Built-in Integrations (via MCP)
+
+Weam supports seamless integration with enterprise tools via Model Context Protocol (MCP):
+
+<table>
+  <tr>
+    <td><img src="https://img.shields.io/badge/Slack-Chat-4A154B?logo=slack" /></td>
+    <td><img src="https://img.shields.io/badge/Gmail-Email-D14836?logo=gmail" /></td>
+    <td><img src="https://img.shields.io/badge/Google%20Calendar-Events-4285F4?logo=google-calendar" /></td>
+    <td><img src="https://img.shields.io/badge/Google%20Drive-Docs-34A853?logo=google-drive" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://img.shields.io/badge/GitHub-Code-181717?logo=github" /></td>
+    <td><img src="https://img.shields.io/badge/Notion-Workspace-000000?logo=notion" /></td>
+    <td><img src="https://img.shields.io/badge/Asana-Tasks-273347?logo=asana" /></td>
+  </tr>
+</table>
 
 ---
 
 ## Installation
 
-### Local Setup
+```bash
+git clone https://github.com/weam-ai/weam.git
+cd weam
+docker-compose up -d
+```
 
-Follow our Quickstart guide to install Weam AI locally:
-
-👉 [Quickstart Guide](https://docs.weam.ai/quickstart)
-
----
-
-## Join the Community
-
-- **Star** the repository to support the project
-- **Subscribe** to releases (Watch → Custom → Releases) to stay updated
-- **Follow us on [Twitter](https://twitter.com/weamai)**
-- **Connect with us on [LinkedIn](https://linkedin.com/company/weam-ai)**
-- **Join the conversation on [Discord](https://discord.gg/X5U8R45b)**
+Full Quickstart Guide: [docs.weam.ai/quickstart](https://docs.weam.ai/quickstart)
 
 ---
 
-## Contributing
+## Use Cases
 
-We welcome all contributions — whether it's fixing bugs, writing documentation, or suggesting new features. Please open an issue or pull request to get started.
+| Team         | Example Use Case                             |
+|--------------|----------------------------------------------|
+| Engineering  | GitHub bot, code Q&A, doc search              |
+| Marketing    | Prompt library, campaign generation           |
+| HR / Ops     | Onboarding bots, internal knowledge base      |
+| Support      | Slack/Gmail-based support copilots            |
 
 ---
+
+## Community & Contributions
+
+We welcome all contributions:
+
+- Star the repo  
+- Report issues  
+- Submit PRs  
+- Join our [Discord](https://discord.gg/X5U8R45b)  
+- Follow [@weamai](https://twitter.com/weamai)  
+- Connect on [LinkedIn](https://linkedin.com/company/weam-ai)
+
+---
+
+## Staying Ahead
+
+Star [weam-ai](https://github.com/weam-ai/weam) and  
+Watch → Custom → Releases to get notified of updates
+
+---
+
+## License
+
+Weam is licensed under a modified version of the Apache License 2.0,  
+with additional terms to protect fair use, encourage contributions,  
+and restrict unauthorized commercialization.  
+See [`LICENSE`](./LICENSE) for full terms.
+
+---
+
+Built with care by the Weam AI community.
