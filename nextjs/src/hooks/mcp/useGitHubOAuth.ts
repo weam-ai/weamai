@@ -6,26 +6,47 @@ export const useGitHubOAuth = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [loading, setLoading] = useState(false);
     const [connectionData, setConnectionData] = useState(null);
-    
+
     // Check if user is already connected to GitHub
     const checkGitHubConnection = async () => {
-        // For now, we'll assume not connected
-        setIsConnected(false);
+        try {
+            // Check if we have a stored access token
+            const accessToken = localStorage.getItem('github_access_token');
+            if (accessToken) {
+                setIsConnected(true);
+            } else {
+                setIsConnected(false);
+            }
+        } catch (error) {
+            console.error('Error checking GitHub connection:', error);
+            setIsConnected(false);
+        }
     };
 
     // Initiate GitHub OAuth flow
     const initiateGitHubOAuth = () => {
-        const state = Math.random().toString(36).substring(7);
-        const params = new URLSearchParams({
-            client_id: GITHUB.CLIENT_ID,
-            scope: GITHUB.SCOPE,
-            redirect_uri: GITHUB.REDIRECT_URI,
-            state: state,
-            response_type: 'code'
-        });
-        
-        // Redirect to GitHub OAuth
-        window.location.href = `${GITHUB.AUTH_URL}?${params.toString()}`;
+        try {
+            // Check if environment variables are available
+            if (!GITHUB.CLIENT_ID || !GITHUB.REDIRECT_URI) {
+                Toast('GitHub OAuth is not properly configured. Please contact support.', 'error');
+                return;
+            }
+
+            const state = Math.random().toString(36).substring(7);
+            const params = new URLSearchParams({
+                client_id: GITHUB.CLIENT_ID,
+                scope: GITHUB.SCOPE,
+                redirect_uri: GITHUB.REDIRECT_URI,
+                state: state,
+                response_type: 'code'
+            });
+
+            const authUrl = `${GITHUB.AUTH_URL}?${params.toString()}`;
+            window.location.href = authUrl;
+        } catch (error) {
+            console.error('Error initiating GitHub OAuth:', error);
+            Toast('Failed to initiate GitHub OAuth. Please try again.', 'error');
+        }
     };
 
     // Handle OAuth callback - this is handled by the Next.js API route
@@ -48,7 +69,6 @@ export const useGitHubOAuth = () => {
     const disconnectGitHub = async () => {
         setLoading(true);
         try {
-            // Clear local storage
             setIsConnected(false);
             setConnectionData(null);
             Toast('Successfully disconnected from GitHub!', 'success');

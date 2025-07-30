@@ -5,6 +5,9 @@ import { updateMcpDataAction } from '@/actions/user';
 import { MCP_CODES } from '@/components/Mcp/MCPAppList';
 
 export async function GET(request: NextRequest) {
+    console.log('GitHub OAuth callback received');
+    console.log('Request URL:', request.url);
+    
     try {
         // Check if required environment variables are set
         if (!GITHUB.CLIENT_ID || !GITHUB.CLIENT_SECRET) {
@@ -14,18 +17,27 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const searchParams = request.nextUrl.searchParams;
-        const code = searchParams.get('code');
-        const state = searchParams.get('state');
-        const error = searchParams.get('error');
+        // Use URL constructor to avoid dynamic server usage
+        const url = new URL(request.url);
+        const code = url.searchParams.get('code');
+        const state = url.searchParams.get('state');
+        const error = url.searchParams.get('error');
+
+        console.log('GitHub OAuth callback params:', {
+            code: code ? 'present' : 'missing',
+            state: state ? 'present' : 'missing',
+            error: error || 'none'
+        });
 
         if (error) {
+            console.error('GitHub OAuth error:', error);
             return NextResponse.redirect(
                 `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_denied`
             );
         }
 
         if (!code || !state) {
+            console.error('GitHub OAuth missing code or state');
             return NextResponse.redirect(
                 `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_invalid`
             );
@@ -47,11 +59,24 @@ export async function GET(request: NextRequest) {
         });
 
         const tokenData = await tokenResponse.json();
+        console.log('Token response status:', tokenResponse.status);
+        //console.log('Token response:', tokenData);
+        
+        if (!tokenResponse.ok) {
+            console.error('GitHub token exchange failed:', {
+                status: tokenResponse.status,
+                statusText: tokenResponse.statusText,
+                data: tokenData
+            });
+            return NextResponse.redirect(
+                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_failed&reason=token_exchange_failed&status=${tokenResponse.status}`
+            );
+        }
         
         if (tokenData.error) {
             console.error('GitHub OAuth error:', tokenData);
             return NextResponse.redirect(
-                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_failed&reason=${tokenData.error_description || 'unknown'}`
+                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_failed&reason=${tokenData.error_description || tokenData.error || 'unknown'}`
             );
         }
 
@@ -64,11 +89,17 @@ export async function GET(request: NextRequest) {
         });
 
         const userData = await userResponse.json();
+        // console.log('User info response status:', userResponse.status);
+        // console.log('User info response:', userData);
 
-        if (userResponse.status !== 200) {
-            console.error('GitHub user info error:', userData);
+        if (!userResponse.ok) {
+            console.error('GitHub user info error:', {
+                status: userResponse.status,
+                statusText: userResponse.statusText,
+                //data: userData
+            });
             return NextResponse.redirect(
-                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_failed&reason=user_info_error`
+                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_failed&reason=user_info_error&status=${userResponse.status}`
             );
         }
 
@@ -87,7 +118,17 @@ export async function GET(request: NextRequest) {
         }
         
         const mcpDataKey = 'mcpdata.' + MCP_CODES.GITHUB;
-        updateMcpDataAction({ [mcpDataKey]: payload, isDeleted: false });
+        
+        try {
+            // console.log('Saving MCP data...');
+            await updateMcpDataAction({ [mcpDataKey]: payload, isDeleted: false });
+            // console.log('MCP data saved successfully');
+        } catch (error) {
+            // console.error('Error saving MCP data:', error);
+            return NextResponse.redirect(
+                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_failed&reason=mcp_data_save_error`
+            );
+        }
 
         return NextResponse.redirect(
             `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?success=github_connected&access_token=${tokenData.access_token}`
@@ -95,6 +136,11 @@ export async function GET(request: NextRequest) {
 
     } catch (error) {
         console.error('GitHub OAuth callback error:', error);
+        // console.error('Error details:', {
+        //     message: error instanceof Error ? error.message : 'Unknown error',
+        //     stack: error instanceof Error ? error.stack : undefined,
+        //     name: error instanceof Error ? error.name : 'Unknown'
+        // });
         return NextResponse.redirect(
             `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=github_oauth_error`
         );
