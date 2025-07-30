@@ -13,7 +13,7 @@
   <a href="https://weam.ai">Website</a> •
   <a href="https://docs.weam.ai">Docs</a> •
   <a href="https://github.com/weam-ai/roadmap">Roadmap</a> •
-  <a href="https://discord.gg/X5U8R45b">Discord</a>
+  <a href="https://discord.gg/qhuPkhWh">Discord</a>
 </p>
 
 <p align="center">
@@ -168,7 +168,7 @@ docker-compose up -d
 
 ## Community & Support
 
-- [Discord](https://discord.gg/X5U8R45b)  
+- [Discord](https://discord.gg/qhuPkhWh)  
 - [Docs](https://docs.weam.ai)  
 - [GitHub Issues](https://github.com/weam-ai/weam/issues)  
 - Email: hello@weam.ai  
@@ -225,6 +225,6 @@ Check our public [roadmap](https://github.com/weam-ai/roadmap) for upcoming feat
   <strong>Built with ❤️ by the Weam AI community</strong><br/>
   <em>Empowering teams to collaborate with AI, not just use it.</em><br/>
   <a href="https://github.com/weam-ai/weam/stargazers">⭐ Star us on GitHub</a> • 
-  <a href="https://discord.gg/X5U8R45b">Join our Discord</a> • 
+  <a href="https://discord.gg/qhuPkhWh">Join our Discord</a> • 
   <a href="https://weam.ai">Visit our Website</a>
 </p>
