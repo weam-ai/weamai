@@ -483,33 +483,41 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         }
     }, [message]);
 
-    useEffect(() => { 
+    const generalBrain = useMemo(() => 
+        brains?.find((brain) => brain.title === GENERAL_BRAIN_TITLE), 
+        [brains]
+    );
+
+    const defaultModal = useMemo(() => 
+        aiModals.find((modal) => modal.name === AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED), 
+        [aiModals]
+    );
+
+    useEffect(() => {
         if (!brains || brains.length === 0) {
             return;
         }
 
-        const generalBrain = brains.find((brain) => brain.title === GENERAL_BRAIN_TITLE);
-        
-        if(!generalBrain){
+        if (!generalBrain) {
             const firstBrain = brains[0];
             if (firstBrain) {
                 persistBrainData(firstBrain);
             }
-        }
-        else if(isEmptyObject(selectedBrain)){
+        } 
+        else if (isEmptyObject(selectedBrain) && generalBrain) {
             dispatch(setSelectedBrain(generalBrain));
-        }
-        else{
+        } else {
             if (!retrieveBrainData()) {
                 persistBrainData(generalBrain);
             }
         }
+    }, [brains, generalBrain, selectedBrain, dispatch]);
 
-        const defaultModal = aiModals.find((modal) => modal.name === AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED);
+    useEffect(() => {
         if (defaultModal) {
             setSelectedAIModal(defaultModal);
         }
-    }, [searchParams, brains, dispatch]); 
+    }, [defaultModal]);
         
     const [showAgentList, setShowAgentList] = useState(false);
     const [showPromptList, setShowPromptList] = useState(false);

@@ -21,7 +21,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '../ui/tooltip';
-import { decodedObjectId, encodedObjectId } from '@/utils/helper';
+import { decodedObjectId, encodedObjectId, persistBrainData } from '@/utils/helper';
 import { setEditBrainModalAction } from '@/lib/slices/modalSlice';
 import { AI_MODEL_CODE, GENERAL_BRAIN_SLUG, ROLE_TYPE } from '@/utils/constant';
 import { SettingsIcon } from '@/icons/SettingsIcon';
@@ -281,6 +281,7 @@ export const CommonList = ({ b, key, currentUser, closeSidebar }: CommonListProp
         dispatch(setLastConversationDataAction({}));
         dispatch(chatMemberListAction([]));
         dispatch(setSelectedBrain(b));
+        persistBrainData(b);
         
         if (pathname === routes.main) {
             history.pushState(null, '', `${routes.main}?b=${brainId}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
