@@ -6,6 +6,7 @@ from mcp.server.fastmcp import FastMCP
 from fastapi import FastAPI
 from src.gateway.jwt_decode import get_user_by_id
 from src.logger.default_logger import logger
+from typing import Dict, Any, List, Optional
 from src.MCP.tools.slack.slack_tools import (
     list_slack_channels, send_slack_message, get_channel_messages,
     list_workspace_users, get_user_info, get_user_profile, get_channel_members,
@@ -21,6 +22,11 @@ from src.MCP.tools.github.github_tools import (
     get_git_commits, get_user_info, get_github_repositories, get_github_repository_info, 
     get_repository_branches, get_repository_issues, create_github_branch, create_pull_request, 
     get_pull_request_details, get_pull_requests, get_tags_or_branches, global_search
+)
+from src.MCP.tools.asana.asana_tools import (
+    create_project, list_projects, get_project, update_project, create_task, list_tasks, update_task,
+    complete_task, create_section, list_sections, add_task_to_section, add_dependencies_to_task, get_task_dependencies, get_user_info_asana,get_workspace_id,
+    create_team, list_teams, list_team_ids, get_team
 )
 from fastapi import Request
 from fastapi.responses import JSONResponse
@@ -597,3 +603,393 @@ async def github_global_search(
     """
     user_data = await get_user_by_id(mcp_data)
     return await global_search(search_type, query, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), page, per_page)
+
+# =============================================================================
+# ASANA TOOLS
+# =============================================================================
+
+@mcp.tool()
+async def asana_create_project(
+    name: str,
+    notes: str = "",
+    color: Optional[str] = None,
+    is_public: bool = True,
+    workspace_id: str = None,
+    team_id: str = None,
+    mcp_data:str=None
+) -> str:
+    """Create a new project in Asana.
+
+    Args:
+        name: The name of the project
+        notes: Optional notes about the project
+        color: Optional color for the project (light-green, dark-green, light-blue, etc.)
+        is_public: Optional flag to make the project public to the team
+        workspace_id: workspace ID
+        team_id: team ID (required if workspace is an organization)
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_project(
+        name,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']),
+        notes,
+        color,
+        is_public,
+        workspace_id,
+        team_id
+    )
+
+
+@mcp.tool()
+async def asana_list_projects(
+    workspace_id: str = None,
+    mcp_data:str=None
+) -> str:
+    """List all projects in a workspace.
+
+    Args:
+        workspace_id: workspace ID
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await list_projects(
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']),
+        workspace_id
+    )
+
+
+@mcp.tool()
+async def asana_get_project(
+    project_id: str,
+    mcp_data:str=None
+) -> str:
+    """Get project details.
+
+    Args:
+        project_id: The ID of the project
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_project(
+        project_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_update_project(
+    project_id: str,
+    updated_fields: Dict[str, Any],
+    mcp_data:str=None
+) -> str:
+    """Update a project in Asana.
+
+    Args:
+        project_id: The ID of the project to update
+        updated_fields: Fields to update (name, notes, color, etc.)
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await update_project(
+        project_id,
+        updated_fields,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_create_task(
+    name: str,
+    notes: str = "",
+    assignee: Optional[str] = None,
+    due_on: Optional[str] = None,
+    project_id: str = None,
+    workspace_id: str = None,
+    mcp_data:str=None
+) -> str:
+    """Create a new task in Asana.
+
+    Args:
+        name: The name of the task
+        notes: Optional notes about the task
+        assignee: Optional assignee email or ID
+        due_on: Optional due date in YYYY-MM-DD format
+        project_id: project ID to add the task to
+        workspace_id: workspace ID
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_task(
+        name,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']),
+        notes,
+        assignee,
+        due_on,
+        project_id,
+        workspace_id
+    )
+
+
+@mcp.tool()
+async def asana_list_tasks(
+    project_id: str = None,
+    workspace_id: str = None,
+    assignee: Optional[str] = None,
+    completed_since: Optional[str] = None,
+    mcp_data:str=None
+) -> str:
+    """List tasks in a project or workspace.
+
+    Args:
+        project_id: project ID to list tasks from
+        workspace_id: workspace ID
+        assignee: Optional filter by assignee email or ID
+        completed_since: Optional filter for tasks completed since a date (YYYY-MM-DD)
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await list_tasks(
+        project_id,
+        workspace_id,
+        assignee,
+        completed_since,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_update_task(
+    task_id: str,
+    updated_fields: Dict[str, Any],
+    mcp_data:str=None
+) -> str:
+    """Update a task in Asana.
+
+    Args:
+        task_id: The ID of the task to update
+        updated_fields: Fields to update (name, notes, assignee, due_on, etc.)
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await update_task(
+        task_id,
+        updated_fields,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_complete_task(
+    task_id: str,
+    mcp_data:str=None
+) -> str:
+    """Mark a task as complete in Asana.
+
+    Args:
+        task_id: The ID of the task to complete
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await complete_task(
+        task_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_create_section(
+    name: str,
+    project_id: str,
+    mcp_data:str=None
+) -> str:
+    """Create a new section in an Asana project.
+
+    Args:
+        name: The name of the section
+        project_id: The ID of the project to add the section to
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_section(
+        name,
+        project_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_list_sections(
+    project_id: str,
+    mcp_data:str=None
+) -> str:
+    """List all sections in an Asana project.
+
+    Args:
+        project_id: The ID of the project
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await list_sections(
+        project_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_add_task_to_section(
+    task_id: str,
+    section_id: str,
+    mcp_data:str=None
+) -> str:
+    """Add a task to a section in Asana.
+
+    Args:
+        task_id: The ID of the task
+        section_id: The ID of the section
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await add_task_to_section(
+        task_id,
+        section_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_add_dependencies_to_task(
+    task_id: str,
+    dependency_ids: List[str],
+    mcp_data:str=None
+) -> str:
+    """Add dependencies to a task in Asana.
+    Note: This feature requires a premium Asana account.
+
+    Args:
+        task_id: The ID of the task
+        dependency_ids: List of task IDs that the task depends on
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await add_dependencies_to_task(
+        task_id,
+        dependency_ids,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+
+@mcp.tool()
+async def asana_get_task_dependencies(
+    task_id: str,
+    mcp_data:str=None
+) -> str:
+    """Get dependencies for a task in Asana.
+    Note: This feature requires a premium Asana account.
+
+    Args:
+        task_id: The ID of the task
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_task_dependencies(
+        task_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+@mcp.tool()
+async def asana_get_user_info(mcp_data:Optional[str]=None) -> str:
+    """Get user information from Asana.
+
+    Args:
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_user_info_asana(decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']))
+
+@mcp.tool()
+async def asana_get_workspace_id(mcp_data:Optional[str]=None) -> str:
+    """Get the default workspace ID from Asana.Always call this function first to get the workspace ID
+
+    Args:
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_workspace_id(decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']))
+
+@mcp.tool()
+async def asana_create_team(
+    name: str,
+    workspace_id: str,
+    mcp_data:str=None,
+    description: Optional[str] = "",
+    html_description: Optional[str] = ""
+) -> str:
+    """Create a new team in Asana.
+
+    Args:
+        name: The name of the team
+        workspace_id: Workspace ID
+        mcp_data: asana token data from mcp
+        description: Optional plain text description of the team
+        html_description: Optional HTML-formatted description of the team
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_team(
+        name,
+        workspace_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']),
+        description,
+        html_description
+    )
+
+@mcp.tool()
+async def asana_list_teams(
+    workspace_id: str,
+    mcp_data:str=None
+) -> str:
+    """List all teams in a workspace.
+
+    Args:
+        workspace_id: Workspace ID
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await list_teams(
+        workspace_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
+
+@mcp.tool()
+async def asana_list_team_ids(
+    workspace_id: str,
+    mcp_data:str=None
+) -> str:
+    """List all team IDs in a workspace.
+
+    Args:
+        workspace_id: Workspace ID
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await list_team_ids(
+        workspace_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token']),
+    )
+
+@mcp.tool()
+async def asana_get_team(
+    team_id: str,
+    mcp_data:str=None
+) -> str:
+    """Get details about a specific team in Asana.
+
+    Args:
+        team_id: The ID of the team
+        mcp_data: asana token data from mcp
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_team(
+        team_id,
+        decryptor.decrypt(user_data['mcpdata']['ASANA']['access_token'])
+    )
