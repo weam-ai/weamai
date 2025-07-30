@@ -56,6 +56,7 @@ export const MCP_TOOLS = {
         'slack_reply_to_thread_with_broadcast',
         'slack_get_thread_info',
         'slack_find_threads_in_channel',
+        'get_channel_id'
     ],
     [MCP_CODES.GOOGLE_CALENDAR]: [
         "list_calendars",
