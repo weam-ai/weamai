@@ -12,7 +12,6 @@ import UploadFileInput from '@/components/Chat/UploadFileInput';
 import TabGptList from '@/components/Chat/TabGptList';
 import Image from 'next/image';
 import defaultCustomGptImage from '../../../public/defaultgpt.jpg';
-import { truncateText } from '@/utils/common';
 import { BrainAgentType } from '@/types/brain';
 import { BrainPromptType } from '@/types/brain';
 import { GPTTypes } from '@/utils/constant';
@@ -110,6 +109,7 @@ let API_TYPE =  API_TYPE_OPTIONS.OPEN_AI;
 const ChatPage = memo(() => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const [message, setMessage] = useState('');
     // Textarea expand on typing
     const [text, setText] = useState('');
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -1504,8 +1504,14 @@ const ChatPage = memo(() => {
                                                                         : 'bg-white border-b10'
                                                                 }`}
                                                                 onClick={() => {
+                                                                    const summaries = currPrompt?.summaries
+                                                                        ? Object.values(currPrompt.summaries)
+                                                                            .map((currSummary: any) => `${currSummary.website} : ${currSummary.summary}`)
+                                                                            .join('\n')
+                                                                        : '';
+                                                                    const promptContent = currPrompt.content + (summaries ? '\n' + summaries : '');
                                                                     onSelectMenu(GPTTypes.Prompts, currPrompt);
-                                                                    setText(currPrompt.content);
+                                                                    setMessage(promptContent);
                                                                     setShowPromptList(false);
                                                                 }}
                                                             >

@@ -196,9 +196,14 @@ export const useThunderBoltPopup = ({
             const prompt_id = data._id == selectedContext.prompt_id ? undefined : data._id;
 
             if (setText) {
-                setText(data.content);
+                const summaries = data?.summaries
+                    ? Object.values(data.summaries)
+                        .map((currSummary: any) => `${currSummary.website} : ${currSummary.summary}`)
+                        .join('\n')
+                    : '';
+                const promptContent = data.content + (summaries ? '\n' + summaries : '');
+                setText(promptContent);
             }
-
             setSelectedContext({
                 type: GPTTypes.Prompts,
                 prompt_id: prompt_id,
