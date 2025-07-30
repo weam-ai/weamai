@@ -335,6 +335,24 @@ const updateProfile = async (req) => {
     }
 }
 
+const updateMcpData = async (req) => {
+    try {
+        const existingUser = await User.findOne({ _id: req.userId });
+        if (!existingUser) throw new Error(_localize('auth.account_not_found', req, 'email'));
+        
+        const payload = { ...req.body };
+        const { isDeleted, ...rest } = payload;
+        const updateQuery = isDeleted
+        ? { $unset: Object.fromEntries(Object.keys(rest).map(key => [key, ''])) }
+        : { $set: payload };
+        const updated = await User.findByIdAndUpdate({ _id: req.userId }, updateQuery, { new: true });
+
+        return updated;
+    } catch (error) {
+        handleError(error, 'Error in updateMcpData');
+    }
+}
+
 const sendUserSupportMail = (userpayload, supportpayload) => {
     Promise.all([
         getTemplate(EMAIL_TEMPLATE.USER_INVITATION_REQUEST, supportpayload).then(async (template) => {
