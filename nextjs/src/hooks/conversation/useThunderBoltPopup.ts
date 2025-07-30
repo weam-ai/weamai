@@ -37,6 +37,7 @@ type UseThunderBoltPopupProps = {
     selectedAIModal: AiModalType;
     uploadedFile: UploadedFileType[];
     removeSelectedContext?: () => void;
+    setText?: (text: string) => void;
 }
 
 export const useThunderBoltPopup = ({
@@ -44,7 +45,8 @@ export const useThunderBoltPopup = ({
     setSelectedContext,
     selectedAIModal,
     uploadedFile,
-    removeSelectedContext
+    removeSelectedContext,
+    setText
 }: UseThunderBoltPopupProps) => {
     const dispatch = useDispatch();
 
@@ -193,6 +195,15 @@ export const useThunderBoltPopup = ({
         } else if (GPTTypes.Prompts == type) {
             const prompt_id = data._id == selectedContext.prompt_id ? undefined : data._id;
 
+            if (setText) {
+                const summaries = data?.summaries
+                    ? Object.values(data.summaries)
+                        .map((currSummary: any) => `${currSummary.website} : ${currSummary.summary}`)
+                        .join('\n')
+                    : '';
+                const promptContent = data.content + (summaries ? '\n' + summaries : '');
+                setText(promptContent);
+            }
             setSelectedContext({
                 type: GPTTypes.Prompts,
                 prompt_id: prompt_id,

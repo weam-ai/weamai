@@ -301,7 +301,7 @@ const ChatThreadOffcanvas = ({ queryParams, isBrainDeleted }) => {
         dispatch(setThreadAction({}));
         const b = searchParams.get('b');
         const model = searchParams.get('model');
-        router.push(`${routes.chat}/${params?.id}?b=${b}&model=${model}`);
+        router.push(`${routes.chat}/${params?.id}?b=${b}&model=${model}`, { scroll: false });
     };
 
     // // Socket Configuration

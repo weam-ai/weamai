@@ -50,10 +50,10 @@ const useStyles = makeStyles((theme) => ({
     input: {
         // Custom styles for the input field
         color: '#333',
-        fontSize: '16px',
+        fontSize: '14px',
         padding: '15px 15px',
         '&::placeholder': {
-            color: '#999',
+            color: '#111',
         },
     },
     chip: {
@@ -205,19 +205,21 @@ const AddNewPromptModal = ({ open, closeModal, mycontent, edit, flag, chatprompt
         <Dialog open={open} onOpenChange={closeModal}>
             <DialogContent className="md:max-w-[650px] max-w-[calc(100%-30px)] py-7">
                 <DialogHeader className="rounded-t-10 px-[30px] pb-5 border-b">
-                    <DialogTitle className="font-semibold flex items-center flex-wrap">
+                    <DialogTitle className="font-semibold flex items-center flex-wrap gap-x-1">
                         <PromptIcon width={"16"} height={"16"} className="w-6 h-auto object-contain fill-b2 me-3 inline-block align-text-top" />
                         { flag ? `Edit Prompt Template` : 'New Prompt Template'}
-                        <div className="flex items-center gap-2 md:ml-auto mr-5 md:mt-0 mt-2 cursor-pointer hidden12" onClick={handleToggle}>
+                        <div className="flex items-center gap-2 md:ml-auto ml-1 mr-5 mt-0 cursor-pointer" onClick={handleToggle}>
                         {/* Conditionally render icons */}
-                        {isFavourite ? (
-                            <ActiveBookMark width={15} height={14} className="fill-orange" />
-                        ) : (
-                            <BookMarkIcon width={15} height={14} className="fill-b5" />
-                        )}
+                        
+                            {isFavourite ? (
+                                <ActiveBookMark width={15} height={14} className="fill-orange" />
+                            ) : (
+                                <BookMarkIcon width={15} height={14} className="fill-b5" />
+                            )}
+                        
                         {/* Toggle text */}
-                        <span className="text-b5 text-font-12">
-                            {isFavourite ? 'Favourite' : 'Add to Favourite'}
+                        <span className="text-b5 text-font-12 hidden md:inline">
+                            {isFavourite ? 'Favorite' : 'Add to Favorite'}
                         </span>
                         </div>
                     </DialogTitle>
@@ -309,9 +311,9 @@ const AddNewPromptModal = ({ open, closeModal, mycontent, edit, flag, chatprompt
                                 onAdd={(chip) => handleAddChip(chip)} 
                                 onDelete={(chip, index) => handleDeleteChip(chip, index)} 
                                 onChange={e => setPromptTags(e)}
-                                placeholder='Type and press enter or tab' 
+                                placeholder='Type and press enter, tab or comma to add tags' 
                                 disableUnderline
-                                newChipKeys={['Enter', 'Tab']}
+                                newChipKeys={['Enter', 'Tab', ',']}
                                 classes={{
                                     root: classes.inputRoot,
                                     input: classes.input,

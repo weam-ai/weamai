@@ -33,7 +33,7 @@ const BrainButtons = ({ text, share, click, selectedOption, onChange }:any) => {
     return (
         <div className="relative">
             <label
-                className="group cursor-pointer btn btn-gray py-[13px] px-8 hover:bg-green hover:border-green active:bg-green active:border-green checked:bg-green checked:border-green has-[:checked]:text-b15 has-[:checked]:bg-green has-[:checked]:border-green"
+                className="group cursor-pointer btn btn-gray md:py-[13px] py-2 md:px-8 px-4 max-md:text-font-14 hover:bg-green hover:border-green active:bg-green active:border-green checked:bg-green checked:border-green has-[:checked]:text-b15 has-[:checked]:bg-green has-[:checked]:border-green"
                 htmlFor={text}
             >
                 <input
@@ -48,7 +48,7 @@ const BrainButtons = ({ text, share, click, selectedOption, onChange }:any) => {
                 />
                 {share ? (
                     <ShareBrainIcon
-                        className="fill-b5 peer-checked:fill-b15 group-hover:fill-b15 group-active:fill-b15 transition duration-150 ease-in-out inline-block mr-2.5 w-auto h-[18px] object-contain"
+                        className="fill-b5 peer-checked:fill-b15 group-hover:fill-b15 group-active:fill-b15 transition duration-150 ease-in-out inline-block md:mr-2.5 mr-1 w-auto h-[18px] object-contain"
                         width={'20'}
                         height={'18'}
                     />
@@ -171,7 +171,7 @@ const BrainModal = ({ open, close, isPrivate }) => {
     return (
         <>
             <Dialog open={open} onOpenChange={close}>
-                <DialogContent className="md:max-w-[550px] max-w-[calc(100%-30px)] py-7 max-h-[calc(100vh-60px)] overflow-y-auto">
+                <DialogContent className="md:max-w-[550px] max-w-[calc(100%-30px)] py-7 md:max-h-[calc(100vh-60px)] max-h-[calc(100vh-100px)] overflow-y-auto">
                     <DialogHeader className="rounded-t-10 px-[30px] pb-3 border-b">
                         <DialogTitle className="font-semibold flex items-center">
                             <BrainIcon
@@ -205,12 +205,12 @@ const BrainModal = ({ open, close, isPrivate }) => {
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="dialog-body flex flex-col flex-1 relative px-8 h-full">
+                        <div className="dialog-body flex flex-col flex-1 relative px-8 h-full ">
                             {/*Modal Body start */}
-                            <div className="h-full w-full md:max-h-[40dvh]">
+                            <div >
                                 <div className="h-full pr-2.5 pt-5">
                                     <div className="workspace-group h-full flex flex-col ">
-                                        <div className="relative mb-5 px-2.5">
+                                        <div className="relative md:mb-5 mb-3 md:px-2.5 px-0">
                                             <Label
                                                 htmlFor="brain-name"
                                                 title="Brain Name"
@@ -230,7 +230,7 @@ const BrainModal = ({ open, close, isPrivate }) => {
                                         </div>
                                         <div>
                                             {isShare && (
-                                                <div className="relative px-2.5 gap-2.5 flex mb-6">
+                                                <div className="relative md:mb-5 mb-3 md:px-2.5 px-0">
                                                     <Controller
                                                         name="members"
                                                         control={control}
@@ -275,7 +275,7 @@ const BrainModal = ({ open, close, isPrivate }) => {
 
                                         <div>
                                             {isShare && (
-                                                <div className="relative px-2.5 gap-2.5 flex mb-6">
+                                                <div className="relative md:mb-5 mb-3 md:px-2.5 px-0">
                                                     <Controller
                                                         name="teamsInput"
                                                         control={
@@ -328,7 +328,7 @@ const BrainModal = ({ open, close, isPrivate }) => {
 
                             {/*Modal Body End */}
                             {/* Modal Chat Action Button Start */}
-                            <div className="flex items-center justify-center gap-5 mt-3">
+                            <div className="flex items-center justify-center md:gap-5 gap-3 mt-3">
                                 <BrainButtons
                                     text={'Personal'}
                                     click={handlePersonal}
@@ -346,7 +346,7 @@ const BrainModal = ({ open, close, isPrivate }) => {
                             {/* Modal Chat Action Button End */}
                             {/*Modal Footer Start */}
                             <div className="flex items-center justify-center my-[30px]">
-                                <button className="btn btn-blue" type="submit" disabled={isPending}>
+                                <button className="btn btn-black" type="submit" disabled={isPending}>
                                     Add Brain
                                 </button>
                             </div>

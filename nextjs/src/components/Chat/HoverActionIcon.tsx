@@ -12,7 +12,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import Link from 'next/link';
 import { AgentChatPayloadType, ConversationType, DocumentChatPayloadType, NormalChatPayloadType, ProAgentDataType } from '@/types/chat';
 import { Socket } from 'socket.io-client';
 
@@ -50,10 +49,8 @@ const HoverActionTooltip = ({ children, content, onClick, className }: HoverActi
         >
             <TooltipProvider delayDuration={0} skipDelayDuration={0}>
                 <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Link href="#">
-                            {children}
-                        </Link>
+                    <TooltipTrigger>
+                        {children}
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
                         <p className="text-font-14">{content}</p>
@@ -102,7 +99,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
 
     return (
         <div
-      className={`${conversation.length - 1 === index ? '' : 'xl:invisible'} xl:group-hover:visible z-[1] absolute xl:right-[30px] top-auto xl:top-auto bottom-1 max-md:bottom-0 right-3 flex items-center rounded-custom xl:bg-transparent transition ease-in-out duration-150`}
+      className={`${conversation.length - 1 === index ? '' : 'xl:invisible'} xl:group-hover:visible z-[1] absolute xl:right-[30px] top-auto xl:top-auto bottom-1 max-md:bottom-0 right-auto xl:left-auto left-[40px] flex items-center rounded-custom xl:bg-transparent transition ease-in-out duration-150`}
     >
             {/* Fork start */}
             <HoverActionTooltip 
@@ -113,7 +110,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                 }}
                 className="cursor-pointer flex items-center justify-center xl:w-8 w-6 h-8 xl:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 hover:bg-b12"
             >
-                <ForkIcon className='lg:h-[15px] h-[15px] w-auto fill-b6 object-contain'/>
+                <ForkIcon className='lg:h-[15px] h-[12px] w-auto fill-b6 object-contain'/>
             </HoverActionTooltip>
             {isForkOpen && (
                 <ForkChatModal
@@ -130,7 +127,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                 onClick={onOpenThread}
                 className="cursor-pointer flex items-center justify-center lg:w-8 w-6 h-8 lg:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
             >
-                <MessagingIcon className="lg:h-[15px] h-[15px] w-auto fill-b6 object-contain" />
+                <MessagingIcon className="lg:h-[15px] h-[14px] w-auto fill-b6 object-contain" />
             </HoverActionTooltip>
             {/* Chat End */}
 
@@ -138,12 +135,12 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
             <HoverActionTooltip
                 content='Save this Prompt'
                 onClick={() => openModal()}
-                className="cursor-pointer flex items-center justify-center lg:w-8 w-6 h-8 lg:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
+                className="cursor-pointer flex items-center justify-center lg:w-8 w-6 h-8 lg:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[16px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
             >
                 <PromptIcon
                     open={isOpen}
                     closeModal={closeModal}
-                    className="lg:h-[13px] h-[13px] w-auto fill-b6 object-contain"
+                    className="lg:h-[13px] h-[12px] w-auto fill-b6 object-contain"
                 />
             </HoverActionTooltip>
             {isOpen && (
@@ -160,9 +157,9 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
             <HoverActionTooltip
                 content='Copy Text'
                 onClick={() => copyToClipboard(copyContent)}
-                className="cursor-pointer flex items-center justify-center lg:w-8 w-5 h-8 min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
+                className="cursor-pointer flex items-center justify-center lg:w-8 w-5 h-8 md:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12"
             >
-                <CopyIcon className="lg:h-[15px] h-[15px] w-auto fill-b6 object-contain" />
+                <CopyIcon className="lg:h-[15px] h-[14px] w-auto fill-b6 object-contain" />
             </HoverActionTooltip>
             {/* {
                 conversation.length - 1 === index && (

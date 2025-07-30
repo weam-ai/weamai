@@ -52,9 +52,9 @@ const ProAgentList = ({handleAgentFormClick}:any) => {
                             height={'16'}
                             className="mr-2 fill-orange group-data-[state=active]:fill-b2" />
                         <p className="text-font-12 font-medium text-b2">{button.label}</p>
-                        <span className="text-font-12 ml-2 px-2 py-[2px] bg-b13 border rounded-full">Pro</span>
-                        <div className="ml-auto max-md:w-full">
-                            <span className="text-font-12 px-2 py-[2px] bg-white border rounded-md">Credits: {getModelCredit(button?.code)}</span>
+                        <span className="text-font-12 ml-2 px-2 py-[2px] bg-b13 border rounded-full max-md:hidden">Pro</span>
+                        <div className="ml-auto">
+                            <span className="text-font-12 px-2 max-md:px-1 py-[2px] bg-white border rounded-md">Credits: {getModelCredit(button?.code)}</span>
                         </div>
                         
                     </div>

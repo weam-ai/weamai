@@ -171,7 +171,7 @@ const CustomTemplateSetting = memo(({bot, prompt, type, mykey, DialogTitle}) => 
                             }
                         />
                 </DialogTrigger>
-                <DialogContent className="md:max-w-[550px] max-w-[calc(100%-30px)] py-8">
+                <DialogContent className="md:max-w-[550px] max-w-[calc(100%-30px)] pt-8 pb-2">
                     <DialogHeader className="rounded-t-10 px-[30px] pb-5 border-b">
                         <button type='button' className="btn absolute top-4 right-0 z-10 opacity-0" onClick={() => handleCancel(mykey)}>
                             <Close height={24} width={24} className={'fill-b5 size-4'}/>
@@ -185,7 +185,7 @@ const CustomTemplateSetting = memo(({bot, prompt, type, mykey, DialogTitle}) => 
                             {title}
                         </DialogTitle>
                     </DialogHeader>
-                    <div className="dialog-body h-full p-[30px] max-h-[calc(100vh-260px)] overflow-y-auto">
+                    <div className="dialog-body h-full p-[30px] pb-[10px] max-h-[calc(100vh-260px)] overflow-y-auto">
                         {
                             allBrainList.map((brain, index) => (
                                 <div key={brain?._id} className='relative border-b border-b10 mb-3 pb-3'>
@@ -206,8 +206,8 @@ const CustomTemplateSetting = memo(({bot, prompt, type, mykey, DialogTitle}) => 
                             ))
                         }
                     </div>
-                    <DialogFooter className="flex items-center justify-center gap-2.5 pb-[30px] px-[30px]">
-                        <button type="button" className="btn btn-blue" disabled={addPromptLoading || selectedBrain.length == 0}
+                    <DialogFooter className="flex items-center justify-center gap-2.5 py-7 px-[30px]">
+                        <button type="button" className="btn btn-black" disabled={addPromptLoading || selectedBrain.length == 0}
                             onClick={
                                 (persistCustombot.botdata == undefined) ? movePrompt :  botMoveToBrain}>
                             {btnTitle}

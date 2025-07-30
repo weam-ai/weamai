@@ -106,7 +106,7 @@ export default function AgentList() {
                             <div className="search-docs md:min-w-80 max-md:w-full relative flex-1">
                                 <input
                                     type="text"
-                                    className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-10"
+                                    className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                                     id="searchDocs"
                                     placeholder="Search Agents"
                                     value={searchValue}
@@ -310,7 +310,7 @@ export default function AgentList() {
                                 }
                                 {
                                     showFavorites && customgptList.length === 0 && !loading && (
-                                        <NoResultFound message="You haven't added any agent to your favourites yet." />
+                                        <NoResultFound message="You haven't added any agent to your Favorites yet." />
                                     )
                                 }
                             </div>

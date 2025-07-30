@@ -198,7 +198,7 @@ const ToolsConnected = ({ isWebSearchActive, toolStates, onToolStatesChange }: T
                                     href={routes.mcp}
                                     className="text-blue-600 underline text-font-15"
                                 >
-                                    View all connected apps
+                                    View all Connections
                                 </Link>
                             </div>
                         </>

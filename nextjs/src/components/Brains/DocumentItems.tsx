@@ -291,7 +291,7 @@ export default function Home() {
                     <div className="search-docs md:min-w-80 max-md:w-full relative flex-1">
                         <input
                             type="text"
-                            className="default-form-input default-form-input-md !border-b10 focus:!border-blue !pl-10"
+                            className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                             id="searchDocs"
                             placeholder="Search Docs"
                             onChange={handleInputChange}
@@ -428,7 +428,7 @@ export default function Home() {
                         }
                         {
                             showFavorites && brainDocs.length === 0 && (
-                                <NoResultFound message="You haven't added any docs to your favourites yet." />
+                                <NoResultFound message="You haven't added any docs to your Favorites yet." />
                             )
                         }
                             {isDeleteOpen && (
