@@ -55,7 +55,6 @@ import { setSelectedBrain } from '@/lib/slices/brain/brainlist';
 import useCustomGpt from '@/hooks/customgpt/useCustomGpt';
 import { LINK } from '@/config/config';
 import defaultCustomGptImage from '../../../public/defaultgpt.jpg';
-import { getDisplayModelName } from '@/utils/helper';
 import ThreeDotLoader from '@/components/Loader/ThreeDotLoader';
 import useIntersectionObserver from '@/hooks/common/useIntersectionObserver';
 import useDebounce from '@/hooks/common/useDebounce';
