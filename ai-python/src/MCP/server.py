@@ -29,8 +29,9 @@ from src.MCP.tools.asana.asana_tools import (
     create_team, list_teams, list_team_ids, get_team
 )
 from fastapi import Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+import aiohttp
 key = os.getenv("SECURITY_KEY").encode("utf-8")
 decryptor = MessageDecryptor(key)
 # Load environment variables
@@ -45,9 +46,19 @@ mcp = FastMCP(
     port=mcp_port,  # Port number for the server
 )
 
+@mcp.custom_route("/mcp/sse", methods=["GET"])
+async def proxy_sse(request: Request):
+    async def event_generator():
+        async with aiohttp.ClientSession() as session:
+            async with session.get("http://localhost:8000/sse") as resp:
+                async for line in resp.content:
+                    yield line
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
 @mcp.custom_route("/ping", methods=["GET"])
 async def health_check(request: Request):
-    return JSONResponse({"message": "mcp server is running"})
+    return JSONResponse({"message": "mcp server is running12"})
 
 @mcp.tool()
 async def slack_list_channels(limit: int = 100,mcp_data:str=None) -> str:

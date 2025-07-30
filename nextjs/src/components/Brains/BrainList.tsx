@@ -1,8 +1,4 @@
 'use client';
-import ChatIcon from '@/icons/Chat';
-import Customgpt from '@/icons/Customgpt';
-import LeftTriangle from '@/icons/LeftTriangle';
-import PromptIcon from '@/icons/Prompt';
 import routes from '@/utils/routes';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
@@ -25,14 +21,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '../ui/tooltip';
-import {
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '../ui/accordion';
-import { decodedObjectId, encodedObjectId, persistBrainData } from '@/utils/helper';
+import { decodedObjectId, encodedObjectId } from '@/utils/helper';
 import { setEditBrainModalAction } from '@/lib/slices/modalSlice';
-import DocumentIcon from '@/icons/DocumentIcon';
 import { AI_MODEL_CODE, GENERAL_BRAIN_SLUG, ROLE_TYPE } from '@/utils/constant';
 import { SettingsIcon } from '@/icons/SettingsIcon';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -45,6 +35,7 @@ import { BrainListType } from '@/types/brain';
 import { setLastConversationDataAction, setUploadDataAction } from '@/lib/slices/aimodel/conversation';
 import { SetUserData } from '@/types/user';
 import { chatMemberListAction } from '@/lib/slices/chat/chatSlice';
+import { generateObjectId } from '@/utils/helper';
 
 type DefaultEditOptionProps = {
     onEdit: () => void;
@@ -55,13 +46,9 @@ type DefaultEditOptionProps = {
 
 type CommonListProps = {
     b: BrainListType;
-    isprivate?: boolean;
+    key?: string;
     currentUser: SetUserData;
-}
-
-type DefaultListOptionProps = {
-    brain: BrainListType;
-    isprivate?: boolean;
+    closeSidebar: () => void;
 }
 
 type LinkItemsProps = {
@@ -75,7 +62,7 @@ export const matchedBrain = (brains: BrainListType[], brainId: string) => {
     return brains?.find((brain) => brain._id === brainId);
 }
 
-const LinkItems = React.memo(({ icon, text, href, data }: LinkItemsProps) => {
+export const LinkItems = React.memo(({ icon, text, href, data }: LinkItemsProps) => {
     const originalPath = href;
     if (data?.slug !== undefined) href = `${href}?b=${encodedObjectId(data?._id)}`;
     let pathname = usePathname();
@@ -101,8 +88,8 @@ const LinkItems = React.memo(({ icon, text, href, data }: LinkItemsProps) => {
         closeSidebar();
         router.push(`${routes.main}?b=${b}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
     }, [brainId, closeSidebar]);
+
     const handleLinkClick = () => {
-        // Close the sidebar on link click
         closeSidebar();
     };
     
@@ -151,67 +138,6 @@ const LinkItems = React.memo(({ icon, text, href, data }: LinkItemsProps) => {
     );
 });
 
-const DefaultListOption = React.memo(({ brain } : DefaultListOptionProps) => {
-    const listOptions = [
-        {
-            icon: <ChatIcon />,
-            text: 'Chats',
-            id: 1,
-            href: routes.chat,
-            data: brain,
-        },
-        {
-            icon: (
-                <PromptIcon
-                    width={'16'}
-                    height={'16'}
-                    className="size-4 object-contain"
-                />
-            ),
-            text: 'Prompts',
-            id: 2,
-            href: routes.prompts,
-            data: brain,
-        },
-        {
-            icon: (
-                <Customgpt
-                    width={'16'}
-                    height={'16'}
-                    className="size-4 object-contain"
-                />
-            ),
-            text: 'Agents',
-            id: 3,
-            href: routes.customGPT,
-            data: brain,
-        },
-        {
-            icon: (
-                <DocumentIcon
-                    width={16}
-                    height={16}
-                    className="size-4 object-contain"
-                />
-            ),
-            text: 'Docs',
-            id: 4,
-            href: routes.docs,
-            data: brain,
-        },
-    ];
-
-    return listOptions.map((list) => (
-        <LinkItems
-            key={list.id}
-            icon={list.icon}
-            text={list.text}
-            href={list.href}
-            data={list.data}
-        />
-    ));
-});
-
 const DefaultEditOption = React.memo(
     ({ onEdit, handleEditBrain, handleDeleteBrain, isDeletePending }: DefaultEditOptionProps) => {
         return (
@@ -256,9 +182,11 @@ const DefaultEditOption = React.memo(
     }
 );
 
-export const CommonList = ({ b, isprivate, currentUser }: CommonListProps) => {
+export const CommonList = ({ b, key, currentUser, closeSidebar }: CommonListProps) => {
     
     const dispatch = useDispatch();
+    const router = useRouter();
+    const pathname = usePathname();
 
     // Editable Menu start
     const [isEditing, setIsEditing] = useState(false);
@@ -282,17 +210,22 @@ export const CommonList = ({ b, isprivate, currentUser }: CommonListProps) => {
     };
 
     useEffect(() => {
+        if (!isEditing) return;
+        const handleClickOutside = createHandleOutsideClick(
+            inputRef,
+            buttonRef,
+            setIsEditing,
+            false,
+            setEditedTitle,
+            b.title
+        );
 
-        if(!isEditing) return;
-
-       const handleClickOutside=createHandleOutsideClick(inputRef,buttonRef,setIsEditing,false,setEditedTitle,b.title)
-      
         document.addEventListener('mousedown', handleClickOutside);
-       
+
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isEditing,setIsEditing,setEditedTitle]);
+    }, [isEditing, setIsEditing, setEditedTitle]);
 
     useEffect(() => {
         if (isEditing && inputRef.current) {
@@ -341,44 +274,67 @@ export const CommonList = ({ b, isprivate, currentUser }: CommonListProps) => {
         Toast(response?.message);
     };
 
+    const handleNewChatClick = () => {
+        const brainId = encodedObjectId(b?._id);
+        const objectId = generateObjectId();
+        dispatch(setUploadDataAction([]));
+        dispatch(setLastConversationDataAction({}));
+        dispatch(chatMemberListAction([]));
+        dispatch(setSelectedBrain(b));
+        
+        if (pathname === routes.main) {
+            history.pushState(null, '', `${routes.main}?b=${brainId}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
+        } else {
+            router.prefetch(`${routes.chat}/${objectId}?b=${brainId}`);
+            router.push(`/${routes.main}?b=${brainId}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
+        }
+    };
+
     return (
         <>
-            <AccordionItem value={b.title} key={b._id} className="border-0">
-                <AccordionTrigger
-                    className={`${isActive ? 'active' : ''} group relative flex w-full items-center py-1.5 px-2 text-left transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none [&>span>.accordion-icon]:hidden rounded-custom [&.active]:bg-b12`}
-                >
-                    <span className="triangle-icon mr-[5px] h-2.5 w-2.5 shrink-0 rotate-0 transition-transform duration-200 ease-in-out motion-reduce:transition-none [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:fill-b6 [&>svg]:object-contain">
-                        <LeftTriangle />
+            <button
+                className={`${
+                    isActive ? 'active' : ''
+                } group relative flex w-full items-center py-1.5 px-2 text-left transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none rounded-custom [&.active]:bg-b12 cursor-pointer`}
+                onClick={() => {
+                    handleNewChatClick();
+                    closeSidebar();
+                }}
+                key={b?._id}
+            >
+                {isEditing ? (
+                    <input
+                        type="text"
+                        ref={inputRef}
+                        className="flex-1 mr-3 p-0 m-0 border border-blue outline-none bg-transparent rounded-custom text-font-14 font-semibold leading-[19px] text-b2 focus:border-blue"
+                        value={editedTitle}
+                        onChange={handleInputChange}
+                        maxLength={50}
+                        autoFocus
+                    />
+                ) : (
+                    <span className="collapse-editable-title flex-1 text-font-14 font-medium leading-[19px]">
+                        {b.title !== editedTitle
+                            ? truncateText(editedTitle, 29)
+                            : truncateText(b.title, 29)}
                     </span>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            ref={inputRef}
-                            className="flex-1 mr-3 p-0 m-0 border border-blue outline-none bg-transparent rounded-custom text-font-14 font-semibold leading-[19px] text-b2 focus:border-blue"
-                            value={editedTitle}
-                            onChange={handleInputChange}
-                            maxLength={50}
-                            autoFocus
-                        />
-                    ) : (
-                        <span className="collapse-editable-title flex-1 text-font-14 font-medium leading-[19px]">
-                            {b.title!==editedTitle ? truncateText(editedTitle,29) : truncateText(b.title,29)}
-                        </span>
-                    )}
-                    {isEditing ? (
-                        <button
-                            type="button"
-                            className="edit-title transparent-ghost-btn btn-round btn-round-icon"
-                            onClick={handleSaveClick}
-                            ref={buttonRef}
-                            disabled={isUpdatePending}
-                        >
-                            <CheckIcon className="size-4 object-contain fill-b6" />
-                        </button>
-                    ) : null}
-                    {                                                
-                    (b?.slug != `default-brain-${currentUser?._id}` && b?.slug !== GENERAL_BRAIN_SLUG && ((currentUser?.roleCode === ROLE_TYPE.USER && b.user.id === currentUser?._id) ||
-                    currentUser?.roleCode !== ROLE_TYPE.USER))  && (
+                )}
+                {isEditing ? (
+                    <button
+                        type="button"
+                        className="edit-title transparent-ghost-btn btn-round btn-round-icon"
+                        onClick={handleSaveClick}
+                        ref={buttonRef}
+                        disabled={isUpdatePending}
+                    >
+                        <CheckIcon className="size-4 object-contain fill-b6" />
+                    </button>
+                ) : null}
+                {b?.slug != `default-brain-${currentUser?._id}` &&
+                    b?.slug !== GENERAL_BRAIN_SLUG &&
+                    ((currentUser?.roleCode === ROLE_TYPE.USER &&
+                        b.user.id === currentUser?._id) ||
+                        currentUser?.roleCode !== ROLE_TYPE.USER) && (
                         <DefaultEditOption
                             onEdit={handleEditClick}
                             handleEditBrain={() => handleEditBrain(b)}
@@ -386,16 +342,7 @@ export const CommonList = ({ b, isprivate, currentUser }: CommonListProps) => {
                             isDeletePending={isDeletePending}
                         />
                     )}
-                </AccordionTrigger>
-                <AccordionContent className="pt-1">
-                    <ul className="flex flex-col *:text-font-14 *:leading-[1.2] *:text-b2" onClick={() => {
-                        persistBrainData(b)
-                        dispatch(setSelectedBrain(b))
-                    }}>
-                        <DefaultListOption brain={b} isprivate={isprivate} />
-                    </ul>
-                </AccordionContent>
-            </AccordionItem>
+            </button>
         </>
     );
 };

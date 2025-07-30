@@ -24,7 +24,7 @@ const AddBrainButton = memo(({ text, isPrivate }) => {
                     className="cursor-pointer"
                     onClick={handleBrainButtonClick}
                 >            
-                    <AddBrainIcon width={18} height={(18 * 151) / 160} className="fill-b5 h-auto hover:fill-blue" />
+                    <AddBrainIcon width={18} height={(18 * 151) / 160} className="fill-b6 h-auto hover:fill-b2" />
                 </button>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="border-none">
