@@ -58,10 +58,10 @@ const MainPageSidebar = async () => {
                         <div className="w-full">
                             <Link
                             href="/mcp"
-                            className="flex gap-x-3 text-font-14 items-center mb-5 cursor-pointer"
+                            className="flex gap-x-2 text-font-14 items-center mb-5 cursor-pointer"
                         >
-                            <AppIcon width={16} height={16} className={"size-4 fill-b6"} />
-                            Connected Apps
+                            <AppIcon width={16} height={16} className={"size-[18px] fill-b5"} />
+                            Connections
                         </Link>
                         <div className="flex w-full justify-between pr-1 group mb-1 font-bold text-font-14">
                                 <div className="flex justify-between w-full">

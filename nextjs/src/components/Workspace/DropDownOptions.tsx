@@ -131,7 +131,7 @@ export const WorkspaceNewChatButton = memo(() => {
         router.push(`${routes.main}?b=${encodedId}&model=${AI_MODEL_CODE.DEFAULT_OPENAI_SELECTED}`);
     };
     return (
-        <div className='mb-3 mt-2' >
+        <div className='mb-4 mt-2' >
             <div onClick={handleNewChatClick} className='flex items-center gap-x-2 cursor-pointer text-font-14'>
                 <span className='text-font-14 font-medium w-5 h-5 leading-4 text-center rounded-full border border-b5 block group-hover:border-b10'>+</span>
                 New Chat
