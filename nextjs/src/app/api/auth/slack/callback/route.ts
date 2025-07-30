@@ -4,6 +4,9 @@ import { updateMcpDataAction } from '@/actions/user';
 import { MCP_CODES } from '@/components/Mcp/MCPAppList';
 import { encryptedData } from '@/utils/helper';
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
     try {
         // Check if required environment variables are set
@@ -52,6 +55,7 @@ export async function GET(request: NextRequest) {
                 `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?error=slack_oauth_failed&reason=${tokenData.error || 'unknown'}`
             );
         } else {
+            console.log('Slack OAuth successful - processing token data...');
 
             const payload = {
                 access_token: encryptedData(tokenData.authed_user?.access_token), // Bot token
@@ -61,7 +65,6 @@ export async function GET(request: NextRequest) {
                 user_id: tokenData.authed_user?.id,
                 user_scope: tokenData.authed_user?.scope || null,
                 state: state,
-                //has_user_token: !!tokenData.authed_user?.access_token, // Flag to check if user token is available
                 token_type: tokenData.token_type
             }
             
@@ -69,7 +72,7 @@ export async function GET(request: NextRequest) {
             updateMcpDataAction({ [mcpDataKey]: payload, isDeleted: false });
 
             return NextResponse.redirect(
-                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?success=slack_connected&access_token=${tokenData.access_token}`
+                `${process.env.NEXT_PUBLIC_DOMAIN_URL}/mcp?success=slack_connected`
             );
         }        
 
