@@ -21,7 +21,6 @@
   <a href="https://github.com/weam-ai/weamai/issues"><img src="https://img.shields.io/github/issues/weam-ai/weamai?style=flat-square" /></a>
 <!--   <a href="https://hub.docker.com/r/weamai/weam"><img src="https://img.shields.io/docker/pulls/weamai/weamai?style=flat-square&color=informational" /></a> -->
   <a href="https://github.com/weam-ai/weamai"><img src="https://img.shields.io/github/commit-activity/m/weam-ai/weamai?style=flat-square&color=green" /></a>
-  <a href="https://github.com/weam-ai/weamai"><img src="https://img.shields.io/github/license/weam-ai/weamai?style=flat-square&color=lightgrey" /></a>
 </p>
 
 ---
