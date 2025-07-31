@@ -71,7 +71,7 @@ const MainPageSidebar = async () => {
                                 </div>
                                 <AddBrainButton text="Add Shared Brain" isPrivate={false} />
                             </div>
-                            <div className="w-full flex flex-col mb-4 ml-3 text-b6">
+                            <div className="w-full flex flex-col text-b5">
                                 <ShareBrainList
                                     brainList={brainList}
                                     workspaceFirst={workspaceList[0]}
@@ -88,7 +88,7 @@ const MainPageSidebar = async () => {
                                     </div>
                                     <AddBrainButton text="Add Private Brain" isPrivate={true} />
                                 </div>
-                                <div className="w-full flex flex-col mb-4 ml-3 text-b6">
+                                <div className="w-full flex flex-col text-b5">
                                     <PrivateBrainList
                                         brainList={brainList}
                                         workspaceFirst={workspaceList[0]}

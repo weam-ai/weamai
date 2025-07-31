@@ -44,7 +44,7 @@ const SettingSidebar = async () => {
                 <ReportIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -57,7 +57,7 @@ const SettingSidebar = async () => {
                 <AppIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -70,7 +70,7 @@ const SettingSidebar = async () => {
                 <SettingsIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -83,7 +83,7 @@ const SettingSidebar = async () => {
                 <DataControlIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -96,7 +96,7 @@ const SettingSidebar = async () => {
                 <DataControlIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: (userDetail?.roleCode == ROLE_TYPE.USER) ? false : true,
@@ -109,7 +109,7 @@ const SettingSidebar = async () => {
                 <MembersIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: (userDetail?.roleCode == ROLE_TYPE.USER) ? false : true,
@@ -122,7 +122,7 @@ const SettingSidebar = async () => {
                 <StorageIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-auto object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: userDetail?.roleCode == ROLE_TYPE.COMPANY,
@@ -135,7 +135,7 @@ const SettingSidebar = async () => {
                 <SupportIcon
                     height={18}
                     width={18}
-                    className={'w-5 h-auto object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: userDetail?.roleCode !== ROLE_TYPE.USER,
@@ -149,7 +149,7 @@ const SettingSidebar = async () => {
                 <CreditControlIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: (userDetail?.roleCode == ROLE_TYPE.COMPANY) ? true : false,
@@ -179,7 +179,7 @@ const SettingSidebar = async () => {
                                         <div className="menu-item-icon mr-2.5">
                                             {setting.icon}
                                         </div>
-                                        <div className="menu-item-label text-font-15 font-normal leading-[20px] text-b2">
+                                        <div className="menu-item-label text-font-14 font-normal leading-[20px] text-b2">
                                             {setting.name}
                                         </div>
                                     </SettingActiveIcon>

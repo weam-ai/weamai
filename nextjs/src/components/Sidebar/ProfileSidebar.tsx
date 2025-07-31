@@ -41,7 +41,7 @@ const ProfileSidebar = () => {
                 <UserSetting
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -54,7 +54,7 @@ const ProfileSidebar = () => {
                 <LockIcon 
                 height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -67,7 +67,7 @@ const ProfileSidebar = () => {
                 <SecureIcon
                     height={20}
                     width={20}
-                    className={'w-5 h-5 object-contain fill-b2'}
+                    className={'w-[18px] h-auto object-contain fill-b2'}
                 />
             ),
             hasAccess: true,
@@ -109,7 +109,7 @@ const ProfileSidebar = () => {
                                         <div className="menu-item-icon mr-2.5">
                                             {setting.icon}
                                         </div>
-                                        <div className="menu-item-label text-font-15 font-normal leading-[20px] text-b2">
+                                        <div className="menu-item-label text-font-14 font-normal leading-[20px] text-b2">
                                             {setting.name}
                                         </div>
                                     </Link>
