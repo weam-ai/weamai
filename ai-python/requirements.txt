@@ -40,7 +40,7 @@ kombu==5.3.5
 lxml==5.1.0
 MarkupSafe==2.1.5
 olefile==0.47
-orjson==3.9.15
+orjson==3.10.18
 pdfminer.six==20191110
 pillow==10.2.0
 prometheus-client==0.20.0
@@ -74,7 +74,7 @@ SpeechRecognition==3.8.1
 starlette==0.40.0
 textract==1.6.5
 tornado==6.4
-typing-extensions==4.11.0
+typing-extensions==4.14.0
 tzdata==2024.1
 tzlocal==5.2
 ujson==5.9.0
@@ -101,7 +101,7 @@ tiktoken==0.9.0
 pinecone-client[grpc]==5.0.1
 rq==1.16.1
 openai==1.76.2
-pymongo==4.6.3
+pymongo==4.13.2
 pycryptodome==3.20.0
 cryptography==42.0.5
 sse-starlette==2.1.0
@@ -131,5 +131,9 @@ fuzzywuzzy==0.18.0
 ffmpeg-python==0.2.0
 favicon==0.7.0
 langchain-experimental==0.3.4
+motor==3.7.1
+langgraph==0.4.5
 langchain-qdrant==0.2.0
 qdrant-client==1.14.3
+mcp==1.11.0
+langchain-mcp-adapters==0.1.9

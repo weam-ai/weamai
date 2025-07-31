@@ -78,7 +78,7 @@ class RouterTitleGenerationService(AbstractTitleGeneration):
                     openai_api_key=llm_apikey_decrypt_service.decrypt(),
                     openai_api_base="https://openrouter.ai/api/v1",
                     streaming=False,
-                    model=OPENAIMODEL.GPT_4_1_MINI,
+                    model=ROUTERMODEL.GPT_4_1_MINI,
                     max_tokens=35
                 )
             self.default_token_dict={"totalCost":"$0.000","promptT":0,"completion":0,"totalUsed":0}

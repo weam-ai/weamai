@@ -22,6 +22,7 @@ import routes from '@/utils/routes';
 import { MCPDialogAppList } from '@/components/Mcp/MCPDialogAppList';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
+import AppIcon from '@/icons/AppsIcon';
 import { toSentenceCaseFromSnakeCase } from '@/utils/helper';
 
 interface ToolsConnectedProps {
@@ -144,11 +145,10 @@ const ToolsConnected = ({ isWebSearchActive, toolStates, onToolStatesChange }: T
                                             : ''
                                     }`}
                                 >
-                                    <ToolIcon
+                                    <AppIcon 
                                         width={16}
                                         height={16}
-                                        className="w-auto h-[15px] fill-b5"
-                                    />
+                                        className="w-auto h-[15px] fill-b5"/>
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>
