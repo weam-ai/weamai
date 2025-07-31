@@ -23,6 +23,11 @@ from src.MCP.tools.github.github_tools import (
     get_repository_branches, get_repository_issues, create_github_branch, create_pull_request, 
     get_pull_request_details, get_pull_requests, get_tags_or_branches, global_search
 )
+from src.MCP.tools.notion.notion_tools import (
+    search_notion, get_notion_page, create_notion_page, update_notion_page,
+    get_notion_database, query_notion_database, get_notion_block, get_block_children,
+    append_notion_blocks, create_notion_comment, get_notion_comment,get_databases_id,get_pages_id,create_notion_database,update_notion_database
+)
 from src.MCP.tools.asana.asana_tools import (
     create_project, list_projects, get_project, update_project, create_task, list_tasks, update_task,
     complete_task, create_section, list_sections, add_task_to_section, add_dependencies_to_task, get_task_dependencies, get_user_info_asana,get_workspace_id,
@@ -614,6 +619,179 @@ async def github_global_search(
     """
     user_data = await get_user_by_id(mcp_data)
     return await global_search(search_type, query, decryptor.decrypt(user_data['mcpdata']['GITHUB']['access_token']), page, per_page)
+
+# =============================================================================
+# NOTION TOOLS
+# =============================================================================
+
+@mcp.tool()
+async def notion_search(query: str = None, sort: dict = None, filter_params: dict = None, 
+                      start_cursor: str = None, page_size: int = 100, mcp_data:str=None) -> str:
+    """Search for objects in Notion.Usually used to find pages, databases, or blocks.Always Call this Function if have to do operation on Notion
+
+    Args:
+        query: Search query string
+        sort: Sort criteria
+        filter_params: Filter criteria
+        start_cursor: Pagination cursor
+        page_size: Number of results per page (max 100)
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await search_notion(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), query, sort, filter_params, start_cursor, page_size)
+
+@mcp.tool()
+async def notion_get_databases_id(query: str = None, sort: dict = None, filter_params: dict = None, 
+                      start_cursor: str = None, page_size: int = 100,mcp_data:str=None) -> str:
+    """Get all databases IDs from Notion.Used To get all Parent Database IDs from the Notion Workspace.
+    Returns:
+        A list of database IDs.
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_databases_id(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']),query, sort, filter_params, start_cursor, page_size)
+
+@mcp.tool()
+async def notion_get_pages_id(query: str = None, sort: dict = None, filter_params: dict = None, 
+                      start_cursor: str = None, page_size: int = 100,mcp_data:str=None) -> str:
+    """Get all Pages IDs from Notion.Used To get all Parent Page IDs from the Notion Workspace.
+    Returns:
+        A list of pages IDs.
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_pages_id(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']),query, sort, filter_params, start_cursor, page_size)
+
+@mcp.tool()
+async def notion_get_page(page_id: str, mcp_data:str=None) -> str:
+    """Get a Notion page by ID.Depends on notion_get_pages_id and notion_get_pages_id function to get one single page ID.
+
+    Args:
+        page_id: ID of the page to retrieve
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_notion_page(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), page_id)
+
+@mcp.tool()
+async def notion_create_database(page_id: str, title: list, properties: dict,
+                               parent_type: str = "page_id", mcp_data: str = None) -> str:
+    """Create a new database in Notion. Depends on notion_get_pages to get parent page ID.
+    Args:
+        page_id: ID of the parent page
+        title: Title of database as array of rich text objects
+        properties: Property schema of database (required)
+        parent_type: Type of parent (defaults to 'page_id')
+        mcp_data: User data for authentication
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_notion_database(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), page_id, title, properties, parent_type)
+
+
+@mcp.tool()
+async def notion_create_page(database_id: str, parent_type: str = "database_id", 
+                           properties: dict = None, content: list = None, mcp_data:str=None) -> str:
+    """Create a new page in Notion.Depends on notion_get_databases_id,notion_get_pages_id,notion_get_pages and notion_get_database function to get database or page ID and its properties.Use Accurate page_id or database_id to create a page according to the query of the user
+
+    Args:
+        database_id: ID of the parent (database or page)
+        parent_type: Type of parent ('database_id' or 'page_id')
+        properties: Page properties (required for database pages)
+        content: Content blocks for the page
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_notion_page(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), database_id, parent_type, properties, content)
+
+@mcp.tool()
+async def notion_update_page(page_id: str, properties: dict, mcp_data:str=None) -> str:
+    """Update a Notion page's properties.Depends on notion_get_pages_id function to get one single page ID.
+
+    Args:
+        page_id: ID of the page to update
+        properties: Updated properties
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await update_notion_page(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), page_id, properties)
+
+@mcp.tool()
+async def notion_get_database(database_id: str, mcp_data:str=None) -> str:
+    """Get a Notion database by ID.Depends on notion_get_databases_id function to get one single database ID.
+
+    Args:
+        database_id: ID of the database to retrieve
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_notion_database(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), database_id)
+
+@mcp.tool()
+async def notion_query_database(database_id: str, filter_params: dict = None, 
+                              sorts: list = None, start_cursor: str = None, 
+                              page_size: int = 100, mcp_data:str=None) -> str:
+    """Query a Notion database.Depends on notion_get_databases_id function to get one single database ID.
+
+    Args:
+        database_id: ID of the database to query
+        filter_params: Filter criteria
+        sorts: Sort criteria
+        start_cursor: Pagination cursor
+        page_size: Number of results per page (max 100)
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await query_notion_database(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), database_id, filter_params, sorts, start_cursor, page_size)
+
+@mcp.tool()
+async def notion_get_block(block_id: str, mcp_data:str=None) -> str:
+    """Get a Notion block by ID.Depends on notion_get_pages_id function to get one single block ID.
+
+    Args:
+        block_id: ID of the block to retrieve
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_notion_block(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), block_id)
+
+@mcp.tool()
+async def notion_get_block_children(block_id: str, start_cursor: str = None, 
+                                  page_size: int = 100, mcp_data:str=None) -> str:
+    """Get children blocks of a parent block.Depends on notion_get_pages_id function to get one single block ID
+
+    Args:
+        block_id: ID of the parent block
+        start_cursor: Pagination cursor
+        page_size: Number of results per page (max 100)
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_block_children(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), block_id, start_cursor, page_size)
+
+@mcp.tool()
+async def notion_append_blocks(block_id: str, blocks: list, mcp_data:str=None) -> str:
+    """Append blocks to a parent block.Depends on notion_get_pages_id function to get one single block ID
+
+    Args:
+        block_id: ID of the parent block
+        blocks: List of block objects to append
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await append_notion_blocks(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), block_id, blocks)
+
+@mcp.tool()
+async def notion_create_comment(page_id: str, parent_type: str, comment_text: str, 
+                              discussion_id: str = None, mcp_data:str=None) -> str:
+    """Create a comment on a page or block.Depends on notion_get_pages_id or notion_get_block to get one single page or block ID.
+
+    Args:
+        page_id: ID of the parent (page or block)
+        parent_type: Type of parent ('page_id' or 'block_id')
+        comment_text: Text content of the comment
+        discussion_id: Optional ID of an existing discussion thread
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await create_notion_comment(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), page_id, parent_type, comment_text, discussion_id)
+
+@mcp.tool()
+async def notion_get_comment(comment_id: str, mcp_data:str=None) -> str:
+    """Get a comment by ID.
+
+    Args:
+        comment_id: ID of the comment to retrieve
+    """
+    user_data = await get_user_by_id(mcp_data)
+    return await get_notion_comment(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), comment_id)
 
 # =============================================================================
 # ASANA TOOLS
