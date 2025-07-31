@@ -16,12 +16,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/weam-ai/weam/stargazers"><img src="https://img.shields.io/github/stars/weam-ai/weam?style=flat-square&color=yellow" /></a>
-  <a href="https://github.com/weam-ai/weam/forks"><img src="https://img.shields.io/github/forks/weam-ai/weam?style=flat-square&color=blue" /></a>
-  <a href="https://github.com/weam-ai/weam/issues"><img src="https://img.shields.io/github/weam-ai/weamai/issues?style=flat-square" /></a>
-  <a href="https://hub.docker.com/r/weamai/weam"><img src="https://img.shields.io/docker/pulls/weamai/weam?style=flat-square&color=informational" /></a>
-  <a href="https://github.com/weam-ai/weam"><img src="https://img.shields.io/github/commit-activity/m/weam-ai/weam?style=flat-square&color=green" /></a>
-  <a href="https://github.com/weam-ai/weam"><img src="https://img.shields.io/github/license/weam-ai/weam?style=flat-square&color=lightgrey" /></a>
+  <a href="https://github.com/weam-ai/weamai/stargazers"><img src="https://img.shields.io/github/stars/weam-ai/weamai?style=flat-square&color=yellow" /></a>
+  <a href="https://github.com/weam-ai/weamai/forks"><img src="https://img.shields.io/github/forks/weam-ai/weamai?style=flat-square&color=blue" /></a>
+  <a href="https://github.com/weam-ai/weamai/issues"><img src="https://img.shields.io/github/issues/weam-ai/weamai?style=flat-square" /></a>
+<!--   <a href="https://hub.docker.com/r/weamai/weam"><img src="https://img.shields.io/docker/pulls/weamai/weamai?style=flat-square&color=informational" /></a> -->
+  <a href="https://github.com/weam-ai/weamai"><img src="https://img.shields.io/github/commit-activity/m/weam-ai/weamai?style=flat-square&color=green" /></a>
+  <a href="https://github.com/weam-ai/weamai"><img src="https://img.shields.io/github/license/weam-ai/weamai?style=flat-square&color=lightgrey" /></a>
 </p>
 
 ---
