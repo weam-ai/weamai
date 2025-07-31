@@ -155,7 +155,27 @@ services:
     command: uvicorn src.gateway.web:app --host 0.0.0.0 --port ${GATEWAY_PORT} --reload --workers 2
     volumes:
       - .:/app
-    
+  mcp:
+   env_file: ${ENV_FILE}
+   build:
+    context: ./ai-python
+    dockerfile: src/MCP/DockerFile
+   image: "mcp_server"
+   container_name: mcp_server
+   ports:
+      - "${MCP_PORT}:${MCP_PORT}"
+   networks:
+      - app-network
+   depends_on:
+      - redis
+      - mongo
+   volumes:
+      - .:/app
+   healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # wdb:
   #   image: kozea/wdb:3.3.0

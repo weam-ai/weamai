@@ -24,6 +24,7 @@ class OPENAIMODEL:
     DALLE_WRAPPER_QUALITY = 'high'
     DALLE_WRAPPER_STYLE = 'vivid'
     n = 1
+    TOOL_NOT_SUPPORTED_MODEL=['chatgpt-4o-latest']
 
 class Functionality:
     CHAT = 'CHAT'
