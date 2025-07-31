@@ -12,14 +12,13 @@
 <p align="center">
   <a href="https://weam.ai">Website</a> •
   <a href="https://docs.weam.ai">Docs</a> •
-  <a href="https://github.com/weam-ai/roadmap">Roadmap</a> •
   <a href="https://discord.gg/qhuPkhWh">Discord</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/weam-ai/weam/stargazers"><img src="https://img.shields.io/github/stars/weam-ai/weam?style=flat-square&color=yellow" /></a>
   <a href="https://github.com/weam-ai/weam/forks"><img src="https://img.shields.io/github/forks/weam-ai/weam?style=flat-square&color=blue" /></a>
-  <a href="https://github.com/weam-ai/weam/issues"><img src="https://img.shields.io/github/issues/weam-ai/weam?style=flat-square" /></a>
+  <a href="https://github.com/weam-ai/weam/issues"><img src="https://img.shields.io/github/weam-ai/weamai/issues?style=flat-square" /></a>
   <a href="https://hub.docker.com/r/weamai/weam"><img src="https://img.shields.io/docker/pulls/weamai/weam?style=flat-square&color=informational" /></a>
   <a href="https://github.com/weam-ai/weam"><img src="https://img.shields.io/github/commit-activity/m/weam-ai/weam?style=flat-square&color=green" /></a>
   <a href="https://github.com/weam-ai/weam"><img src="https://img.shields.io/github/license/weam-ai/weam?style=flat-square&color=lightgrey" /></a>
@@ -211,8 +210,6 @@ Weam AI is licensed under a modified Apache License 2.0 with additional terms to
 
 ## What's Next?
 
-Check our public [roadmap](https://github.com/weam-ai/roadmap) for upcoming features:
-
 - Advanced analytics dashboard  
 - Workflow automation builder  
 - Mobile applications  
@@ -224,7 +221,7 @@ Check our public [roadmap](https://github.com/weam-ai/roadmap) for upcoming feat
 <p align="center">
   <strong>Built with ❤️ by the Weam AI community</strong><br/>
   <em>Empowering teams to collaborate with AI, not just use it.</em><br/>
-  <a href="https://github.com/weam-ai/weam/stargazers">⭐ Star us on GitHub</a> • 
+  <a href="https://github.com/weam-ai/weamai">⭐ Star us on GitHub</a> • 
   <a href="https://discord.gg/qhuPkhWh">Join our Discord</a> • 
   <a href="https://weam.ai">Visit our Website</a>
 </p>
