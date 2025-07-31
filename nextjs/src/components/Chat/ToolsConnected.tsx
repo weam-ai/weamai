@@ -22,6 +22,7 @@ import routes from '@/utils/routes';
 import { MCPDialogAppList } from '@/components/Mcp/MCPDialogAppList';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
+import { toSentenceCaseFromSnakeCase } from '@/utils/helper';
 
 interface ToolsConnectedProps {
     isWebSearchActive: boolean;
@@ -100,7 +101,7 @@ const ToolsConnected = ({ isWebSearchActive, toolStates, onToolStatesChange }: T
     // Handler for toggling all tools for selected MCP
     const handleAllToolsToggle = (checked: boolean) => {
         if (selectedMCP) {
-            const tools = MCP_TOOLS[selectedMCP as keyof typeof MCP_TOOLS] || [];
+            const tools = MCP_TOOLS[selectedMCP] || [];
             onToolStatesChange({
                 ...toolStates,
                 [selectedMCP]: checked ? tools : []
@@ -116,7 +117,7 @@ const ToolsConnected = ({ isWebSearchActive, toolStates, onToolStatesChange }: T
                 icon: mcpOption?.icon || '',
                 mcpTitle: mcpOption?.title || '',
                 mcpCode: mcpCode,
-                tools: MCP_TOOLS[mcpCode as keyof typeof MCP_TOOLS] || []
+                tools: MCP_TOOLS[mcpCode] || []
             };
         });
     }, [mcpData]);
@@ -240,7 +241,7 @@ const ToolsConnected = ({ isWebSearchActive, toolStates, onToolStatesChange }: T
 
                             {selectedTools.map((tool) => (
                                 <div key={tool} className="flex items-center gap-x-2 cursor-pointer hover:bg-gray-100 rounded-md p-1.5">
-                                    <p className="text-font-14">{tool}</p>
+                                    <p className="text-font-14">{toSentenceCaseFromSnakeCase(tool)}</p>
                                     <div className="ml-auto">
                                         <Switch 
                                             id={tool}
