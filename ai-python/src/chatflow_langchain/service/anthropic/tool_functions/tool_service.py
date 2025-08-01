@@ -38,8 +38,9 @@ from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import Cos
 from langchain_core.messages import SystemMessage
 from src.prompts.langchain.anthropic.tool_selection_prompt import langgraph_prompt
 from langchain_mcp_adapters.client import MultiServerMCPClient
-import os
 from dotenv import load_dotenv
+import os
+from src.MCP.utils import create_mcp_client
 load_dotenv()
 mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 # Service Initilization
@@ -49,7 +50,7 @@ prompt_repo = PromptRepository()
 cost_callback = CostCalculator()
 
 class AnthropicToolService(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -65,6 +66,8 @@ class AnthropicToolService(AbstractConversationService):
         Logs an error if the initialization fails.
         """
         try:
+            self.jwt_token = mcp_request.headers.get("Authorization", "") if mcp_request else None
+            self.origin = mcp_request.headers.get("origin", "")
             llm_apikey_decrypt_service.initialization(api_key_id, companymodel)
             self.encrypted_key = llm_apikey_decrypt_service.apikey
             self.companyRedis_id=llm_apikey_decrypt_service.companyRedis_id
@@ -79,21 +82,13 @@ class AnthropicToolService(AbstractConversationService):
                 verbose=False,
                 max_tokens=ANTHROPICMODEL.MAX_TOKEN_LIMIT_CONFIG[self.model_name]
             )
+            self.mcp_data = mcp_data
             self.thread_id = thread_id
             self.thread_model = thread_model
             self.imageT = imageT
             self.tools = [website_analysis]
-            self.mcp_data = mcp_data
             if mcp_tools:
-                self.client = MultiServerMCPClient(
-                    {
-                        "slack": {
-                            # make sure you start your weather server on port 8000
-                            "url": mcp_url,
-                            "transport": "sse",
-                        }
-                    }
-                )
+                self.client = create_mcp_client(self.jwt_token, self.origin)
                 # Get tools directly without using context manager
                 try:
                     self.mcp_tools_list = await self.client.get_tools()
@@ -168,7 +163,7 @@ class AnthropicToolService(AbstractConversationService):
         logger.info(
                 "Graph Compiled Successfully",
                 extra={"tags": {"endpoint": "/stream-tool-chat-with-openai"}})
-
+        
     def initialize_repository(self, chat_session_id: str = None, collection_name: str = None,regenerated_flag:bool=False,msgCredit:float=0,is_paid_user:bool=False):
         """
         Initializes the chat history repository for data storage.
@@ -193,11 +188,11 @@ class AnthropicToolService(AbstractConversationService):
                 regenerated_flag=regenerated_flag,
                 thread_id = self.thread_id
             )
-            self.history_messages = self.chat_repository_history.messages
+
+            self.initialize_memory()
             self.regenerated_flag=regenerated_flag
             self.is_paid_user = is_paid_user
             self.msgCredit = msgCredit
-            self.initialize_memory()
             logger.info("Repository initialized successfully", extra={
             "tags": {"method": "ToolStreamingService.initialize_repository", "chat_session_id": chat_session_id, "collection_name": collection_name}})
         except Exception as e:

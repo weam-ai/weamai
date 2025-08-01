@@ -52,7 +52,7 @@ class ToolServiceDescription:
         Answering factual or information-based questions.
         Assisting with coding tasks, debugging, or generating code snippets.
         Providing descriptive responses for user-provided image prompts or generating new visuals based on detailed requests."""
-    
+
     CURRENT_TIME = """
         A Tool that gives current date and time.
         Call this tool when prompted with date or time related questions/queries.

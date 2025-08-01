@@ -21,6 +21,7 @@ from src.chatflow_langchain.service.multimodal_router.tool_functions.tools impor
 import gc
 from src.chatflow_langchain.service.multimodal_router.tool_functions.utils import extract_error_message
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
+from src.gateway.utils import SyncHTTPClientSingleton, AsyncHTTPClientSingleton
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG, WEAM_ROUTER_MESSAGES_CONFIG
 from src.chatflow_langchain.service.config.model_config_router import ROUTERMODEL
 from langgraph.prebuilt import ToolNode
@@ -33,20 +34,20 @@ from src.custom_lib.langchain.callbacks.weam_router.open_router.mongodb.context_
 from src.custom_lib.langchain.callbacks.weam_router.open_router.cost.context_manager import openrouter_async_callback
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from src.gateway.utils import SyncHTTPClientSingleton, AsyncHTTPClientSingleton
-import os
 from dotenv import load_dotenv
+import os
+from src.MCP.utils import create_mcp_client
+
 load_dotenv()
 mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
-# Service Initilization
 # Service Initilization
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
-cost_callback=CostCalculator()
+cost_callback = CostCalculator()
 
 class RouterServiceTool(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -62,6 +63,8 @@ class RouterServiceTool(AbstractConversationService):
         Logs an error if the initialization fails.
         """
         try:
+            self.jwt_token = mcp_request.headers.get("Authorization", "") if mcp_request else None
+            self.origin = mcp_request.headers.get("origin", "")
             self.chat_repository_history = CustomAIMongoDBChatMessageHistory()
             llm_apikey_decrypt_service.initialization(api_key_id, companymodel)
             http_client = SyncHTTPClientSingleton.get_client()
@@ -90,15 +93,7 @@ class RouterServiceTool(AbstractConversationService):
             self.mcp_data = mcp_data
             self.tools = [website_analysis]
             if mcp_tools:
-                self.client = MultiServerMCPClient(
-                    {
-                        "slack": {
-                            # make sure you start your weather server on port 8000
-                            "url": mcp_url,
-                            "transport": "sse",
-                        }
-                    }
-                )
+                self.client = create_mcp_client(self.jwt_token, self.origin)
                 # Get tools directly without using context manager
                 try:
                     self.mcp_tools_list = await self.client.get_tools()
@@ -144,13 +139,11 @@ class RouterServiceTool(AbstractConversationService):
         return END
     
     async def chatbot(self,state,config):
-
             history_messages = self.chat_repository_history.messages
             history_messages.extend(state['messages'])
             new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
             if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
                 new_message.tool_calls[0]['args']['mcp_data'] = self.mcp_data
-
             return {"messages": [new_message]}
     
     async def create_graph_node(self):
@@ -178,7 +171,7 @@ class RouterServiceTool(AbstractConversationService):
         logger.info(
                 "Graph Compiled Successfully",
                 extra={"tags": {"endpoint": "/stream-tool-chat-with-openai"}})
-
+        
     def initialize_repository(self, chat_session_id: str = None, collection_name: str = None,regenerated_flag:bool=False,msgCredit:float=0,is_paid_user:bool=False):
         """
         Initializes the chat history repository for data storage.
@@ -201,11 +194,11 @@ class RouterServiceTool(AbstractConversationService):
                 regenerated_flag=regenerated_flag,
                 thread_id = self.thread_id
             )
-            self.history_messages = self.chat_repository_history.messages
             self.regenerated_flag=regenerated_flag
             self.is_paid_user = is_paid_user
             self.msgCredit = msgCredit
             self.initialize_memory()
+
             logger.info("Repository initialized successfully", extra={
             "tags": {"method": "RouterServiceTool.initialize_repository", "chat_session_id": chat_session_id, "collection_name": collection_name}})
         except Exception as e:
@@ -230,7 +223,7 @@ class RouterServiceTool(AbstractConversationService):
             self.memory = ConversationSummaryBufferMemory(
                 memory_key="history",
                 input_key="input",
-                llm=self.llm,
+                llm=self.llm_sum_memory,
                 max_token_limit=ToolChatConfig.MAX_TOKEN_LIMIT,
                 return_messages=True,
                 chat_memory=self.chat_repository_history
@@ -394,7 +387,6 @@ class RouterServiceTool(AbstractConversationService):
                             yield f"data: {token}\n\n",200
                             # yield f"event:{event['event']}\ndata: {event['data']}\n\n",200
                             await asyncio.sleep(delay_chunk)
-
           
         except NotFoundError as e:
             error_content,error_code = extract_error_message(str(e))
@@ -675,7 +667,8 @@ class RouterServiceTool(AbstractConversationService):
                 'history_messages',
                 'query_arguments',
                 'tools',
-                'llm_with_tools'
+                'llm_with_tools',
+                'graph'
             ]
 
             for attr in attributes:

@@ -1,10 +1,11 @@
+fpdf2==2.8.3
+Spire.doc==13.6.4
 amqp==5.2.0
 annotated-types==0.6.0
 aioredis==2.0.1
 anyio==4.9.0
 argcomplete==1.10.3
 async-timeout==4.0.3
-backports.zoneinfo;python_version<"3.9"
 beautifulsoup4==4.8.2
 billiard==4.2.0
 boto3==1.34.60
@@ -30,7 +31,6 @@ gevent==25.5.1
 h11==0.14.0
 httpcore==1.0.4
 httptools==0.6.1
-httpx===0.28.1
 humanize==4.9.0
 idna==3.6
 IMAPClient==2.1.0
@@ -72,7 +72,6 @@ sortedcontainers==2.4.0
 soupsieve==2.5
 SpeechRecognition==3.8.1
 starlette==0.40.0
-textract==1.6.5
 tornado==6.4
 typing-extensions==4.14.0
 tzdata==2024.1
@@ -102,7 +101,6 @@ pinecone-client[grpc]==5.0.1
 rq==1.16.1
 openai==1.76.2
 pymongo==4.13.2
-pycryptodome==3.20.0
 cryptography==42.0.5
 sse-starlette==2.1.0
 firebase-admin==6.5.0
