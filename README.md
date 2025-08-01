@@ -144,7 +144,10 @@ Connect your favorite tools via Model Context Protocol (MCP):
 ```bash
 git clone https://github.com/weam-ai/weam.git
 cd weam
-bash build.sh
+cp .env.example .env
+bash build.sh (for mac/linux)
+or 
+bash winbuild.sh  (for windows)
 docker-compose up -d
 ```
 
