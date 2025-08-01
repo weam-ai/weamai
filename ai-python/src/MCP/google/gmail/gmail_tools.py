@@ -132,6 +132,7 @@ def _format_gmail_results_plain(messages: list, query: str) -> str:
 
 
 @mcp.tool()
+@handle_http_errors("search_gmail_messages", is_read_only=True)
 async def search_gmail_messages(
     mcp_data: str, query: str, page_size: int = 10
 ) -> str:
