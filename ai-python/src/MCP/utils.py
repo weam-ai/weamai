@@ -48,7 +48,7 @@ def save_tokens(email: str, provider: str, access_token: str, expiry: datetime):
         {
             "$set": {
                 f"mcpdata.{provider}.access_token": encryptor.encrypt(access_token),
-                f"mcpdata.{provider}.expiry": expiry,
+                f"mcpdata.{provider}.expiry": expiry.isoformat(),
             }
         }
     )

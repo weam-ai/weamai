@@ -25,12 +25,12 @@ logger = logging.getLogger(__name__)
 def create_credentials_from_mcp_data(mcp_data: Dict[str, Any]) -> Optional[Credentials]:
     """Creates a Credentials object from MCP data."""
     try:
-        client_id = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
-        client_secret = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
+        client_id = os.getenv("NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID")
+        client_secret = os.getenv("NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_SECRET")
         credentials = Credentials(
             token=decryptor.decrypt(mcp_data.get("access_token")),
             refresh_token=decryptor.decrypt(mcp_data.get("refresh_token")),
-            token_uri=mcp_data.get("token_uri", "https://oauth2.googleapis.com/token"),
+            token_uri="https://oauth2.googleapis.com/token",
             client_id=client_id,
             client_secret=client_secret,
             scopes=mcp_data.get("scope", []).split(),
@@ -121,7 +121,6 @@ async def get_authenticated_google_service(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -187,7 +186,6 @@ async def get_authenticated_google_service_gmail(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -253,7 +251,6 @@ async def get_authenticated_google_service_drive(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -319,7 +316,6 @@ async def get_authenticated_google_service_calendar(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 

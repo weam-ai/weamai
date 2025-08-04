@@ -142,7 +142,6 @@ async def search_gmail_messages(
 
     Args:
         query (str): The search query. Supports standard Gmail search operators.
-        user_google_email (str): The user's Google email address. Required.
         page_size (int): The maximum number of messages to return. Defaults to 10.
 
     Returns:
@@ -181,7 +180,6 @@ async def get_gmail_message_content(
 
     Args:
         message_id (str): The unique ID of the Gmail message to retrieve.
-        user_google_email (str): The user's Google email address. Required.
 
     Returns:
         str: The message details including subject, sender, and body content.
@@ -257,7 +255,6 @@ async def get_gmail_messages_content_batch(
 
     Args:
         message_ids (List[str]): List of Gmail message IDs to retrieve (max 100).
-        user_google_email (str): The user's Google email address. Required.
         format (Literal["full", "metadata"]): Message format. "full" includes body, "metadata" only headers.
 
     Returns:
@@ -418,7 +415,6 @@ async def send_gmail_message(
         to (str): Recipient email address.
         subject (str): Email subject.
         body (str): Email body (plain text).
-        user_google_email (str): The user's Google email address. Required.
 
     Returns:
         str: Confirmation message with the sent email's message ID.
@@ -456,7 +452,6 @@ async def draft_gmail_message(
     Creates a draft email in the user's Gmail account.
 
     Args:
-        user_google_email (str): The user's Google email address. Required.
         subject (str): Email subject.
         body (str): Email body (plain text).
         to (Optional[str]): Optional recipient email address. Can be left empty for drafts.
@@ -574,7 +569,6 @@ async def get_gmail_thread_content(
 
     Args:
         thread_id (str): The unique ID of the Gmail thread to retrieve.
-        user_google_email (str): The user's Google email address. Required.
 
     Returns:
         str: The complete thread content with all messages formatted for reading.
@@ -608,7 +602,6 @@ async def get_gmail_threads_content_batch(
 
     Args:
         thread_ids (List[str]): A list of Gmail thread IDs to retrieve. The function will automatically batch requests in chunks of 100.
-        user_google_email (str): The user's Google email address. Required.
 
     Returns:
         str: A formatted list of thread contents with separators.
@@ -700,7 +693,6 @@ async def list_gmail_labels(mcp_data: str) -> str:
     Lists all labels in the user's Gmail account.
 
     Args:
-        user_google_email (str): The user's Google email address. Required.
 
     Returns:
         str: A formatted list of all labels with their IDs, names, and types.
@@ -759,7 +751,6 @@ async def manage_gmail_label(
     Manages Gmail labels: create, update, or delete labels.
 
     Args:
-        user_google_email (str): The user's Google email address. Required.
         action (Literal["create", "update", "delete"]): Action to perform on the label.
         name (Optional[str]): Label name. Required for create, optional for update.
         label_id (Optional[str]): Label ID. Required for update and delete operations.
@@ -839,7 +830,6 @@ async def modify_gmail_message_labels(
     Adds or removes labels from a Gmail message.
 
     Args:
-        user_google_email (str): The user's Google email address. Required.
         message_id (str): The ID of the message to modify.
         add_label_ids (Optional[List[str]]): List of label IDs to add to the message.
         remove_label_ids (Optional[List[str]]): List of label IDs to remove from the message.
@@ -892,7 +882,6 @@ async def batch_modify_gmail_message_labels(
     Adds or removes labels from multiple Gmail messages in a single batch request.
 
     Args:
-        user_google_email (str): The user's Google email address. Required.
         message_ids (List[str]): A list of message IDs to modify.
         add_label_ids (Optional[List[str]]): List of label IDs to add to the messages.
         remove_label_ids (Optional[List[str]]): List of label IDs to remove from the messages.
