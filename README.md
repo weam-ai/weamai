@@ -5,8 +5,7 @@
 <h1 align="center">Weam AI</h1>
 
 <p align="center">
-  <strong>The #1 Open Source Collaborative AI Platform</strong><br/>
-  Chat. Build. Share. Operationalize generative AI across your team with ease.
+  <strong>LLMs, Agents, AI Apps, and Team—In One Place, Ready to Use and Expand</strong><br/>
 </p>
 
 <p align="center">
@@ -27,115 +26,112 @@
 
 ## What is Weam AI
 
-Imagine if your team had a place to collaborate with AI as naturally as they collaborate with each other.  
-**Weam AI** is a fully open-source, self-hosted AI collaboration platform that makes that possible.
+Weam is an open source platform that helps teams adopt AI systematically. It includes a complete, production-ready stack with Next.js frontend and Node.js/Python backend - ready to deploy and use immediately.
 
-Unlike fragmented AI tools, Weam provides unified workspaces where your team can:
+**System Requirements:** CPU with 4+ cores, 8GB+ RAM. Professional installation support available for non-technical teams.  
 
-- Chat with multiple AI models seamlessly  
-- Build custom AI agents and automate workflows via connections  
-- Share prompts, insights, and files across teams  
-- Scale AI securely — no vendor lock-in
+**Getting Started:** Simply download or fork the repository and self-host it on your infrastructure.
 
----
+**Why Weam?**  
+Modern teams need easy access to the latest AI models. Weam connects to all major LLM providers out of the box - just add your API keys and you're ready to go. Think of it as ChatGPT built specifically for teams.  
+All your organization's AI interactions live in one centralized platform, organized into "Brains" (intelligent folders). These Brains contain not just chat histories, but also your custom prompts and AI agents. You can structure Brains around your departments - Marketing, Sales, Engineering, Support - whatever fits your organization.
 
-## Quick Start Guide
+But we didn't stop at chat. Weam is built to grow with your needs. Customize existing features or add entirely new AI applications. With the rise of AI-powered development tools like Loveable and Cursor, your team can rapidly build custom AI apps. Instead of scattered deployments, bring these apps into Weam where your entire team already works. We're building a library of open source AI apps you can use as-is, customize, or use as inspiration for your own.
 
-**Perfect for You:**  
-Whether you're exploring generative AI, building powerful workflows, or collaborating across teams — our open source platform adapts to the way you work.
+**Bottom line:** You get a production-grade AI platform that's ready to deploy today and can expand as your needs grow. Completely free and open source. 
 
-**Best for Your Teams:**
-
-| Team             | Example Use Case                                 |
-|------------------|--------------------------------------------------|
-| Engineering      | Build & deploy AI apps and tools                 |
-| Marketing        | Automate campaigns and generate content          |
-| HR & Ops         | Streamline internal workflows with smart assistants |
-| Customer Support | Create chatbots and AI support agents            |
-| Everyone         | Scale AI innovation across your org              |
+**Prefer a managed solution?** We offer a cloud-hosted version of the same open source platform. [**Sign up for a demo here**](https://app.weam.ai/register).
 
 ---
 
-## Core Features
+### 📚 Documentation Hub
 
-| Feature               | What You Get with Weam AI                                             |
-|-----------------------|----------------------------------------------------------------------|
-| Multi-LLM Support     | Connect with over 15 leading models, all in one unified interface     |
-| Self-Hosted Deployment| Full control over your data and infrastructure                        |
-| Team Collaboration    | Advanced workspace tools for real-time multi-user collaboration       |
-| Enterprise Integrations| Connect seamlessly with Slack, Gmail, GitHub, Notion, and more      |
-| Custom Agents         | Create AI assistants tailored to your department or workflow         |
-| Knowledge Management  | Organize and share knowledge using the built-in Brains system         |
-| Open Source           | Fully transparent, community-driven, and extensible                  |
-| Cost-Efficient        | Pay only for your own API usage — no per-seat pricing                |
+
+Visit our comprehensive [**Documentation**](https://docs.weam.ai/).
+ for:
+- Step-by-step installation guides  
+- Video tutorials for all features  
+- Technical architecture details  
+- API references and more  
 
 ---
 
-## Supported AI Models
+### Platform Features
 
-<table>
-  <tr>
-    <td align="center"><img src="https://img.shields.io/badge/OpenAI-GPT--4-412991?logo=openai&logoColor=white&style=for-the-badge" /></td>
-    <td align="center"><img src="https://img.shields.io/badge/Claude-Anthropic-8B5CF6?logo=anthropic&logoColor=white&style=for-the-badge" /></td>
-    <td align="center"><img src="https://img.shields.io/badge/Gemini-Google-34A853?logo=google&logoColor=white&style=for-the-badge" /></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://img.shields.io/badge/LLaMA-Meta-0668E1?logo=meta&logoColor=white&style=for-the-badge" /></td>
-    <td align="center"><img src="https://img.shields.io/badge/Grok-xAI-000000?logoColor=white&style=for-the-badge" /></td>
-    <td align="center"><img src="https://img.shields.io/badge/HuggingFace-Models-FFD21E?logo=huggingface&logoColor=black&style=for-the-badge" /></td>
-  </tr>
-</table>
+#### 💬 Chat System
+- **Multi-LLM Support:** OpenAI, Anthropic, Gemini, Llama, Perplexity, DeepSeek, Open Router, Hugging Face, Grok, and more  
+- **Intelligent Context:** Full conversation history maintains coherent, context-aware discussions  
+- **Local Model Support:** Connect to self-hosted models (coming soon)  
+- **Conversation Management:** Fork chats to explore different directions  
+- **Voice Input:** Speak instead of type with built-in voice-to-text  
 
-> Plus: Qwen (Alibaba), OpenRouter, and 10+ additional providers
+#### 🔧 Productivity Tools
+- **Web Scraping:** Extract content from any URL to provide context to your AI  
+- **Web Search:** Real-time information retrieval during conversations  
+- **Team Collaboration:** Multiple team members can work together in the same chat  
+- **Threaded Comments:** Slack-style commenting for organized discussions  
 
----
+#### 🔗 Sharing & Access
+- **Team Management:** Add or remove team members from specific chats  
+- **Public Sharing:** Generate shareable links for external collaboration  
 
-## Built-in Integrations
+#### 📝 Prompt Library
+- **Custom Prompts:** Create and save prompts for repeated use  
+- **Team Library:** Build a shared repository of proven prompts  
+- **Template Collection:** Access pre-built prompts for common tasks  
+- **Smart Generation:** Auto-create prompts by scraping websites  
+- **Organization:** Tag and favorite prompts for quick access  
+- **Quick Access:** Type "/" in any chat to instantly access your prompts  
+- **Prompt Enhancement:** AI-powered feature that transforms basic queries into comprehensive prompts  
+- **Real Example:** Input a website URL and basic information → receive a complete prompt with website summary and context  
 
-Connect your favorite tools via Model Context Protocol (MCP):
+#### 🤖 AI Agents
+- **Custom Instructions:** Define specific behaviors and knowledge for each agent  
+- **Knowledge Base:** Upload documents to create specialized agents  
+- **Model Selection:** Choose the optimal AI model for each agent's purpose  
+- **MCP Integration:** Model Context Protocol support coming soon  
+- **Quick Deployment:** Access any agent instantly by typing "@" in chat  
+- **Persistent Sessions:** Selected agents remain active throughout conversations  
 
-<table>
-  <tr>
-    <td align="center"><img src="https://img.shields.io/badge/Slack-4A154B?logo=slack&logoColor=white&style=for-the-badge" /><br/><sub>Team Chat</sub></td>
-    <td align="center"><img src="https://img.shields.io/badge/Gmail-D14836?logo=gmail&logoColor=white&style=for-the-badge" /><br/><sub>Email Management</sub></td>
-    <td align="center"><img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white&style=for-the-badge" /><br/><sub>Code Repository</sub></td>
-    <td align="center"><img src="https://img.shields.io/badge/Notion-000000?logo=notion&logoColor=white&style=for-the-badge" /><br/><sub>Documentation</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://img.shields.io/badge/Google%20Drive-34A853?logo=googledrive&logoColor=white&style=for-the-badge" /><br/><sub>File Storage</sub></td>
-    <td align="center"><img src="https://img.shields.io/badge/Calendar-4285F4?logo=googlecalendar&logoColor=white&style=for-the-badge" /><br/><sub>Scheduling</sub></td>
-    <td align="center"><img src="https://img.shields.io/badge/Asana-273347?logo=asana&logoColor=white&style=for-the-badge" /><br/><sub>Project Management</sub></td>
-    <td align="center"><img src="https://img.shields.io/badge/More-Coming-Soon-FF6B6B?style=for-the-badge" /><br/><sub>Request integrations</sub></td>
-  </tr>
-</table>
+#### 🧠 RAG (Retrieval-Augmented Generation)
+- **Complete Pipeline:** Built-in document processing system  
+- **Smart Processing:** Documents are automatically chunked, embedded, and vectorized  
+- **Intelligent Retrieval:** User queries trigger semantic search across document chunks  
+- **Context Injection:** Relevant information is seamlessly provided to the LLM  
+- **Agent Integration:** RAG pipeline automatically processes documents uploaded to agents  
 
----
+#### 🔌 MCP (Model Context Protocol)
+- **Growing Integrations:** Gmail, Slack, Google Drive, and more being added regularly  
+- **Developer Friendly:** Follow our documentation to add your own MCP connections  
 
-## Real-World Use Cases
+#### 🏢 Enterprise Features
+- **Multi-Workspace:** Create separate environments for different teams or projects  
+- **Brain Organization:** Shared folders for teams with private areas for individual work  
+- **Access Control:** Granular permissions for chats, prompts, and agents  
+- **Usage Analytics:** Admin dashboard showing team member activity  
+- **Team Groups:** Organize users for efficient permission management  
 
-<table>
-  <tr><th>Team</th><th>Use Case</th><th>Business Impact</th></tr>
-  <tr>
-    <td><strong>Engineering</strong></td>
-    <td>• GitHub integration<br/>• Technical documentation Q&A<br/>• Automated bug triage</td>
-    <td>50% faster code reviews<br/>Reduced documentation overhead</td>
-  </tr>
-  <tr>
-    <td><strong>Marketing</strong></td>
-    <td>• Campaign copy generation<br/>• Brand-consistent messaging<br/>• Content optimization</td>
-    <td>3x faster content creation<br/>Consistent brand voice</td>
-  </tr>
-  <tr>
-    <td><strong>HR & Operations</strong></td>
-    <td>• Employee onboarding automation<br/>• Policy Q&A chatbots<br/>• Internal knowledge base</td>
-    <td>80% reduction in repetitive queries<br/>Faster employee ramp-up</td>
-  </tr>
-  <tr>
-    <td><strong>Customer Support</strong></td>
-    <td>• Slack/Gmail integration<br/>• Automated ticket classification<br/>• Response suggestions</td>
-    <td>40% faster response times<br/>Higher customer satisfaction</td>
-  </tr>
-</table>
+#### 🚀 Pro Agents (Pre-built Automations)
+Ready-to-use automation workflows powered by specialized APIs:
+- **QA Agent:** Comprehensive 70-point website analysis including Google PageSpeed Insights  
+- **Video Analyzer:** Process Loom recordings by analyzing both video frames and audio to generate actionable task lists  
+- **Sales Call Analyzer:** Transform Fathom recordings into detailed call insights with customizable analysis prompts  
+- **Proposal Generator:** Input project basics and receive professionally formatted, editable multi-page proposals  
+- **SEO Content Writer:** Advanced blog creation pipeline powered by DataforSEO:  
+  - Start with any URL for context  
+  - Auto-generates business summary  
+  - Suggests relevant keywords based on competition analysis  
+  - Researches top-ranking content for each topic  
+  - Checks sitemap to avoid duplicate content  
+  - Produces comprehensive, Google-optimized articles using sophisticated 2-page prompts  
+- **Build your own**  
+
+#### 🎨 AI App Solutions  
+**Coming Soon:**
+- **AI Presentation Maker:** Create stunning presentations like Gamma  
+- **AI Document Editor:** Intelligent document creation and editing  
+- **Voice Agent:** AI that makes calls on your behalf  
+- **Build Your Own:** Integrate custom AI apps built with modern tools directly into Weam, creating a unified AI workspace for your entire organization.
 
 ---
 
@@ -209,21 +205,22 @@ Weam AI is licensed under a modified Apache License 2.0 with additional terms to
 - Maintain open source principles  
   See [`LICENSE`](./LICENSE) for full terms.
 
+  SaaS-style deployment of our open source project requires a commercial license. Learn more about commercial licensing and pricing [**here**](https://docs.weam.ai/)
+
 ---
 
 ## What's Next?
 
-- Advanced analytics dashboard  
-- Workflow automation builder  
-- Mobile applications  
-- Multi-language support  
-- Advanced agent marketplace  
+- **Smart Brain Memory:**  Turn your Brain's chat history into organizational memory that LLMs can optionally access for smarter, context-aware responses.
+- **Expanded MCP Ecosystem:** More MCP integrations coming soon, plus the ability to connect any MCP service directly to your agents.
+- **Advanced Agent Capabilities:** More ready to use Pro agents and AI Apps 
+
 
 ---
 
 <p align="center">
   <strong>Built with ❤️ by the Weam AI community</strong><br/>
-  <em>Empowering teams to collaborate with AI, not just use it.</em><br/>
+  <em>The open source AI platform that brings teams and AI together.</em><br/>
   <a href="https://github.com/weam-ai/weamai">⭐ Star us on GitHub</a> • 
   <a href="https://discord.gg/qhuPkhWh">Join our Discord</a> • 
   <a href="https://weam.ai">Visit our Website</a>
