@@ -661,7 +661,7 @@ async def notion_get_page(page_id: str, mcp_data:str=None) -> str:
     return await get_notion_page(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), page_id)
 
 @mcp.tool()
-async def notion_create_database(page_id: str, title: list, properties: dict,
+async def notion_create_database(page_id: str, title: List[Dict[str, Any]], properties: dict,
                                parent_type: str = "page_id", mcp_data: str = None) -> str:
     """Create a new database in Notion. Depends on notion_get_pages to get parent page ID.
     Args:
@@ -677,7 +677,7 @@ async def notion_create_database(page_id: str, title: list, properties: dict,
 
 @mcp.tool()
 async def notion_create_page(database_id: str, parent_type: str = "database_id", 
-                           properties: dict = None, content: list = None, mcp_data:str=None) -> str:
+                           properties: dict = None, content: List[Dict[str, Any]] = None, mcp_data:str=None) -> str:
     """Create a new page in Notion.Depends on notion_get_databases_id,notion_get_pages_id,notion_get_pages and notion_get_database function to get database or page ID and its properties.Use Accurate page_id or database_id to create a page according to the query of the user
 
     Args:
@@ -712,7 +712,7 @@ async def notion_get_database(database_id: str, mcp_data:str=None) -> str:
 
 @mcp.tool()
 async def notion_query_database(database_id: str, filter_params: dict = None, 
-                              sorts: list = None, start_cursor: str = None, 
+                              sorts: list[Dict[str, Any]] = None, start_cursor: str = None, 
                               page_size: int = 100, mcp_data:str=None) -> str:
     """Query a Notion database.Depends on notion_get_databases_id function to get one single database ID.
 
@@ -750,7 +750,7 @@ async def notion_get_block_children(block_id: str, start_cursor: str = None,
     return await get_block_children(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), block_id, start_cursor, page_size)
 
 @mcp.tool()
-async def notion_append_blocks(block_id: str, blocks: list, mcp_data:str=None) -> str:
+async def notion_append_blocks(block_id: str, blocks: list[Dict[str, Any]], mcp_data:str=None) -> str:
     """Append blocks to a parent block.Depends on notion_get_pages_id function to get one single block ID
 
     Args:
