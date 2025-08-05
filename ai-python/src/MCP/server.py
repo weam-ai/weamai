@@ -31,12 +31,13 @@ from src.MCP.tools.notion.notion_tools import (
 from src.MCP.tools.asana.asana_tools import (
     create_project, list_projects, get_project, update_project, create_task, list_tasks, update_task,
     complete_task, create_section, list_sections, add_task_to_section, add_dependencies_to_task, get_task_dependencies, get_user_info_asana,get_workspace_id,
-    create_team, list_teams, list_team_ids, get_team
+    create_team, list_teams, get_team, list_team_ids
 )
 from fastapi import Request
 from fastapi.responses import JSONResponse, StreamingResponse
-from src.crypto_hub.utils.crypto_utils import MessageDecryptor
 import aiohttp
+from src.crypto_hub.utils.crypto_utils import MessageDecryptor
+from langchain_mcp_adapters.client import MultiServerMCPClient
 key = os.getenv("SECURITY_KEY").encode("utf-8")
 decryptor = MessageDecryptor(key)
 # Load environment variables
@@ -51,19 +52,9 @@ mcp = FastMCP(
     port=mcp_port,  # Port number for the server
 )
 
-@mcp.custom_route("/mcp/sse", methods=["GET"])
-async def proxy_sse(request: Request):
-    async def event_generator():
-        async with aiohttp.ClientSession() as session:
-            async with session.get("http://localhost:8000/sse") as resp:
-                async for line in resp.content:
-                    yield line
-
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
-
 @mcp.custom_route("/ping", methods=["GET"])
 async def health_check(request: Request):
-    return JSONResponse({"message": "mcp server is running12"})
+    return JSONResponse({"message": "mcp server is running"})
 
 @mcp.tool()
 async def slack_list_channels(limit: int = 100,mcp_data:str=None) -> str:
@@ -670,7 +661,7 @@ async def notion_get_page(page_id: str, mcp_data:str=None) -> str:
     return await get_notion_page(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), page_id)
 
 @mcp.tool()
-async def notion_create_database(page_id: str, title: list, properties: dict,
+async def notion_create_database(page_id: str, title: List[Dict[str, Any]], properties: dict,
                                parent_type: str = "page_id", mcp_data: str = None) -> str:
     """Create a new database in Notion. Depends on notion_get_pages to get parent page ID.
     Args:
@@ -686,7 +677,7 @@ async def notion_create_database(page_id: str, title: list, properties: dict,
 
 @mcp.tool()
 async def notion_create_page(database_id: str, parent_type: str = "database_id", 
-                           properties: dict = None, content: list = None, mcp_data:str=None) -> str:
+                           properties: dict = None, content: List[Dict[str, Any]] = None, mcp_data:str=None) -> str:
     """Create a new page in Notion.Depends on notion_get_databases_id,notion_get_pages_id,notion_get_pages and notion_get_database function to get database or page ID and its properties.Use Accurate page_id or database_id to create a page according to the query of the user
 
     Args:
@@ -721,7 +712,7 @@ async def notion_get_database(database_id: str, mcp_data:str=None) -> str:
 
 @mcp.tool()
 async def notion_query_database(database_id: str, filter_params: dict = None, 
-                              sorts: list = None, start_cursor: str = None, 
+                              sorts: list[Dict[str, Any]] = None, start_cursor: str = None, 
                               page_size: int = 100, mcp_data:str=None) -> str:
     """Query a Notion database.Depends on notion_get_databases_id function to get one single database ID.
 
@@ -759,7 +750,7 @@ async def notion_get_block_children(block_id: str, start_cursor: str = None,
     return await get_block_children(decryptor.decrypt(user_data['mcpdata']['NOTION']['access_token']), block_id, start_cursor, page_size)
 
 @mcp.tool()
-async def notion_append_blocks(block_id: str, blocks: list, mcp_data:str=None) -> str:
+async def notion_append_blocks(block_id: str, blocks: list[Dict[str, Any]], mcp_data:str=None) -> str:
     """Append blocks to a parent block.Depends on notion_get_pages_id function to get one single block ID
 
     Args:
@@ -816,7 +807,6 @@ async def asana_create_project(
         is_public: Optional flag to make the project public to the team
         workspace_id: workspace ID
         team_id: team ID (required if workspace is an organization)
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await create_project(
@@ -839,7 +829,6 @@ async def asana_list_projects(
 
     Args:
         workspace_id: workspace ID
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await list_projects(
@@ -857,7 +846,6 @@ async def asana_get_project(
 
     Args:
         project_id: The ID of the project
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await get_project(
@@ -877,7 +865,6 @@ async def asana_update_project(
     Args:
         project_id: The ID of the project to update
         updated_fields: Fields to update (name, notes, color, etc.)
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await update_project(
@@ -906,7 +893,6 @@ async def asana_create_task(
         due_on: Optional due date in YYYY-MM-DD format
         project_id: project ID to add the task to
         workspace_id: workspace ID
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await create_task(
@@ -935,7 +921,6 @@ async def asana_list_tasks(
         workspace_id: workspace ID
         assignee: Optional filter by assignee email or ID
         completed_since: Optional filter for tasks completed since a date (YYYY-MM-DD)
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await list_tasks(
@@ -958,7 +943,6 @@ async def asana_update_task(
     Args:
         task_id: The ID of the task to update
         updated_fields: Fields to update (name, notes, assignee, due_on, etc.)
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await update_task(
@@ -977,7 +961,6 @@ async def asana_complete_task(
 
     Args:
         task_id: The ID of the task to complete
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await complete_task(
@@ -997,7 +980,6 @@ async def asana_create_section(
     Args:
         name: The name of the section
         project_id: The ID of the project to add the section to
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await create_section(
@@ -1016,7 +998,6 @@ async def asana_list_sections(
 
     Args:
         project_id: The ID of the project
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await list_sections(
@@ -1036,7 +1017,6 @@ async def asana_add_task_to_section(
     Args:
         task_id: The ID of the task
         section_id: The ID of the section
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await add_task_to_section(
@@ -1058,7 +1038,6 @@ async def asana_add_dependencies_to_task(
     Args:
         task_id: The ID of the task
         dependency_ids: List of task IDs that the task depends on
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await add_dependencies_to_task(
@@ -1078,7 +1057,6 @@ async def asana_get_task_dependencies(
 
     Args:
         task_id: The ID of the task
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await get_task_dependencies(
@@ -1119,7 +1097,6 @@ async def asana_create_team(
     Args:
         name: The name of the team
         workspace_id: Workspace ID
-        mcp_data: asana token data from mcp
         description: Optional plain text description of the team
         html_description: Optional HTML-formatted description of the team
     """
@@ -1141,7 +1118,6 @@ async def asana_list_teams(
 
     Args:
         workspace_id: Workspace ID
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await list_teams(
@@ -1158,7 +1134,6 @@ async def asana_list_team_ids(
 
     Args:
         workspace_id: Workspace ID
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await list_team_ids(
@@ -1175,7 +1150,6 @@ async def asana_get_team(
 
     Args:
         team_id: The ID of the team
-        mcp_data: asana token data from mcp
     """
     user_data = await get_user_by_id(mcp_data)
     return await get_team(

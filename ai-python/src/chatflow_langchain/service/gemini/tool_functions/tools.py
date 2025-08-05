@@ -351,7 +351,6 @@ async def image_generate(image_query:bool=False, model_name=None, image_quality=
 
 
 
-
 @tool(description=ToolServiceDescription.WEB_ANALYSIS)
 async def website_analysis(reference_urls:list[str]=[]):
     try:
@@ -371,5 +370,4 @@ async def website_analysis(reference_urls:list[str]=[]):
             f"🚨 Failed to scrape and clean web content: {e}",
             extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis"}})
         return ''
-
 

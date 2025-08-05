@@ -26,6 +26,7 @@ from langchain.chains import LLMChain
 from src.custom_lib.langchain.callbacks.openai.image_cost.context_manager import dalle_callback_handler
 from src.celery_worker_hub.web_scraper.tasks.scraping_sitemap import crawler_scraper_task
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
+from src.gateway.utils import AsyncHTTPClientSingleton, SyncHTTPClientSingleton
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from src.crypto_hub.services.openai.llm_api_key_decryption import LLMAPIKeyDecryptionHandler
 from src.chatflow_langchain.repositories.company_repository import CompanyRepostiory
@@ -50,9 +51,12 @@ async def simple_chat_v2(query:bool=False, openai_api_key=None, temprature=None,
     # Set model parameters here
     try:    
         kwargs = {"chat_imageT":imageT}
-        custom_handler = CustomAsyncIteratorCallbackHandler()
+        # custom_handler = CustomAsyncIteratorCallbackHandler()
+        http_client = SyncHTTPClientSingleton.get_client()
+        http_async_client = await AsyncHTTPClientSingleton.get_client()
         llm = ChatOpenAI(temperature=temprature, api_key=openai_api_key,use_responses_api=True,
-                         model=model_name, streaming=True, stream_usage=True,callbacks=[custom_handler])
+                         model=model_name, streaming=True, stream_usage=True,
+                         http_client=http_client, http_async_client=http_async_client)
         prompt_list = chat_repository_history.messages
         if image_url is not None and model_name in ToolChatConfig.VISION_MODELS:
             query_and_images = {
@@ -77,13 +81,14 @@ async def simple_chat_v2(query:bool=False, openai_api_key=None, temprature=None,
             async with  \
                     get_custom_openai_callback(model_name, cost=cost_callback, thread_id=thread_id, collection_name=thread_model,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id,**kwargs) as cb, \
                     get_mongodb_callback_handler(thread_id=thread_id, chat_history=chat_repository_history, memory=memory,collection_name=thread_model,regenerated_flag=regenerated_flag,msgCredit=msgCredit,is_paid_user=is_paid_user,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id) as mongo_handler:
-                run = asyncio.create_task(llm_chain.arun(
-                    query_and_images,callbacks=[cb,mongo_handler]))
-
-            async for token in custom_handler.aiter():
-                yield f"data: {token.encode('utf-8')}\n\n", 200
-            await run
-
+                async for token in llm_chain.astream_events(query_and_images,{'callbacks':[cb,mongo_handler]},version="v1",stream_usage=True):
+                                        if token['event']=="on_chat_model_stream":
+                                            chunk=token['data']['chunk'].content
+                                            if len(chunk) > 0:
+                                                chunk = chunk[0]['text'].encode("utf-8")
+                                                yield f"data: {chunk}\n\n", 200
+                                        else:
+                                            pass
         else:
  
             prompt_list.append(HumanMessagePromptTemplate.from_template(template=[
@@ -95,12 +100,14 @@ async def simple_chat_v2(query:bool=False, openai_api_key=None, temprature=None,
             async with  \
                     get_custom_openai_callback(model_name, cost=cost_callback, thread_id=thread_id, collection_name=thread_model,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id,**kwargs) as cb, \
                     get_mongodb_callback_handler(thread_id=thread_id, chat_history=chat_repository_history, memory=memory,collection_name=thread_model,regenerated_flag=regenerated_flag,msgCredit=msgCredit,is_paid_user=is_paid_user,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id) as mongo_handler:
-                run = asyncio.create_task(llm_chain.arun(
-                   f"Formatting re-enabled:{original_query}",callbacks=[cb,mongo_handler]))
-
-                async for token in custom_handler.aiter():
-                    yield f"data: {token.encode('utf-8')}\n\n", 200
-                await run
+                async for token in llm_chain.astream_events(original_query,{'callbacks':[cb,mongo_handler]},version="v1",stream_usage=True):
+                                        if token['event']=="on_chat_model_stream":
+                                            chunk=token['data']['chunk'].content
+                                            if len(chunk) > 0:
+                                                chunk = chunk[0]['text'].encode("utf-8")
+                                                yield f"data: {chunk}\n\n", 200
+                                        else:
+                                            pass
 
         logger.info('Simple chat Tool Function Completed', extra={
                     "tags": {"task_function": "simple_chat_v2"}})
@@ -250,10 +257,12 @@ async def image_generate(image_query:bool=False, model_name=None, image_quality=
                 original_query[f"image_url{idx}"] = url
         chat_prompt = ChatPromptTemplate.from_messages(prompt_list)
         cost=CostCalculator()
-
+        http_client = SyncHTTPClientSingleton.get_client()
+        http_async_client = await AsyncHTTPClientSingleton.get_client()
         async with dalle_callback_handler(llm_model=OPENAIMODEL.GPT_4_1_MINI, cost = cost,dalle_model=model_name,thread_id=thread_id,collection_name=thread_model,image_quality = image_quality,image_size=image_size,image_style=image_style,encrypted_key=encrypted_key,companyRedis_id=companyRedis_id) as asynchandler:
             llm = ChatOpenAI(temperature=ToolChatConfig.TEMPRATURE, api_key=openai_api_key,use_responses_api=True,
-                            model=OPENAIMODEL.GPT_4_1_MINI, streaming=False, stream_usage=True,max_tokens=max_tokens)
+                            model=OPENAIMODEL.GPT_4_1_MINI, streaming=False, stream_usage=True,max_tokens=max_tokens,
+                            http_client=http_client,http_async_client=http_async_client)
             llm_chain = LLMChain(llm=llm,prompt=chat_prompt)
             optimized_query = await llm_chain.ainvoke(original_query, callbacks=[asynchandler])
             # optimized_query = llm_chain.invoke(original_query,callbacks=[asynchandler])
@@ -411,7 +420,7 @@ def update_thread_repo_and_memory(thread_id, thread_model, optimized_query_text,
             chat_repository_history.add_message_system(
                 message=memory.moving_summary_buffer, thread_id=thread_id
             )
-        # api_usage_service.update_usage_sync(provider='OPEN_AI', tokens_used=summary_cb.total_tokens, model=model_name, api_key=encrypted_key, functionality=Functionality.CHAT,company_id=companyRedis_id)
+        api_usage_service.update_usage_sync(provider='OPEN_AI', tokens_used=summary_cb.total_tokens, model=model_name, api_key=encrypted_key, functionality=Functionality.CHAT,company_id=companyRedis_id)
     else: 
         thread_repo.update_response_model(responseModel=model_name, model_code='OPEN_AI') 
 
@@ -441,3 +450,4 @@ async def website_analysis(implicit_reference_urls:list[str]=[]):
             extra={"tags": {"method": "OpenAIToolServiceOpenai.website_analysis"}})
         return ''
                 
+

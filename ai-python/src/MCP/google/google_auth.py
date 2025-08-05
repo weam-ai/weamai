@@ -7,7 +7,7 @@ import os
 
 from datetime import datetime
 from typing import List, Optional, Dict, Any
-
+from src.MCP.utils import save_tokens
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google.auth.exceptions import RefreshError
@@ -30,11 +30,11 @@ def create_credentials_from_mcp_data(mcp_data: Dict[str, Any]) -> Optional[Crede
         credentials = Credentials(
             token=decryptor.decrypt(mcp_data.get("access_token")),
             refresh_token=decryptor.decrypt(mcp_data.get("refresh_token")),
-            token_uri=mcp_data.get("token_uri", "https://oauth2.googleapis.com/token"),
+            token_uri="https://oauth2.googleapis.com/token",
             client_id=client_id,
             client_secret=client_secret,
-            scopes=mcp_data.get("scope", []),
-            expiry=datetime.fromisoformat(mcp_data["expiry"]) if mcp_data.get("expiry") else None
+            scopes=mcp_data.get("scope", []).split(),
+            expiry=datetime.fromisoformat(mcp_data["expiry"].replace('Z', '+00:00')).replace(tzinfo=None) if mcp_data.get("expiry") else None
         )
         return credentials
     except Exception as e:
@@ -44,6 +44,7 @@ def create_credentials_from_mcp_data(mcp_data: Dict[str, Any]) -> Optional[Crede
 def get_credentials(
     mcp_data: Dict[str, Any],
     required_scopes: List[str],
+    provider: str
 ) -> Optional[Credentials]:
     """
     Retrieves credentials from MCP data or session cache. Refreshes if necessary.
@@ -78,6 +79,12 @@ def get_credentials(
     elif credentials.expired and credentials.refresh_token:
         try:
             credentials.refresh(Request())
+            save_tokens(
+                email=mcp_data.get("email"),
+                provider=provider,
+                access_token=credentials.token,
+                expiry=credentials.expiry
+            )
             return credentials
         except RefreshError as e:
             logger.warning(f"[get_credentials] RefreshError - token expired/revoked: {e}")
@@ -114,7 +121,6 @@ async def get_authenticated_google_service(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -136,7 +142,7 @@ async def get_authenticated_google_service(
 
     # Fetch MCP data using user_id
     mcp_data = await get_user_by_id(user_id)
-    mcp_data = mcp_data['mcpdata']['GMAIL']
+    mcp_data = mcp_data['mcpdata']['G']
     if not mcp_data:
         error_msg = f"No MCP data found for user ID: {user_id}"
         logger.error(f"[{tool_name}] {error_msg}")
@@ -146,6 +152,7 @@ async def get_authenticated_google_service(
         get_credentials,
         mcp_data=mcp_data,
         required_scopes=required_scopes,
+        provider="G"
     )
 
     try:
@@ -179,7 +186,6 @@ async def get_authenticated_google_service_gmail(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -211,6 +217,7 @@ async def get_authenticated_google_service_gmail(
         get_credentials,
         mcp_data=mcp_data,
         required_scopes=required_scopes,
+        provider="GMAIL"
     )
 
     try:
@@ -244,7 +251,6 @@ async def get_authenticated_google_service_drive(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -276,6 +282,7 @@ async def get_authenticated_google_service_drive(
         get_credentials,
         mcp_data=mcp_data,
         required_scopes=required_scopes,
+        provider="GOOGLE_DRIVE"
     )
 
     try:
@@ -309,7 +316,6 @@ async def get_authenticated_google_service_calendar(
         service_name: The Google service name ("gmail", "calendar", "drive", "docs")
         version: The API version ("v1", "v3", etc.)
         tool_name: The name of the calling tool (for logging/debugging)
-        user_google_email: The user's Google email address (required)
         required_scopes: List of required OAuth scopes
         user_id: User ID to fetch MCP data from MongoDB
 
@@ -341,6 +347,7 @@ async def get_authenticated_google_service_calendar(
         get_credentials,
         mcp_data=mcp_data,
         required_scopes=required_scopes,
+        provider="GOOGLE_CALENDAR"
     )
 
     try:

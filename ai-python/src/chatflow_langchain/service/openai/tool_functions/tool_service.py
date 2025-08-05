@@ -13,7 +13,7 @@ from src.chatflow_langchain.service.openai.tool_functions.config import ToolChat
 from src.logger.default_logger import logger
 from src.round_robin.llm_key_manager import APIKeySelectorService,APIKeyUsageService
 from src.chatflow_langchain.service.config.model_config_openai import Functionality
-
+from src.gateway.utils import AsyncHTTPClientSingleton, SyncHTTPClientSingleton
 from langchain_core.messages import HumanMessage
 from fastapi import HTTPException, status
 # Custom Library
@@ -21,18 +21,14 @@ from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import Cos
 from openai import RateLimitError,APIConnectionError,APITimeoutError,APIStatusError, NotFoundError
 from src.celery_worker_hub.extraction.utils import map_file_url, validate_file_url
 from src.chatflow_langchain.utils.fill_additional_prompt import fill_template,format_website_summary_pairs
-from src.chatflow_langchain.service.openai.tool_functions.tools import simple_chat_v2, image_generate,web_search_preview,website_analysis, get_current_time
+from src.chatflow_langchain.service.openai.tool_functions.tools import simple_chat_v2, web_search_preview,website_analysis, get_current_time
 from src.chatflow_langchain.service.openai.tool_functions.utils import extract_error_message
 import gc
-from src.chatflow_langchain.service.openai.tool_functions.utils import extract_error_message
 from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
 from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
 from src.chatflow_langchain.service.config.model_config_openai import OPENAIMODEL 
 from src.celery_worker_hub.web_scraper.tasks.scraping_sitemap import crawler_scraper_task
-from src.chatflow_langchain.service.openai.config.openai_tool_description import ToolServiceDescription
-from langchain_experimental.tools.python.tool import PythonREPLTool
-from langchain_core.messages.tool import ToolMessage
-from src.chatflow_langchain.utils.playwright_info_fetcher import LogoFetcherService
+import os
 from langchain_core.tools import tool
 from langchain_community.tools.openai_dalle_image_generation import OpenAIDALLEImageGenerationTool
 from src.custom_lib.langchain.chat_models.openai.dalle_wrapper import MyDallEAPIWrapper
@@ -40,16 +36,21 @@ from langgraph.prebuilt import ToolNode
 from langgraph.graph import MessagesState, StateGraph
 from langgraph.graph import StateGraph, START, END
 from langchain_core.runnables import RunnableConfig
-from src.gateway.utils import AsyncHTTPClientSingleton, SyncHTTPClientSingleton
+# Service Initilization
 from src.custom_lib.langchain.callbacks.openai.cost.context_manager import get_custom_openai_callback
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
 from src.custom_lib.langchain.callbacks.openai.mongodb.context_manager import get_mongodb_callback_handler
+from src.chatflow_langchain.service.openai.config.openai_tool_description import ToolServiceDescription
+from langchain_experimental.tools.python.tool import PythonREPLTool
+from langchain_core.messages.tool import ToolMessage
+from src.chatflow_langchain.utils.playwright_info_fetcher import LogoFetcherService
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
-import os
+from src.MCP.utils import create_mcp_client
+
 load_dotenv()
 mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
-# Service Initilization
+
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
@@ -67,8 +68,9 @@ async def image_generate(query:str=None,image_size:str='1024x1024',
             f"🚨 Failed to Generate Image {e}",
             extra={"tags": {"method": "OpenAIToolServiceOpenai.image_generation"}})
         return ''
+
 class OpenAIToolServiceOpenai(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:str=None,mcp_tools:dict=None,mcp_request:dict=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -84,6 +86,9 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
         Logs an error if the initialization fails.
         """
         try:
+            self.jwt_token = mcp_request.headers.get("Authorization", "") if mcp_request else None
+            self.origin = mcp_request.headers.get("origin", "")
+            
             self.chat_repository_history = CustomAIMongoDBChatMessageHistory()  
           
             llm_apikey_decrypt_service.initialization(api_key_id=api_key_id, collection_name=companymodel)
@@ -110,15 +115,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
             self.model_name = OPENAIMODEL.MODEL_VERSIONS[llm_apikey_decrypt_service.model_name]
             self.tools = [website_analysis,image_generate, get_current_time]
             if mcp_tools:
-                self.client = MultiServerMCPClient(
-                    {
-                        "slack": {
-                            # make sure you start your weather server on port 8000
-                            "url": mcp_url,
-                            "transport": "sse",
-                        }
-                    }
-                )
+                self.client = create_mcp_client(self.jwt_token, self.origin)
                 # Get tools directly without using context manager
                 try:
                     self.mcp_tools_list = await self.client.get_tools()
@@ -140,6 +137,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                 search_context_size = WebSearchConfig.SEARCH_CONTEXT_SIZE
                 web_tool = {"type": "web_search_preview", "search_context_size":search_context_size}
                 self.tools = [web_tool,image_generate]
+   
             if self.model_name in OPENAIMODEL.TOOL_NOT_SUPPORTED_MODEL:
                 self.llm_with_tools = self.llm    
             else:
@@ -166,6 +164,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
     async def chatbot(self,state,config):
         history_messages = self.chat_repository_history.messages
         history_messages.extend(state['messages'])
+        
         new_message = await self.llm_with_tools.ainvoke(history_messages,config=config)
         if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
             if self.image_url:
@@ -201,7 +200,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                 "Graph Compiled Successfully",
                 extra={"tags": {"endpoint": "/stream-tool-chat-with-openai"}}
             )
-        
+
     def initialize_repository(self, chat_session_id: str = None, collection_name: str = None,regenerated_flag:bool=False,msgCredit:float=0,is_paid_user:bool=False):
         """
         Initializes the chat history repository for data storage.
@@ -325,7 +324,6 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
     def map_and_validate_image_url(self, image_url: str, source: str) -> str:
         try:
             # Map the URL
-
             mapped_url = map_file_url(image_url, source)
             # Validate the mapped URL
             validated_url = validate_file_url(mapped_url, source)
@@ -439,7 +437,6 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                 if self.image_gen_prompt:
                     thread_repo.initialization(thread_id=thread_id, collection_name=collection_name)
                     thread_repo.update_img_gen_prompt(gen_prompt=self.image_gen_prompt)
-
         except NotFoundError as e:
             error_content,error_code = extract_error_message(str(e))
             if error_code not in OPENAI_MESSAGES_CONFIG:
@@ -743,5 +740,3 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
                 f"Failed to cleanup resources: {e}",
                 extra={"tags": {"method": "OpenAIToolServiceOpenai.cleanup"}}
             )
-
-

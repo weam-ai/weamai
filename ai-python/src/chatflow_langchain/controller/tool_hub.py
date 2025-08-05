@@ -86,6 +86,7 @@ class ToolController:
             tool_manager = self._select_manager(chat_input)
             if tool_manager is None:
                 raise ValueError("Invalid Tool code provided.")
+            
             await tool_manager.initialize_llm(
             api_key_id=chat_input.llm_apikey,
             companymodel=chat_input.companymodel,
@@ -97,7 +98,8 @@ class ToolController:
             imageT=chat_input.imageT,
             company_id=chat_input.company_id,
             mcp_data=chat_input.mcp if hasattr(chat_input, 'mcp') else None,
-            mcp_tools=chat_input.mcp_tools
+            mcp_tools=chat_input.mcp_tools,
+            mcp_request = chat_input.request if hasattr(chat_input, 'request') else None
         )
             tool_manager.initialize_repository(
                 chat_session_id=chat_input.chat_session_id,
@@ -106,8 +108,15 @@ class ToolController:
                 msgCredit=chat_input.msgCredit,
                 is_paid_user=chat_input.is_paid_user
             )
+            logger.info(
+                "Initaliazing Repository ended and create graph node started",
+                extra={"tags": {"endpoint": "/stream-tool-chat-with-openai"}}
+            )
             await tool_manager.create_graph_node()
-
+            logger.info(
+                "Create graph node ended and create conversation started",
+                extra={"tags": {"endpoint": "/stream-tool-chat-with-openai"}}
+            )
             # prompt attach
             # tool_manager.prompt_attach(additional_prompt_id=chat_input.prompt_id,collection_name=chat_input.promptmodel)  
 

@@ -13,6 +13,7 @@ from src.chatflow_langchain.repositories.thread_repository import ThreadRepostio
 from src.chatflow_langchain.service.o1.tool_functions.config import ToolChatConfig
 from src.chatflow_langchain.service.config.model_config_openai import OPENAIMODEL
 from src.logger.default_logger import logger
+from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage
 from fastapi import HTTPException, status
 # Custom Library
@@ -23,10 +24,6 @@ from src.chatflow_langchain.utils.fill_additional_prompt import fill_template,fo
 from src.chatflow_langchain.service.o1.tool_functions.tools import simple_chat_v2, image_generate,website_analysis
 from src.chatflow_langchain.service.o1.tool_functions.utils import extract_error_message
 import gc
-from src.gateway.openai_exceptions import LengthFinishReasonError,ContentFilterFinishReasonError
-from src.chatflow_langchain.repositories.openai_error_messages_config import OPENAI_MESSAGES_CONFIG,DEV_MESSAGES_CONFIG
-from src.round_robin.llm_key_manager import APIKeySelectorService,APIKeyUsageService
-from src.chatflow_langchain.service.config.model_config_openai import Functionality
 from langchain_community.tools.openai_dalle_image_generation import OpenAIDALLEImageGenerationTool
 from src.custom_lib.langchain.chat_models.openai.dalle_wrapper import MyDallEAPIWrapper
 from langgraph.prebuilt import ToolNode
@@ -43,18 +40,18 @@ from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import Cos
 from src.custom_lib.langchain.callbacks.openai.mongodb.context_manager import get_mongodb_callback_handler
 from src.chatflow_langchain.service.o1.config.o1_tool_description import ToolDescritpion
 from langchain_core.messages.tool import ToolMessage
-from langchain_core.tools import tool
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import os
+from src.MCP.utils import create_mcp_client
 
 load_dotenv()
 mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
+
 # Service Initilization
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
-cost_callback= CostCalculator()
 
 @tool(description=ToolDescritpion.IMAGE_GENERATION)
 async def image_generate(query:str=None,image_size:str='1024x1024',
@@ -70,7 +67,7 @@ async def image_generate(query:str=None,image_size:str='1024x1024',
         return ''
 
 class O1ToolServiceOpenai(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -86,6 +83,8 @@ class O1ToolServiceOpenai(AbstractConversationService):
         Logs an error if the initialization fails.
         """
         try:
+            self.jwt_token = mcp_request.headers.get("Authorization", "") if mcp_request else None
+            self.origin = mcp_request.headers.get("origin", "")
             self.chat_repository_history = CustomAIMongoDBChatMessageHistory()
             llm_apikey_decrypt_service.initialization(api_key_id, companymodel)
             self.encrypted_api_key = llm_apikey_decrypt_service.apikey
@@ -109,23 +108,16 @@ class O1ToolServiceOpenai(AbstractConversationService):
                 http_async_client = self.http_async_client,
                 model_kwargs={'reasoning':reasoning}
             )
+            self.mcp_data = mcp_data
+            self.image_gen_prompt = None
             self.api_usage_service = APIKeyUsageService()
             self.thread_id = thread_id
             self.thread_model = thread_model
             self.imageT = imageT
-            self.mcp_data = mcp_data
+           
             self.tools = [website_analysis,image_generate]
-            self.tool_node = ToolNode(self.tools)   
             if mcp_tools:
-                self.client = MultiServerMCPClient(
-                    {
-                        "slack": {
-                            # make sure you start your weather server on port 8000
-                            "url": mcp_url,
-                            "transport": "sse",
-                        }
-                    }
-                )
+                self.client = create_mcp_client(self.jwt_token, self.origin)
                 # Get tools directly without using context manager
                 try:
                     self.mcp_tools_list = await self.client.get_tools()
@@ -142,6 +134,7 @@ class O1ToolServiceOpenai(AbstractConversationService):
                     logger.error(f"Failed to connect to MCP server: {mcp_error}")
                     # Continue without MCP tools if connection fails
                     self.mcp_tools_list = []
+            self.tool_node = ToolNode(self.tools)   
             self.llm_with_tools = self.llm.bind_tools(
                 self.tools)
 
@@ -163,16 +156,18 @@ class O1ToolServiceOpenai(AbstractConversationService):
         return END
     
     async def chatbot(self,state,config):
-        history_messages = self.chat_repository_history.messages
-        history_messages.extend(state['messages'])
-        new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
-        if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
-            new_message.tool_calls[0]['args']['image_url'] = self.image_url
-            new_message.tool_calls[0]['args']['mcp_data'] = self.mcp_data
-        if new_message.tool_calls[0]['name'] == 'image_generate':
-            self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
 
-        return {"messages": [new_message]}
+            history_messages = self.chat_repository_history.messages
+            history_messages.extend(state['messages'])
+            new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
+            if hasattr(new_message, 'tool_calls') and new_message.tool_calls:
+                if self.image_url:
+                    new_message.tool_calls[0]['args']['image_url'] = self.image_url
+                if new_message.tool_calls[0]['name'] == 'image_generate':
+                    self.image_gen_prompt = new_message.tool_calls[0]['args']['query']
+                new_message.tool_calls[0]['args']['mcp_data'] = self.mcp_data
+
+            return {"messages": [new_message]}
     
     async def create_graph_node(self):
         # memory = MemorySaver()
@@ -199,6 +194,7 @@ class O1ToolServiceOpenai(AbstractConversationService):
         logger.info(
                 "Graph Compiled Successfully",
                 extra={"tags": {"endpoint": "/stream-tool-chat-with-openai"}})
+
     def initialize_repository(self, chat_session_id: str = None, collection_name: str = None,regenerated_flag:bool=False,msgCredit:float=0,is_paid_user:bool=False):
         """
         Initializes the chat history repository for data storage.
@@ -221,7 +217,6 @@ class O1ToolServiceOpenai(AbstractConversationService):
                 regenerated_flag=regenerated_flag,
                 thread_id = self.thread_id
             )
-            self.history_messages = self.chat_repository_history.messages
             self.regenerated_flag=regenerated_flag
             self.is_paid_user = is_paid_user
             self.msgCredit = msgCredit

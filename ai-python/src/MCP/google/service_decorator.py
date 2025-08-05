@@ -102,7 +102,6 @@ async def acquire_google_service(
     Handles Google service authentication and returns an initialized service object.
 
     Args:
-        user_google_email: The user's Google email for authentication.
         service_type: Type of Google service ("gmail", "drive", "calendar", etc.).
         scopes: Required scopes (can be scope group names or actual URLs).
         tool_name: The name of the function/tool requesting the service (for logging/errors).
