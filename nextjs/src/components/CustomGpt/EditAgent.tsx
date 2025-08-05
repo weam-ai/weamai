@@ -91,7 +91,7 @@ const EditGptForm = () => {
         <div className="flex flex-col h-full w-full md:py-[30px] max-md:pt-14 md:pr-2 md:pl-0 pl-2 pr-2">
             <div className='flex-1 overflow-y-auto'>
                 <div className='flex w-full md:flex-row flex-col max-w-[988px] mx-auto'>
-                    <div className='gpt-sidebar md:w-[200px]'>
+                    <div className='gpt-sidebar md:w-[170px]'>
                         <GptNavigation currentStep={currentStep} onStepClick={navigateToStep} />
                     </div>
                     <div className='gpt-detail flex-1 md:ml-[58px] border border-gray-300 rounded-10 p-5'>
