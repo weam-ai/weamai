@@ -4,6 +4,7 @@ const { userSchemaKeys, teamSchemaKeys } = require('./commonref');
 const createBrainKeys = joi.object({
     title: joi.string().required(),
     isShare: joi.boolean().required(),
+    customInstructions: joi.string().optional(),
     shareWith: joi
         .array()
         .items(
@@ -35,6 +36,7 @@ const updateBrainKeys = joi.object({
         .string()
         .regex(/^[0-9a-fA-F]{24}$/)
         .required(),
+    customInstructions: joi.string().optional(),
     shareWith: joi
         .array()
         .items(

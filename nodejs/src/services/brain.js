@@ -31,6 +31,7 @@ const createBrain = async (req) => {
     try {
         const data = {
             ...req.body,
+            customInstructions: req.body.customInstructions || '',
             slug: slugify(req.body.title),
             user: formatUser(req.user),
         }
@@ -155,6 +156,11 @@ const updateBrain = async (req) => {
 
         const  accessOfWorkspace = await accessOfWorkspaceToUser({workspaceId : req.body.workspaceId, userId : req.user.id, isPopulateWorkspace:true})
         
+        // Ensure customInstructions is always updated, even if empty
+        if (!('customInstructions' in req.body)) {
+            req.body.customInstructions = '';
+        }
+        
         if(!accessOfWorkspace || ( !req.body.isShare && !isPrivateBrainVisible)){
             throw new Error(_localize('module.unAuthorized', req,'Brain'))
         }
@@ -172,6 +178,8 @@ const updateBrain = async (req) => {
         if (rescount > 0) throw new Error(_localize('module.alreadyExists', req, req.body.title + ' Brain'));
 
         const updateObj = { ...req.body };
+        // Always update customInstructions, even if empty
+        updateObj.customInstructions = req.body.customInstructions || '';
         if (req.body.title) {
             Object.assign(updateObj, { slug: slugify(req.body.title) })
         }

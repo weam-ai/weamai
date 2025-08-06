@@ -30,11 +30,13 @@ export const fetchBrainList = async () => {
 
 export async function createBrainAction(obj: BrainCreateType) {
     const sessionUser = await getSessionUser();
-    const data: CreateBrainActionData = {
+    const data: CreateBrainActionData & { customInstructions?: string } = {
         title: obj.title,
         isShare: obj.isShare,
         workspaceId: obj.workspaceId,
+        customInstructions: obj.customInstructions || '',
     };
+
     if (obj.isShare) {
         data.shareWith = obj.members.map((user) => {
             return {
@@ -83,11 +85,16 @@ export async function deleteBrainAction(data, id) {
 
 export async function updateBrainAction(data: UpdateBrainActionType, id: string) {
     const sessionUser = await getSessionUser();
+    // Always include customInstructions, default to '' if missing
+    const updateData = {
+        ...data,
+        customInstructions: data.customInstructions ?? '',
+    };
     const response = await serverApi({
         action: MODULE_ACTIONS.UPDATE,
         prefix: MODULE_ACTIONS.WEB_PREFIX,
         module: MODULES.BRAINS,
-        data,
+        data: updateData,
         common: true,
         parameters: [id],
     });

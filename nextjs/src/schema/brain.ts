@@ -2,6 +2,7 @@ import * as yup from 'yup';
 
 export const addSharedBrainKeys = yup.object({
     title: yup.string().required('Brain name is required'),
+    customInstructions: yup.string().optional(),
     members: yup.array().of(
         yup.object().shape({
             email: yup.string().email().required(),
@@ -12,6 +13,7 @@ export const addSharedBrainKeys = yup.object({
 
 export const addPersonalBrainKeys = yup.object({
     title: yup.string().required('Brain name is required'),
+    customInstructions: yup.string().optional(),
 })
 
 

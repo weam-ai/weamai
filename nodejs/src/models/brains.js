@@ -34,6 +34,10 @@ const schema = new Schema(
             type: Boolean,
             default: true,
         },
+        customInstructions: {
+            type: String,
+            default: '',
+        },
         isDefault: {
             type: Boolean,
         },

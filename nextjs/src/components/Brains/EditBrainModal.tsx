@@ -297,8 +297,43 @@ const AddTeamMemberModal = ({
 };
 
 const AboutBrainDetails = ({ brain, isOwner, onLeaveBrain, onDeleteBrain }) => {
+    const [customInstructions, setCustomInstructions] = useState(brain?.customInstructions || '');
+    const { updateBrain } = useBrains({});
+
+    const handleCustomInstructionsChange = (e) => {
+        setCustomInstructions(e.target.value);
+    };
+
+    const saveCustomInstructions = async () => {
+        try {
+            await updateBrain({ customInstructions }, brain?._id);
+            Toast('Custom instructions updated successfully');
+        } catch (error) {
+            console.error('Error updating custom instructions:', error);
+            Toast('Failed to update custom instructions');
+        }
+    };
+
     return (
         <div className="h-full w-full">
+            {isOwner && (
+                <div className="mb-4">
+                    <label 
+                        htmlFor="custom-instructions" 
+                        className="text-font-16 font-semibold inline-block text-b2"
+                    >
+                        Custom Instructions (Optional)
+                    </label>
+                    <textarea
+                        id="custom-instructions"
+                        className="default-form-input min-h-[100px] w-full mt-2"
+                        placeholder="Add custom instructions for this brain"
+                        value={customInstructions}
+                        onChange={handleCustomInstructionsChange}
+                        onBlur={saveCustomInstructions}
+                    />
+                </div>
+            )}
             {/* Leave Chat Start*/}
             {!isOwner && (
                 <div

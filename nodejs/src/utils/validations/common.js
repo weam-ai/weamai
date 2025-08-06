@@ -3,7 +3,10 @@ const { countrySchemaKeys, updateCountrySchemaKeys, stateSchemaKeys, updateState
 const { PASSWORD_REGEX } = require('../../config/constants/common');
 
 const partialUpdateKeys = joi.object({
-    isActive: joi.boolean().required()
+    isActive: joi.boolean().optional(),
+    customInstructions: joi.string().optional(),
+    isShare: joi.boolean().optional(),
+    workspaceId: joi.string().regex(/^[0-9a-fA-F]{24}$/).optional()
 }).unknown(false);
 
 const countryCreateKeys = joi.object({

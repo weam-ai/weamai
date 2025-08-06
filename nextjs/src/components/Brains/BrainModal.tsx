@@ -161,8 +161,8 @@ const BrainModal = ({ open, close, isPrivate }) => {
         getMembersList({});
     }, []);
 
-    const onSubmit = async ({ members, title,teamsInput }) => {
-        const payload = isShare ? { isShare, members, title, teamsInput } : { isShare, title };
+    const onSubmit = async ({ members, title, customInstructions, teamsInput }) => {
+        const payload = isShare ? { isShare, members, title, customInstructions, teamsInput } : { isShare, title, customInstructions };
         const response = await runAction({ ...payload, workspaceId: selectedWorkSpace._id });
         Toast(response.message);
         close();
@@ -227,8 +227,24 @@ const BrainModal = ({ open, close, isPrivate }) => {
                                                 errors={errors}
                                                 field={'title'}
                                             />
+                                        <div className="relative md:mb-5 mb-3 md:px-2.5 px-0">
+                                            <Label
+                                                htmlFor="custom-instructions"
+                                                title="Custom Instructions (Optional)"
+                                            />
+                                            <textarea
+    className="default-form-input min-h-[100px] resize-none"
+    id="custom-instructions"
+    placeholder="Enter custom instructions to make your brain smarter"
+    {...register('customInstructions', { setValueAs: v => v ?? '' })}
+    maxLength={500}
+/>
+
+                                            <ValidationError
+                                                errors={errors}
+                                                field={'customInstructions'}
+                                            />
                                         </div>
-                                        <div>
                                             {isShare && (
                                                 <div className="relative md:mb-5 mb-3 md:px-2.5 px-0">
                                                     <Controller

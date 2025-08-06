@@ -6,6 +6,7 @@ export type BrainType = {
     slug: string;
     isShare?: boolean;
     isActive?: boolean;
+    customInstructions?: string;
     createdAt?: string;
     updatedAt?: string;
     deletedAt?: string;
@@ -96,6 +97,7 @@ export type BrainCreateType = {
     members?: MemberType[];
     workspaceId: string;
     title: string;
+    customInstructions?: string;
     teamsInput?: TeamType[];
 }
 
@@ -108,4 +110,5 @@ export type UpdateBrainActionType = {
     title: string;
     isShare: boolean;
     workspaceId: string;
+    customInstructions?: string;
 }
