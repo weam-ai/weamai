@@ -37,6 +37,8 @@ const useConversation = () => {
     const dispatch = useDispatch();
     const [answerMessage, setAnswerMessage] = useState('');
     const disabledInput = useRef(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
+    const readerRef = useRef<ReadableStreamDefaultReader | null>(null);
     const currentUser = useMemo(() => getCurrentUser(), []);
     const brainData = useSelector((store: RootState) => store.brain.combined);
     const { uploadData } = useSelector((state:RootState) => state.conversation);
@@ -64,6 +66,62 @@ const useConversation = () => {
             console.error("In CustomErrorResponse",error)
         }
     }
+    
+    const stopStreaming = async (chatId: string | string[]) => {
+        try {
+            // Abort the fetch request if it's still in progress
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+                abortControllerRef.current = null;
+            }
+            
+            // Cancel the reader if it's active
+            if (readerRef.current) {
+                try {
+                    await readerRef.current.cancel();
+                } catch (error) {
+                    console.error("Error cancelling reader:", error);
+                }
+                readerRef.current = null;
+            }
+            
+            // Update UI state
+            setLoading(false);
+            setShowHoverIcon(true);
+            disabledInput.current = null;
+            
+            // Finalize the current conversation with what we have so far
+            if (answerMessage) {
+                setConversations(prevConversations => {
+                    const updatedConversations = [...prevConversations];
+                    if (updatedConversations.length > 0) {
+                        const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
+                        lastConversation.response = answerMessage + "\n\n*Generation stopped by user*";
+                        updatedConversations[updatedConversations.length - 1] = lastConversation;
+                    }
+                    return updatedConversations;
+                });
+                
+                // Emit stop streaming event to socket if needed
+                const currentUser = getCurrentUser();
+                if (currentUser && chatId) {
+                    const socket = store.getState().socket.socket;
+                    if (socket) {
+                        socket.emit(SOCKET_EVENTS.STOP_STREAMING, { 
+                            chatId, 
+                            proccedMsg: answerMessage + "\n\n*Generation stopped by user*", 
+                            userId: currentUser._id 
+                        });
+                    }
+                }
+                
+                // Clear the answer message
+                setAnswerMessage('');
+            }
+        } catch (error) {
+            console.error("Error stopping stream:", error);
+        }
+    }
 
      const getCommonPythonPayload = async (): Promise<{ token: string, companyId: string }> => {
         try {
@@ -83,24 +141,25 @@ const useConversation = () => {
      * Note: Whenever this function is called in any api, set current ref to null to enable input field
      */
     const streamResponseHandler = async (response: Response, socket: Socket, chatId: string | string[]) => {
-        const reader = response.body.getReader();
+        readerRef.current = response.body.getReader();
         const decoder = new TextDecoder('utf-8');
         let proccedMsg = '';
         const currentUser = getCurrentUser();
         while (true) {
-            const { value, done } = await reader.read();
-            
-            if (done) {
-                setConversations(prevConversations => {
-                    const updatedConversations = [...prevConversations];
-                    const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
-                    lastConversation.response = proccedMsg;
-                    updatedConversations[updatedConversations.length - 1] = lastConversation;
-                    return updatedConversations;
-                });
-                setAnswerMessage('');
-                break;
-            }
+            try {
+                    const { value, done } = await readerRef.current.read();
+                
+                if (done) {
+                    setConversations(prevConversations => {
+                        const updatedConversations = [...prevConversations];
+                        const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
+                        lastConversation.response = proccedMsg;
+                        updatedConversations[updatedConversations.length - 1] = lastConversation;
+                        return updatedConversations;
+                    });
+                    setAnswerMessage('');
+                    break;
+                }
 
             const chunk = decoder.decode(value);
             
@@ -166,7 +225,21 @@ const useConversation = () => {
             socket.emit(SOCKET_EVENTS.START_STREAMING, { chunk: decodedMessage, chatId, userId: currentUser._id });
             proccedMsg += decodedMessage;
             setAnswerMessage((prev: string) => prev + decodedMessage);
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Stream reading was aborted');
+                    break;
+                } else {
+                    console.error('Error reading stream:', error);
+                    break;
+                }
+            }
         }
+        
+        // Clean up
+        readerRef.current = null;
+        abortControllerRef.current = null;
+        
         setShowTimer(true);
         socket.emit(SOCKET_EVENTS.STOP_STREAMING, { chatId, proccedMsg, userId: currentUser._id });
     };
@@ -307,6 +380,13 @@ const useConversation = () => {
             const messageId = payload.messageId
 
             const authToken = newToken || token;
+            
+            // Create a new AbortController and store it in the ref
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortControllerRef.current = new AbortController();
+            const signal = abortControllerRef.current.signal;
 
             const response = await fetch(
                 `${LINK.PYTHON_API_URL}${API_PREFIX}/tool/stream-tool-chat-with-openai`,
@@ -333,6 +413,7 @@ const useConversation = () => {
                         'Content-Type': 'application/json',
                         Authorization: `${TOKEN_PREFIX}${authToken}`,
                     },
+                    signal
                 }
             );
                        
@@ -362,6 +443,13 @@ const useConversation = () => {
             const authToken = newToken || token;
             const messageId = payload.messageId;
             const fileIds = [], tags = [], embeddingApiKeys = [];
+            
+            // Create a new AbortController and store it in the ref
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortControllerRef.current = new AbortController();
+            const signal = abortControllerRef.current.signal;
             
             if (isRegenerated) {
                 payload.media.forEach((file: UploadedFileType) => {
@@ -408,6 +496,7 @@ const useConversation = () => {
                         'Content-Type': 'application/json',
                         Authorization: `${TOKEN_PREFIX}${authToken}`,
                     },
+                    signal
                 }
             );
             if (!response.ok) {
@@ -1177,7 +1266,8 @@ const useConversation = () => {
         streamResponseHandler,
         customErrorResponse,
         generateSeoArticle,
-        getSalesCallResponse
+        getSalesCallResponse,
+        stopStreaming
     };
 };
 

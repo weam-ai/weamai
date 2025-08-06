@@ -83,6 +83,8 @@ const defaultContext = {
 type TextAreaSubmitButtonProps = {
     disabled: boolean;
     handleSubmit: () => void;
+    loading?: boolean;
+    onStopStreaming?: () => void;
 };
 
 type TextAreaFileInputProps = {
@@ -94,7 +96,33 @@ type TextAreaFileInputProps = {
 export const TextAreaSubmitButton = ({
     disabled,
     handleSubmit,
+    loading = false,
+    onStopStreaming,
 }: TextAreaSubmitButtonProps) => {
+    // Show stop button when loading/streaming
+    if (loading && onStopStreaming) {
+        return (
+            <button
+                className="chat-submit ml-2 group bg-red-500 hover:bg-red-600 w-[32px] z-10 h-[32px] flex items-center justify-center rounded-full transition-colors"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                    event.preventDefault();
+                    onStopStreaming();
+                }}
+                title="Stop generating"
+            >
+                <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    className="fill-white"
+                >
+                    <rect x="0" y="0" width="12" height="12" rx="1" />
+                </svg>
+            </button>
+        );
+    }
+
+    // Show regular submit button
     return (
         <button
             className={`chat-submit ml-2 group bg-b2 w-[32px] z-10 h-[32px] flex items-center justify-center rounded-full transition-colors ${

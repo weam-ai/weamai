@@ -6,6 +6,7 @@ from src.gateway.jwt_decode import get_user_data
 from src.logger.default_logger import logger
 from src.gateway.custom_fastapi.streaming_response import StreamingResponseWithStatusCode
 import os
+import asyncio
 from dotenv import load_dotenv
 from src.gateway.utils import log_api_call
 import gc
@@ -65,14 +66,22 @@ async def chat_with_ai(
         ## conversation create
         stream_chat_service.create_conversation(input_text=chat_input.query, image_url=chat_input.image_url,image_source=chat_input.image_source)  
 
-        # streaming the chat chat serivce
+        # streaming the chat chat serivce with cancellation support
+        async_handler_ref = []
         response_generator = stream_chat_service.stream_run_conversation(thread_id=chat_input.thread_id, \
-                                                                         collection_name=chat_input.threadmodel,delay_chunk=chat_input.delay_chunk)
+                                                                         collection_name=chat_input.threadmodel,delay_chunk=chat_input.delay_chunk, async_handler_ref=async_handler_ref)
         logger.info(
             "Successfully executed Chat With Document Model API",
             extra={"tags": {"endpoint": "/streaming-chat-with-openai", "chat_session_id": chat_input.chat_session_id}}
         )
-        return StreamingResponseWithStatusCode(response_generator, media_type="text/event-stream")
+        
+        streaming_response = StreamingResponseWithStatusCode(response_generator, media_type="text/event-stream")
+        
+        # Set the async handler for cancellation support
+        if async_handler_ref:
+            streaming_response.set_async_handler(async_handler_ref[0])
+            
+        return streaming_response
 
     except HTTPException as he:
         logger.error(
@@ -154,7 +163,7 @@ async def chat_with_ai(
                                                                          collection_name=chat_input.threadmodel,delay_chunk=chat_input.delay_chunk)
         logger.info(
             "Successfully executed Chat With Document Model API",
-            extra={"tags": {"endpoint": "/streaming-chat-with-openai", "chat_session_id": chat_input.chat_session_id}}
+            extra={"tags": {"endpoint": "/mock-stream-chat-with-openai", "chat_session_id": chat_input.chat_session_id}}
         )
         return StreamingResponseWithStatusCode(response_generator, media_type="text/event-stream")
 

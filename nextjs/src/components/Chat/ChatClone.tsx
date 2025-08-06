@@ -235,7 +235,8 @@ const ChatPage = memo(() => {
         getAIProAgentChatResponse,
         isStreamingLoading,
         generateSeoArticle,
-        getSalesCallResponse
+        getSalesCallResponse,
+        stopStreaming
     } = useConversation();
     const { chatInfo, socketChatById, handleAIApiType } = useChat();
     const {
@@ -1657,6 +1658,8 @@ const ChatPage = memo(() => {
                                         <TextAreaSubmitButton
                                             disabled={isSubmitDisabled}
                                             handleSubmit={handleSubmitPrompt}
+                                            loading={loading}
+                                            onStopStreaming={() => stopStreaming(params?.id)}
                                         />
                                 </div>
                             </div>
