@@ -14,6 +14,7 @@ from src.gateway.exceptions import (validation_exception_handler,http_exception_
 from src.gateway.exceptions import custom_title_http_exception_handler,CustomTitleHttpException,PayloadTooLargeException,AudioTooLargeException
 from dotenv import load_dotenv
 from src.gateway.utils import RegexCORSMiddleware,get_regex_patterns,get_swagger_redoc_settings,ForceCleanupMiddleware,PyInstrumentMiddleWare, AsyncHTTPClientSingleton, SyncHTTPClientSingleton
+from fastapi.middleware.cors import CORSMiddleware
 # from src.gateway.utils import RegexCORSMiddleware,get_regex_patterns,get_swagger_redoc_settings,APICountMiddleware,APICountMiddlewareRedis,MultiAPICountMiddlewareRedis
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import VectorParams, Distance
@@ -54,7 +55,7 @@ async def startup_event():
 # regex_patterns = [r".weam\.ai"]
 # regex_patterns = get_regex_patterns()
 
-app.add_middleware(RegexCORSMiddleware)
+# app.add_middleware(RegexCORSMiddleware)
 # app.add_middleware(APICountMiddleware)
 # app.add_middleware(APICountMiddlewareRedis)
 # app.add_middleware(MultiAPICountMiddlewareRedis)

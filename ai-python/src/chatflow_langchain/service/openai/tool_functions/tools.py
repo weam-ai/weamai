@@ -10,7 +10,7 @@ from src.chatflow_langchain.service.openai.tool_functions.config import ToolChat
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
 from langchain_community.callbacks.manager import get_openai_callback
-from src.celery_worker_hub.web_scraper.tasks.upload_file_s3 import task_upload_image_to_s3,task_upload_huggingfaceimage_to_s3, task_upload_file_to_s3
+from src.celery_worker_hub.web_scraper.tasks.upload_file_s3 import task_upload_image_to_s3,task_upload_huggingfaceimage_to_s3
 import json
 import tempfile
 from src.aws.boto3_client import Boto3S3Client
