@@ -24,8 +24,10 @@ class AsyncMongoDBClient(metaclass=AsyncSingleton):
         else:
             uri = f"{self.mongo_db_connection}://{self.mongo_host}:{self.mongo_port}/"
         # Async client with tuned pool
+
+        mongo_uri=os.environ.get("MONOGODB_URI",None)
         self.client: AsyncIOMotorClient = AsyncIOMotorClient(
-            uri,
+            mongo_uri,
             maxPoolSize=int(os.getenv('MONGO_MAX_POOL', 50)),
             minPoolSize=int(os.getenv('MONGO_MIN_POOL', 5)),
             serverSelectionTimeoutMS=5000,
