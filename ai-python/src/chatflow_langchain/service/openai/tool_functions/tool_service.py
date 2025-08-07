@@ -420,7 +420,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
             annotations=[]
             async with  \
                 get_custom_openai_callback(self.model_name, cost=cost_callback, thread_id=thread_id, collection_name=collection_name,encrypted_key=self.encrypted_api_key,companyRedis_id=self.companyRedis_id,**kwargs) as cb, \
-                get_mongodb_callback_handler(thread_id=thread_id, chat_history=self.chat_repository_history, memory=self.memory,collection_name=collection_name,regenerated_flag=self.regenerated_flag,msgCredit=self.msgCredit,is_paid_user=self.is_paid_user,encrypted_key=self.encrypted_api_key,companyRedis_id=self.companyRedis_id) as mongo_handler:
+                get_mongodb_callback_handler(thread_id=thread_id, chat_history=self.chat_repository_history, memory=self.memory,collection_name=collection_name,regenerated_flag=self.regenerated_flag,msgCredit=self.msgCredit,is_paid_user=self.is_paid_user,encrypted_key=self.encrypted_api_key,companyRedis_id=self.companyRedis_id,brain_id=self.brain_id,tool_service_llm=self.llm) as mongo_handler:
                 async for event in self.graph.astream_events(self.query,{'callbacks':[cb,mongo_handler],"configurable":{'thread_id':'1'}},stream_mode='messages',version='v2'):
                     if event["event"] == "on_chat_model_stream":
                         if len(event["data"]["chunk"].content) > 0:

@@ -5,9 +5,9 @@ from contextlib import asynccontextmanager
 from src.logger.default_logger import logger
 
 @asynccontextmanager
-async def get_mongodb_callback_handler(thread_id: str, chat_history, memory,collection_name,model_name,regenerated_flag=False,msgCredit=0,is_paid_user=False,**kwargs) -> AsyncGenerator[MongoDBCallbackHandler, None,]:
+async def get_mongodb_callback_handler(thread_id: str, chat_history, memory, collection_name, model_name, regenerated_flag=False, msgCredit=0, is_paid_user=False, brain_id=None, tool_service_llm=None, **kwargs) -> AsyncGenerator[MongoDBCallbackHandler, None,]:
     """Get the MongoDB callback handler in a context manager."""
-    handler = MongoDBCallbackHandler(thread_id=thread_id, chat_history=chat_history, memory=memory,collection_name=collection_name,regenerated_flag=regenerated_flag,model_name=model_name,msgCredit=msgCredit,is_paid_user=is_paid_user,**kwargs)
+    handler = MongoDBCallbackHandler(thread_id=thread_id, chat_history=chat_history, memory=memory, collection_name=collection_name, regenerated_flag=regenerated_flag, model_name=model_name, msgCredit=msgCredit, is_paid_user=is_paid_user, brain_id=brain_id, tool_service_llm=tool_service_llm, **kwargs)
     try:
         yield handler
     except Exception as e:
