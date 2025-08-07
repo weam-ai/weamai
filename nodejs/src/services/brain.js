@@ -72,9 +72,13 @@ const createBrain = async (req) => {
 
         await shareBrainFormat(req, brains, true);
 
-        if(data?.shareWith){
-
-            await addWorkSpaceUsers(data.shareWith, workspace, req.user);
+        if(data?.shareWith && data.isShare){
+            try {
+                await addWorkSpaceUsers(data.shareWith, workspace, req.user);
+            } catch (error) {
+                console.error('Error adding workspace users:', error);
+                // Continue execution even if addWorkSpaceUsers fails
+            }
         }
         if(req.body.isShare && req.body?.teams?.length>0){
             if(req.body.teams.length>0){
@@ -191,7 +195,7 @@ const updateBrain = async (req) => {
         //Assign all chats with the user which are associated to the brain
         (sharewith != undefined) ? addBrainChatMember(existing, sharewith, req.userId) : '';
         
-       if(sharewith){
+       if(sharewith && req.body.addWorkSpaceUsers){
         await addWorkSpaceUsers(sharewith, accessOfWorkspace.workspaceId, req.user);
        }
         return Brain.findOneAndUpdate(filter, updateObj, { new: true });

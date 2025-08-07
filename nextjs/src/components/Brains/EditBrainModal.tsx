@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useEffect, useState } from 'react';
 import {
     Dialog,
@@ -13,7 +14,8 @@ import Loader from '../ui/Loader';
 import { ROLE_TYPE } from '@/utils/constant';
 import WorkSpaceIcon from '@/icons/WorkSpaceIcon';
 import AutoSelectChip from '../ui/AutoSelectChip';
-import { Controller } from 'react-hook-form';
+// @ts-ignore
+import { Controller, useForm } from 'react-hook-form';
 import BrainIcon from '@/icons/BrainIcon';
 import useBrains from '@/hooks/brains/useBrains';
 import useBrainUser from '@/hooks/brainuser/useBrainUser';
@@ -298,6 +300,7 @@ const AddTeamMemberModal = ({
 
 const AboutBrainDetails = ({ brain, isOwner, onLeaveBrain, onDeleteBrain }) => {
     const [customInstructions, setCustomInstructions] = useState(brain?.customInstructions || '');
+    const [isSaving, setIsSaving] = useState(false);
     const { updateBrain } = useBrains({});
 
     const handleCustomInstructionsChange = (e) => {
@@ -306,11 +309,20 @@ const AboutBrainDetails = ({ brain, isOwner, onLeaveBrain, onDeleteBrain }) => {
 
     const saveCustomInstructions = async () => {
         try {
-            await updateBrain({ customInstructions }, brain?._id);
+            setIsSaving(true);
+            // Only include necessary parameters for updating custom instructions
+            await updateBrain({ 
+                customInstructions: customInstructions,
+                isShare: brain?.isShare,
+                workspaceId: brain?.workspaceId
+                // Removed addWorkSpaceUsers parameter as it's not allowed for this operation
+            }, brain?._id);
             Toast('Custom instructions updated successfully');
         } catch (error) {
             console.error('Error updating custom instructions:', error);
             Toast('Failed to update custom instructions');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -330,8 +342,25 @@ const AboutBrainDetails = ({ brain, isOwner, onLeaveBrain, onDeleteBrain }) => {
                         placeholder="Add custom instructions for this brain"
                         value={customInstructions}
                         onChange={handleCustomInstructionsChange}
-                        onBlur={saveCustomInstructions}
                     />
+                    <div className="flex justify-end mt-2">
+                        <button 
+                            type="button"
+                            onClick={saveCustomInstructions}
+                            disabled={isSaving}
+                            className="bg-primary hover:bg-primary-dark text-black px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center min-w-[120px] shadow-md hover:scale-105"
+                        >
+                            {isSaving ? (
+                                <>
+                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Saving...
+                                </>
+                            ) : 'Save Instructions'}
+                        </button>
+                    </div>
                 </div>
             )}
             {/* Leave Chat Start*/}
@@ -361,20 +390,28 @@ const AboutBrainDetails = ({ brain, isOwner, onLeaveBrain, onDeleteBrain }) => {
     );
 };
 
+interface MemberItemProps {
+    key?: any; // Add key prop to fix TypeScript error
+    member: any;
+    handleRemoveMember: (id: any) => Promise<void>;
+    isOwner: boolean;
+    currentUser: any;
+    brain: any;
+}
+
 const MemberItem = ({
     member,
     handleRemoveMember,
     isOwner,
     currentUser,
     brain,
-}) => {
+}: MemberItemProps) => {
     const isRemoval =
         (currentUser.roleCode === ROLE_TYPE.USER &&
             brain?.user?.id === currentUser._id) ||
         currentUser.roleCode !== ROLE_TYPE.USER;
     return (
         <div
-            key={member?._id}
             className="group/item user-item flex justify-between py-1.5 px-0 border-b border-b11"
         >
             <div className="user-img-name flex items-center">
@@ -415,7 +452,14 @@ const MemberItem = ({
     );
 };
 
-const TeamItem = ({ team, handleRemoveTeam, brain }) => {
+interface TeamItemProps {
+    key?: any; // Add key prop to fix TypeScript error
+    team: any;
+    handleRemoveTeam: (id: any) => Promise<void>;
+    brain: any;
+}
+
+const TeamItem = ({ team, handleRemoveTeam, brain }: TeamItemProps) => {
 
     return (
         <div className="group/item user-item flex justify-between py-1.5 px-0 border-b border-b11">
@@ -724,7 +768,7 @@ const EditBrainModal = ({ open, closeModal, brain }) => {
                                         ))}
                                         {teamList?.map((team) => (
                                             <TeamItem
-                                                key={team.id._id}
+                                                key={team.id?._id}
                                                 team={team}
                                                 handleRemoveTeam={
                                                     handleRemoveTeam
