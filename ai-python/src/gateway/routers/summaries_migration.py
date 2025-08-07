@@ -458,6 +458,12 @@ async def migrate_company_models(current_user=Depends(get_user_data)):
             "id": model_data["_id"]
         }
 
+        # Get perplexity API key from environment variable and encrypt it
+        perplexity_api_key_env = os.getenv("PERPLEXITY_API_KEY")
+        if not perplexity_api_key_env:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="PERPLEXITY_API_KEY environment variable not set.")
+        perplexity_api_key = encryptor.encrypt(perplexity_api_key_env)
+
         # Get all companies from the collection
         companies = company_collection.find({})
         for company in companies:
@@ -470,8 +476,6 @@ async def migrate_company_models(current_user=Depends(get_user_data)):
 
                 # If the model does not exist, insert it
                 if not existing_record:
-                    perplexity_api_key = "Iij76GQ5r0Rgj+dMe928/EE+k1Fk+t+v7Zd+ZgmZYj8e/G1srwEX5Ha+ePTC0Y3/rP2gcNiysS7GHslOfMwSeg=="
-
                     new_record = {
                         "name": model_name,
                         "bot": bot_data,
