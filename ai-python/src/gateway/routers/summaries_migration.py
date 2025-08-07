@@ -16,6 +16,7 @@ import asyncio
 
 load_dotenv()
 
+# Security: All API keys are loaded from environment variables to prevent hardcoded credentials
 router = APIRouter()
 
 collection = db_instance.get_collection("prompts")
@@ -273,7 +274,10 @@ async def migrate_company_models(current_user=Depends(get_user_data)):
             "id": model_data["_id"]
         }
 
-        api_key = encryptor.encrypt("AIzaSyBR32fpOFicRB5-HRsQKQ6Has_YZ03Bx0w")  
+        google_api_key = os.getenv("GOOGLE_API_KEY")
+        if not google_api_key:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Google API key not configured.")
+        api_key = encryptor.encrypt(google_api_key)  
 
         companies = company_collection.find({})
         for company in companies:
@@ -470,7 +474,10 @@ async def migrate_company_models(current_user=Depends(get_user_data)):
 
                 # If the model does not exist, insert it
                 if not existing_record:
-                    perplexity_api_key = "Iij76GQ5r0Rgj+dMe928/EE+k1Fk+t+v7Zd+ZgmZYj8e/G1srwEX5Ha+ePTC0Y3/rP2gcNiysS7GHslOfMwSeg=="
+                    perplexity_api_key = os.getenv("PERPLEXITY_API_KEY")
+                    if not perplexity_api_key:
+                        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Perplexity API key not configured.")
+                    perplexity_api_key = encryptor.encrypt(perplexity_api_key)
 
                     new_record = {
                         "name": model_name,

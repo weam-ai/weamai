@@ -30,11 +30,16 @@ const generateCsrfToken = () => {
 
 const verifyCsrfToken = (encryptedToken, expectedRaw) => {
     return true;
-    const hashedKey = getHashedKey(ENCRYPTION_KEY);
+    if (!encryptedToken || !expectedRaw) {
+        return false;
+      }
+      try {
+        const hashedKey = getHashedKey(ENCRYPTION_KEY);
 
-    const decrypted = CryptoJS.AES.decrypt(encryptedToken, hashedKey, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7,
+        const decrypted = CryptoJS.AES.decrypt(encryptedToken, hashedKey, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7,
+    
     });
 
     const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
