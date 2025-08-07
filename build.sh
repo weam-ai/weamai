@@ -41,7 +41,7 @@ echo "✅ Environment variables loaded."
 
 # Step 3: Determine build target
 echo "🛠️ Step 3/5: Determining target environment..."
-TARGET="development"
+TARGET="production"
 [ "$NEXT_PUBLIC_APP_ENVIRONMENT" == "development" ] && TARGET="development"
 echo "✅ Target selected: $TARGET"
 
