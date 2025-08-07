@@ -147,6 +147,22 @@ bash winbuild.sh  (for windows)
 docker-compose up -d
 ```
 
+### Environment Variables Setup
+
+Weam AI uses environment variables to securely manage sensitive credentials like API keys.
+
+#### Step 1: Copy the Example File
+
+After cloning the repo, create a .env file:
+
+### Step 2:  Add your API Keys in given format
+
+PERPLEXITY_API_KEY=your-perplexity-api-key
+
+### Step 3: Make sure to add .env in gitignore
+
+
+
 - Docs: [Quickstart Guide](https://docs.weam.ai/quickstart)
 - From Source / Cloud: Coming soon
 - Setup Video: Uploading soon
