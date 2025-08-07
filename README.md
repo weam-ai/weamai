@@ -151,15 +151,13 @@ docker-compose up -d
 
 Weam AI uses environment variables to securely manage sensitive credentials like API keys.
 
-#### Step 1: Copy the Example File
-
+## Step 1: Create a ENV file
 After cloning the repo, create a .env file:
 
-### Step 2:  Add your API Keys in given format
-
+## Step 2:  Add your API Keys in given format
 PERPLEXITY_API_KEY=your-perplexity-api-key
 
-### Step 3: Make sure to add .env in gitignore
+## Step 3: Make sure to add .env in gitignore
 
 
 
