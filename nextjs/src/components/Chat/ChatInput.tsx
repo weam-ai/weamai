@@ -85,6 +85,7 @@ type TextAreaSubmitButtonProps = {
     handleSubmit: () => void;
     loading?: boolean;
     onStopStreaming?: () => void;
+    isActivelyStreaming?: boolean;
 };
 
 type TextAreaFileInputProps = {
@@ -98,27 +99,38 @@ export const TextAreaSubmitButton = ({
     handleSubmit,
     loading = false,
     onStopStreaming,
+    isActivelyStreaming = false,
 }: TextAreaSubmitButtonProps) => {
-    // Show stop button when loading/streaming
-    if (loading && onStopStreaming) {
+    // Show stop button when actively streaming - use isActivelyStreaming as primary indicator
+    if (isActivelyStreaming && onStopStreaming) {
         return (
-            <button
-                className="chat-submit ml-2 group bg-red-500 hover:bg-red-600 w-[32px] z-10 h-[32px] flex items-center justify-center rounded-full transition-colors"
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                    event.preventDefault();
-                    onStopStreaming();
-                }}
-                title="Stop generating"
-            >
-                <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    className="fill-white"
+            <div className="flex items-center ml-2">
+                <span className="text-xs text-red-500 mr-2 animate-pulse font-medium">
+                    Generating...
+                </span>
+                <button
+                    className="chat-submit group bg-red-500 hover:bg-red-700 active:bg-red-800 w-[32px] z-20 h-[32px] flex items-center justify-center rounded-full transition-all duration-200 shadow-lg border-2 border-red-400 hover:border-red-300"
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                        event.preventDefault();
+                        onStopStreaming();
+                    }}
+                    title="Stop generating"
+                    style={{
+                        boxShadow: '0 0 10px rgba(239, 68, 68, 0.5)',
+                        animation: 'pulse 2s infinite'
+                    }}
                 >
-                    <rect x="0" y="0" width="12" height="12" rx="1" />
-                </svg>
-            </button>
+                    <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        className="fill-white drop-shadow-sm"
+                        style={{ filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))' }}
+                    >
+                        <rect x="2" y="2" width="10" height="10" rx="1" />
+                    </svg>
+                </button>
+            </div>
         );
     }
 

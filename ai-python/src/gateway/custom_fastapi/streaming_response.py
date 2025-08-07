@@ -48,7 +48,11 @@ class StreamingResponseWithStatusCode(StreamingResponse):
             logger.info("Client disconnected during streaming", extra={"tags": {"method": "StreamingResponseWithStatusCode.stream_response"}})
             # Cancel the async handler if available
             if self.async_handler:
-                self.async_handler.cancel()
+                if hasattr(self.async_handler, 'cancel'):
+                    self.async_handler.cancel()
+                elif hasattr(self.async_handler, 'set'):
+                    # For asyncio.Event used in tool services
+                    self.async_handler.set()
             # Send empty body to close connection gracefully
             try:
                 await send({"type": "http.response.body", "body": b"", "more_body": False})
@@ -59,5 +63,9 @@ class StreamingResponseWithStatusCode(StreamingResponse):
             logger.error(f"Error in streaming response: {e}", extra={"tags": {"method": "StreamingResponseWithStatusCode.stream_response"}})
             # Cancel the async handler if available
             if self.async_handler:
-                self.async_handler.cancel()
+                if hasattr(self.async_handler, 'cancel'):
+                    self.async_handler.cancel()
+                elif hasattr(self.async_handler, 'set'):
+                    # For asyncio.Event used in tool services
+                    self.async_handler.set()
             raise

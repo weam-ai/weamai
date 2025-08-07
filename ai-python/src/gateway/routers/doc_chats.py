@@ -57,8 +57,7 @@ async def stream_chat_with_doc(
             extra={"tags": {"endpoint": "/streaming-chat-with-doc", "chat_session_id": chat_input.chat_session_id}}
         )
         
-        streaming_response = StreamingResponseWithStatusCode(response_generator, media_type="text/event-stream")
-        return streaming_response
+        return StreamingResponseWithStatusCode(response_generator, media_type="text/event-stream")
      
     except HTTPException as he:
         logger.error(

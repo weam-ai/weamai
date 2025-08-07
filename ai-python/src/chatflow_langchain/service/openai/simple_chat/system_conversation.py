@@ -215,72 +215,8 @@ class OpenAISimpleStreamingChatService(AbstractConversationService):
 
     def _get_inputs(self):
         return self.inputs
-    
-    async def _save_partial_response(self, thread_id: str, collection_name: str, partial_response: str):
-        """
-        Save partial response to database when streaming is cancelled.
-        
-        Parameters
-        ----------
-        thread_id : str
-            The thread ID for the conversation.
-        collection_name : str
-            The collection name for storing conversation history.
-        partial_response : str
-            The partial response received before cancellation.
-        """
-        try:
-            from langchain_core.messages import AIMessage
-            
-            # Add cancellation notice to the partial response
-            cancelled_response = partial_response + "\n\n*[Generation stopped by user]*"
-            
-            # Create AI message with partial response
-            ai_message = AIMessage(content=cancelled_response)
-            
-            # Save to chat history using the repository
-            if hasattr(self, 'chat_repository_history') and self.chat_repository_history:
-                self.chat_repository_history.add_message(ai_message)
-                logger.info(
-                    f"Saved partial response to database for thread {thread_id}", 
-                    extra={"tags": {"method": "SimpleStreamingChatService._save_partial_response"}}
-                )
-            else:
-                logger.warning(
-                    "Chat repository not available for saving partial response",
-                    extra={"tags": {"method": "SimpleStreamingChatService._save_partial_response"}}
-                )
-                
-        except Exception as e:
-            logger.error(
-                f"Failed to save partial response: {e}",
-                extra={"tags": {"method": "SimpleStreamingChatService._save_partial_response"}}
-            )
 
-    async def stream_run_conversation_with_cancellation(self, thread_id: str, collection_name: str, async_handler_ref=None, **kwargs) -> AsyncGenerator[str, None]:
-        """
-        Wrapper for stream_run_conversation that provides cancellation support.
-        
-        Parameters
-        ----------
-        thread_id : str
-            The thread ID for the conversation.
-        collection_name : str
-            The collection name for storing conversation history.
-        async_handler_ref : list, optional
-            Reference list to store the async handler for external cancellation.
-        **kwargs
-            Additional keyword arguments.
-            
-        Returns
-        -------
-        AsyncGenerator[str, None]
-            An asynchronous generator yielding response tokens.
-        """
-        async for chunk in self.stream_run_conversation(thread_id, collection_name, async_handler_ref=async_handler_ref, **kwargs):
-            yield chunk
-
-    async def stream_run_conversation(self, thread_id: str, collection_name: str, async_handler_ref=None, **kwargs) -> AsyncGenerator[str, None]:
+    async def stream_run_conversation(self, thread_id: str, collection_name: str,**kwargs) -> AsyncGenerator[str, None]:
         """
         Executes a conversation and updates the token usage and conversation history.
 
@@ -290,8 +226,6 @@ class OpenAISimpleStreamingChatService(AbstractConversationService):
             The thread ID for the conversation.
         collection_name : str
             The collection name for storing conversation history.
-        async_handler_ref : list, optional
-            Reference list to store the async handler for external cancellation.
 
         Returns
         -------
@@ -305,45 +239,20 @@ class OpenAISimpleStreamingChatService(AbstractConversationService):
         try:
             delay_chunk=kwargs.get("delay_chunk",0.0)
             cost = CostCalculator()
-            partial_response = ""
-            
             async with async_streaming_handler() as async_handler, \
                     get_custom_openai_callback(llm_apikey_decrypt_service.model_name, cost=cost, thread_id=thread_id, collection_name=collection_name) as cb, \
                     get_mongodb_callback_handler(thread_id=thread_id, chat_history=chat_repository_history, memory=self.memory,collection_name=collection_name) as mongo_handler:
                    
-                    # Store handler reference for external cancellation
-                    if async_handler_ref is not None:
-                        async_handler_ref.append(async_handler)
-                    
                     run = asyncio.create_task( self.conversation.arun(
                         self._get_inputs(),
                         callbacks=[cb, mongo_handler, async_handler]
                     ))
 
-                    try:
-                        async for token in async_handler.aiter():
-                            # Check for client disconnection
-                            if async_handler.cancelled.is_set():
-                                logger.info("Client disconnected, stopping stream", extra={"tags": {"method": "SimpleStreamingChatService.stream_run_conversation"}})
-                                break
-                                
-                            partial_response += token
-                            data = token.encode("utf-8")
-                            yield f"data: {data}\n\n",200
-                            await asyncio.sleep(delay_chunk)
-                    except asyncio.CancelledError:
-                        logger.info("Stream cancelled by client", extra={"tags": {"method": "SimpleStreamingChatService.stream_run_conversation"}})
-                        # Save partial response to database
-                        if partial_response.strip():
-                            await self._save_partial_response(thread_id, collection_name, partial_response)
-                        raise
-                    except Exception as e:
-                        logger.error(f"Error during streaming: {e}", extra={"tags": {"method": "SimpleStreamingChatService.stream_run_conversation"}})
-                        if partial_response.strip():
-                            await self._save_partial_response(thread_id, collection_name, partial_response)
-                        raise
-                    
-                    # If we reach here without cancellation, the conversation completed normally
+                    async for token in async_handler.aiter():
+                         data = token.encode("utf-8")
+                         yield f"data: {data}\n\n",200
+                         await asyncio.sleep(delay_chunk)
+                        #  yield f"data: {json.dumps(token)}\n\n",200
                     await run
 
         except NotFoundError as e:
@@ -459,7 +368,7 @@ class OpenAISimpleStreamingChatService(AbstractConversationService):
         finally:
             # Ensure cleanup is always called
             self.cleanup()
-    async def stream_run_conversation_utf(self, thread_id: str, collection_name: str, async_handler_ref=None, **kwargs) -> AsyncGenerator[str, None]:
+    async def stream_run_conversation_utf(self, thread_id: str, collection_name: str,**kwargs) -> AsyncGenerator[str, None]:
         """
         Executes a conversation and updates the token usage and conversation history.
 

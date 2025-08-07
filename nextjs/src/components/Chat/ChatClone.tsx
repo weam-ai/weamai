@@ -234,6 +234,7 @@ const ChatPage = memo(() => {
         showHoverIcon,
         getAIProAgentChatResponse,
         isStreamingLoading,
+        isActivelyStreaming,
         generateSeoArticle,
         getSalesCallResponse,
         stopStreaming
@@ -1659,6 +1660,7 @@ const ChatPage = memo(() => {
                                             disabled={isSubmitDisabled}
                                             handleSubmit={handleSubmitPrompt}
                                             loading={loading}
+                                            isActivelyStreaming={isActivelyStreaming}
                                             onStopStreaming={() => stopStreaming(params?.id)}
                                         />
                                 </div>
