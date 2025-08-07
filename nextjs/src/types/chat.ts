@@ -173,6 +173,7 @@ export type NormalChatPayloadType = {
     msgCredit: number;
     // is_paid_user: boolean;
     mcp_tools?: Record<string, string[]>;
+    brain_id?: string;
 }
 
 export type DocumentChatPayloadType = NormalChatPayloadType & {

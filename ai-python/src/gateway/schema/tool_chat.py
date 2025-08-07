@@ -36,6 +36,7 @@ class ToolChatBase(BaseModel):
     msgCredit:Optional[float]=Field(0,description="Message Credit")
     is_paid_user:bool=Field(True,description='Plan Type Flag')
     mcp_tools:Optional[dict] = Field(None, description="MCP Tools Data")
+    brain_id:Optional[str] = Field(None, description="Brain ID to fetch customInstructions")
     class Config:
         extra = 'allow'
         arbitrary_types_allowed = True

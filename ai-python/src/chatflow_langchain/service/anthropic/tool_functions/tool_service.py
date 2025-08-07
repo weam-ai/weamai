@@ -37,6 +37,7 @@ from src.custom_lib.langchain.callbacks.anthropic.cost.context_manager import an
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
 from langchain_core.messages import SystemMessage
 from src.prompts.langchain.anthropic.tool_selection_prompt import langgraph_prompt
+from src.chatflow_langchain.repositories.brain_repository import BrainRepository
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import os
@@ -47,10 +48,11 @@ mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
+brain_repo = BrainRepository()
 cost_callback = CostCalculator()
 
 class AnthropicToolService(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None,brain_id:str=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -86,6 +88,7 @@ class AnthropicToolService(AbstractConversationService):
             self.thread_id = thread_id
             self.thread_model = thread_model
             self.imageT = imageT
+            self.brain_id = brain_id
             self.tools = [website_analysis]
             if mcp_tools:
                 self.client = create_mcp_client(self.jwt_token, self.origin)
@@ -130,6 +133,14 @@ class AnthropicToolService(AbstractConversationService):
     async def chatbot(self,state,config):
             history_messages = self.chat_repository_history.messages
             history_messages.insert(0,SystemMessage(langgraph_prompt))
+            
+            # Get custom instructions from brain repository
+            if hasattr(self, 'brain_id') and self.brain_id:
+                brain_repo.initialization(self.brain_id)
+                custom_instructions_msg = brain_repo.get_custom_instructions()
+                if custom_instructions_msg:
+                    history_messages.insert(0, custom_instructions_msg)
+            
             if len(history_messages) > 0:
                 history_messages = [prompt for prompt in history_messages if prompt.content != '']
             history_messages.extend(state['messages'])

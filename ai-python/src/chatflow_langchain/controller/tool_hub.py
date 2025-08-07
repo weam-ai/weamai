@@ -99,7 +99,8 @@ class ToolController:
             company_id=chat_input.company_id,
             mcp_data=chat_input.mcp if hasattr(chat_input, 'mcp') else None,
             mcp_tools=chat_input.mcp_tools,
-            mcp_request = chat_input.request if hasattr(chat_input, 'request') else None
+            mcp_request = chat_input.request if hasattr(chat_input, 'request') else None,
+            brain_id=chat_input.brain_id
         )
             tool_manager.initialize_repository(
                 chat_session_id=chat_input.chat_session_id,

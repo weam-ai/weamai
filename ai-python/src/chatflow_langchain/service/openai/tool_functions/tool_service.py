@@ -9,12 +9,13 @@ from src.crypto_hub.services.openai.llm_api_key_decryption import LLMAPIKeyDecry
 from src.chatflow_langchain.repositories.tool_history import CustomAIMongoDBChatMessageHistory
 from src.chatflow_langchain.repositories.additional_prompts import PromptRepository
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
+from src.chatflow_langchain.repositories.brain_repository import BrainRepository
 from src.chatflow_langchain.service.openai.tool_functions.config import ToolChatConfig,WebSearchConfig
 from src.logger.default_logger import logger
 from src.round_robin.llm_key_manager import APIKeySelectorService,APIKeyUsageService
 from src.chatflow_langchain.service.config.model_config_openai import Functionality
 from src.gateway.utils import AsyncHTTPClientSingleton, SyncHTTPClientSingleton
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 from fastapi import HTTPException, status
 # Custom Library
 from src.custom_lib.langchain.callbacks.openai.cost.cost_calc_handler import CostCalculator
@@ -54,6 +55,7 @@ mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
+brain_repo = BrainRepository()
 cost_callback = CostCalculator()
 
 @tool(description=ToolServiceDescription.IMAGE_GENERATION)
@@ -70,7 +72,7 @@ async def image_generate(query:str=None,image_size:str='1024x1024',
         return ''
 
 class OpenAIToolServiceOpenai(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:str=None,mcp_tools:dict=None,mcp_request:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0, company_id:str=None, mcp_data:str=None, mcp_tools:dict=None, mcp_request:dict=None, brain_id:str=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -112,6 +114,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
             self.image_gen_prompt = None
             self.thread_id = thread_id
             self.thread_model = thread_model
+            self.brain_id = brain_id
             self.model_name = OPENAIMODEL.MODEL_VERSIONS[llm_apikey_decrypt_service.model_name]
             self.tools = [website_analysis,image_generate, get_current_time]
             if mcp_tools:
@@ -163,6 +166,14 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
     
     async def chatbot(self,state,config):
         history_messages = self.chat_repository_history.messages
+        
+        # Get custom instructions from brain repository
+        if hasattr(self, 'brain_id') and self.brain_id:
+            brain_repo.initialization(self.brain_id)
+            custom_instructions_msg = brain_repo.get_custom_instructions()
+            if custom_instructions_msg:
+                history_messages.insert(0, custom_instructions_msg)
+        
         history_messages.extend(state['messages'])
         
         new_message = await self.llm_with_tools.ainvoke(history_messages,config=config)

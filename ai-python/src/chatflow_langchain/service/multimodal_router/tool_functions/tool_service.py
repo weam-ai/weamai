@@ -10,6 +10,7 @@ from src.crypto_hub.services.openai.llm_api_key_decryption import LLMAPIKeyDecry
 from src.chatflow_langchain.repositories.tool_history import CustomAIMongoDBChatMessageHistory
 from src.chatflow_langchain.repositories.additional_prompts import PromptRepository
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
+from src.chatflow_langchain.repositories.brain_repository import BrainRepository
 from src.chatflow_langchain.service.multimodal_router.tool_functions.config import ToolChatConfig, ImageGenerateConfig
 from src.logger.default_logger import logger
 from fastapi import HTTPException, status
@@ -44,10 +45,11 @@ mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
+brain_repo = BrainRepository()
 cost_callback = CostCalculator()
 
 class RouterServiceTool(AbstractConversationService):
-    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None):
+    async def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,mcp_data:dict=None,mcp_tools:dict=None,mcp_request:dict=None,brain_id:str=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -91,6 +93,7 @@ class RouterServiceTool(AbstractConversationService):
                 http_async_client=http_async_client
             )
             self.mcp_data = mcp_data
+            self.brain_id = brain_id
             self.tools = [website_analysis]
             if mcp_tools:
                 self.client = create_mcp_client(self.jwt_token, self.origin)
@@ -140,6 +143,14 @@ class RouterServiceTool(AbstractConversationService):
     
     async def chatbot(self,state,config):
             history_messages = self.chat_repository_history.messages
+            
+            # Get custom instructions from brain repository
+            if hasattr(self, 'brain_id') and self.brain_id:
+                brain_repo.initialization(self.brain_id)
+                custom_instructions_msg = brain_repo.get_custom_instructions()
+                if custom_instructions_msg:
+                    history_messages.insert(0, custom_instructions_msg)
+            
             history_messages.extend(state['messages'])
             new_message = await self.llm_with_tools.ainvoke(history_messages,config=config) 
             if hasattr(new_message, 'tool_calls') and new_message.tool_calls:

@@ -441,7 +441,8 @@ const ChatPage = memo(() => {
             modelId: selectedAIModal._id,
             chatId: params.id,
             model_name: modalName,
-            msgCredit: getModelCredit(modalName)
+            msgCredit: getModelCredit(modalName),
+            brain_id: getDecodedObjectId() // Add brain_id from URL
         }
 
         if (API_TYPE == API_TYPE_OPTIONS.PERPLEXITY) {

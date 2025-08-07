@@ -11,6 +11,7 @@ from src.crypto_hub.services.openai.llm_api_key_decryption import LLMAPIKeyDecry
 from src.chatflow_langchain.repositories.tool_history import CustomAIMongoDBChatMessageHistory
 from src.chatflow_langchain.repositories.additional_prompts import PromptRepository
 from src.chatflow_langchain.repositories.thread_repository import ThreadRepostiory
+from src.chatflow_langchain.repositories.brain_repository import BrainRepository
 from src.chatflow_langchain.service.huggingface.tool_functions.config import ToolChatConfig
 from src.logger.default_logger import logger
 from langchain_core.messages import HumanMessage
@@ -35,9 +36,10 @@ openai_llm_apikey_decrypt_service = OpenAILLMAPIKeyDecryptionHandler()
 llm_apikey_decrypt_service = LLMAPIKeyDecryptionHandler()
 thread_repo = ThreadRepostiory()
 prompt_repo = PromptRepository()
+brain_repo = BrainRepository()
 
 class SdxlServiceOpenai(AbstractConversationService):
-    def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None):
+    def initialize_llm(self, api_key_id: str = None, companymodel: str = None, dalle_wrapper_size: str = None, dalle_wrapper_quality: str = None, dalle_wrapper_style: str = None, thread_id: str = None, thread_model: str = None, imageT=0,company_id:str=None,brain_id:str=None):
         """
         Initializes the LLM with the specified API key and company model.
 
@@ -72,6 +74,7 @@ class SdxlServiceOpenai(AbstractConversationService):
             self.thread_id = thread_id
             self.thread_model = thread_model           
             self.imageT = imageT
+            self.brain_id = brain_id
             self.task_type(api_key_id=api_key_id)
             self.llm_with_tools = self.llm_sum_memory.bind_tools(self.tools,tool_choice='any')
 
