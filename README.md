@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="nodejs/public/images/logo.png" alt="Weam AI Logo" width="160"/>
+  <img src="nodejs/public/images/weam-banner.png" alt="Weam AI Logo" width="600" height="600"/>
 </p>
-
-<h1 align="center">Weam AI</h1>
 
 <p align="center">
   <strong>LLMs, Agents, AI Apps, and Team—In One Place, Ready to Use and Expand</strong><br/>
