@@ -217,15 +217,25 @@ const deleteBrain = async (req) => {
             }
         }
 
-        const filter = req.body.isShare ? { _id: req.params.id } : { _id: req.params.id, 'user.id': req.userId }
+        let filter;
+        if (req.body.isShare) {
+            // Only allow if the user is a member of the shared brain (exists in ShareBrain)
+            const shareRecord = await ShareBrain.findOne({ 'brain.id': req.params.id, 'user.id': req.user.id });
+            if (!shareRecord) {
+                throw new Error(_localize('module.unAuthorized', req, 'Brain'));
+            }
+            filter = { _id: req.params.id };
+        } else {
+            filter = { _id: req.params.id, 'user.id': req.userId };
+        }
         const existing = await Brain.findOne(filter);
-        if (!existing) false;
+        if (!existing) return false;
         
         const fullname = `${req.user.fname} ${req.user.lname}`;
         if(req.body.isHardDelete)
-            return Brain.deleteOne({ _id: req.params.id });
+            return Brain.deleteOne(filter);
         else
-            return Brain.updateOne({ _id: req.params.id }, { $set: {deletedAt: new Date(), archiveBy: {name: fullname, id: req.userId} }})
+            return Brain.updateOne(filter, { $set: {deletedAt: new Date(), archiveBy: {name: fullname, id: req.userId} }})
             
     } catch (error) {
         handleError(error, 'Error - deleteBrain');
