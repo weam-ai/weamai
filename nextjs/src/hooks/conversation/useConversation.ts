@@ -26,17 +26,20 @@ type CustomErrorPayloadType = {
 export const PAGE_SPEED_RECORD_KEY = 'desktop_metrics';
 
 const useConversation = () => {
-    const [conversations, setConversations] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [listLoader, setListLoader] = useState(true);
-    const [showTimer, setShowTimer] = useState(false);
-    const [responseLoading, setResponseLoading] = useState(false);
-    const [showHoverIcon, setShowHoverIcon] = useState(true);
-    const [conversationPagination, setConversationPagination] = useState({});
-    const [isStreamingLoading, setIsStreamingLoading] = useState(false);
+    const [conversations, setConversations] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [listLoader, setListLoader] = useState<boolean>(true);
+    const [showTimer, setShowTimer] = useState<boolean>(false);
+    const [responseLoading, setResponseLoading] = useState<boolean>(false);
+    const [showHoverIcon, setShowHoverIcon] = useState<boolean>(true);
+    const [conversationPagination, setConversationPagination] = useState<any>({});
+    const [isStreamingLoading, setIsStreamingLoading] = useState<boolean>(false);
+    const [isActivelyStreaming, setIsActivelyStreaming] = useState<boolean>(false);
     const dispatch = useDispatch();
     const [answerMessage, setAnswerMessage] = useState('');
     const disabledInput = useRef(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
+    const readerRef = useRef<ReadableStreamDefaultReader | null>(null);
     const currentUser = useMemo(() => getCurrentUser(), []);
     const brainData = useSelector((store: RootState) => store.brain.combined);
     const { uploadData } = useSelector((state:RootState) => state.conversation);
@@ -64,6 +67,70 @@ const useConversation = () => {
             console.error("In CustomErrorResponse",error)
         }
     }
+    
+    const stopStreaming = async (chatId: string | string[]) => {
+        try {
+            console.log("Stopping stream for chat:", chatId);
+            
+            // Note: timeout is handled in the individual API call functions
+            
+            // Abort the fetch request if it's still in progress
+            if (abortControllerRef.current) {
+                console.log("Aborting fetch request");
+                abortControllerRef.current.abort();
+                abortControllerRef.current = null;
+            }
+            
+            // Cancel the reader if it's active
+            if (readerRef.current) {
+                try {
+                    console.log("Cancelling stream reader");
+                    await readerRef.current.cancel();
+                } catch (error) {
+                    console.error("Error cancelling reader:", error);
+                }
+                readerRef.current = null;
+            }
+            
+            // Update UI state
+            setLoading(false);
+            setIsStreamingLoading(false);
+            setIsActivelyStreaming(false);
+            setShowHoverIcon(true);
+            disabledInput.current = null;
+            
+            // Finalize the current conversation with what we have so far
+            if (answerMessage) {
+                setConversations(prevConversations => {
+                    const updatedConversations = [...prevConversations];
+                    if (updatedConversations.length > 0) {
+                        const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
+                        lastConversation.response = answerMessage + "\n\n*Generation stopped by user*";
+                        updatedConversations[updatedConversations.length - 1] = lastConversation;
+                    }
+                    return updatedConversations;
+                });
+                
+                // Emit stop streaming event to socket if needed
+                const currentUser = getCurrentUser();
+                if (currentUser && chatId) {
+                    const socket = store.getState().socket.socket;
+                    if (socket) {
+                        socket.emit(SOCKET_EVENTS.STOP_STREAMING, { 
+                            chatId, 
+                            proccedMsg: answerMessage + "\n\n*Generation stopped by user*", 
+                            userId: currentUser._id 
+                        });
+                    }
+                }
+                
+                // Clear the answer message
+                setAnswerMessage('');
+            }
+        } catch (error) {
+            console.error("Error stopping stream:", error);
+        }
+    }
 
      const getCommonPythonPayload = async (): Promise<{ token: string, companyId: string }> => {
         try {
@@ -83,24 +150,35 @@ const useConversation = () => {
      * Note: Whenever this function is called in any api, set current ref to null to enable input field
      */
     const streamResponseHandler = async (response: Response, socket: Socket, chatId: string | string[]) => {
-        const reader = response.body.getReader();
+        readerRef.current = response.body.getReader();
         const decoder = new TextDecoder('utf-8');
         let proccedMsg = '';
         const currentUser = getCurrentUser();
+        
+        // Set actively streaming state
+        setIsActivelyStreaming(true);
+        
         while (true) {
-            const { value, done } = await reader.read();
-            
-            if (done) {
-                setConversations(prevConversations => {
-                    const updatedConversations = [...prevConversations];
-                    const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
-                    lastConversation.response = proccedMsg;
-                    updatedConversations[updatedConversations.length - 1] = lastConversation;
-                    return updatedConversations;
-                });
-                setAnswerMessage('');
+            // Check if the request was aborted before trying to read
+            if (abortControllerRef.current && abortControllerRef.current.signal.aborted) {
+                console.log('Stream aborted before reading chunk');
                 break;
             }
+            
+            try {
+                const { value, done } = await readerRef.current.read();
+                
+                if (done) {
+                    setConversations(prevConversations => {
+                        const updatedConversations = [...prevConversations];
+                        const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
+                        lastConversation.response = proccedMsg;
+                        updatedConversations[updatedConversations.length - 1] = lastConversation;
+                        return updatedConversations;
+                    });
+                    setAnswerMessage('');
+                    break;
+                }
 
             const chunk = decoder.decode(value);
             
@@ -166,7 +244,31 @@ const useConversation = () => {
             socket.emit(SOCKET_EVENTS.START_STREAMING, { chunk: decodedMessage, chatId, userId: currentUser._id });
             proccedMsg += decodedMessage;
             setAnswerMessage((prev: string) => prev + decodedMessage);
+            
+            // Check for abort after processing each chunk
+            if (abortControllerRef.current && abortControllerRef.current.signal.aborted) {
+                console.log('Stream aborted after processing chunk');
+                // Backend will add the cancellation message, so no need to add it here
+                break;
+            }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Stream reading was aborted');
+                    break;
+                } else {
+                    console.error('Error reading stream:', error);
+                    break;
+                }
+            }
         }
+        
+        // Clean up - only set loading to false when stream completely finishes
+        setLoading(false);
+        setIsStreamingLoading(false);
+        setIsActivelyStreaming(false);
+        readerRef.current = null;
+        abortControllerRef.current = null;
+        
         setShowTimer(true);
         socket.emit(SOCKET_EVENTS.STOP_STREAMING, { chatId, proccedMsg, userId: currentUser._id });
     };
@@ -300,6 +402,7 @@ const useConversation = () => {
     }
 
     const getAINormatChatResponse = async (payload: NormalChatPayloadType, socket: Socket, newToken?: string) => {
+        let timeoutId: NodeJS.Timeout | null = null;
         try {
             setLoading(true);
             setShowHoverIcon(false);
@@ -307,6 +410,44 @@ const useConversation = () => {
             const messageId = payload.messageId
 
             const authToken = newToken || token;
+            
+            // Create a new AbortController and store it in the ref
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortControllerRef.current = new AbortController();
+            const signal = abortControllerRef.current.signal;
+            
+            // Set a timeout for the request
+            timeoutId = setTimeout(() => {
+                if (abortControllerRef.current) {
+                    abortControllerRef.current.abort();
+                    console.error('Request timed out after 30 seconds');
+                }
+            }, 30000);
+
+            // Log the request details for debugging
+            console.log('Making tool chat request to:', `${LINK.PYTHON_API_URL}${API_PREFIX}/tool/stream-tool-chat-with-openai`);
+            console.log('Request payload:', {
+                thread_id: messageId,
+                query: payload.text,
+                prompt_id: payload.prompt_id,
+                llm_apikey: payload.modelId,
+                chat_session_id: payload.chatId,
+                image_url: payload.img_url,
+                company_id: companyId,
+                delay_chunk: 0.02,
+                code: payload.code,
+                model_name: payload.model_name,
+                provider: payload.provider,
+                companymodel: "companymodel",
+                threadmodel: "messages",
+                promptmodel: "prompts",
+                isregenerated: false,
+                msgCredit: payload.msgCredit,
+                is_paid_user: true,
+                mcp_tools: payload.mcp_tools
+            });
 
             const response = await fetch(
                 `${LINK.PYTHON_API_URL}${API_PREFIX}/tool/stream-tool-chat-with-openai`,
@@ -324,19 +465,29 @@ const useConversation = () => {
                         code: payload.code,
                         model_name: payload.model_name,
                         provider: payload.provider,
-                        // isregenerated: payload.isregenerated,
+                        companymodel: "companymodel",
+                        threadmodel: "messages",
+                        promptmodel: "prompts",
+                        isregenerated: false,
                         msgCredit: payload.msgCredit,
-                        // is_paid_user: payload.is_paid_user,
+                        is_paid_user: true,
                         mcp_tools: payload.mcp_tools
                     }),
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `${TOKEN_PREFIX}${authToken}`,
                     },
+                    signal
                 }
             );
+            
+            console.log('Tool chat response status:', response.status);
+            console.log('Tool chat response ok:', response.ok);
                        
             if (!response.ok) {
+                // Set loading to false for failed requests
+                setLoading(false);
+                setIsStreamingLoading(false);
                 return await retryApiCall(response, payload, socket, (newToken) => getAINormatChatResponse(payload, socket, newToken), payload.messageId);
             }
             if (response.status === STATUS_CODE.SUCCESS)
@@ -344,8 +495,22 @@ const useConversation = () => {
             else if (response.status === STATUS_CODE.MULTI_RESPONSE)
                 await generateImageOpenAI(socket, response, { chatId: payload.chatId, messageId });
         } catch (error) {
-            console.error('error: ', error);
+            console.error('Tool chat API error: ', error);
+            // Set loading to false on error
+            setLoading(false);
+            setIsStreamingLoading(false);
+            // Additional logging to help debug
+            if (error instanceof TypeError && error.message.includes('fetch')) {
+                console.error('Network error - check API URL and connectivity');
+            }
+            if (error.name === 'AbortError') {
+                console.error('Request was aborted');
+            }
         } finally {
+            // Clear the timeout
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
             setLoading(false);
             disabledInput.current = null;
             setShowHoverIcon(true);
@@ -362,6 +527,13 @@ const useConversation = () => {
             const authToken = newToken || token;
             const messageId = payload.messageId;
             const fileIds = [], tags = [], embeddingApiKeys = [];
+            
+            // Create a new AbortController and store it in the ref
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortControllerRef.current = new AbortController();
+            const signal = abortControllerRef.current.signal;
             
             if (isRegenerated) {
                 payload.media.forEach((file: UploadedFileType) => {
@@ -408,15 +580,22 @@ const useConversation = () => {
                         'Content-Type': 'application/json',
                         Authorization: `${TOKEN_PREFIX}${authToken}`,
                     },
+                    signal
                 }
             );
             if (!response.ok) {
+                // Set loading to false for failed requests
+                setLoading(false);
+                setIsStreamingLoading(false);
                 return await retryApiCall(response, payload, socket, (newToken) => getAIDocResponse(payload, socket, isRegenerated, newToken), messageId);
             }
             await streamResponseHandler(response, socket, payload.chatId);
             
         } catch (error) {
             console.error('error: ', error);
+            // Set loading to false on error
+            setLoading(false);
+            setIsStreamingLoading(false);
         } finally {
             setLoading(false);
             disabledInput.current = null;
@@ -486,6 +665,9 @@ const useConversation = () => {
                 }
             );
             if (!response.ok) {
+                // Set loading to false for failed requests
+                setLoading(false);
+                setIsStreamingLoading(false);
                 return await retryApiCall(response, payload, socket, (newToken) => getAICustomGPTResponse(payload, socket, isRegenerated, newToken), messageId);
             }
             if (response.status === STATUS_CODE.SUCCESS)
@@ -495,6 +677,9 @@ const useConversation = () => {
             
         } catch (error) {
             console.error('error: ', error);
+            // Set loading to false on error
+            setLoading(false);
+            setIsStreamingLoading(false);
         } finally {
             setLoading(false);
             disabledInput.current = null;
@@ -1174,10 +1359,12 @@ const useConversation = () => {
         showHoverIcon,
         getAIProAgentChatResponse,
         isStreamingLoading,
+        isActivelyStreaming,
         streamResponseHandler,
         customErrorResponse,
         generateSeoArticle,
-        getSalesCallResponse
+        getSalesCallResponse,
+        stopStreaming
     };
 };
 
