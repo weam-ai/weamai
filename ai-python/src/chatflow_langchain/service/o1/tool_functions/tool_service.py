@@ -44,6 +44,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import os
 from src.MCP.utils import create_mcp_client
+from src.chatflow_langchain.service.openai.tool_functions.utils import encode_image_to_base64
 
 load_dotenv()
 mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
@@ -326,7 +327,7 @@ class O1ToolServiceOpenai(AbstractConversationService):
         except HTTPException as e:
             raise HTTPException(status_code=400, detail=str(e))
 
-    def create_conversation(self, input_text: str = None, **kwargs):
+    async def create_conversation(self, input_text: str = None, **kwargs):
         """
         Creates a conversation chain with a custom tag.
 
@@ -356,7 +357,7 @@ class O1ToolServiceOpenai(AbstractConversationService):
                     kwargs['image_url'] = self.map_and_validate_image_url(kwargs['image_url'], kwargs.get('image_source', 's3_url'))
                     self.image_url = kwargs['image_url']
                 if self.image_url:
-                    self.query = {"messages": [{"role": "user", "content": [{"type": "text", "text": self.inputs}, *[{"type": "image", "source": {"type": "url", "url": url}} for url in self.image_url]]}]}
+                    self.query = {"messages": [{"role": "user", "content": [{"type": "text", "text": self.inputs}, *[{"type": "image", "source": {"type": "url", "url": await encode_image_to_base64(image_path_or_url=url)}} for url in self.image_url]]}]}
                 logger.debug("Image URL set in query arguments.", extra={
                 "tags": {"method": "O1ToolServiceOpenai.create_conversation"},
                 "image_url": self.image_url})

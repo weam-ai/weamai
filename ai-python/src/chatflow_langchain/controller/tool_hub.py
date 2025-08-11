@@ -121,7 +121,7 @@ class ToolController:
             # tool_manager.prompt_attach(additional_prompt_id=chat_input.prompt_id,collection_name=chat_input.promptmodel)  
 
             ## conversation create
-            tool_manager.create_conversation(input_text=chat_input.query, image_url=chat_input.image_url,image_source=chat_input.image_source,regenerate_flag = chat_input.isregenerated)  
+            await tool_manager.create_conversation(input_text=chat_input.query, image_url=chat_input.image_url,image_source=chat_input.image_source,regenerate_flag = chat_input.isregenerated)  
 
 
             # streaming the chat chat serivce
