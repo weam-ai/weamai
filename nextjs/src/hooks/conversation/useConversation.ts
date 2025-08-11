@@ -4,8 +4,9 @@ import {  setChatMessageAction, setLastConversationDataAction } from '@/lib/slic
 import store, { RootState } from '@/lib/store';
 import { DECENDING_SORT, MESSAGE_TYPE, MODULES, MODULE_ACTIONS, SOCKET_EVENTS, TOKEN_PREFIX, STATUS_CODE, AI_MODEL_CODE, API_TYPE_OPTIONS, AI_MODAL_NAME, WEB_RESOURCES_DATA } from '@/utils/constant';
 import { decryptedData } from '@/utils/helper';
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useSocket from '@/utils/socket';
 import Toast from '@/utils/toast';
 import { getCompanyId, getCurrentUser, pythonRefreshToken } from '@/utils/handleAuth';
 import defaultCustomGptImage from '../../../public/defaultgpt.jpg';
@@ -46,6 +47,7 @@ const useConversation = () => {
     const { getDecodedObjectId, handleModelSelectionUrl, handleProAgentUrlState, blockProAgentAction } = useConversationHelper();
     const { getChatMembers } = useChatMember();
     const params = useParams();
+    const socket = useSocket();
 
     async function customErrorResponse(response: Response, payload: CustomErrorPayloadType, socket: Socket) {
         try {
@@ -68,15 +70,10 @@ const useConversation = () => {
         }
     }
     
-    const stopStreaming = async (chatId: string | string[]) => {
+    const stopStreaming = useCallback(async (chatId: string | string[]) => {
         try {
-            console.log("Stopping stream for chat:", chatId);
-            
-            // Note: timeout is handled in the individual API call functions
-            
             // Abort the fetch request if it's still in progress
             if (abortControllerRef.current) {
-                console.log("Aborting fetch request");
                 abortControllerRef.current.abort();
                 abortControllerRef.current = null;
             }
@@ -84,53 +81,59 @@ const useConversation = () => {
             // Cancel the reader if it's active
             if (readerRef.current) {
                 try {
-                    console.log("Cancelling stream reader");
-                    await readerRef.current.cancel();
+                    // Check if the reader is still active before cancelling
+                    if (!abortControllerRef.current?.signal.aborted) {
+                        await readerRef.current.cancel();
+                    }
                 } catch (error) {
-                    console.error("Error cancelling reader:", error);
+                    // Only log non-AbortError errors
+                    if (error.name !== 'AbortError') {
+                        console.error("Error cancelling reader:", error);
+                    }
+                } finally {
+                    readerRef.current = null;
                 }
-                readerRef.current = null;
             }
             
-            // Update UI state
-            setLoading(false);
-            setIsStreamingLoading(false);
-            setIsActivelyStreaming(false);
-            setShowHoverIcon(true);
+            // Batch state updates for better performance
+            const batchUpdateState = () => {
+                setLoading(false);
+                setIsStreamingLoading(false);
+                setIsActivelyStreaming(false);
+                setShowHoverIcon(true);
+            };
+            batchUpdateState();
+            
             disabledInput.current = null;
             
-            // Finalize the current conversation with what we have so far
+            // Only process if there's content to save
             if (answerMessage) {
                 setConversations(prevConversations => {
                     const updatedConversations = [...prevConversations];
                     if (updatedConversations.length > 0) {
                         const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
-                        lastConversation.response = answerMessage + "\n\n*Generation stopped by user*";
+                        lastConversation.response = answerMessage + "\n\n*[Generation stopped by user]*";
                         updatedConversations[updatedConversations.length - 1] = lastConversation;
                     }
                     return updatedConversations;
                 });
                 
-                // Emit stop streaming event to socket if needed
+                // Emit socket event
                 const currentUser = getCurrentUser();
-                if (currentUser && chatId) {
-                    const socket = store.getState().socket.socket;
-                    if (socket) {
-                        socket.emit(SOCKET_EVENTS.STOP_STREAMING, { 
-                            chatId, 
-                            proccedMsg: answerMessage + "\n\n*Generation stopped by user*", 
-                            userId: currentUser._id 
-                        });
-                    }
+                if (currentUser && chatId && socket) {
+                    socket.emit(SOCKET_EVENTS.STOP_STREAMING, { 
+                        chatId, 
+                        proccedMsg: answerMessage + "\n\n*[Generation stopped by user]*", 
+                        userId: currentUser._id 
+                    });
                 }
                 
-                // Clear the answer message
                 setAnswerMessage('');
             }
         } catch (error) {
             console.error("Error stopping stream:", error);
         }
-    }
+    }, [answerMessage, socket]);
 
      const getCommonPythonPayload = async (): Promise<{ token: string, companyId: string }> => {
         try {
@@ -161,7 +164,6 @@ const useConversation = () => {
         while (true) {
             // Check if the request was aborted before trying to read
             if (abortControllerRef.current && abortControllerRef.current.signal.aborted) {
-                console.log('Stream aborted before reading chunk');
                 break;
             }
             
@@ -247,13 +249,11 @@ const useConversation = () => {
             
             // Check for abort after processing each chunk
             if (abortControllerRef.current && abortControllerRef.current.signal.aborted) {
-                console.log('Stream aborted after processing chunk');
                 // Backend will add the cancellation message, so no need to add it here
                 break;
             }
             } catch (error) {
                 if (error.name === 'AbortError') {
-                    console.log('Stream reading was aborted');
                     break;
                 } else {
                     console.error('Error reading stream:', error);
@@ -426,29 +426,6 @@ const useConversation = () => {
                 }
             }, 30000);
 
-            // Log the request details for debugging
-            console.log('Making tool chat request to:', `${LINK.PYTHON_API_URL}${API_PREFIX}/tool/stream-tool-chat-with-openai`);
-            console.log('Request payload:', {
-                thread_id: messageId,
-                query: payload.text,
-                prompt_id: payload.prompt_id,
-                llm_apikey: payload.modelId,
-                chat_session_id: payload.chatId,
-                image_url: payload.img_url,
-                company_id: companyId,
-                delay_chunk: 0.02,
-                code: payload.code,
-                model_name: payload.model_name,
-                provider: payload.provider,
-                companymodel: "companymodel",
-                threadmodel: "messages",
-                promptmodel: "prompts",
-                isregenerated: false,
-                msgCredit: payload.msgCredit,
-                is_paid_user: true,
-                mcp_tools: payload.mcp_tools
-            });
-
             const response = await fetch(
                 `${LINK.PYTHON_API_URL}${API_PREFIX}/tool/stream-tool-chat-with-openai`,
                 {
@@ -465,12 +442,7 @@ const useConversation = () => {
                         code: payload.code,
                         model_name: payload.model_name,
                         provider: payload.provider,
-                        companymodel: "companymodel",
-                        threadmodel: "messages",
-                        promptmodel: "prompts",
-                        isregenerated: false,
                         msgCredit: payload.msgCredit,
-                        is_paid_user: true,
                         mcp_tools: payload.mcp_tools
                     }),
                     headers: {
@@ -480,9 +452,6 @@ const useConversation = () => {
                     signal
                 }
             );
-            
-            console.log('Tool chat response status:', response.status);
-            console.log('Tool chat response ok:', response.ok);
                        
             if (!response.ok) {
                 // Set loading to false for failed requests
