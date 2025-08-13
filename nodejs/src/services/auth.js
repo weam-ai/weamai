@@ -638,6 +638,23 @@ async function onBoardProfile(req) {
     }
 }
 
+async function completeOnboarding(req) {
+    try {
+
+        console.log(req.body,"body in back")
+        const userId = req.body.userId;
+        console.log("userid",userId)
+        const user = await User.findOneAndUpdate(
+            { _id: userId },
+            { onboard: false },
+            { new: true }
+        ).lean();
+        return { success: true, user };
+    } catch (error) {
+        handleError(error, 'Error - completeOnboarding');
+    }
+}
+
 function removeLoginFields(user) {
     const removeFields = [
         'password',
@@ -760,6 +777,7 @@ module.exports = {
     resendLoginOtp,
     resetPassword,
     forgotPassword,
+    completeOnboarding,
     changePassword,
     viewProfile,
     updateProfile,

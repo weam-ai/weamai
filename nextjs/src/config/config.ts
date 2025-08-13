@@ -1,3 +1,10 @@
+// Declare process to fix TypeScript errors
+declare const process: {
+  env: {
+    [key: string]: string | undefined
+  }
+};
+
 export const LINK = {
     SOCKET_CONNECTION_URL: process.env.NEXT_PUBLIC_SOCKET_CONNECTION_URL,
     DOMAIN_URL: process.env.NEXT_PUBLIC_DOMAIN_URL,
@@ -22,6 +29,8 @@ export const FIREBASE = {
 
 export const APP_ENVIRONMENT = process.env.NEXT_PUBLIC_APP_ENVIRONMENT;
 export const API_PREFIX = process.env.NEXT_PUBLIC_API_PREFIX;
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+export const NODEJS_API_URL = process.env.NEXT_PUBLIC_SERVER_NODE_API_URL || '';
 export const STRIPE_PUBLISH_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY;
 export const STRIPE_SUBSCRIPTION_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID;
 export const STRIPE_SUBSCRIPTION_PRICE_ID_IND = process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID_IND;

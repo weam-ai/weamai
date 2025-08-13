@@ -1,0 +1,85 @@
+/* Custom scrollbar styles for onboarding screens */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* For dark mode */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Hide scrollbar when not needed */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05);
+}
+
+.dark .custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
+/* Compact spacing for onboarding content */
+.onboarding-content h3 {
+  margin-bottom: 0.25rem;
+}
+
+.onboarding-content p {
+  margin-bottom: 0.5rem;
+}
+
+.onboarding-content .mb-4 {
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-content .mb-3 {
+  margin-bottom: 0.5rem;
+}
+
+.onboarding-content .mb-2 {
+  margin-bottom: 0.25rem;
+}
+
+.onboarding-content ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Additional compact spacing for Screen4CreateAgent */
+.onboarding-content h2 {
+  margin-bottom: 0.5rem;
+}
+
+.onboarding-content .grid {
+  row-gap: 0.5rem;
+}
+
+.onboarding-content .rounded-lg {
+  padding: 0.75rem;
+}
+
+.onboarding-content .rounded-full {
+  margin-bottom: 0.5rem;
+}

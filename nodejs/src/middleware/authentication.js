@@ -17,6 +17,7 @@ const authentication = catchAsync(async (req, res, next) => {
 
         const decode = jwt.verify(token, AUTH.JWT_SECRET);
 
+        console.log("decode",decode)
         const existingUser = await User.findOne({ email: decode.email });
 
         if (!existingUser) {
@@ -39,6 +40,7 @@ const authentication = catchAsync(async (req, res, next) => {
         req.roleCode = existingRole.code;
         req.countryName = companyData?.countryName;
 
+        console.log("")
         next();
     } catch (error) {
         return util.unAuthenticated(res);

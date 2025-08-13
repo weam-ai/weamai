@@ -209,6 +209,10 @@ const apiList = {
         url: () => `common/update-mcp-data`,
         method: 'PUT'
     },
+    completeOnboarding: {
+        url: () => `${WEB}/auth/complete-onboarding`,
+        method: 'POST'
+    },
     commonUrl: (prefix: string, module: string) => ({
         list: {
             url: () => `${prefix}/${module}/list`,

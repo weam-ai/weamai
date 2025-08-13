@@ -89,6 +89,11 @@ const schema = new Schema(
             default: false
         }, // profile update flag
 
+        onboard: {
+            type: Boolean,
+            default: true
+        }, // flag to show onboarding screen
+
         inviteSts: { type: String }, // PENDING, ACCEPT AND EXPIRE
         
         invitedBy: {

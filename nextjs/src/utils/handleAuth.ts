@@ -88,8 +88,10 @@ export const setUserData = (data: SetUserData) => {
         access_token: data?.access_token,
         inviteSts: data?.inviteSts,
         isFreeTrial: data?.isFreeTrial,
+        onboard: data?.onboard,
     }
 }
+console.log('setUserData', setUserData);
 
 export const getCompanyId = (user: SetUserData) => {
     if (!user) return;

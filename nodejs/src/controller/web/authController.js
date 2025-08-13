@@ -181,6 +181,15 @@ const updateMcpData = catchAsync(async (req, res) => {
     return util.failureResponse(_localize('module.updateError', req, 'Mcp records'), res);
 }) 
 
+const completeOnboarding = catchAsync(async (req, res) => {
+    const result = await authService.completeOnboarding(req);
+    if (result) {
+        res.message = _localize('module.update', req, 'onboarding status');
+        return util.successResponse(result, res);
+    }
+    return util.failureResponse(_localize('module.updateError', req, 'onboarding status'), res);
+})
+
 module.exports = {
     resendLoginOtp,
     refreshToken,
@@ -199,5 +208,6 @@ module.exports = {
     verifyMfaOtp,
     onBoardProfile,
     seedGeneralBrain,
-    updateMcpData
+    updateMcpData,
+    completeOnboarding
 }

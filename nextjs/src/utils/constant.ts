@@ -59,6 +59,7 @@ export const MODULES = {
     TAB_AGENT_LIST: 'tabAgentList',
     TAB_DOCUMENT_LIST: 'tabDocumentList',
     CONFIGURATION_ENV: 'configurationEnv',
+    COMPLETE_ONBOARDING: 'completeOnboarding',
 } as const;
 
 export const MODULE_ACTIONS = {

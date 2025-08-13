@@ -7,6 +7,7 @@ import { Authentication } from '@/utils/handleAuth';
 import InitNotification from '@/components/Notification/initNotification';
 import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { ModelOptions } from '@/components/Shared/ModelOptions';
+import OnboardingModal from '@/components/Onboarding/OnboardingModal';
 export const viewport = {
   width: 'device-width',
   initialScale: 1.0,
@@ -43,6 +44,7 @@ export default async function PageLayout({ children }: PageLayoutProps) {
                                 />
                                 <InitNotification/>
                                 <ModelOptions />
+                                <OnboardingModal />
                                 <Header />
                                 {children}
                             </main>

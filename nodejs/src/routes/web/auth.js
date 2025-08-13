@@ -34,4 +34,5 @@ router.post('/refresh-token', authController.refreshToken);
 router.post('/verify-mfa-otp', validate(verifyOtpKeys), authController.verifyMfaOtp);
 router.post('/onboard-profile', validate(onBoardProfileKeys), authentication, authController.onBoardProfile);
 router.post('/seed-general-brain', apiBasicAuth, authController.seedGeneralBrain);
+router.post('/complete-onboarding', authentication,authController.completeOnboarding);
 module.exports = router;

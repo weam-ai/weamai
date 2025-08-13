@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="nodejs/public/images/logo.png" alt="Weam AI Logo" width="160"/>
+  <img src="nodejs/public/images/weam-logo.png" alt="Weam AI Logo" width="160"/>
 </p>
 
 <h1 align="center">Weam AI</h1>

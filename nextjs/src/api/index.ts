@@ -254,6 +254,8 @@ const commonApi = async ({
             ? apiList.commonUrl(prefix, module)[action]
             : apiList[`${action}`];
 
+        console.log("api",api)
+
         const token = await getAccessToken();
         // const { decryptedCsrfToken, decryptedCsrfTokenRaw } = extractCsrfTokenData();
         if (api) {
@@ -265,6 +267,7 @@ const commonApi = async ({
                 // csrfToken: decryptedCsrfToken,
                 // csrfTokenRaw: decryptedCsrfTokenRaw
             });
+            console.log("data111111",data)
             const response = await fetchUrl({
                 type: api.method,
                 url: api.url(...parameters as string[]),
