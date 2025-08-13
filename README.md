@@ -38,8 +38,6 @@ But we didn't stop at chat. Weam is built to grow with your needs. Customize exi
 
 **Bottom line:** You get a production-grade AI platform that's ready to deploy today and can expand as your needs grow. Completely free and open source. 
 
-**Prefer a managed solution?** We offer a cloud-hosted version of the same open source platform. [**Sign up for a demo here**](https://app.weam.ai/register).
-
 ---
 
 ### 📚 Documentation Hub
@@ -203,7 +201,10 @@ Weam AI is licensed under a modified Apache License 2.0 with additional terms to
 - Maintain open source principles  
   See [`LICENSE`](./LICENSE) for full terms.
 
-  SaaS-style deployment of our open source project requires a commercial license. Learn more about commercial licensing and pricing [**here**](https://docs.weam.ai/)
+SaaS-style deployment of our open source project requires a commercial license. Learn more about commercial licensing and pricing [**here**](https://weam.ai/commercial-license/)
+
+**Need help setting up?**  
+[Installation Support](https://weam.ai/installation-support/) — Get Weam’s production-ready AI platform running fast with our professional installation services, so your team can focus on transforming workflows with AI.
 
 ---
 
