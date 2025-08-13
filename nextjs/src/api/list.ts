@@ -285,6 +285,10 @@ const apiList = {
         favorite: {
             url: (id: string) => `${prefix}/${module}/favorite/${id}`,
             method: 'PUT'
+        },
+        changeRole: {
+            url: () => `${prefix}/${module}/change-role`,
+            method: 'POST'
         }
     })
 }

@@ -19,6 +19,7 @@ import RemoveIcon from '@/icons/RemoveIcon';
 import AlertDialogConfirmation from '@/components/AlertDialogConfirmation';
 import ProfileImage from '@/components/Profile/ProfileImage';
 import TeamTab from '@/components/Settings/Member/TeamTab';
+import RoleChangeDropdown from '@/components/Settings/Member/RoleChangeDropdown';
 import { useTeams } from '@/hooks/team/useTeams';
 import ToggleOn from '@/icons/ToggleOn';
 import ToggleOff from '@/icons/ToggleOff';
@@ -53,7 +54,7 @@ import { PaginationType } from '@/types/common';
 import useServerAction from '@/hooks/common/useServerActions';
 import { toggleBrainAction } from '@/actions/user';
 import Toast from '@/utils/toast';
-import { removeUserAction } from '@/actions/member';
+import { removeUserAction, changeMemberRoleAction } from '@/actions/member';
 import ResendIcon from '@/icons/ResendIcon';
 
 const MemberTabsList = ({ totalMembers, totalTeam }) => {
@@ -324,7 +325,14 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers, is
 		{
 			header: 'Role',
 			accessorKey: 'role',
-			cell: ({row}) => row?.original?.roleCode
+			cell: ({row}) => (
+                <RoleChangeDropdown
+                    currentRole={row?.original?.roleCode}
+                    userId={row?.original?._id}
+                    userEmail={row?.original?.email}
+                    isAdmin={currLoggedInUser.roleCode === ROLE_TYPE.COMPANY}
+                />
+            )
 		},
 		{
 			header: 'Status',
