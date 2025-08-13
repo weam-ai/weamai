@@ -25,6 +25,7 @@ const Prompt = require('../models/prompts');
 const CustomGpt = require('../models/customgpt');
 const Subscription = require('../models/subscription');
 const Message = require('../models/thread');
+const Role = require('../models/role');
 
 const addUser = async (req) => {
     try {
@@ -481,6 +482,43 @@ const userFavoriteList = async (req) => {
     }
 }
 
+const changeUserRole = async (req) => {
+    try {
+        const { userId, roleCode } = req.body;
+        
+        // Check if the requesting user is an admin (only admin users can change roles)
+        if (req.user.roleCode !== ROLE_TYPE.COMPANY) {
+            throw new Error('Only admin users can change user roles');
+        }
+        
+        // Find the role by roleCode using standard pattern
+        const newRole = await Role.findOne({ code: roleCode, isActive: true }, { _id: 1, code: 1 });
+        if (!newRole) {
+            throw new Error('Invalid or inactive role code');
+        }
+        
+        // Update the user's role
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, 
+            { 
+                roleId: newRole._id,
+                roleCode: roleCode,
+                updatedBy: req.user._id
+            },
+            { new: true }
+        );
+        
+        if (!updatedUser) {
+            throw new Error('Failed to update user role');
+        }
+        
+        return updatedUser;
+    } catch (error) {
+        logger.error('Error in user service changeUserRole function:', error);
+        throw error; // Re-throw the error so the controller can handle it
+    }
+}
+
 module.exports = {
     addUser,
     updateUser,
@@ -493,5 +531,6 @@ module.exports = {
     approveStorageRequest,
     toggleUserBrain,
     addUserMsgCredit,
-    userFavoriteList
+    userFavoriteList,
+    changeUserRole
 }
