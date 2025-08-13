@@ -31,6 +31,7 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
     const [changeRole, isChangeRolePending] = useServerAction(changeMemberRoleAction);
     const { openModal, closeModal, isOpen: isConfirmOpen } = useModal();
     const [pendingRoleChange, setPendingRoleChange] = useState<string>('');
+    const [currentUserRole, setCurrentUserRole] = useState<string>(currentRole);
 
     const getRoleLabel = (role: string) => {
         switch (role) {
@@ -48,10 +49,10 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
     // Show static role text if:
     // 1. Current user is not an admin, OR
     // 2. The role being displayed is ADMIN (COMPANY)
-    if (!isAdmin || currentRole === ROLE_TYPE.COMPANY) {
+    if (!isAdmin || currentUserRole === ROLE_TYPE.COMPANY) {
         return (
             <span className="text-font-14 font-normal text-b2">
-                {getRoleLabel(currentRole)}
+                {getRoleLabel(currentUserRole)}
             </span>
         );
     }
@@ -62,12 +63,20 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
     };
 
     const confirmRoleChange = async () => {
-        const response = await changeRole(userId, pendingRoleChange);
-        if(response.status === RESPONSE_STATUS.SUCCESS){
-            Toast(response.message);
-            closeModal();
-        }        
-        setPendingRoleChange('');
+        try {
+            const response = await changeRole(userId, pendingRoleChange);
+            if(response.status === RESPONSE_STATUS.SUCCESS){
+                Toast(response.message || 'Role updated successfully!', 'success');
+                // Update local state to show new role immediately
+                setCurrentUserRole(pendingRoleChange);
+                closeModal();
+                setPendingRoleChange('');
+            } else {
+                Toast(response?.message || 'Failed to change role', 'error');
+            }
+        } catch (error) {
+            Toast('An error occurred while changing the role', 'error');
+        }
     };
 
     const getRoleOptions = () => {
@@ -75,14 +84,14 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
         
         // Only allow changing between USER and MANAGER roles
         // Never show ADMIN as an option to change to
-        if (currentRole !== ROLE_TYPE.COMPANY_MANAGER) {
+        if (currentUserRole !== ROLE_TYPE.COMPANY_MANAGER) {
             options.push({
                 value: ROLE_TYPE.COMPANY_MANAGER,
                 label: 'Manager'
             });
         }
         
-        if (currentRole !== ROLE_TYPE.USER) {
+        if (currentUserRole !== ROLE_TYPE.USER) {
             options.push({
                 value: ROLE_TYPE.USER,
                 label: 'User'
@@ -98,7 +107,7 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
     if (roleOptions.length === 0) {
         return (
             <span className="text-font-14 font-normal text-b2">
-                {getRoleLabel(currentRole)}
+                {getRoleLabel(currentUserRole)}
             </span>
         );
     }
@@ -107,7 +116,7 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center space-x-2 text-font-14 font-normal text-b2 hover:text-b1 transition-colors cursor-pointer">
-                    <span>{getRoleLabel(currentRole)}</span>
+                    <span>{getRoleLabel(currentUserRole)}</span>
                     <DownArrowIcon
                         width={'12'}
                         height={'8'}
@@ -130,7 +139,7 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
             {/* Confirmation Dialog */}
             {isConfirmOpen && (
                 <AlertDialogConfirmation
-                    description={`Are you sure you want to change ${userEmail}'s role from ${getRoleLabel(currentRole)} to ${getRoleLabel(pendingRoleChange)}?`}
+                    description={`Are you sure you want to change ${userEmail}'s role from ${getRoleLabel(currentUserRole)} to ${getRoleLabel(pendingRoleChange)}?`}
                     btntext="Change Role"
                     btnclassName="btn-blue"
                     open={isConfirmOpen}
