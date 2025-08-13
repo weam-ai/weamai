@@ -26,6 +26,7 @@ const CustomGpt = require('../models/customgpt');
 const Subscription = require('../models/subscription');
 const Message = require('../models/thread');
 const Role = require('../models/role');
+const { blockUser } = require('./userBlocking');
 
 const addUser = async (req) => {
     try {
@@ -510,6 +511,13 @@ const changeUserRole = async (req) => {
         
         if (!updatedUser) {
             throw new Error('Failed to update user role');
+        }
+        
+        // Block the user account to force logout across all systems
+        try {
+            await blockUser(userId, req.user._id);
+        } catch (blockError) {
+            // Don't fail the role change if blocking fails
         }
         
         return updatedUser;
