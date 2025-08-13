@@ -45,15 +45,11 @@ export const changeMemberRoleAction = async (userId: string, newRole: string) =>
         prefix: MODULE_ACTIONS.ADMIN_PREFIX,
         module: MODULES.USER,
         data: {
-            userId,
-            newRole
+            userId : userId,
+            roleCode: newRole
         },
         common: true
     });
     
-    if (response.status === 'SUCCESS') {
-        await revalidateTagging(response, `${REVALIDATE_TAG_NAME.BRAIN}-${sessionUser.companyId}`);
-    }
-
     return response;
 }

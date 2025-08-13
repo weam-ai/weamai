@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ROLE_TYPE } from '@/utils/constant';
+import { RESPONSE_STATUS, ROLE_TYPE } from '@/utils/constant';
 import DownArrowIcon from '@/icons/DownArrow';
 import useServerAction from '@/hooks/common/useServerActions';
 import { changeMemberRoleAction } from '@/actions/member';
@@ -62,19 +62,11 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
     };
 
     const confirmRoleChange = async () => {
-        try {
-            const response = await changeRole(userId, pendingRoleChange);
-            if (response?.status === 'SUCCESS') {
-                Toast(response.message || 'Role changed successfully');
-                // Refresh the page or update the local state
-                window.location.reload();
-            } else {
-                Toast(response?.message || 'Failed to change role', 'error');
-            }
-        } catch (error) {
-            Toast('An error occurred while changing the role', 'error');
-        }
-        closeModal();
+        const response = await changeRole(userId, pendingRoleChange);
+        if(response.status === RESPONSE_STATUS.SUCCESS){
+            Toast(response.message);
+            closeModal();
+        }        
         setPendingRoleChange('');
     };
 
