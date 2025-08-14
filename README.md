@@ -38,6 +38,10 @@ But we didn't stop at chat. Weam is built to grow with your needs. Customize exi
 
 **Bottom line:** You get a production-grade AI platform that's ready to deploy today and can expand as your needs grow. Completely free and open source. 
 
+## 🎥 Watch the Demo
+
+[![Watch the video](https://img.youtube.com/vi/L-CS9zVchqs/maxresdefault.jpg)](https://www.youtube.com/watch?v=L-CS9zVchqs)
+
 ---
 
 ### 📚 Documentation Hub
