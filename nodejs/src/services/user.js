@@ -492,11 +492,21 @@ const changeUserRole = async (req) => {
             throw new Error('Only admin users can change user roles');
         }
         
+        // Get the user's current role before updating
+        const currentUser = await User.findById(userId).populate('roleId', 'name code');
+        if (!currentUser) {
+            throw new Error('User not found');
+        }
+        
         // Find the role by roleCode using standard pattern
-        const newRole = await Role.findOne({ code: roleCode, isActive: true }, { _id: 1, code: 1 });
+        const newRole = await Role.findOne({ code: roleCode, isActive: true }, { _id: 1, code: 1, name: 1 });
         if (!newRole) {
             throw new Error('Invalid or inactive role code');
         }
+        
+        // Store the previous role information for email
+        const previousRole = currentUser.roleId ? currentUser.roleId.name : 'No Role';
+        const previousRoleCode = currentUser.roleCode || 'No Role';
         
         // Update the user's role
         const updatedUser = await User.findByIdAndUpdate(
@@ -512,6 +522,24 @@ const changeUserRole = async (req) => {
         if (!updatedUser) {
             throw new Error('Failed to update user role');
         }
+        
+        // Send email notification to the user about role change
+        try {
+            const emailData = {
+                name: `${currentUser.fname || ''} ${currentUser.lname || ''}`.trim() || currentUser.email,
+                newRole: newRole.name,
+                previousRole: previousRole,
+                updatedBy: `${req.user.fname || ''} ${req.user.lname || ''}`.trim() || req.user.email,
+            };
+            
+            const template = await getTemplate(EMAIL_TEMPLATE.ROLE_CHANGE, emailData);
+            await sendSESMail(currentUser.email, template.subject, template.body);
+        } catch (emailError) {
+            // Don't fail the role change if email fails
+            logger.error('Error sending role change email:', emailError);
+        }
+        
+
         
         // Block the user account to force logout across all systems
         try {
