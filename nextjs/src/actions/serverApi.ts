@@ -79,11 +79,21 @@ export async function serverApi({
         return { code: 'ERROR', message: 'Invalid API action or URL.' };
     }
 
-    const token = await getAccessToken()
-    // const tokenCookieValue = cookies().get('csrf_token')?.value;
-    // const tokenCookieRawValue = cookies().get('weam_raw')?.value;
+    const token = await getAccessToken();
+    
+    // If no access token is found, only logout for non-login actions
+    // Login actions don't have tokens yet, so we shouldn't logout for them
+    if (!token && action !== MODULE_ACTIONS.LOGIN && action !== MODULE_ACTIONS.SIGNUP && action !== MODULE_ACTIONS.FORGOT_PASSWORD && action !== MODULE_ACTIONS.RESET_PASSWORD && action !== MODULE_ACTIONS.REGISTER_COMPANY) {
+        await serverLogout();
+        return { status: RESPONSE_STATUS.FORBIDDEN, code: RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND, message: 'No access token found' }
+    }
+    
+    // Try to get existing CSRF tokens
+    // const tokenCookieValue = cookies().get(AUTH.CSRF_COOKIE_NAME)?.value;
+    // const tokenCookieRawValue = cookies().get(AUTH.CSRF_COOKIE_RAW_NAME)?.value;
     // const csrfToken = tokenCookieValue ? decryptedData(tokenCookieValue) : '';
     // const csrfTokenRaw = tokenCookieRawValue ? decryptedData(tokenCookieRawValue) : '';
+
     setServerAPIConfig({
         getToken: token,
         baseUrl: `${LINK.SERVER_NODE_API_URL}${NODE_API_PREFIX}`,
