@@ -83,7 +83,7 @@ export async function serverApi({
     
     // If no access token is found, only logout for non-login actions
     // Login actions don't have tokens yet, so we shouldn't logout for them
-    if (!token && action !== MODULE_ACTIONS.LOGIN && action !== MODULE_ACTIONS.SIGNUP && action !== MODULE_ACTIONS.FORGOT_PASSWORD && action !== MODULE_ACTIONS.RESET_PASSWORD && action !== MODULE_ACTIONS.REGISTER_COMPANY) {
+    if (!token && action !== MODULE_ACTIONS.LOGIN && action !== MODULE_ACTIONS.SIGNUP && action !== MODULE_ACTIONS.FORGOT_PASSWORD && action !== MODULE_ACTIONS.RESET_PASSWORD && action !== MODULE_ACTIONS.REGISTER_COMPANY && action !== MODULE_ACTIONS.RESEND_VERIFICATION_EMAIL) {
         await serverLogout();
         return { status: RESPONSE_STATUS.FORBIDDEN, code: RESPONSE_STATUS_CODE.TOKEN_NOT_FOUND, message: 'No access token found' }
     }
