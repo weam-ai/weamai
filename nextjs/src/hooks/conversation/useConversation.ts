@@ -112,7 +112,7 @@ const useConversation = () => {
                     const updatedConversations = [...prevConversations];
                     if (updatedConversations.length > 0) {
                         const lastConversation = { ...updatedConversations[updatedConversations.length - 1] };
-                        lastConversation.response = answerMessage + "\n\n*[Generation stopped by user]*";
+                        lastConversation.response = answerMessage;
                         updatedConversations[updatedConversations.length - 1] = lastConversation;
                     }
                     return updatedConversations;
@@ -123,7 +123,7 @@ const useConversation = () => {
                 if (currentUser && chatId && socket) {
                     socket.emit(SOCKET_EVENTS.STOP_STREAMING, { 
                         chatId, 
-                        proccedMsg: answerMessage + "\n\n*[Generation stopped by user]*", 
+                        proccedMsg: answerMessage, 
                         userId: currentUser._id 
                     });
                 }

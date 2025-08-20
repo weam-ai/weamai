@@ -348,7 +348,7 @@ class OpenAIToolServiceOpenai(AbstractConversationService):
             from langchain_core.messages import AIMessage
             
             # Add cancellation notice to the partial response
-            cancelled_response = partial_response + "\n\n*[Generation stopped by user]*"
+            cancelled_response = partial_response
             
             # Create AI message with partial response
             ai_message = AIMessage(content=cancelled_response)
