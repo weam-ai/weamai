@@ -512,7 +512,7 @@ body .MuiChipsInput-TextField{
   li{
     position: relative;
     &::after{
-      @apply content-[''] transition-all duration-150 ease-in-out opacity-0 absolute -right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-transparent border-solid border-b-[10px] border-t-[10px] border-l-[12px] border-l-blue; 
+      @apply content-[''] transition-all duration-150 ease-in-out opacity-0 absolute -right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-transparent border-solid border-b-[10px] border-t-[10px] border-l-[12px] border-l-b2; 
     @apply xl:block hidden
     }
     &.active{

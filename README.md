@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="nodejs/public/images/logo.png" alt="Weam AI Logo" width="160"/>
+  <img src="nodejs/public/images/weam-banner.png" alt="Weam AI Logo" width="600" height="600"/>
 </p>
-
-<h1 align="center">Weam AI</h1>
 
 <p align="center">
   <strong>LLMs, Agents, AI Apps, and Team—In One Place, Ready to Use and Expand</strong><br/>
@@ -11,7 +9,7 @@
 <p align="center">
   <a href="https://weam.ai">Website</a> •
   <a href="https://docs.weam.ai">Docs</a> •
-  <a href="https://discord.gg/qhuPkhWh">Discord</a>
+  <a href="https://discord.com/invite/EyUbyUxf4n">Discord</a>
 </p>
 
 <p align="center">
@@ -40,7 +38,9 @@ But we didn't stop at chat. Weam is built to grow with your needs. Customize exi
 
 **Bottom line:** You get a production-grade AI platform that's ready to deploy today and can expand as your needs grow. Completely free and open source. 
 
-**Prefer a managed solution?** We offer a cloud-hosted version of the same open source platform. [**Sign up for a demo here**](https://app.weam.ai/register).
+## 🎥 Watch the Demo
+
+[![Watch the video](https://img.youtube.com/vi/L-CS9zVchqs/maxresdefault.jpg)](https://www.youtube.com/watch?v=L-CS9zVchqs)
 
 ---
 
@@ -205,7 +205,10 @@ Weam AI is licensed under a modified Apache License 2.0 with additional terms to
 - Maintain open source principles  
   See [`LICENSE`](./LICENSE) for full terms.
 
-  SaaS-style deployment of our open source project requires a commercial license. Learn more about commercial licensing and pricing [**here**](https://docs.weam.ai/)
+SaaS-style deployment of our open source project requires a commercial license. Learn more about commercial licensing and pricing [**here**](https://weam.ai/commercial-license/)
+
+**Need help setting up?**  
+[Installation Support](https://weam.ai/installation-support/) — Get Weam’s production-ready AI platform running fast with our professional installation services, so your team can focus on transforming workflows with AI.
 
 ---
 
@@ -222,6 +225,6 @@ Weam AI is licensed under a modified Apache License 2.0 with additional terms to
   <strong>Built with ❤️ by the Weam AI community</strong><br/>
   <em>The open source AI platform that brings teams and AI together.</em><br/>
   <a href="https://github.com/weam-ai/weamai">⭐ Star us on GitHub</a> • 
-  <a href="https://discord.gg/qhuPkhWh">Join our Discord</a> • 
+  <a href="https://discord.com/invite/EyUbyUxf4n">Join our Discord</a> • 
   <a href="https://weam.ai">Visit our Website</a>
 </p>

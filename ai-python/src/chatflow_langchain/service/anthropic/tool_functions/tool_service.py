@@ -41,6 +41,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import os
 from src.MCP.utils import create_mcp_client
+from src.chatflow_langchain.service.openai.tool_functions.utils import encode_image_to_base64
 load_dotenv()
 mcp_url = os.getenv("MCP_URL", "http://mcp:8000/sse")
 # Service Initilization
@@ -297,7 +298,7 @@ class AnthropicToolService(AbstractConversationService):
         except HTTPException as e:
             raise HTTPException(status_code=400, detail=str(e))
 
-    def create_conversation(self, input_text: str = None, **kwargs):
+    async def create_conversation(self, input_text: str = None, **kwargs):
         """
         Creates a conversation chain with a custom tag.
 
@@ -326,7 +327,33 @@ class AnthropicToolService(AbstractConversationService):
                     kwargs['image_url'] = self.map_and_validate_image_url(kwargs['image_url'], kwargs.get('image_source', 's3_url'))
                     self.image_url = kwargs['image_url']
                 if self.image_url:
-                    self.query = {"messages": [{"role": "user", "content": [{"type": "text", "text": self.inputs}, *[{"type": "image", "source": {"type": "url", "url": url}} for url in self.image_url]]}]}
+                    # Get base64 encoded images with proper content types
+                    encoded_images = []
+                    for url in self.image_url:
+                        try:
+                            encoded_data = await encode_image_to_base64(url)
+                            # The encode_image_to_base64 function returns data in format: data:content_type;base64,encoded_string
+                            # We need to extract just the base64 part and the content type separately
+                            if encoded_data and ';base64,' in encoded_data:
+                                parts = encoded_data.split(';base64,')
+                                if len(parts) == 2:
+                                    content_type = parts[0].replace('data:', '')
+                                    base64_data = parts[1]
+                                    
+                                    # Validate base64 data before adding to encoded_images
+                                    try:
+                                        # Try to decode the base64 string to verify it's valid
+                                        # base64.b64decode(base64_data)
+                                        encoded_images.append({"type": "image", "source": {"type": "base64", "media_type": content_type, "data": base64_data}})
+                                    except Exception as e:
+                                        logger.error(f"Invalid base64 data for URL {url}: {str(e)}", 
+                                                    extra={"tags": {"method": "ToolStreamingService.create_conversation"}})
+                        except Exception as e:
+                            logger.error(f"Error encoding image to base64 for URL {url}: {str(e)}", 
+                                        extra={"tags": {"method": "ToolStreamingService.create_conversation"}})
+                                        
+                    
+                    self.query = {"messages": [{"role": "user", "content": [{"type": "text", "text": self.inputs}, *encoded_images]}]}
                 logger.debug("Image URL set in query arguments.", extra={
                 "tags": {"method": "ToolStreamingService.create_conversation"},
                 "image_url": self.image_url})
