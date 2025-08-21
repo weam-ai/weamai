@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { RESPONSE_STATUS, ROLE_TYPE } from '@/utils/constant';
+import { RESPONSE_STATUS, ROLE_TYPE, USER_STATUS } from '@/utils/constant';
 import DownArrowIcon from '@/icons/DownArrow';
 import useServerAction from '@/hooks/common/useServerActions';
 import { changeMemberRoleAction } from '@/actions/member';
@@ -20,13 +20,15 @@ interface RoleChangeDropdownProps {
     userId: string;
     userEmail: string;
     isAdmin: boolean;
+    userStatus?: string; // Add userStatus prop
 }
 
 const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
     currentRole,
     userId,
     userEmail,
-    isAdmin
+    isAdmin,
+    userStatus
 }) => {
     const [changeRole, isChangeRolePending] = useServerAction(changeMemberRoleAction);
     const { openModal, closeModal, isOpen: isConfirmOpen } = useModal();
@@ -48,8 +50,9 @@ const RoleChangeDropdown: React.FC<RoleChangeDropdownProps> = ({
 
     // Show static role text if:
     // 1. Current user is not an admin, OR
-    // 2. The role being displayed is ADMIN (COMPANY)
-    if (!isAdmin || currentUserRole === ROLE_TYPE.COMPANY) {
+    // 2. The role being displayed is ADMIN (COMPANY), OR
+    // 3. The user status is PENDING
+    if (!isAdmin || currentUserRole === ROLE_TYPE.COMPANY || userStatus === USER_STATUS.PENDING) {
         return (
             <span className="text-font-14 font-normal text-b2">
                 {getRoleLabel(currentUserRole)}

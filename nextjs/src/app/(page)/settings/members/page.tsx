@@ -331,6 +331,7 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers, is
                     userId={row?.original?._id}
                     userEmail={row?.original?.email}
                     isAdmin={currLoggedInUser.roleCode === ROLE_TYPE.COMPANY}
+					userStatus={row?.original?.inviteSts}
                 />
             )
 		},
