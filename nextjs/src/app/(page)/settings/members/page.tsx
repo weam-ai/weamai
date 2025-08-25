@@ -136,7 +136,14 @@ export default function MembersSettings() {
 						<Tabs defaultValue="Members" className="w-full" onValueChange={(newValue) => { setSelectedTab(newValue) }}>
 							<MemberTabsList totalMembers={totalMembers} totalTeam={totalTeam} />
 							<TabsContent value="Members" className="p-0 max-w-[calc(100vw-25px)] overflow-x-auto">
-								<Member selectedTab={selectedTab} membersOptions={membersOptions} setTotalMembers={setTotalMembers} totalMembers={totalMembers} />								
+							<Member
+							selectedTab={selectedTab}
+							membersOptions={membersOptions}
+							setTotalMembers={setTotalMembers}
+							totalMembers={totalMembers}
+							isOpen={isOpen}
+							handleOpen={handleOpen}
+							/>
 							</TabsContent>
 							<TabsContent value="Team" className="p-0 max-w-[calc(100vw-25px)] overflow-x-auto">
 							  <TeamTab selectedTab={selectedTab} setTotalTeam={setTotalTeam} totalTeam={totalTeam}/>
@@ -149,7 +156,7 @@ export default function MembersSettings() {
 	);
 }
 
-const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers }) => {
+const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers, isOpen, handleOpen }) => {
 	const { getUsersList, users, totalRecords, tableLoader,setUsers } = useUsers();
 	const [toggleBrain,isPending]=useServerAction(toggleBrainAction)
 	const { openModal, closeModal, isOpen: isConfirmOpen } = useModal();
@@ -366,27 +373,28 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers }) 
 			accessorKey: 'toggle-action',
 			cell: ({row}) => {
 				const isActiveRow = row?.original?.inviteSts === USER_STATUS.ACCEPT;
+				const isInactiveUser = row?.original?.inviteSts === USER_STATUS.PENDING || row?.original?.inviteSts === USER_STATUS.EXPIRED;
 				const visibilityAction =
 					(currLoggedInUser.roleCode === ROLE_TYPE.COMPANY_MANAGER &&
 						row?.original?.roleCode === ROLE_TYPE.COMPANY_MANAGER) ||
 					(currLoggedInUser.roleCode === ROLE_TYPE.COMPANY_MANAGER &&
 						row?.original?.roleCode === ROLE_TYPE.COMPANY);
+				const isDisabled = visibilityAction || isPending || !isActiveRow;
 
 				return (
 					<button
 						className="mx-auto w-full"
 						style={{
-							visibility: `${
-								visibilityAction ? 'hidden' : 'visible'
-							}`,
+							visibility: `${visibilityAction ? 'hidden' : 'visible'}`,
 						}}
-						disabled={visibilityAction || isPending || !isActiveRow}
+						disabled={isDisabled}
 						onClick={() => {
-							if (!isActiveRow) return;
+							if (isDisabled) return;
 							handleToggleUser({ userIds: row?.original?._id });
-						}}
+						  }}
 					>
-						{toggleUserIds[row?.original?._id] ? (
+						{!isInactiveUser ? (
+        toggleUserIds[row?.original?._id] ? (
 							<TooltipProvider
 								delayDuration={0}
 								skipDelayDuration={0}
@@ -426,7 +434,8 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers }) 
 									</TooltipContent>
 								</Tooltip>
 							</TooltipProvider>
-						)}
+						)
+					) : null}
 					</button>
 				);
 			},
@@ -503,7 +512,7 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers }) 
 										/>
 									</TooltipTrigger>
 									<TooltipContent side="top">
-										<p>Resend</p>
+										<p>Resend Invite</p>
 									</TooltipContent>
 								</Tooltip>
 							</TooltipProvider>
@@ -548,8 +557,9 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers }) 
 						handleFilterChange={handleFilterChange}
 						value={filterInput ?? ''}
 					/>
-					<div className="flex space-x-2">
-						<div className="w-[180px]">
+					
+					<div className="flex md:space-x-2 max-md:flex-wrap">
+						<div className="w-[180px] max-md:mr-2">
 							<Select
 								options={[
 									{ value: 'All', label: 'All' },
@@ -573,6 +583,17 @@ const Member = ({ selectedTab, membersOptions, setTotalMembers, totalMembers }) 
 							pagination={pagination}
 							handlePageSizeChange={handlePageSizeChange}
 						/>
+						<div className='max-md:w-full max-md:mt-2'>
+							<button
+							type="button"
+							onClick={handleOpen}
+							className="btn btn-black cursor-pointer"
+							>
+							<AddUser className="w-4 h-4 object-contain fill-b15 me-2.5 inline-block" />
+							Invite
+							</button>
+							{isOpen && <InviteMemberModal getUsersList={getUsersList} />}
+						</div>
 						{/* <button className="ml-auto btn btn-outline-gray">
 							Export Data
 						</button> */}
