@@ -32,7 +32,23 @@ const sendMessage = async (payload) => {
 
 const editMessage = async (req) => {
     try {
-        return Thread.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true });
+        let updateData = req.body;
+        
+        // If updating AI response, encrypt it before saving
+        if (req.body.ai) {
+            // Store AI response in the same format as original responses
+            const aiData = {
+                data: {
+                    content: req.body.ai
+                }
+            };
+            updateData = {
+                ...req.body,
+                ai: encryptedData(JSON.stringify(aiData))
+            };
+        }
+        
+        return Thread.findByIdAndUpdate({ _id: req.params.id }, updateData, { new: true });
     } catch (error) {
         handleError(error, 'Error- editMessage');
     }
