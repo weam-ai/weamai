@@ -68,11 +68,7 @@ const OnboardingDialog = () => {
         }}
       >
         <DialogHeader className="rounded-t-10 px-[30px] pb-5">
-<<<<<<< HEAD:nextjs/src/components/Initial/OnboardingDialog.tsx
           <DialogTitle className="flex justify-between items-center z-10">
-=======
-          <DialogTitle className="flex justify-between items-center">
->>>>>>> 3838e88e (on boarding guide dialog added):src/components/Initial/OnboardingDialog.tsx
             <WeamLogo width={125} height={50} className={'w-[75px] h-auto'} />
             <button onClick={closeDialog} className="focus:outline-none">
               <Close width={18} height={18} className="w-4 h-auto fill-black" />
