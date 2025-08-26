@@ -1216,7 +1216,7 @@ const ChatPage = memo(() => {
                                 return (
                                     <React.Fragment key={i}>
                                         {/* Chat item Start*/}
-                                        <div className="chat-item w-full px-4 lg:gap-6 m-auto md:max-w-[32rem] lg:max-w-[40rem] xl:max-w-[48.75rem]">
+                                        <div className="chat-item w-full px-4 lg:gap-6 m-auto md:max-w-[90vw] lg:max-w-[40rem] xl:max-w-[48.75rem]">
                                             <div className="relative group bg-gray-100 flex flex-1 text-font-16 text-b2 ml-auto gap-3 rounded-10 transition ease-in-out duration-150 md:max-w-[30rem] xl:max-w-[36rem] px-3 md:pt-4 pt-3 pb-9">
                                                 {/* Hover Icons start */}
                                                 {!chatInfo?.brain?.id?.deletedAt && !blockProAgentAction() &&
@@ -1285,7 +1285,7 @@ const ChatPage = memo(() => {
                                         </div>
                                         {/* Chat item End*/}
                                         {/* Chat item Start*/}
-                                        <div className="chat-item w-full px-4 lg:py-2 py-2 lg:gap-6 m-auto md:max-w-[32rem] lg:max-w-[40rem] xl:max-w-[48.75rem]">
+                                        <div className="chat-item w-full px-4 lg:py-2 py-2 lg:gap-6 m-auto md:max-w-[90vw] lg:max-w-[40rem] xl:max-w-[48.75rem]">
                                             <div className="relative group bg-white flex flex-1 text-font-16 text-b2 mx-auto gap-3 px-3 pt-3 pb-9 rounded-10 transition ease-in-out duration-150">
                                                 {/* Hover Icons start */}
                                                 {!chatInfo?.brain?.id?.deletedAt && showHoverIcon && !blockProAgentAction() &&
@@ -1385,7 +1385,7 @@ const ChatPage = memo(() => {
                     <div className="w-full pt-2">
                         
                         
-                        <div className="flex flex-col mx-auto relative px-5 md:max-w-[32rem] lg:max-w-[40rem] xl:max-w-[48.75rem]">
+                        <div className="flex flex-col mx-auto relative px-5 md:max-w-[90vw] lg:max-w-[40rem] xl:max-w-[48.75rem]">
                             <div className="flex flex-col text-font-16 mx-auto group overflow-hidden rounded-[12px] [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] w-full flex-grow relative border border-b11">
                                 {globalUploadedFile.length > 0 && (                          
                                     <UploadFileInput
