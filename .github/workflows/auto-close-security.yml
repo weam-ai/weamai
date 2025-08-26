@@ -20,7 +20,7 @@ jobs:
                 issue_number: context.payload.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: ":Thanks for reporting a potential security issue!\n\nFor security-related reports, please **do not use public issues**.\n\n:lock: You can report vulnerabilities via:\n- :e-mail: Email: **hello@weam.ai**\n- :page_facing_up: Security Policy: [SECURITY.md](../SECURITY.md)\n\nThis issue has been closed automatically to protect sensitive information. We’ll respond quickly through the private channels above."
+                body: ":Thanks for reporting a potential security issue!\n\nFor security-related reports, please **do not use public issues**.\n\n:lock: You can report vulnerabilities via:\n- :e-mail: Email: **hello@weam.ai**\n- :page_facing_up: Security Policy: [SECURITY.md](https://github.com/weam-ai/weam/blob/main/SECURITY.md)\n\nThis issue has been closed automatically to protect sensitive information. We’ll respond quickly through the private channels above."
               });
               // Close the issue
               await github.rest.issues.update({
