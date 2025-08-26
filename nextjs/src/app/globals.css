@@ -187,13 +187,15 @@
     --thread-content-max-width: min(1200px, 92vw);
     position: relative;
     overflow: visible;
+    display: inline-block;
   }
   .markdown table[data-col-size] {
     width: auto;
     display: inline-table;
     table-layout: auto;
   }
-  .markdown tabl {
+  
+  .markdown table[data-col-size=md], .markdown table[data-col-size=lg], .markdown table[data-col-size=xl] {
     max-width: calc(100vw + 300px);
     min-width: calc((100vw - 290px) / 2 + 200px);
   }
@@ -205,6 +207,8 @@
     position: relative;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    display: inline-block;
+    max-width: 100%;
   }
   .markdown table[data-col-size] {
     width: 100%;
