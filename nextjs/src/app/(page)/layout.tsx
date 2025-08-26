@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 import ReduxProvider from '@/lib/ReduxProvider';
 import { Authentication } from '@/utils/handleAuth';
 import InitNotification from '@/components/Notification/initNotification';
+import OnboardingWrapper from '@/components/Initial/OnboardingWrapper';
+import SubscriptionBanner from '@/components/Sidebar/SubscriptionBanner';
 import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { ModelOptions } from '@/components/Shared/ModelOptions';
 export const viewport = {
@@ -44,7 +46,9 @@ export default async function PageLayout({ children }: PageLayoutProps) {
                                 <InitNotification/>
                                 <ModelOptions />
                                 <Header />
-                                {children}
+                                <OnboardingWrapper>
+                                    {children}
+                                </OnboardingWrapper>
                             </main>
                             {/* Main content End */}
                         </div>
