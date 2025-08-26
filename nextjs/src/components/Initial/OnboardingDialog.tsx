@@ -68,7 +68,7 @@ const OnboardingDialog = () => {
         }}
       >
         <DialogHeader className="rounded-t-10 px-[30px] pb-5">
-          <DialogTitle className="flex justify-between items-center">
+          <DialogTitle className="flex justify-between items-center z-10">
             <WeamLogo width={125} height={50} className={'w-[75px] h-auto'} />
             <button onClick={closeDialog} className="focus:outline-none">
               <Close width={18} height={18} className="w-4 h-auto fill-black" />
