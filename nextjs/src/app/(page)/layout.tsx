@@ -6,6 +6,10 @@ import ReduxProvider from '@/lib/ReduxProvider';
 import { Authentication } from '@/utils/handleAuth';
 import InitNotification from '@/components/Notification/initNotification';
 import OnboardingWrapper from '@/components/Initial/OnboardingWrapper';
+<<<<<<< HEAD:nextjs/src/app/(page)/layout.tsx
+=======
+import SubscriptionBanner from '@/components/Sidebar/SubscriptionBanner';
+>>>>>>> 3838e88e (on boarding guide dialog added):src/app/(page)/layout.tsx
 import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { ModelOptions } from '@/components/Shared/ModelOptions';
 export const viewport = {
