@@ -94,6 +94,8 @@ import useMCP from '@/hooks/mcp/useMCP';
 import ToolsConnected from './ToolsConnected';
 import SearchIcon from '@/icons/Search';
 import ThreeDotLoader from '../Loader/ThreeDotLoader';
+import { useResponseUpdate } from '@/hooks/chat/useResponseUpdate';
+import { usePageOperations } from '@/hooks/chat/usePageOperations';
 const defaultContext = {
     type: null,
     prompt_id: undefined,
@@ -252,6 +254,40 @@ const ChatPage = memo(() => {
     const { getSeoKeyWords, isLoading, leftList, rightList, setLeftList, setRightList } = useProAgent();
 
     const socket = useSocket(); // Hook for socket connection
+    
+    // Track which responses have been edited
+    const [editedResponses, setEditedResponses] = useState<Set<string>>(new Set());
+    
+    // Response update functionality
+    const { handleResponseUpdate, updateConversationResponse } = useResponseUpdate({
+        onUpdateResponse: async (messageId: string, updatedResponse: string) => {
+            // Update the conversation in the state
+            setConversations(prevConversations => 
+                prevConversations.map(conv => 
+                    conv.id === messageId 
+                        ? { ...conv, response: updatedResponse }
+                        : conv
+                )
+            );
+            
+            // Here you can make an API call to persist the changes
+            // await updateResponseInDatabase(messageId, updatedResponse);
+            console.log('Response updated:', { messageId, updatedResponse });
+        }
+    });
+
+    // Page operations
+    const { createPageFromResponse, isCreatingPage } = usePageOperations({
+        onPageCreated: (pageData, isUpdate) => {
+            console.log('Page operation completed:', { pageData, isUpdate });
+        },
+        onError: (error) => {
+            console.error('Error with page operation:', error);
+            Toast('Failed to process page. Please try again.', 'error');
+        }
+    });
+
+
     const { copyToClipboard, handleModelSelectionUrl, getDecodedObjectId, blockProAgentAction, handleProAgentUrlState, getAgentContent } = useConversationHelper();
     const { getChatMembers } = useChatMember();
     const { onSelectMenu } = useThunderBoltPopup({
@@ -288,6 +324,62 @@ const ChatPage = memo(() => {
     const handleWebSearchClick = useCallback(() => {
         dispatch(setIsWebSearchActive(!isWebSearchActive));
     }, [isWebSearchActive]);
+
+    const handleAddToPages = useCallback(async (title: string, message: any) => {
+        console.log('handleAddToPages called with title:', title, 'message:', message);
+        try {
+            // Get the current brain data
+            const currentBrainId = getDecodedObjectId();
+            console.log('Current brain ID:', currentBrainId);
+            console.log('Available brain data:', brainData);
+            
+            let brain = brainData.find((brain: BrainListType) => {
+                return brain._id === currentBrainId
+            });
+            
+            console.log('Found brain:', brain);
+            
+            // If no brain found, create a default brain object
+            if (!brain) {
+                console.log('No brain found, creating default brain object');
+                brain = {
+                    _id: currentBrainId,
+                    title: 'General Brain',
+                    slug: 'general-brain'
+                };
+            }
+            
+            const pageData = {
+                originalMessageId: message.id,
+                title: title,
+                content: message.response,
+                chatId: params.id,
+                user: message.user,
+                brain: brain,
+                model: message.model,
+                tokens: message.tokens,
+                responseModel: message.responseModel,
+                responseAPI: message.responseAPI,
+                companyId: companyId
+            };
+            
+            console.log('handleAddToPages - pageData being sent:', JSON.stringify(pageData, null, 2));
+            const result = await createPageFromResponse(pageData);
+            console.log('Page result:', result);
+            
+            // Show appropriate message based on whether it's an update or create
+            if (result.isUpdate) {
+                Toast('Page updated successfully!', 'success');
+            } else {
+                Toast('Page added successfully!', 'success');
+            }
+        } catch (error) {
+            console.error('Error creating page:', error);
+            Toast('Failed to add page. Please try again.', 'error');
+        }
+    }, [createPageFromResponse, brainData, params.id, companyId]);
+
+
 
     const handleImageConversation = useCallback((files: UploadedFileType[]) => {
         const hasImage = files.some((file) => file?.mime_type?.startsWith('image/'));
@@ -1229,7 +1321,13 @@ const ChatPage = memo(() => {
                                                             handleOpenThreadModal(m,THREAD_MESSAGE_TYPE.QUESTION)
                                                         }
                                                         copyToClipboard={copyToClipboard}
-                                                        getAgentContent={getAgentContent} 
+                                                        getAgentContent={getAgentContent}
+                                                        onAddToPages={async (title: string) => {
+                                                            console.log('onAddToPages prop called for message:', m.id, 'with title:', title);
+                                                            await handleAddToPages(title, m);
+                                                        }}
+                                                        hasBeenEdited={editedResponses.has(m.id)}
+                                                        isAnswer={false}
                                                     />
                                                 }
                                                 {/* Hover Icons End */}
@@ -1308,6 +1406,12 @@ const ChatPage = memo(() => {
                                                         getPerplexityResponse={getPerplexityResponse}
                                                         getAIDocResponse={getAIDocResponse}
                                                         custom_gpt_id={persistTagData?.custom_gpt_id}
+                                                        onAddToPages={async (title: string) => {
+                                                            console.log('onAddToPages prop called for message:', m.id, 'with title:', title);
+                                                            await handleAddToPages(title, m);
+                                                        }}
+                                                        hasBeenEdited={editedResponses.has(m.id)}
+                                                        isAnswer={true}
                                                     />
                                                 }
                                                 {/* Hover Icons End */}
@@ -1342,6 +1446,10 @@ const ChatPage = memo(() => {
                                                                         handleSubmitPrompt={handleSubmitPrompt}
                                                                         isStreamingLoading={isStreamingLoading}
                                                                         proAgentCode={m?.proAgentData?.code}
+                                                                        onResponseUpdate={handleResponseUpdate}
+                                                                        onResponseEdited={(messageId) => {
+                                                                            setEditedResponses(prev => new Set([...prev, messageId]));
+                                                                        }}
                                                                     />
                                                             }
                                                         </div>

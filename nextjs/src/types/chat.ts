@@ -333,3 +333,18 @@ export type SalesAgentFileMetadataType = {
     type: string;
     url: string;
 }
+
+export type EditResponseRequestType = {
+    messageId: string;
+    updatedResponse: string;
+};
+
+export type EditResponseResponseType = {
+    success: boolean;
+    message: string;
+    data: {
+        messageId: string;
+        updatedResponse: string;
+        [key: string]: any;
+    };
+};

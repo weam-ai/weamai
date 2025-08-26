@@ -144,7 +144,17 @@ export const MODULE_ACTIONS = {
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
     GET_WEEKLY_USAGE: 'getWeeklyUsage',
     ADD_CREDIT: 'addCredit',    
-    UPDATE_MCP_DATA: 'updateMcpData'
+    UPDATE_MCP_DATA: 'updateMcpData',
+    GET_AI_ADOPTION: 'getAiAdoption',
+    UPDATE_MESSAGE: 'updateMessage',
+    CREATE_FILE_RECORD: 'createFileRecord',
+    PAGE_CREATE: 'createPage',
+    PAGE_LIST: 'getAllPages',
+    PAGE_VIEW: 'getPageById',
+    PAGE_UPDATE: 'pageUpdate',
+    PAGE_DELETE: 'deletePage',
+    GET_ALL_PAGES: 'getAllPages'
+
 } as const;
 
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm A';
