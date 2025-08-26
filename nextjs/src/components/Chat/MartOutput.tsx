@@ -8,6 +8,7 @@ import CopyIcon from '@/icons/CopyIcon';
 import CheckIcon from '@/icons/CheckIcon';
 import { useEffect } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import TickIcon from '@/icons/TickIcon';
 
 const CodeBlock = (props) => {
     const { children, className, node, ...rest } = props;
@@ -92,6 +93,27 @@ export const MarkOutPut = (assisnantResponse: string) => {
                     code: CodeBlock,
                     table: ({ children }) => {
                         const [copied, setCopied] = useState(false);
+                        const [colSize, setColSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('sm');
+                        const tableRef = (el: HTMLTableElement | null) => {
+                            if (!el) return;
+                            const computeAndSetSize = () => {
+                                const firstRow = el.querySelector('tr');
+                                const colCount = firstRow ? firstRow.children.length : 0;
+                                let size: 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+                                if (colCount > 12) size = 'xl';
+                                else if (colCount > 6) size = 'lg';
+                                else if (colCount > 4) size = 'md';
+                                setColSize(size);
+                                el.setAttribute('data-col-size', size);
+                                el.setAttribute('data-col-count', String(colCount));
+                            };
+                            computeAndSetSize();
+                            try {
+                                const ro = new ResizeObserver(() => computeAndSetSize());
+                                ro.observe(el);
+                                (el as any).__ro = ro;
+                            } catch (_) {}
+                        };
                         const handleCopyTable = (tableElement: HTMLTableElement | null) => {
                             if (!tableElement) return;
                             const rows = Array.from(tableElement.querySelectorAll('tr'));
@@ -133,14 +155,14 @@ export const MarkOutPut = (assisnantResponse: string) => {
                             writeRichClipboard();
                         };
                         return (
-                            <div className="relative group">
-                                <div className="absolute right-0 -top-8 flex items-center gap-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
+                            <div className="relative group markdown-table-wrap">
+                                <div className="md:absolute right-0 top-[-2px] flex items-center gap-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
                                     <TooltipProvider delayDuration={0}>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <button
                                                     type="button"
-                                                    className="p-1 rounded bg-white text-b2 hover:bg-b12"
+                                                    className="rounded p-1.5 bg-b4 hover:bg-b2"
                                                     onClick={(e) => {
                                                         const wrapper = (e.currentTarget.parentElement?.parentElement?.parentElement as HTMLElement) || null;
                                                         const table = wrapper ? (wrapper.querySelector('table') as HTMLTableElement) : null;
@@ -149,9 +171,9 @@ export const MarkOutPut = (assisnantResponse: string) => {
                                                     aria-label="Copy table"
                                                 >
                                                     {copied ? (
-                                                        <CopyIcon width={14} height={14} className="[&>path]:fill-blue w-4 h-auto" />
+                                                        <TickIcon width={14} height={14} className="[&>path]:fill-green w-4 h-auto" />
                                                     ) : (
-                                                        <CopyIcon width={14} height={14} className="[&>path]:fill-b5 w-4 h-auto" />
+                                                        <CopyIcon width={14} height={14} className="[&>path]:fill-white w-4 h-auto" />
                                                     )}
                                                 </button>
                                             </TooltipTrigger>
@@ -161,7 +183,7 @@ export const MarkOutPut = (assisnantResponse: string) => {
                                         </Tooltip>
                                     </TooltipProvider>
                                 </div>
-                                <table>{children}</table>
+                                <table ref={tableRef}>{children}</table>
                             </div>
                         );
                     },
