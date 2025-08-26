@@ -7,6 +7,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import CopyIcon from '@/icons/CopyIcon';
 import CheckIcon from '@/icons/CheckIcon';
 import { useEffect } from 'react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const CodeBlock = (props) => {
     const { children, className, node, ...rest } = props;
@@ -83,12 +84,87 @@ const CodeBlock = (props) => {
 
 export const MarkOutPut = (assisnantResponse: string) => {
     return (
-        <div className="markdown w-full mx-auto flex-1 overflow-y-auto prose">
+        <div className="markdown w-full mx-auto flex-1 prose">
             <Markdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Override how links <a> are rendered
                     code: CodeBlock,
+                    table: ({ children }) => {
+                        const [copied, setCopied] = useState(false);
+                        const handleCopyTable = (tableElement: HTMLTableElement | null) => {
+                            if (!tableElement) return;
+                            const rows = Array.from(tableElement.querySelectorAll('tr'));
+                            const tsv = rows
+                                .map((row) =>
+                                    Array.from(row.querySelectorAll('th,td'))
+                                        .map((cell) => {
+                                            const text = (cell.textContent || '').replace(/\t/g, ' ').replace(/\r?\n|\r/g, ' ');
+                                            // Quote if contains tabs or quotes
+                                            const needsQuotes = /["\t]/.test(text);
+                                            const escaped = text.replace(/"/g, '""');
+                                            return needsQuotes ? `"${escaped}"` : escaped;
+                                        })
+                                        .join('\t')
+                                )
+                                .join('\n');
+                            const html = tableElement.outerHTML;
+                            const writeRichClipboard = async () => {
+                                try {
+                                    const ClipboardItemCtor: any = (window as any).ClipboardItem;
+                                    if (ClipboardItemCtor) {
+                                        const item = new ClipboardItemCtor({
+                                            'text/html': new Blob([html], { type: 'text/html' }),
+                                            'text/plain': new Blob([tsv], { type: 'text/plain' })
+                                        });
+                                        await navigator.clipboard.write([item]);
+                                    } else {
+                                        await navigator.clipboard.writeText(tsv);
+                                    }
+                                    setCopied(true);
+                                    setTimeout(() => setCopied(false), 1500);
+                                } catch (e) {
+                                    navigator.clipboard.writeText(tsv).then(() => {
+                                        setCopied(true);
+                                        setTimeout(() => setCopied(false), 1500);
+                                    });
+                                }
+                            };
+                            writeRichClipboard();
+                        };
+                        return (
+                            <div className="relative group">
+                                <div className="absolute right-0 -top-8 flex items-center gap-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
+                                    <TooltipProvider delayDuration={0}>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <button
+                                                    type="button"
+                                                    className="p-1 rounded bg-white text-b2 hover:bg-b12"
+                                                    onClick={(e) => {
+                                                        const wrapper = (e.currentTarget.parentElement?.parentElement?.parentElement as HTMLElement) || null;
+                                                        const table = wrapper ? (wrapper.querySelector('table') as HTMLTableElement) : null;
+                                                        handleCopyTable(table);
+                                                    }}
+                                                    aria-label="Copy table"
+                                                >
+                                                    {copied ? (
+                                                        <CopyIcon width={14} height={14} className="[&>path]:fill-blue w-4 h-auto" />
+                                                    ) : (
+                                                        <CopyIcon width={14} height={14} className="[&>path]:fill-b5 w-4 h-auto" />
+                                                    )}
+                                                </button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="top" className="border-none text-white">
+                                                <span className='text-font-14'>Copy Table</span>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                                <table>{children}</table>
+                            </div>
+                        );
+                    },
                     a: ({ children, href, ...props }) => {
                         // children is normally an array of strings/elements
                         // e.g. if the markdown is [1](https://google.com)
