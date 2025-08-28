@@ -440,10 +440,10 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                  </HoverActionTooltip>
              )}
 
-                         {/* Upload to S3 - Only show for answers */}
+                         {/* Upload Document - Only show for answers */}
             {isAnswer && (
                 <HoverActionTooltip
-                    content={isUploadingToS3 ? 'Uploading...' : 'Upload to S3'}
+                    content={isUploadingToS3 ? 'Uploading...' : 'Upload Document'}
                     onClick={isUploadingToS3 ? undefined : uploadResponseToS3}
                     className={`cursor-pointer flex items-center justify-center lg:w-8 w-5 h-8 md:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12 ${isUploadingToS3 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
