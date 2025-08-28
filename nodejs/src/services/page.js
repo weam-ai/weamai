@@ -147,9 +147,38 @@ const updatePage = async (req) => {
         let updateData = {};
         if (title) updateData.title = title;
         if (content) {
-            const contentData = { data: { content: content } };
-            updateData.content = encryptedData(JSON.stringify(contentData));
-            updateData.ai = encryptedData(JSON.stringify(contentData));
+            // First, get the existing page to preserve its structure
+            const existingPage = await Page.findById(req.params.id);
+            if (existingPage && existingPage.ai) {
+                try {
+                    // Decrypt existing AI response to get its structure
+                    const decryptedExistingAI = decryptedData(existingPage.ai);
+                    const existingAIStructure = JSON.parse(decryptedExistingAI);
+                    
+                    // Update only the content while preserving all other fields
+                    const updatedAIStructure = {
+                        ...existingAIStructure,
+                        data: {
+                            ...existingAIStructure.data,
+                            content: content
+                        }
+                    };
+                    
+                    updateData.content = encryptedData(JSON.stringify(updatedAIStructure));
+                    updateData.ai = encryptedData(JSON.stringify(updatedAIStructure));
+                } catch (parseError) {
+                    console.error('Error parsing existing AI structure:', parseError);
+                    // Fallback to minimal structure if parsing fails
+                    const contentData = { data: { content: content } };
+                    updateData.content = encryptedData(JSON.stringify(contentData));
+                    updateData.ai = encryptedData(JSON.stringify(contentData));
+                }
+            } else {
+                // If no existing AI structure, create a minimal one
+                const contentData = { data: { content: content } };
+                updateData.content = encryptedData(JSON.stringify(contentData));
+                updateData.ai = encryptedData(JSON.stringify(contentData));
+            }
         }
         if (brain) updateData.brain = brain;
         if (model) updateData.model = model;

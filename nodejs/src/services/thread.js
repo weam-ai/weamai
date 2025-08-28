@@ -34,18 +34,54 @@ const editMessage = async (req) => {
     try {
         let updateData = req.body;
         
-        // If updating AI response, encrypt it before saving
+        // If updating AI response, preserve the existing structure and only update content
         if (req.body.ai) {
-            // Store AI response in the same format as original responses
-            const aiData = {
-                data: {
-                    content: req.body.ai
+            // First, get the existing message to preserve its structure
+            const existingMessage = await Thread.findById(req.params.id);
+            if (existingMessage && existingMessage.ai) {
+                try {
+                    // Decrypt existing AI response to get its structure
+                    const decryptedExistingAI = decryptedData(existingMessage.ai);
+                    const existingAIStructure = JSON.parse(decryptedExistingAI);
+                    
+                    // Update only the content while preserving all other fields
+                    const updatedAIStructure = {
+                        ...existingAIStructure,
+                        data: {
+                            ...existingAIStructure.data,
+                            content: req.body.ai
+                        }
+                    };
+                    
+                    updateData = {
+                        ...req.body,
+                        ai: encryptedData(JSON.stringify(updatedAIStructure))
+                    };
+                } catch (parseError) {
+                    console.error('Error parsing existing AI structure:', parseError);
+                    // Fallback to minimal structure if parsing fails
+                    const aiData = {
+                        data: {
+                            content: req.body.ai
+                        }
+                    };
+                    updateData = {
+                        ...req.body,
+                        ai: encryptedData(JSON.stringify(aiData))
+                    };
                 }
-            };
-            updateData = {
-                ...req.body,
-                ai: encryptedData(JSON.stringify(aiData))
-            };
+            } else {
+                // If no existing AI structure, create a minimal one
+                const aiData = {
+                    data: {
+                        content: req.body.ai
+                    }
+                };
+                updateData = {
+                    ...req.body,
+                    ai: encryptedData(JSON.stringify(aiData))
+                };
+            }
         }
         
         return Thread.findByIdAndUpdate({ _id: req.params.id }, updateData, { new: true });
