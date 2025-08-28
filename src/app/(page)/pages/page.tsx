@@ -96,7 +96,7 @@ const PagesPage = () => {
     };
 
     const loadMore = async () => {
-        if (!companyId || loadingMore || !hasMore) return;
+        if (!companyId || !brainId || loadingMore || !hasMore) return;
         
         try {
             setLoadingMore(true);
@@ -104,10 +104,16 @@ const PagesPage = () => {
             
             console.log('Loading more pages, page:', nextPage);
             
+            const query = {
+                companyId: companyId,
+                // Add brain filter to only show pages for the selected brain
+                ...(brainId && { 'brain.id': brainId })
+            };
+            
+            console.log('LoadMore query with brain filter:', query);
+            
             const result = await getAllPages({
-                query: {
-                    companyId: companyId
-                },
+                query: query,
                 options: {
                     page: nextPage,
                     limit: 10,
@@ -251,6 +257,12 @@ const PagesPage = () => {
     useEffect(() => {
         const loadPages = async () => {
             if (!companyId) return;
+            if (!brainId) {
+                setPages([]);
+                setHasMore(false);
+                setLoading(false);
+                return;
+            }
             
             try {
                 setLoading(true);
@@ -259,11 +271,16 @@ const PagesPage = () => {
                 setHasMore(true);
                 console.log('Loading pages for companyId:', companyId, 'brainId:', brainId);
                 
+                const query = {
+                    companyId: companyId,
+                    // Add brain filter to only show pages for the selected brain
+                    ...(brainId && { 'brain.id': brainId })
+                };
+                
+                console.log('Query with brain filter:', query);
+                
                 const result = await getAllPages({
-                    query: {
-                        companyId: companyId
-                        // Removed brain filter since brain objects don't have _id field
-                    },
+                    query: query,
                     options: {
                         page: 1,
                         limit: 10,
@@ -304,6 +321,17 @@ const PagesPage = () => {
         loadPages();
     }, [companyId, brainId]);
 
+    // Clear pages when brainId changes
+    useEffect(() => {
+        if (!brainId) {
+            setPages([]);
+            setFilteredPages([]);
+            setCurrentPage(1);
+            setHasMore(false);
+            setSearchTerm(''); // Clear search term when brain changes
+        }
+    }, [brainId]);
+
     useEffect(() => {
         const filtered = pages.filter(page =>
             page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -327,7 +355,7 @@ const PagesPage = () => {
                     </p>
                     <span className="text-font-16 text-gray-400">/</span>
                     <p className="text-font-16 font-medium text-gray-600">
-                        {currentBrain ? currentBrain.title : 'General'}
+                        {currentBrain ? currentBrain.title : 'Select a brain to view pages'}
                     </p>
                 </div>
             </header>
@@ -339,13 +367,19 @@ const PagesPage = () => {
                     <div className="flex items-center min-w-80 flex-wrap gap-2.5 max-w-[950px] w-full mx-auto my-5 px-5 flex-col md:flex-row">
                         {/* Search */}
                         <div className="search-docs relative flex-1 max-md:w-full">
+                            {!brainId && (
+                                <div className="absolute inset-0 bg-gray-100 rounded-md flex items-center justify-center z-10">
+                                    <span className="text-gray-500 text-sm">Select a brain to search pages</span>
+                                </div>
+                            )}
                             <input
                                 type="text"
                                 className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
                                 id="searchDocs"
-                                placeholder="Search Pages"
+                                placeholder={brainId ? "Search Pages" : "Select a brain first"}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
+                                disabled={!brainId}
                             />
                             <span className="inline-block absolute left-[15px] top-1/2 -translate-y-1/2 [&>svg]:fill-b7">
                                 <SearchIcon className="w-4 h-[17px] fill-b7" />
@@ -353,12 +387,18 @@ const PagesPage = () => {
                         </div>
 
                         {/* List/Grid Toggle */}
-                        <div className="md:inline-flex hidden justify-center md:justify-start" role="group">
+                        <div className="md:inline-flex hidden justify-center md:justify-start relative" role="group">
+                            {!brainId && (
+                                <div className="absolute inset-0 bg-gray-100 rounded-md flex items-center justify-center z-10">
+                                    <span className="text-gray-500 text-xs">Select brain</span>
+                                </div>
+                            )}
                             <button
                                 type="button"
                                 id="list-view"
                                 onClick={handleListViewClick}
-                                className={`inline-block rounded-s-custom rounded-e-none btn border border-b10 bg-transparent w-10 h-10 p-2 hover:bg-b12 [&.active]:bg-b12 ${
+                                disabled={!brainId}
+                                className={`inline-block rounded-s-custom rounded-e-none btn border border-b10 bg-transparent w-10 h-10 p-2 hover:bg-b12 [&.active]:bg-b12 disabled:opacity-50 disabled:cursor-not-allowed ${
                                     !isGridView ? 'active' : ''
                                 }`}
                             >
@@ -372,7 +412,8 @@ const PagesPage = () => {
                                 type="button"
                                 id="grid-view"
                                 onClick={handleGridViewClick}
-                                className={`-ms-px inline-block rounded-none btn border border-b10 bg-transparent w-10 h-10 p-2 hover:bg-b12 [&.active]:bg-b12 ${
+                                disabled={!brainId}
+                                className={`-ms-px inline-block rounded-none btn border border-b10 bg-transparent w-10 h-10 p-2 hover:bg-b12 [&.active]:bg-b12 disabled:opacity-50 disabled:cursor-not-allowed ${
                                     isGridView ? 'active' : ''
                                 }`}
                             >
@@ -386,7 +427,7 @@ const PagesPage = () => {
 
                         {/* Page Count */}
                         <div className="text-sm text-gray-500">
-                            {filteredPages.length} page{filteredPages.length !== 1 ? 's' : ''}
+                            {brainId ? `${filteredPages.length} page${filteredPages.length !== 1 ? 's' : ''}` : 'Select a brain to view pages'}
                         </div>
                     </div>
 
@@ -399,7 +440,15 @@ const PagesPage = () => {
                                 </div>
                             )}
                             
-                            {loading ? (
+                            {!brainId ? (
+                                <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                                    <DocumentIcon width={48} height={48} className="fill-gray-300 mb-4" />
+                                    <p className="text-lg font-medium mb-2">No brain selected</p>
+                                    <p className="text-sm text-gray-400">
+                                        Please select a brain from the sidebar to view its pages
+                                    </p>
+                                </div>
+                            ) : loading ? (
                                 <div className="flex items-center justify-center h-64">
                                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                                 </div>
@@ -438,7 +487,7 @@ const PagesPage = () => {
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <span className="text-font-12 text-b5">
+                                                    <span className="text-font-12 text-b5 transition duration-150 ease-in-out md:group-hover/item:text-b15 hover:text-blue-600">
                                                         {formatDate(page.createdAt)}
                                                     </span>
                                                 </div>
@@ -487,7 +536,7 @@ const PagesPage = () => {
                             )}
                             
                             {/* Load More Button */}
-                            {hasMore && !searchTerm && pages.length >= 10 && (
+                            {brainId && hasMore && !searchTerm && pages.length >= 10 && (
                                 <div className="flex justify-center pt-4">
                                     <button
                                         onClick={loadMore}
