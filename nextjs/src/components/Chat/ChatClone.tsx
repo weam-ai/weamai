@@ -333,7 +333,7 @@ const ChatPage = memo(() => {
             console.log('Current brain ID:', currentBrainId);
             console.log('Available brain data:', brainData);
             
-            let brain = brainData.find((brain: BrainListType) => {
+            let brain :any = brainData.find((brain: BrainListType) => {
                 return brain._id === currentBrainId
             });
             
@@ -352,7 +352,7 @@ const ChatPage = memo(() => {
             // Format the brain data properly using formatBrain function
             const formattedBrain = formatBrain(brain);
             
-            const pageData = {
+            const pageData :any = {
                 originalMessageId: message.id,
                 title: title,
                 content: message.response,
@@ -367,7 +367,7 @@ const ChatPage = memo(() => {
             };
             
             console.log('handleAddToPages - pageData being sent:', JSON.stringify(pageData, null, 2));
-            const result = await createPageFromResponse(pageData);
+            const result :any = await createPageFromResponse(pageData);
             console.log('Page result:', result);
             
             // Show appropriate message based on whether it's an update or create
