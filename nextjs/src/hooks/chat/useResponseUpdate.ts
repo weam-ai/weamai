@@ -24,12 +24,6 @@ export const useResponseUpdate = ({
         }
       });
 
-      console.log('API Response:', response);
-      console.log('Response type:', typeof response);
-      console.log('Response keys:', Object.keys(response || {}));
-      console.log('Response.data:', response?.data);
-      console.log('Response.success:', (response as any)?.success);
-
       // Check if the response has the expected structure
       if (response?.data?.success) {
         Toast('Response updated successfully!', 'success');
@@ -43,11 +37,9 @@ export const useResponseUpdate = ({
         Toast('Response updated successfully!', 'success');
         return response;
       } else {
-        console.error('Response validation failed:', response);
         throw new Error('Failed to update response in database');
       }
     } catch (error) {
-      console.error('Error updating response in database:', error);
       throw error;
     }
   };
@@ -65,7 +57,6 @@ export const useResponseUpdate = ({
       }
       
     } catch (error) {
-      console.error('Error updating response:', error);
       throw error; // Re-throw to let the component handle the error
     } finally {
       setIsUpdating(false);

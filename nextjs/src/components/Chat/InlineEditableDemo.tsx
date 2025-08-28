@@ -16,7 +16,6 @@ The component supports:
 
   const handleSave = (updatedResponse: string) => {
     setResponse(updatedResponse);
-    console.log('Response updated:', updatedResponse);
     // Here you would typically make an API call to save the updated response
   };
 

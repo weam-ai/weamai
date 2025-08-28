@@ -77,7 +77,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
     const { isOpen: isDownloadOpen, openModal: openDownloadModal, closeModal: closeDownloadModal } = useModal();
     const { isOpen: isAddPageOpen, openModal: openAddPageModal, closeModal: closeAddPageModal } = useModal();
     const [forkData, setForkData] = useState([]);
-    const [isUploadingToS3, setIsUploadingToS3] = useState(false);
+    const [isUploadingToMinIO, setIsUploadingToMinIO] = useState(false);
     const downloadDropdownRef = useRef<HTMLDivElement>(null);
 
     let copyContent = content;
@@ -85,10 +85,10 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
         copyContent = getAgentContent(proAgentData);
     }
     
-    // S3 Upload functionality
-    const uploadResponseToS3 = async () => {
+    // MinIO Upload functionality
+    const uploadResponseToMinIO = async () => {
         try {
-            setIsUploadingToS3(true);
+            setIsUploadingToMinIO(true);
             
             // Create a text file from the response content
             const responseContent = copyContent;
@@ -97,16 +97,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
             const fileName = `${uniqueId}.txt`;
             const file = new File([responseContent], fileName, { type: 'text/plain' });
             
-            console.log('🚀 Starting S3 upload for AI response:', { 
-                fileName, 
-                fileSize: `${(file.size / 1024).toFixed(2)} KB`, 
-                contentType: file.type, 
-                timestamp: new Date().toISOString(), 
-                responseLength: responseContent.length 
-            });
-            
-            // Generate presigned URL for S3 upload
-            console.log('📡 Generating presigned URL for S3 upload...');
+            // Generate presigned URL for MinIO upload
             const presignedUrlResponse = await commonApi({
                 action: MODULE_ACTIONS.GENERATE_PRESIGNED_URL,
                 data: {
@@ -119,37 +110,29 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
             });
             
             if (!presignedUrlResponse.data?.length) {
-                console.error('❌ Failed to generate presigned URL:', presignedUrlResponse);
                 Toast('Failed to generate upload URL', 'error');
                 return;
             }
             
             const presignedUrl = presignedUrlResponse.data[0];
-            console.log('✅ Presigned URL generated successfully:', { 
-                url: presignedUrl.substring(0, 100) + '...', 
-                folder: 'documents', 
-                expiresIn: '60 seconds' 
-            });
-            
-            console.log('📤 Uploading file to S3...');
             const uploadStartTime = Date.now();
             await axios.put(presignedUrl, file, { headers: { 'Content-Type': 'text/plain' } });
             const uploadEndTime = Date.now();
             const uploadDuration = uploadEndTime - uploadStartTime;
             
-            // Extract the S3 key from the presigned URL
-            const s3Url = new URL(presignedUrl);
-            const s3Path = s3Url.pathname;
-            const pathParts = s3Path.split('/').filter(part => part.length > 0);
-            const s3Key = pathParts.join('/');
+            // Extract the MinIO key from the presigned URL
+            const minioUrl = new URL(presignedUrl);
+            const minioPath = minioUrl.pathname;
+            const pathParts = minioPath.split('/').filter(part => part.length > 0);
+            const minioKey = pathParts.join('/');
             
-            console.log('🎉 File uploaded to S3 successfully!', { 
+            console.log('🎉 File uploaded to MinIO successfully!', { 
                 fileName, 
                 fileSize: `${(file.size / 1024).toFixed(2)} KB`, 
                 uploadDuration: `${uploadDuration}ms`, 
                 uploadSpeed: `${((file.size / 1024) / (uploadDuration / 1000)).toFixed(2)} KB/s`, 
-                s3Location: s3Key, 
-                finalUri: `/${s3Key}`, 
+                minioLocation: minioKey, 
+                finalUri: `/${minioKey}`, 
                 timestamp: new Date().toISOString() 
             });
             
@@ -161,7 +144,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                 const fileMetadata = {
                     name: fileName,
                     type: 'txt',
-                    uri: `/${s3Key}`,
+                    uri: `/${minioKey}`,
                     mime_type: 'text/plain',
                     file_size: file.size.toString(),
                     module: 'documents',
@@ -190,15 +173,9 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                         fileMetadata: fileMetadata
                     });
                 } else {
-                    console.warn('⚠️ File uploaded to S3 but database record creation failed:', {
-                        response: dbResponse,
-                        responseCode: dbResponse?.code,
-                        responseMessage: dbResponse?.message,
-                        fileMetadata: fileMetadata
-                    });
                     
                     // Show a warning toast instead of error
-                    Toast('File uploaded to S3 but database record creation failed', 'error');
+                    Toast('File uploaded to MinIO but database record creation failed', 'error');
                 }
                 
             } catch (dbError) {
@@ -207,26 +184,20 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                     errorStack: dbError.stack,
                     errorType: dbError.constructor.name,
                     fileName: fileName,
-                    s3Key: s3Key,
-                    note: 'File is still available in S3 but not recorded in database'
+                    minioKey: minioKey,
+                    note: 'File is still available in MinIO but not recorded in database'
                 });
                 
                 // Show a warning toast instead of error
-                Toast('File uploaded to S3 but database record creation failed', 'error');
+                Toast('File uploaded to MinIO but database record creation failed', 'error');
             }
 
             
         } catch (error) {
-            console.error('❌ Error uploading to S3:', {
-                error: error.message,
-                fileName: `ai-response-${Date.now()}.txt`,
-                timestamp: new Date().toISOString(),
-                stack: error.stack
-            });
-            Toast('Failed to upload response to S3', 'error');
+            Toast('Failed to upload response to MinIO', 'error');
         } finally {
-            setIsUploadingToS3(false);
-            console.log('🏁 S3 upload process completed');
+            setIsUploadingToMinIO(false);
+            console.log('🏁 MinIO upload process completed');
         }
     };
 
@@ -443,11 +414,11 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                          {/* Upload Document - Only show for answers */}
             {isAnswer && (
                 <HoverActionTooltip
-                    content={isUploadingToS3 ? 'Uploading...' : 'Upload Document'}
-                    onClick={isUploadingToS3 ? undefined : uploadResponseToS3}
-                    className={`cursor-pointer flex items-center justify-center lg:w-8 w-5 h-8 md:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12 ${isUploadingToS3 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    content={isUploadingToMinIO ? 'Uploading...' : 'Upload Document'}
+                    onClick={isUploadingToMinIO ? undefined : uploadResponseToMinIO}
+                    className={`cursor-pointer flex items-center justify-center lg:w-8 w-5 h-8 md:min-w-8 rounded-custom p-1 transition ease-in-out duration-150 [&>svg]:h-[18px] [&>svg]:w-auto [&>svg]:max-w-full [&>svg]:fill-b6 hover:bg-b12 ${isUploadingToMinIO ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                    {isUploadingToS3 ? (
+                    {isUploadingToMinIO ? (
                         <svg className="lg:h-[15px] h-[14px] w-auto fill-b6 animate-spin" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/>
                         </svg>

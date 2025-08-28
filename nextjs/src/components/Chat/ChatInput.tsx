@@ -239,7 +239,6 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         
         const handleNavigation = (href: string) => {
             if (!brain?._id) {
-                console.warn('Brain ID is undefined, cannot navigate');
                 return;
             }
             const brainId = encodedObjectId(brain._id);

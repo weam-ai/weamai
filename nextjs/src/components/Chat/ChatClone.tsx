@@ -272,17 +272,14 @@ const ChatPage = memo(() => {
             
             // Here you can make an API call to persist the changes
             // await updateResponseInDatabase(messageId, updatedResponse);
-            console.log('Response updated:', { messageId, updatedResponse });
         }
     });
 
     // Page operations
     const { createPageFromResponse, isCreatingPage } = usePageOperations({
         onPageCreated: (pageData, isUpdate) => {
-            console.log('Page operation completed:', { pageData, isUpdate });
         },
         onError: (error) => {
-            console.error('Error with page operation:', error);
             Toast('Failed to process page. Please try again.', 'error');
         }
     });
@@ -326,12 +323,9 @@ const ChatPage = memo(() => {
     }, [isWebSearchActive]);
 
     const handleAddToPages = useCallback(async (title: string, message: any) => {
-        console.log('handleAddToPages called with title:', title, 'message:', message);
         try {
             // Get the current brain data
             const currentBrainId = getDecodedObjectId();
-            console.log('Current brain ID:', currentBrainId);
-            console.log('Available brain data:', brainData);
             
             let brain :any = brainData.find((brain: BrainListType) => {
                 return brain._id === currentBrainId
@@ -341,7 +335,6 @@ const ChatPage = memo(() => {
             
             // If no brain found, create a default brain object
             if (!brain) {
-                console.log('No brain found, creating default brain object');
                 brain = {
                     _id: currentBrainId,
                     title: 'General Brain',
@@ -365,10 +358,7 @@ const ChatPage = memo(() => {
                 responseAPI: message.responseAPI,
                 companyId: companyId
             };
-            
-            console.log('handleAddToPages - pageData being sent:', JSON.stringify(pageData, null, 2));
             const result :any = await createPageFromResponse(pageData);
-            console.log('Page result:', result);
             
             // Show appropriate message based on whether it's an update or create
             if (result.isUpdate) {
@@ -1326,7 +1316,6 @@ const ChatPage = memo(() => {
                                                         copyToClipboard={copyToClipboard}
                                                         getAgentContent={getAgentContent}
                                                         onAddToPages={async (title: string) => {
-                                                            console.log('onAddToPages prop called for message:', m.id, 'with title:', title);
                                                             await handleAddToPages(title, m);
                                                         }}
                                                         hasBeenEdited={editedResponses.has(m.id)}
@@ -1410,7 +1399,6 @@ const ChatPage = memo(() => {
                                                         getAIDocResponse={getAIDocResponse}
                                                         custom_gpt_id={persistTagData?.custom_gpt_id}
                                                         onAddToPages={async (title: string) => {
-                                                            console.log('onAddToPages prop called for message:', m.id, 'with title:', title);
                                                             await handleAddToPages(title, m);
                                                         }}
                                                         hasBeenEdited={editedResponses.has(m.id)}

@@ -126,7 +126,6 @@ const ChatResponse = ({ conversations, i, loading, answerMessage, m, handleSubmi
             }
             setIsEditing(false);
         } catch (error) {
-            console.error('Error saving response:', error);
             alert('Failed to save changes. Please try again.');
         }
     };

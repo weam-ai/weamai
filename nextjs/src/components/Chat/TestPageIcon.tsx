@@ -16,7 +16,6 @@ const TestPageIcon = () => {
   };
 
   const handleAddToPages = () => {
-    console.log('Test: Add to pages clicked!');
     alert('Add to pages clicked!');
   };
 

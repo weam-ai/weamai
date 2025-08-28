@@ -29,15 +29,11 @@ export const usePageOperations = ({
     try {
       setIsCreatingPage(true);
       
-      console.log('usePageOperations - Sending pageData:', JSON.stringify(pageData, null, 2));
-      
       const response = await commonApi({
         action: MODULE_ACTIONS.PAGE_CREATE,
         data: pageData,
         errorToast: true
       });
-
-      console.log('usePageOperations - Success result:', response);
       
       if (onPageCreated && response?.data) {
         onPageCreated(response.data, response.data.isUpdate);
@@ -45,7 +41,6 @@ export const usePageOperations = ({
       
       return response;
     } catch (error) {
-      console.error('Error creating page:', error);
       if (onError) {
         onError(error.message);
       }
@@ -57,18 +52,14 @@ export const usePageOperations = ({
 
   const getAllPages = async (query = {}, options = {}) => {
     try {
-      console.log('usePageOperations - getAllPages called with:', { query, options });
       
       const response = await commonApi({
         action: MODULE_ACTIONS.PAGE_LIST,
         data: { query, options },
         errorToast: true
       });
-
-      console.log('usePageOperations - Success result:', response);
       return response;
     } catch (error) {
-      console.error('Error getting pages:', error);
       throw error;
     }
   };
@@ -83,26 +74,20 @@ export const usePageOperations = ({
 
       return response;
     } catch (error) {
-      console.error('Error getting page:', error);
       throw error;
     }
   };
 
   const updatePage = async (pageId: string, updateData: any) => {
     try {
-      console.log('usePageOperations - updatePage called with:', { pageId, updateData });
-      
       const response = await commonApi({
         action: MODULE_ACTIONS.PAGE_UPDATE,
         parameters: [pageId],
         data: updateData,
         errorToast: true
       });
-
-      console.log('usePageOperations - updatePage success result:', response);
       return response;
     } catch (error) {
-      console.error('Error updating page:', error);
       throw error;
     }
   };
@@ -117,7 +102,6 @@ export const usePageOperations = ({
 
       return response;
     } catch (error) {
-      console.error('Error deleting page:', error);
       throw error;
     }
   };
