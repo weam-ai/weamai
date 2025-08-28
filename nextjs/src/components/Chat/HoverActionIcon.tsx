@@ -153,7 +153,7 @@ const HoverActionIcon = React.memo(({ content, proAgentData, conversation, seque
                 timestamp: new Date().toISOString() 
             });
             
-            Toast('Response uploaded to S3 successfully!', 'success');
+            Toast('Response uploaded successfully!', 'success');
             
             console.log('💾 Storing file record in database...');
             try {
