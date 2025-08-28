@@ -21,6 +21,7 @@
             "billing.list",
             "workspaceuser.delete",
             "user.delete",
+            "user.changerole",
             "toggle.create",
             "team.create",
             "team.update",

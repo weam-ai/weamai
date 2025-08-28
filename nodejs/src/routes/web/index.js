@@ -30,5 +30,6 @@ router.use("/team",teamMemberRouter)
 router.use('/teamBrain',teamBrainRouter)
 router.use('/teamWorkspace',teamWorkspaceRouter)
 router.use('/bookmark', require('./bookmark'));
+router.use('/page', require('./pages'));
 
 module.exports = router;
