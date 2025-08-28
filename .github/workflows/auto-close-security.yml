@@ -1,7 +1,13 @@
 name: Auto Close Security Issues
+
 on:
   issues:
     types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+  
 jobs:
   auto-close:
     runs-on: ubuntu-latest
