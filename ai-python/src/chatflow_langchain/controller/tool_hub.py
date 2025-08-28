@@ -66,7 +66,7 @@ class ToolController:
         return self.managers.get(self.code)()
 
 
-    async def service_hub_handler(self, chat_input,**kwargs):
+    async def service_hub_handler(self, chat_input, async_handler_ref=None, **kwargs):
         """
         Handles the Tool input and returns the response.
 
@@ -74,6 +74,8 @@ class ToolController:
         ----------
         chat_input : Any
             The input data for the chat.
+        async_handler_ref : list, optional
+            Reference list to store the async handler for external cancellation.
         kwargs : Any
             Additional parameters.
 
@@ -121,11 +123,18 @@ class ToolController:
             # tool_manager.prompt_attach(additional_prompt_id=chat_input.prompt_id,collection_name=chat_input.promptmodel)  
 
             ## conversation create
-            tool_manager.create_conversation(input_text=chat_input.query, image_url=chat_input.image_url,image_source=chat_input.image_source,regenerate_flag = chat_input.isregenerated)  
+            await tool_manager.create_conversation(input_text=chat_input.query, image_url=chat_input.image_url,image_source=chat_input.image_source,regenerate_flag = chat_input.isregenerated)  
 
 
             # streaming the chat chat serivce
-            response_generator = tool_manager.tool_calls_run(thread_id=chat_input.thread_id, \
+            # Check if the tool manager supports async_handler_ref parameter
+            import inspect
+            tool_calls_run_signature = inspect.signature(tool_manager.tool_calls_run)
+            if 'async_handler_ref' in tool_calls_run_signature.parameters:
+                response_generator = tool_manager.tool_calls_run(thread_id=chat_input.thread_id, \
+                                                                            collection_name=chat_input.threadmodel,delay_chunk=chat_input.delay_chunk, async_handler_ref=async_handler_ref)
+            else:
+                response_generator = tool_manager.tool_calls_run(thread_id=chat_input.thread_id, \
                                                                             collection_name=chat_input.threadmodel,delay_chunk=chat_input.delay_chunk)
 
                 
