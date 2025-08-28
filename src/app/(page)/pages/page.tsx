@@ -7,12 +7,16 @@ import { usePageOperations } from '@/hooks/chat/usePageOperations';
 import routes from '@/utils/routes';
 import DocumentIcon from '@/icons/DocumentIcon';
 import SearchIcon from '@/icons/Search';
+import GridIcon from '@/icons/GridIcon';
+import BarIcon from '@/icons/BarIcon';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 // Using simple SVG icons instead of importing components
 import { format } from 'date-fns';
 import Toast from '@/utils/toast';
 import  { useRouter } from 'next/navigation';
 
-interface Page {
+type Page = {
     _id: string;
     title: string;
     content: string;
@@ -36,6 +40,15 @@ const PagesPage = () => {
     const companyId = useMemo(() => getCompanyId(currentUser), [currentUser]);
     const brainId = searchParams.get('b') ? decodedObjectId(searchParams.get('b')!) : null;
     
+    // Get brain information from Redux store
+    const brains = useSelector((store: RootState) => store.brain.combined);
+    const currentBrain = useMemo(() => {
+        if (brainId && brains.length > 0) {
+            return brains.find(brain => brain._id === brainId);
+        }
+        return null;
+    }, [brainId, brains]);
+    
     const [pages, setPages] = useState<Page[]>([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -44,6 +57,7 @@ const PagesPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [isGridView, setIsGridView] = useState(false);
     
     // Edit and Delete states
     const [editingPage, setEditingPage] = useState<Page | null>(null);
@@ -58,75 +72,15 @@ const PagesPage = () => {
         }
     });
 
-    useEffect(() => {
-        const loadPages = async () => {
-            if (!companyId) return;
-            
-            try {
-                setLoading(true);
-                setError(null);
-                setCurrentPage(1);
-                setHasMore(true);
-                console.log('Loading pages for companyId:', companyId, 'brainId:', brainId);
-                
-                const result = await getAllPages({
-                    query: {
-                        companyId: companyId
-                        // Removed brain filter since brain objects don't have _id field
-                    },
-                    options: {
-                        page: 1,
-                        limit: 10,
-                        sort: { createdAt: -1 } // Descending order by creation date
-                    }
-                });
-                
-                console.log('Pages API response:', result);
-                
-                if (result?.data) {
-                    const pagesData = Array.isArray(result.data) ? result.data : [];
-                    console.log('Setting pages:', pagesData.length, 'pages');
-                    
-                    // Ensure pages are sorted in descending order by createdAt
-                    const sortedPages = pagesData.sort((a, b) => 
-                        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                    );
-                    
-                    setPages(sortedPages);
-                    // Check if there are more pages based on total count
-                    const totalPages = Math.ceil((result.paginator?.itemCount || 0) / 10);
-                    setHasMore(totalPages > 1);
-                } else {
-                    console.log('No data in response');
-                    setPages([]);
-                    setHasMore(false);
-                }
-            } catch (error) {
-                console.error('Error loading pages:', error);
-                setError(error instanceof Error ? error.message : 'Failed to load pages');
-                setPages([]);
-                setHasMore(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadPages();
-    }, [companyId, brainId]);
-
-    useEffect(() => {
-        const filtered = pages.filter(page =>
-            page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            page.content.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredPages(filtered);
-    }, [pages, searchTerm]);
-
-    const handlePageClick = (page: Page) => {
-        // Navigate to the original chat where this page was created
-        const chatUrl = `${routes.chat}/${page.chatId}?b=${encodedObjectId(page.brain?._id || '')}`;
-        router.push(chatUrl);
+    const handleGridViewClick = () => {
+        setIsGridView(true);
     };
+
+    const handleListViewClick = () => {
+        setIsGridView(false);
+    };
+
+
 
     const formatDate = (dateString: string) => {
         try {
@@ -198,6 +152,37 @@ const PagesPage = () => {
         }
     };
 
+    const handlePageClick = (page: Page) => {
+        // Navigate to the original chat where this page was created
+        console.log('page.brain', page.brain);
+        
+        // Try to get brain ID from the page's brain data
+        let brainId = page.brain?.id || page.brain?._id || '';
+        
+        if (!brainId) {
+            console.warn('Brain ID is undefined for page:', page.title);
+            // Fallback: try to get brain ID from the current context
+            const currentBrainId = searchParams.get('b');
+            if (currentBrainId) {
+                const chatUrl = `${routes.chat}/${page.chatId}?b=${currentBrainId}`;
+                router.push(chatUrl);
+                return;
+            }
+            // If no brain ID available, set to null and continue
+            brainId = null;
+        }
+        
+        // Navigate to the chat with or without brain context
+        let chatUrl;
+        if (brainId) {
+            chatUrl = `${routes.chat}/${page.chatId}?b=${encodedObjectId(brainId)}`;
+        } else {
+            chatUrl = `${routes.chat}/${page.chatId}`;
+        }
+        console.log('Navigating to chat:', chatUrl);
+        router.push(chatUrl);
+    };
+
     // Handle page edit
     const handleEditPage = (page: Page) => {
         console.log('handleEditPage called with:', page);
@@ -263,6 +248,72 @@ const PagesPage = () => {
         }
     };
 
+    useEffect(() => {
+        const loadPages = async () => {
+            if (!companyId) return;
+            
+            try {
+                setLoading(true);
+                setError(null);
+                setCurrentPage(1);
+                setHasMore(true);
+                console.log('Loading pages for companyId:', companyId, 'brainId:', brainId);
+                
+                const result = await getAllPages({
+                    query: {
+                        companyId: companyId
+                        // Removed brain filter since brain objects don't have _id field
+                    },
+                    options: {
+                        page: 1,
+                        limit: 10,
+                        sort: { createdAt: -1 } // Descending order by creation date
+                    }
+                });
+                
+                console.log('Pages API response:', result);
+                
+                if (result?.data) {
+                    const pagesData = Array.isArray(result.data) ? result.data : [];
+                    console.log('Setting pages:', pagesData.length, 'pages');
+                    
+                    // Ensure pages are sorted in descending order by createdAt
+                    const sortedPages = pagesData.sort((a, b) => 
+                        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    
+                    setPages(sortedPages);
+                    // Check if there are more pages based on total count
+                    const totalPages = Math.ceil((result.paginator?.itemCount || 0) / 10);
+                    setHasMore(totalPages > 1);
+                } else {
+                    console.log('No data in response');
+                    setPages([]);
+                    setHasMore(false);
+                }
+            } catch (error) {
+                console.error('Error loading pages:', error);
+                setError(error instanceof Error ? error.message : 'Failed to load pages');
+                setPages([]);
+                setHasMore(false);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadPages();
+    }, [companyId, brainId]);
+
+    useEffect(() => {
+        const filtered = pages.filter(page =>
+            page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            page.content.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredPages(filtered);
+    }, [pages, searchTerm]);
+
+
+
     return (
         <div className="flex flex-col h-full">
             {/* Header */}
@@ -270,105 +321,142 @@ const PagesPage = () => {
                 <div className="size-[30px] flex items-center justify-center rounded-full p-1">
                     <DocumentIcon width={20} height={20} className="fill-b2 object-contain" />
                 </div>
-                <p className="text-font-16 font-bold">
-                    Pages
-                </p>
-                <div className="ml-auto text-sm text-gray-500">
-                    {filteredPages.length} page{filteredPages.length !== 1 ? 's' : ''}
+                <div className="flex items-center space-x-2">
+                    <p className="text-font-16 font-bold">
+                        Pages
+                    </p>
+                    <span className="text-font-16 text-gray-400">/</span>
+                    <p className="text-font-16 font-medium text-gray-600">
+                        {currentBrain ? currentBrain.title : 'General'}
+                    </p>
                 </div>
             </header>
 
-            {/* Search Bar */}
-            <div className="p-4 border-b border-gray-200">
-                <div className="relative">
-                    <SearchIcon width={20} height={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400" />
-                    <input
-                        type="text"
-                        placeholder="Search pages..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                </div>
-            </div>
+            {/* Main Content */}
+            <div className="flex flex-col flex-1 relative h-full overflow-hidden">
+                <div className="relative flex flex-col h-full overflow-hidden px-3">
+                    {/* Pages Top Bar */}
+                    <div className="flex items-center min-w-80 flex-wrap gap-2.5 max-w-[950px] w-full mx-auto my-5 px-5 flex-col md:flex-row">
+                        {/* Search */}
+                        <div className="search-docs relative flex-1 max-md:w-full">
+                            <input
+                                type="text"
+                                className="default-form-input default-form-input-md !border-b10 focus:!border-b2 !pl-10"
+                                id="searchDocs"
+                                placeholder="Search Pages"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <span className="inline-block absolute left-[15px] top-1/2 -translate-y-1/2 [&>svg]:fill-b7">
+                                <SearchIcon className="w-4 h-[17px] fill-b7" />
+                            </span>
+                        </div>
 
-            {/* Content */}
-            <div className="flex-1 overflow-y-auto p-4">
-                {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
-                        <p className="text-red-800 text-sm">Error: {error}</p>
+                        {/* List/Grid Toggle */}
+                        <div className="md:inline-flex hidden justify-center md:justify-start" role="group">
+                            <button
+                                type="button"
+                                id="list-view"
+                                onClick={handleListViewClick}
+                                className={`inline-block rounded-s-custom rounded-e-none btn border border-b10 bg-transparent w-10 h-10 p-2 hover:bg-b12 [&.active]:bg-b12 ${
+                                    !isGridView ? 'active' : ''
+                                }`}
+                            >
+                                <BarIcon
+                                    width={14}
+                                    height={12}
+                                    className="w-[14px] h-3 object-contain mx-auto fill-b6"
+                                />
+                            </button>
+                            <button
+                                type="button"
+                                id="grid-view"
+                                onClick={handleGridViewClick}
+                                className={`-ms-px inline-block rounded-none btn border border-b10 bg-transparent w-10 h-10 p-2 hover:bg-b12 [&.active]:bg-b12 ${
+                                    isGridView ? 'active' : ''
+                                }`}
+                            >
+                                <GridIcon
+                                    width={14}
+                                    height={14}
+                                    className="w-[14px] h-[14px] object-contain mx-auto fill-b6"
+                                />
+                            </button>
+                        </div>
+
+                        {/* Page Count */}
+                        <div className="text-sm text-gray-500">
+                            {filteredPages.length} page{filteredPages.length !== 1 ? 's' : ''}
+                        </div>
                     </div>
-                )}
-                
-                {loading ? (
-                    <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                    </div>
-                ) : filteredPages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-                        <DocumentIcon width={48} height={48} className="fill-gray-300 mb-4" />
-                        <p className="text-lg font-medium mb-2">
-                            {searchTerm ? 'No pages found' : 'No pages yet'}
-                        </p>
-                        <p className="text-sm text-gray-400">
-                            {searchTerm 
-                                ? 'Try adjusting your search terms' 
-                                : 'Pages created from chat responses will appear here'
-                            }
-                        </p>
-                    </div>
-                ) : (
-                    <div className="space-y-3">
-                        <div className="grid gap-3">
-                            {filteredPages.map((page) => (
-                                <div
-                                    key={page._id}
-                                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-gray-300 transition-all duration-200 group relative"
-                                >
-                                    {/* Page Content - Clickable for viewing */}
-                                    <div 
-                                        onClick={() => handlePageClick(page)}
-                                        className="cursor-pointer"
-                                    >
-                                        {/* Compact Header with title, model, and date */}
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex-1 min-w-0">
-                                                <h3 className="text-base font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
-                                                    {page.title}
-                                                </h3>
-                                                <p className="text-xs text-gray-500 mt-1">
-                                                    {formatDate(page.createdAt)}
-                                                </p>
-                                            </div>
-                                            
-                                            {/* Right side: Model + Action Icons */}
-                                            <div className="flex items-center space-x-3 ml-3">
-                                                {/* Model Label */}
-                                                {page.responseModel && (
-                                                    <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap">
-                                                        {page.responseModel}
+
+                    {/* Pages List Content */}
+                    <div className='h-full overflow-y-auto w-full relative pb-[120px]'>
+                        <div className='max-w-[950px] mx-auto px-5'>
+                            {error && (
+                                <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+                                    <p className="text-red-800 text-sm">Error: {error}</p>
+                                </div>
+                            )}
+                            
+                            {loading ? (
+                                <div className="flex items-center justify-center h-64">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                                </div>
+                            ) : filteredPages.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                                    <DocumentIcon width={48} height={48} className="fill-gray-300 mb-4" />
+                                    <p className="text-lg font-medium mb-2">
+                                        {searchTerm ? 'No pages found' : 'No pages yet'}
+                                    </p>
+                                    <p className="text-sm text-gray-400">
+                                        {searchTerm 
+                                            ? 'Try adjusting your search terms' 
+                                            : 'Pages created from chat responses will appear here'
+                                        }
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className={`pages-items ${isGridView ? 'pages-items-grid grid lg:grid-cols-3 grid-cols-2 gap-2.5 lg:gap-5' : 'pages-items-list grid grid-cols-1 gap-2.5'} w-full`}>
+                                    {filteredPages.map((page) => (
+                                        <div
+                                            key={page._id}
+                                            className='group/item md:hover:bg-b5 bg-gray-100 border pages-item-detail rounded-lg py-3 px-5 gap-2.5 w-full transition duration-150 ease-in-out cursor-pointer hover:shadow-md hover:border-gray-300'
+                                            onClick={() => handlePageClick(page)}
+                                            title={`Click to open chat: ${page.title}`}
+                                        >
+                                            <div className='pages-item-heading relative flex gap-2.5 w-full'>
+                                                {/* Page Title and Model */}
+                                                <div className={`pages-item-title-tag relative flex flex-col gap-2.5`}>
+                                                    <div className="flex items-center gap-2.5">
+                                                                                                            <h5 className='text-font-14 font-semibold text-b2 transition duration-150 ease-in-out md:group-hover/item:text-b15 hover:text-blue-600'>
+                                                        {page.title}
+                                                    </h5>
+                                                        {page.responseModel && (
+                                                            <span className="inline-block whitespace-nowrap rounded-sm bg-b11 px-2 py-[4px] text-center align-baseline text-font-12 font-normal leading-none text-b5 md:group-hover/item:bg-b15/10 md:group-hover/item:text-b15 transition duration-150 ease-in-out">
+                                                                {page.responseModel}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <span className="text-font-12 text-b5">
+                                                        {formatDate(page.createdAt)}
                                                     </span>
-                                                )}
-                                                
-                                                {/* Action Icons - Always visible, subtle on hover */}
-                                                <div className="flex items-center space-x-1 opacity-60 group-hover:opacity-100 transition-opacity duration-200">
+                                                </div>
+
+                                                {/* Action Icons */}
+                                                <div className='ml-auto flex items-center gap-2.5'>
                                                     {/* Edit Icon */}
                                                     <button
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             handleEditPage(page);
                                                         }}
-                                                        className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors duration-200 relative group/icon"
+                                                        className="group-hover/item:opacity-100 md:opacity-0 rounded bg-white flex items-center justify-center w-6 min-w-6 h-6 p-0.5 [&>svg]:w-[11] [&>svg]:h-[11] [&>svg]:fill-b5"
                                                         title="Edit page"
                                                     >
-                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="fill-current">
+                                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="fill-current">
                                                             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                                                         </svg>
-                                                        {/* Hover Tooltip */}
-                                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover/icon:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                                                            Edit page
-                                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-                                                        </div>
                                                     </button>
                                                     
                                                     {/* Delete Icon */}
@@ -378,51 +466,48 @@ const PagesPage = () => {
                                                             handleDeletePage(page._id);
                                                         }}
                                                         disabled={deletingPage === page._id}
-                                                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors duration-200 disabled:opacity-50 relative group/icon"
+                                                        className="group-hover/item:opacity-100 md:opacity-0 rounded bg-white flex items-center justify-center w-6 min-w-6 h-6 p-0.5 [&>svg]:w-[11] [&>svg]:h-[11] [&>svg]:fill-b5"
                                                         title="Delete page"
                                                     >
                                                         {deletingPage === page._id ? (
                                                             <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-red-600"></div>
                                                         ) : (
-                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="fill-current">
+                                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="fill-current">
                                                                 <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
                                                             </svg>
                                                         )}
-                                                        {/* Hover Tooltip */}
-                                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover/icon:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                                                            Delete page
-                                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-                                                        </div>
                                                     </button>
                                                 </div>
                                             </div>
+
+
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
-                            ))}
+                            )}
+                            
+                            {/* Load More Button */}
+                            {hasMore && !searchTerm && pages.length >= 10 && (
+                                <div className="flex justify-center pt-4">
+                                    <button
+                                        onClick={loadMore}
+                                        disabled={loadingMore}
+                                        className="px-6 py-3 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                                    >
+                                        {loadingMore ? (
+                                            <div className="flex items-center space-x-2">
+                                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                                                <span>Loading...</span>
+                                            </div>
+                                        ) : (
+                                            'Load More Pages'
+                                        )}
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                        
-                        {/* Load More Button */}
-                        {hasMore && !searchTerm && pages.length >= 10 && (
-                            <div className="flex justify-center pt-4">
-                                <button
-                                    onClick={loadMore}
-                                    disabled={loadingMore}
-                                    className="px-6 py-3 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-                                >
-                                    {loadingMore ? (
-                                        <div className="flex items-center space-x-2">
-                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                                            <span>Loading...</span>
-                                        </div>
-                                    ) : (
-                                        'Load More Pages'
-                                    )}
-                                </button>
-                            </div>
-                        )}
                     </div>
-                )}
+                </div>
             </div>
 
             {/* Edit Page Modal */}

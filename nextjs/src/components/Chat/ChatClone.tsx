@@ -349,13 +349,16 @@ const ChatPage = memo(() => {
                 };
             }
             
+            // Format the brain data properly using formatBrain function
+            const formattedBrain = formatBrain(brain);
+            
             const pageData = {
                 originalMessageId: message.id,
                 title: title,
                 content: message.response,
                 chatId: params.id,
                 user: message.user,
-                brain: brain,
+                brain: formattedBrain,
                 model: message.model,
                 tokens: message.tokens,
                 responseModel: message.responseModel,
