@@ -7,8 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { SessionStorage } from '@/utils/localstorage';
-import { ONBOARDING_DIALOG_SEEN } from '@/utils/constant';
+import { OnboardingUtils } from '@/utils/onboarding';
 import Image from "next/image";
 import DialogFooter from './DialogFooter';
 import WeamLogo from '../Shared/WeamLogo';
@@ -21,8 +20,7 @@ const OnboardingDialog = () => {
   const totalSteps = onboardingSteps.length;
 
   useEffect(() => {
-    const hasSeenDialog = SessionStorage.getItem(ONBOARDING_DIALOG_SEEN);
-    if (!hasSeenDialog) {
+    if (OnboardingUtils.shouldShowOnboarding()) {
       const timer = setTimeout(() => {
         setIsOpen(true);
       }, 2000);
@@ -31,7 +29,7 @@ const OnboardingDialog = () => {
   }, []);
 
   const closeDialog = () => {
-    SessionStorage.setItem(ONBOARDING_DIALOG_SEEN, 'true');
+    OnboardingUtils.markOnboardingAsSeen();
     setIsOpen(false);
   };
 
