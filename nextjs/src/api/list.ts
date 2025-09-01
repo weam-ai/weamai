@@ -197,6 +197,10 @@ const apiList = {
         url: ()=> `${WEB}/user/favorite-list`,
         method: 'POST'
     },
+    solutionInstall: {
+        url: () => `${WEB}/solution-install`,
+        method: 'POST'
+    },
     globalSearch: {
         url: () => `${WEB}/message/global-search`,
         method: 'POST'
