@@ -12,7 +12,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Shield, UserCheck, Users as TeamIcon, X } from 'lucide-react';
+import { Shield, UserCheck, Users as TeamIcon, X, DownloadIcon } from 'lucide-react';
 import { getIconComponent } from '@/utils/iconMapping';
 import { AppSolution } from '@/types/superSolution';
 import { hasPermission, PERMISSIONS } from '@/utils/permission';
@@ -432,6 +432,10 @@ const SuperSolutionPage = () => {
                                     })()}
                                 </div>
                                 {selectedApp.name} - Access Management
+                                <Button className="inline-flex items-center cursor-pointer px-2 py-1 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150">
+                                    <DownloadIcon className="w-4 h-4 mr-2" />
+                                    Install Solution
+                                </Button>
                             </DialogTitle>
                             <DialogDescription>
                                 Manage user and team access to this application.
