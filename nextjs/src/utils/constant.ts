@@ -144,7 +144,17 @@ export const MODULE_ACTIONS = {
     GENERATE_PRESIGNED_URL: 'generatePresignedUrl',
     GET_WEEKLY_USAGE: 'getWeeklyUsage',
     ADD_CREDIT: 'addCredit',    
-    UPDATE_MCP_DATA: 'updateMcpData'
+    UPDATE_MCP_DATA: 'updateMcpData',
+    GET_AI_ADOPTION: 'getAiAdoption',
+    UPDATE_MESSAGE: 'updateMessage',
+    CREATE_FILE_RECORD: 'createFileRecord',
+    PAGE_CREATE: 'createPage',
+    PAGE_LIST: 'getAllPages',
+    PAGE_VIEW: 'getPageById',
+    PAGE_UPDATE: 'pageUpdate',
+    PAGE_DELETE: 'deletePage',
+    GET_ALL_PAGES: 'getAllPages'
+
 } as const;
 
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm A';
@@ -483,7 +493,8 @@ export const RESPONSE_STATUS_CODE = {
     CSRF_TOKEN_NOT_FOUND: 'CSRF_TOKEN_NOT_FOUND',
     FORBIDDEN: 'FORBIDDEN',
     CSRF_TOKEN_MISSING: 'CSRF_TOKEN_MISSING',
-    INVALID_CSRF_TOKEN: 'INVALID_CSRF_TOKEN'
+    INVALID_CSRF_TOKEN: 'INVALID_CSRF_TOKEN',
+    SERVER_FORBIDDEN: 'SERVER_FORBIDDEN'
 }
 
 export const SUBSCRIPTION_STATUS = {
@@ -1379,3 +1390,4 @@ export const WEB_RESOURCES_DATA = 'web_resources_data';
 
 // MCP Tool States Cookie Persistence
 export const MCP_TOOLS_COOKIE_NAME = 'mcp_tool_cookie';
+export const ONBOARDING_DIALOG_SEEN = 'onboarding_dialog_seen';

@@ -109,7 +109,6 @@ const APIModelChoose = () => {
 }
 
 export const ModelDeleteButton = ({ modelCode }: APIModelChooseProps) => {
-    console.log('modelCode: ', modelCode);
     const { isOpen, openModal, closeModal } = useModal();
     const [deleteModel, pending] = useServerAction(deleteAiModal);
     const handleDeleteModel = useCallback(async () => {
