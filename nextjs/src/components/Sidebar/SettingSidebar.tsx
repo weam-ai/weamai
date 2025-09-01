@@ -4,11 +4,12 @@ import {
     MembersIcon,
     SettingsIcon,
 } from '@/icons/SettingsIcon';
-import Link from 'next/link';
+import SuperSolutionIcon from '@/icons/SuperSolutionIcon';
 import React from 'react';
 import { LINK } from '@/config/config';
 import { getSessionUser } from '@/utils/handleAuth';
 import { ROLE_TYPE } from '@/utils/constant';
+import { hasPermission, PERMISSIONS, Role } from '@/utils/permission';
 import UserProfile from './UserProfile';
 import {
     Tooltip,
@@ -16,13 +17,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '../ui/tooltip';
-import routes from '@/utils/routes';
-import Setting from '@/icons/Setting';
-import TemplateIcon from '@/icons/TemplateIcon';
 import Notification from './Notification';
 import NotificationDot from './NotificationDot';
 import SupportIcon from '@/icons/SupportIcon';
-import ArrowBack from '@/icons/ArrowBack';
 import StorageIcon from '@/icons/StorageIcon';
 import { SettingActiveIcon, TemplateLibrary } from './SettingSelection';
 import ReportIcon from '@/icons/ReportIcon';
@@ -155,6 +152,19 @@ const SettingSidebar = async () => {
             hasAccess: (userDetail?.roleCode == ROLE_TYPE.COMPANY) ? true : false,
             navigate: `${LINK.DOMAIN_URL}/settings/credit-control`,
             slug: '/settings/credit-control',
+        },
+        {
+            name: 'Super Solution',
+            icon: (
+                <SuperSolutionIcon
+                    height={20}
+                    width={20}
+                    className={'w-5 h-5 object-contain fill-b2'}
+                />
+            ),
+            hasAccess: hasPermission(userDetail?.roleCode as Role, PERMISSIONS.SUPER_SOLUTION_ACCESS),
+            navigate: `${LINK.DOMAIN_URL}/settings/super-solution`,
+            slug: '/settings/super-solution',
         },
     ];
     return (

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSidebar } from '@/context/SidebarContext';
 
-export const SettingActiveIcon = ({ key, setting, children }) => {
+export const SettingActiveIcon = ({ key, setting, children }:any) => {
     const pathname = usePathname();
     const { closeSidebar } = useSidebar();
     return (

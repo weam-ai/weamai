@@ -18,6 +18,7 @@ import { WorkspaceNewChatButton } from '../Workspace/DropDownOptions';
 import dynamic from 'next/dynamic'; 
 import AddBrainButton from '../Brains/AddBrainButton';
 import AppIcon from '@/icons/AppsIcon';
+import SuperSolutionHover from './SuperSolutionHover';
 
 const SettingsLink = dynamic(() => import('./SettingsLink'), { ssr: false });
 const ShareBrainList = dynamic(() => import('../Brains/ShareBrainList'), { ssr: false });
@@ -63,6 +64,7 @@ const MainPageSidebar = async () => {
                             <AppIcon width={16} height={16} className={"size-[18px] fill-b5"} />
                             Connections
                         </Link>
+                        <SuperSolutionHover className="flex gap-x-2 text-font-14 items-center mb-5 cursor-pointer" />
                         <div className="flex w-full justify-between pr-1 group mb-1 font-bold text-font-14">
                                 <div className="flex justify-between w-full">
                                     <span className="pl-2">
