@@ -24,6 +24,11 @@ const install = async (req) => {
         const containerName = 'ai-doc-editor-container';
         const networkName = 'weamai_app-network';
         const port = '3002';
+        const branchName = 'mongodb';
+
+        await runBash(`rm -rf ${repoPath} && git clone -b ${branchName} ${repoUrl} ${repoPath}`)
+
+        await runBash(`cp ${repoPath}/env.example ${repoPath}/.env`);
 
         await runBash(`docker build -t ${imageName} ${repoPath}`);
         
