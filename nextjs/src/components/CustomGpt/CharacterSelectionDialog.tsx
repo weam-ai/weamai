@@ -14,7 +14,7 @@ interface CharacterSelectionDialogProps {
 }
 
 // Default character images - you can replace these with actual character images later
-const DEFAULT_CHARACTERS = {
+export const DEFAULT_CHARACTERS = {
     '☁️ Soft': [
         { id: 'soft-1', image: '/soft-1.png' },
         { id: 'soft-2', image: '/soft-2.png' },

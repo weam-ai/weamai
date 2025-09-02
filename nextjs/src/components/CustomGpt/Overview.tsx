@@ -18,6 +18,9 @@ import {
 import TooltipIcon from '@/icons/TooltipIcon';
 import CharacterSelectionDialog from './CharacterSelectionDialog';
 
+// Import the character data to access all characters for random selection
+import { DEFAULT_CHARACTERS } from './CharacterSelectionDialog';
+
 interface OverviewProps {
     onNext: () => void;
     customGptData: any;
@@ -27,13 +30,58 @@ interface OverviewProps {
 const Overview: React.FC<OverviewProps> = ({ onNext, customGptData, setCustomGptData }) => {
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
 
+    // Function to get a random character from all tabs
+    const getRandomCharacter = () => {
+        const allCharacters: Array<{id: string, image: string}> = [];
+        
+        // Flatten all characters from all categories into a single array
+        Object.values(DEFAULT_CHARACTERS).forEach(category => {
+            allCharacters.push(...category);
+        });
+        
+        // Return a random character
+        const randomIndex = Math.floor(Math.random() * allCharacters.length);
+        return allCharacters[randomIndex];
+    };
+
+    // Function to auto-assign a random character
+    const autoAssignRandomCharacter = () => {
+        const randomCharacter = getRandomCharacter();
+        const normalizedImageUrl = randomCharacter.image.startsWith('/') ? randomCharacter.image : `/${randomCharacter.image}`;
+        
+        // Create character info similar to manual selection
+        const characterInfo = {
+            isCharacter: true,
+            characterImage: normalizedImageUrl,
+            characterId: randomCharacter.id,
+            uri: normalizedImageUrl,
+            name: `character-${randomCharacter.id}.jpg`,
+            mime_type: 'image/jpeg',
+            file_size: 0
+        };
+        
+        return {
+            previewCoverImg: normalizedImageUrl,
+            coverImg: characterInfo,
+            charimg: normalizedImageUrl
+        };
+    };
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: customGptData,
         validationSchema: overviewValidationSchema,
         onSubmit: async (values) => {
             try {
-                const submissionData = { ...customGptData, ...values };
+                let submissionData = { ...customGptData, ...values };
+                
+                // Check if user has selected any image (character or uploaded)
+                if (!submissionData.previewCoverImg && !submissionData.coverImg) {
+                    // Auto-assign a random character
+                    const randomCharacterData = autoAssignRandomCharacter();
+                    submissionData = { ...submissionData, ...randomCharacterData };
+                }
+                
                 setCustomGptData(submissionData);
                 onNext();
             } catch (error) {
