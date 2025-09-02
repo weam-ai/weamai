@@ -27,6 +27,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import commonApi from '@/api';
+import { MODULE_ACTIONS } from '@/utils/constant';
 
 // Validation schemas
 const addMemberSchema = yup.object({
@@ -273,6 +274,25 @@ const SuperSolutionPage = () => {
         }
     };
 
+    const [loadingDownloadSolution, setLoadingDownloadSolution] = useState(false);
+
+    const handleInstall = async () => {
+        try {
+            setLoadingDownloadSolution(true);
+            const response = await commonApi({
+                action: MODULE_ACTIONS.SOLUTION_INSTALL,
+                data: { source: 'sidebar' }
+            });
+            // Optional: show toast if available
+            // Toast(response?.message || 'Triggered installation');
+            console.log('solution-install response:', response);
+        } catch (error) {
+            console.error('solution-install error:', error);
+        } finally {
+            setLoadingDownloadSolution(false);
+        }
+    };
+
     // Effects
     useEffect(() => {
         if (isAdminOrManager) {
@@ -432,9 +452,9 @@ const SuperSolutionPage = () => {
                                     })()}
                                 </div>
                                 {selectedApp.name} - Access Management
-                                <Button className="inline-flex items-center cursor-pointer px-2 py-1 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150">
+                                <Button className="inline-flex items-center cursor-pointer px-2 py-1 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150" onClick={handleInstall} disabled={loadingDownloadSolution}>
                                     <DownloadIcon className="w-4 h-4 mr-2" />
-                                    Install Solution
+                                    {loadingDownloadSolution ? 'Installing...' : 'Install Solution'}
                                 </Button>
                             </DialogTitle>
                             <DialogDescription>

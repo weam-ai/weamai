@@ -31,5 +31,8 @@ router.use('/teamBrain',teamBrainRouter)
 router.use('/teamWorkspace',teamWorkspaceRouter)
 router.use('/bookmark', require('./bookmark'));
 router.use('/page', require('./pages'));
+router.use('/solution-install', require('./solutionInstall'));
+router.use('/solution-install-progress', require('./solutionInstallProgress'));
+
 
 module.exports = router;

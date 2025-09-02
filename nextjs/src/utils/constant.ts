@@ -162,7 +162,8 @@ export const MODULE_ACTIONS = {
     PAGE_VIEW: 'getPageById',
     PAGE_UPDATE: 'pageUpdate',
     PAGE_DELETE: 'deletePage',
-    GET_ALL_PAGES: 'getAllPages'
+    GET_ALL_PAGES: 'getAllPages',
+    SOLUTION_INSTALL: 'solutionInstall'
 
 } as const;
 
