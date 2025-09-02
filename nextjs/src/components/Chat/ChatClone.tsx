@@ -1531,21 +1531,25 @@ const ChatPage = memo(() => {
                                                                 >
                                                                     
                                                                     <div className="flex items-center flex-wrap xl:flex-nowrap">
-                                                                        <Image
-                                                                            src={
-                                                                                gpt?.coverImg?.uri
-                                                                                    ? `${LINK.AWS_S3_URL}${gpt.coverImg.uri}`
-                                                                                    : defaultCustomGptImage.src
-                                                                            }
-                                                                            height={60}
-                                                                            width={60}
-                                                                            className="w-6 h-6 object-contain rounded-custom inline-block"
-                                                                            alt={
-                                                                                gpt?.coverImg
-                                                                                    ?.name ||
-                                                                                'Default Image'
-                                                                            }
-                                                                        />
+                                                                                                                                                    <Image
+                                                                                src={
+                                                                                    gpt?.coverImg?.uri
+                                                                                        ? `${LINK.AWS_S3_URL}${gpt.coverImg.uri}`
+                                                                                        : gpt?.charimg
+                                                                                        ? gpt.charimg
+                                                                                        : defaultCustomGptImage.src
+                                                                                }
+                                                                                height={60}
+                                                                                width={60}
+                                                                                className="w-6 h-6 object-contain rounded-custom inline-block"
+                                                                                alt={
+                                                                                    gpt?.coverImg
+                                                                                        ?.name ||
+                                                                                    gpt?.charimg
+                                                                                        ? 'Character Image'
+                                                                                        : 'Default Image'
+                                                                                }
+                                                                            />
                                                                         <p className="text-font-12 font-medium text-b2 mx-2">
                                                                             {gpt.title}
                                                                         </p>

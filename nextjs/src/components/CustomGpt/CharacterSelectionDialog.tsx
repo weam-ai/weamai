@@ -143,16 +143,20 @@ const CharacterSelectionDialog: React.FC<CharacterSelectionDialogProps> = ({
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
     const handleCharacterSelect = (character: any) => {
+        // Ensure character image has leading slash
+        const normalizedImageUrl = character.image.startsWith('/') ? character.image : `/${character.image}`;
+        
         // For character selection, we need to create a file-like object
         // This maintains compatibility with the existing system
         const characterFile = new File([], character.id, { type: 'image/jpeg' });
         // Add custom properties to identify this as a character selection
         (characterFile as any).isCharacter = true;
-        (characterFile as any).characterImage = character.image;
+        (characterFile as any).characterImage = normalizedImageUrl;
+        (characterFile as any).characterId = character.id;
         // Add the uri property that AgentList expects
-        (characterFile as any).uri = character.image;
+        (characterFile as any).uri = normalizedImageUrl;
         
-        onImageSelect(character.image, characterFile);
+        onImageSelect(normalizedImageUrl, characterFile);
         onClose();
     };
 

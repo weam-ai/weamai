@@ -74,28 +74,37 @@ const Overview: React.FC<OverviewProps> = ({ onNext, customGptData, setCustomGpt
 
     const handleImageSelect = (imageUrl: string, file?: File) => {
         if (file && (file as any).isCharacter) {
+            // Ensure imageUrl has leading slash for character images
+            const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+            
             // Character selection - store character info properly
-            setFieldValue('previewCoverImg', imageUrl);
+            setFieldValue('previewCoverImg', normalizedImageUrl);
             // Store character info in a way that will be visible in AgentList
             const characterInfo = {
                 isCharacter: true,
-                characterImage: imageUrl,
+                characterImage: normalizedImageUrl,
                 characterId: (file as any).characterId || 'character',
                 // Add these properties to make it compatible with the existing system
-                uri: imageUrl,
+                uri: normalizedImageUrl,
                 name: `character-${(file as any).characterId || 'character'}.jpg`,
                 mime_type: 'image/jpeg',
                 file_size: 0
             };
             setFieldValue('coverImg', characterInfo);
+            // Set charimg field for character images
+            setFieldValue('charimg', normalizedImageUrl);
         } else if (file) {
             // Normal file upload
             setFieldValue('coverImg', file);
             setFieldValue('previewCoverImg', imageUrl);
+            // Clear charimg for uploaded files
+            setFieldValue('charimg', '');
         } else {
             // Fallback - just set preview
             setFieldValue('previewCoverImg', imageUrl);
             setFieldValue('coverImg', null);
+            // Clear charimg
+            setFieldValue('charimg', '');
         }
     };
 
