@@ -1,7 +1,5 @@
 const solutionInstallService = require('../../services/solutionInstall');
 const { catchAsync } = require('../../utils/helper');
-const util = require('../../utils/util');
-const { _localize } = require('../../utils/localization');
 const jwt = require('jsonwebtoken');
 const { JWT_STRING } = require('../../config/constants/common');
 const { AUTH } = require('../../config/config');
