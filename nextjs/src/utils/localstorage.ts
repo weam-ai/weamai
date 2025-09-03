@@ -64,18 +64,6 @@ const LocalStorage = {
         }
 
         return false;
-    },
-
-    /**
-     * Reset onboarding state - useful for testing or admin purposes
-     * @param key - The onboarding key to reset (e.g., 'onboarding_dialog_seen')
-     */
-    resetOnboarding: (key: string) => {
-        if (typeof localStorage !== 'undefined') {
-            localStorage.removeItem(key);
-            return true;
-        }
-        return false;
     }
 };
 
