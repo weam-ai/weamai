@@ -182,6 +182,43 @@
   width: 100%
 }
 
+@media (min-width: 1200px) {
+  .markdown .markdown-table-wrap {
+    --thread-content-max-width: min(1200px, 92vw);
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+  }
+  .markdown table[data-col-size] {
+    width: auto;
+    display: inline-table;
+    table-layout: auto;
+  }
+  
+  .markdown table[data-col-size=md], .markdown table[data-col-size=lg], .markdown table[data-col-size=xl] {
+    max-width: calc(100vw + 300px);
+    min-width: calc((100vw - 290px) / 2 + 200px);
+  }
+}
+
+/* Below 1200px: keep tables 100% width with horizontal scroll */
+@media (max-width: 1199.98px) {
+  .markdown .markdown-table-wrap {
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: inline-block;
+    max-width: 100%;
+  }
+  .markdown table[data-col-size] {
+    width: 100%;
+    max-width: 100%;
+    min-width: auto;
+    display: table;
+    table-layout: auto;
+  }
+}
+
 .markdown th {
   background-color: rgba(0,0,0,.1);
   background-color: var(--border-light);
@@ -204,6 +241,8 @@
 
 .markdown td {
   border-bottom-width: 1px;
+  min-width: 70px;
+  word-break: keep-all;
   border-color: rgba(0,0,0,.15);
   border-color: var(--border-medium);
   border-left-width: 1px;
