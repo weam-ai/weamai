@@ -708,6 +708,8 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                                                 src={
                                                                     gpt?.coverImg?.uri
                                                                         ? `${LINK.AWS_S3_URL}${gpt.coverImg.uri}`
+                                                                        : gpt?.charimg
+                                                                        ? gpt.charimg
                                                                         : defaultCustomGptImage.src
                                                                 }
                                                                 height={60}
@@ -716,7 +718,9 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                                                 alt={
                                                                     gpt?.coverImg
                                                                         ?.name ||
-                                                                    'Default Image'
+                                                                    gpt?.charimg
+                                                                        ? 'Character Image'
+                                                                        : 'Default Image'
                                                                 }
                                                             />
                                                             <p className="text-font-12 font-medium text-b2 mx-2">

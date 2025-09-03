@@ -30,7 +30,8 @@ const EditGptForm = () => {
         maxItr: 0,
         itrTimeDuration: undefined,
         doc: [],
-        imageEnable: false
+        imageEnable: false,
+        charimg: ''
     });
 
     const fetchCustomGptDetailsById = async () => {
@@ -52,8 +53,16 @@ const EditGptForm = () => {
         
         setCustomGptData({
             id: data._id,
-            coverImg: data?.coverImg?.uri ? {} : null,
-            previewCoverImg: data?.coverImg?.uri ? `${LINK.AWS_S3_URL}${data.coverImg.uri}` : null,
+            coverImg: data?.coverImg?.uri ? {} : (data?.charimg ? {
+                isCharacter: true,
+                characterImage: data.charimg.startsWith('/') ? data.charimg : `/${data.charimg}`,
+                characterId: data.charimg.split('/').pop()?.split('.')[0] || 'character',
+                uri: data.charimg.startsWith('/') ? data.charimg : `/${data.charimg}`,
+                name: `character-${data.charimg.split('/').pop()?.split('.')[0] || 'character'}.jpg`,
+                mime_type: 'image/jpeg',
+                file_size: 0
+            } : null),
+            previewCoverImg: data?.coverImg?.uri ? `${LINK.AWS_S3_URL}${data.coverImg.uri}` : (data?.charimg ? (data.charimg.startsWith('/') ? data.charimg : `/${data.charimg}`) : null),
             title: data.title,
             systemPrompt: data.systemPrompt,
             goals: data.goals,
@@ -66,7 +75,8 @@ const EditGptForm = () => {
             maxItr: data.maxItr,
             itrTimeDuration: data.itrTimeDuration,
             doc: alldoc,
-            imageEnable: data?.imageEnable || false
+            imageEnable: data?.imageEnable || false,
+            charimg: data?.charimg ? (data.charimg.startsWith('/') ? data.charimg : `/${data.charimg}`) : ''
         })
         setLoadingApi(false);
     }

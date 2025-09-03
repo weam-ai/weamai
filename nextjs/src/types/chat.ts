@@ -73,6 +73,7 @@ export type SelectedContextData = {
     itrTimeDuration?: string;
     maxItr?: number;
     coverImg?: FileType;
+    charimg?: string;
     summaries?: ObjectType;
     fileId?: string;
     isremove?:boolean;
