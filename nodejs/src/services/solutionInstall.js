@@ -1,5 +1,6 @@
 const { handleError } = require('../utils/helper');
 const { spawn } = require('child_process');
+const fs = require('fs');
 
 function runBash(command, options = {}) {
     return new Promise((resolve, reject) => {
@@ -63,6 +64,58 @@ function runBashWithProgress(command, res, progressMessage) {
     });
 }
 
+// Function to merge environment variables and create build args
+function mergeEnvAndCreateBuildArgs(rootEnvPath, localEnvPath) {
+    try {
+        // Read root .env file
+        let rootEnvVars = {};
+        if (fs.existsSync(rootEnvPath)) {
+            const rootContent = fs.readFileSync(rootEnvPath, 'utf8');
+            rootContent.split('\n').forEach(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine && !trimmedLine.startsWith('#') && trimmedLine.includes('=')) {
+                    const [key, ...valueParts] = trimmedLine.split('=');
+                    rootEnvVars[key.trim()] = valueParts.join('=').trim();
+                }
+            });
+        }
+
+        // Read local .env file
+        let localEnvVars = {};
+        if (fs.existsSync(localEnvPath)) {
+            const localContent = fs.readFileSync(localEnvPath, 'utf8');
+            localContent.split('\n').forEach(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine && !trimmedLine.startsWith('#') && trimmedLine.includes('=')) {
+                    const [key, ...valueParts] = trimmedLine.split('=');
+                    localEnvVars[key.trim()] = valueParts.join('=').trim();
+                }
+            });
+        }
+
+        // Merge: start with local, add missing from root
+        const mergedEnvVars = { ...localEnvVars };
+        Object.keys(rootEnvVars).forEach(varName => {
+            if (rootEnvVars[varName] && !mergedEnvVars[varName]) {
+                mergedEnvVars[varName] = rootEnvVars[varName];
+            }
+        });
+
+        // Create Docker build args
+        const buildArgs = [];
+        Object.entries(mergedEnvVars).forEach(([key, value]) => {
+            const escapedValue = value.replace(/"/g, '\\"');
+            buildArgs.push(`--build-arg ${key}="${escapedValue}"`);
+        });
+
+        console.log(`✅ Merged ${Object.keys(mergedEnvVars).length} environment variables`);
+        return buildArgs.join(' ');
+    } catch (error) {
+        console.error('❌ Error merging environment files:', error);
+        throw error;
+    }
+}
+
 const install = async (req) => {
     try {
         console.log('✅ Static Data: Solution install function running...');
@@ -83,7 +136,14 @@ const install = async (req) => {
 
         await runBash(`cp ${repoPath}/env.example ${repoPath}/.env`);
         
-        await runBash(`docker build -t ${imageName} ${repoPath}`);
+        // Merge environment variables and create build args
+        const rootEnvPath = '/workspace/.env';
+        const localEnvPath = `${repoPath}/.env`;
+        const buildArgs = mergeEnvAndCreateBuildArgs(rootEnvPath, localEnvPath);
+        
+        // Build Docker image with environment variables as build args
+        const buildCmd = `docker build -t ${imageName} ${buildArgs} ${repoPath}`;
+        await runBash(buildCmd);
         
         const runCmd = `docker rm -f ${containerName} || true && docker run -d --name ${containerName} --network ${networkName} -p ${port}:${port} ${imageName}`;
         await runBash(runCmd);
@@ -136,6 +196,17 @@ const installWithProgress = async (req, res) => {
         
         await runBashWithProgress(`cp ${repoPath}/env.example ${repoPath}/.env`, res, 'Environment configuration completed');
 
+        // Merge environment variables and create build args
+        const rootEnvPath = '/workspace/.env';
+        const localEnvPath = `${repoPath}/.env`;
+        const buildArgs = mergeEnvAndCreateBuildArgs(rootEnvPath, localEnvPath);
+        
+        res.write(`data: ${JSON.stringify({ 
+            type: 'output', 
+            message: `✅ Environment variables merged: ${buildArgs.split('--build-arg').length - 1} variables`,
+            timestamp: new Date().toISOString()
+        })}\n\n`);
+
         // Step 4: Build Docker image
         res.write(`data: ${JSON.stringify({ 
             type: 'progress', 
@@ -144,7 +215,8 @@ const installWithProgress = async (req, res) => {
             totalSteps: 5
         })}\n\n`);
         
-        await runBashWithProgress(`docker build -t ${imageName} ${repoPath}`, res, 'Docker image built successfully');
+        const buildCmd = `docker build -t ${imageName} ${buildArgs} ${repoPath}`;
+        await runBashWithProgress(buildCmd, res, 'Docker image built successfully');
 
         // Step 5: Run container
         res.write(`data: ${JSON.stringify({ 
