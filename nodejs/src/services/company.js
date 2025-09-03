@@ -370,7 +370,7 @@ async function createPinecornIndex(user, req) {
 
         //createFreeTierApiKey(user);
     } catch (error) {
-        console.log("🚀 ~ createPinecornIndex ~ error:", error)
+        console.log("createPinecornIndex error:", error)
         handleError(error, 'Error - createPinecornIndex'); 
     }
 }
