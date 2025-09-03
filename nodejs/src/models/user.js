@@ -113,7 +113,11 @@ const schema = new Schema(
         tempblocked: {
             type: Boolean,
             default: false
-        }
+        },
+        onboard: {
+            type: Boolean,
+            default: true
+        },
     },
     {
         toJSON: {

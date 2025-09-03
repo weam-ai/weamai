@@ -1390,4 +1390,3 @@ export const WEB_RESOURCES_DATA = 'web_resources_data';
 
 // MCP Tool States Cookie Persistence
 export const MCP_TOOLS_COOKIE_NAME = 'mcp_tool_cookie';
-export const ONBOARDING_DIALOG_SEEN = 'onboarding_dialog_seen';
