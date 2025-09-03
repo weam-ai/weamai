@@ -276,12 +276,12 @@ const SuperSolutionPage = () => {
 
     const [loadingDownloadSolution, setLoadingDownloadSolution] = useState(false);
 
-    const handleInstall = async () => {
+    const handleInstall = async (solutionType: string = 'ai-doc-editor') => {
         try {
             setLoadingDownloadSolution(true);
             const response = await commonApi({
                 action: MODULE_ACTIONS.SOLUTION_INSTALL,
-                data: { source: 'sidebar' }
+                data: { source: 'sidebar', solutionType }
             });
             // Optional: show toast if available
             // Toast(response?.message || 'Triggered installation');
@@ -452,10 +452,16 @@ const SuperSolutionPage = () => {
                                     })()}
                                 </div>
                                 {selectedApp.name} - Access Management
-                                <Button className="inline-flex items-center cursor-pointer px-2 py-1 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150" onClick={handleInstall} disabled={loadingDownloadSolution}>
-                                    <DownloadIcon className="w-4 h-4 mr-2" />
-                                    {loadingDownloadSolution ? 'Installing...' : 'Install Solution'}
-                                </Button>
+                                <div className="flex gap-2">
+                                    <Button className="inline-flex items-center cursor-pointer px-2 py-1 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150" onClick={() => handleInstall('ai-doc-editor')} disabled={loadingDownloadSolution}>
+                                        <DownloadIcon className="w-4 h-4 mr-2" />
+                                        {loadingDownloadSolution ? 'Installing...' : 'Install AI Doc Editor'}
+                                    </Button>
+                                    <Button className="inline-flex items-center cursor-pointer px-2 py-1 rounded-md bg-white border border-b8 hover:bg-b11 transition ease-in-out duration-150" onClick={() => handleInstall('seo-content-gen')} disabled={loadingDownloadSolution}>
+                                        <DownloadIcon className="w-4 h-4 mr-2" />
+                                        {loadingDownloadSolution ? 'Installing...' : 'Install SEO Content Gen'}
+                                    </Button>
+                                </div>
                             </DialogTitle>
                             <DialogDescription>
                                 Manage user and team access to this application.

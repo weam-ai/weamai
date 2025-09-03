@@ -14,7 +14,12 @@ interface ProgressEvent {
     timestamp?: string;
 }
 
-const SolutionInstallButton = () => {
+interface SolutionInstallButtonProps {
+    solutionType?: string;
+    buttonText?: string;
+}
+
+const SolutionInstallButton = ({ solutionType = 'ai-doc-editor', buttonText }: SolutionInstallButtonProps) => {
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState<ProgressEvent | null>(null);
     const [showProgress, setShowProgress] = useState(false);
@@ -30,7 +35,7 @@ const SolutionInstallButton = () => {
 
             const token = await getAccessToken();
             const baseUrl = `${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}`;
-            const url = `${baseUrl}/web/solution-install-progress/progress?token=${encodeURIComponent(token)}`;
+            const url = `${baseUrl}/web/solution-install-progress/progress?token=${encodeURIComponent(token)}&solutionType=${encodeURIComponent(solutionType)}`;
 
             // Create EventSource for SSE
             const eventSource = new EventSource(url);
@@ -113,7 +118,7 @@ const SolutionInstallButton = () => {
                 disabled={loading}
                 className="w-full text-left px-2 py-2 rounded hover:bg-b5 hover:bg-opacity-[0.12] text-font-14 disabled:opacity-50"
             >
-                {loading ? 'Installing…' : 'Install Solution'}
+                {loading ? 'Installing…' : (buttonText || 'Install Solution')}
             </button>
 
             {showProgress && (

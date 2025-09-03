@@ -1,4 +1,5 @@
 const solutionInstallService = require('../../services/solutionInstall');
+const { catchAsync } = require('../../utils/helper');
 
 const install = catchAsync(async (req, res) => {
     const result = await solutionInstallService.install(req);

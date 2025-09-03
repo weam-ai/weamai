@@ -58,6 +58,9 @@ const getInstallationProgress = catchAsync(async (req, res) => {
 
     // Start the installation process
     try {
+        // Get solution type from query parameter
+        const solutionType = req.query.solutionType || 'ai-doc-editor';
+        req.body = { solutionType }; // Pass solution type to service
         await solutionInstallService.installWithProgress(req, res);
     } catch (error) {
         res.write(`data: ${JSON.stringify({ 
