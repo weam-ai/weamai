@@ -69,6 +69,7 @@ import useMCP from '@/hooks/mcp/useMCP';
 import ToolsConnected from './ToolsConnected';
 import { getDisplayModelName } from '@/utils/helper';
 import { truncateText } from '@/utils/common';
+import AIPagesIcon from '@/icons/AIPagesIcon';
 
 const defaultContext = {
     type: null,
@@ -238,7 +239,6 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
         
         const handleNavigation = (href: string) => {
             if (!brain?._id) {
-                console.warn('Brain ID is undefined, cannot navigate');
                 return;
             }
             const brainId = encodedObjectId(brain._id);
@@ -271,6 +271,12 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                 text: 'Docs',
                 id: 4,
                 href: routes.docs,
+            },
+            {
+                icon: <DocumentIcon width={20} height={20} className="fill-b6" />,
+                text: 'Pages',
+                id: 5,
+                href: routes.pages,
             },
         ];
 
@@ -702,6 +708,8 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                                                 src={
                                                                     gpt?.coverImg?.uri
                                                                         ? `${LINK.AWS_S3_URL}${gpt.coverImg.uri}`
+                                                                        : gpt?.charimg
+                                                                        ? gpt.charimg
                                                                         : defaultCustomGptImage.src
                                                                 }
                                                                 height={60}
@@ -710,7 +718,9 @@ const ChatInput = ({ aiModals }: ChatInputProps) => {
                                                                 alt={
                                                                     gpt?.coverImg
                                                                         ?.name ||
-                                                                    'Default Image'
+                                                                    gpt?.charimg
+                                                                        ? 'Character Image'
+                                                                        : 'Default Image'
                                                                 }
                                                             />
                                                             <p className="text-font-12 font-medium text-b2 mx-2">

@@ -207,11 +207,15 @@ export default function AgentList() {
                                                     src={
                                                         gpt?.coverImg?.uri
                                                         ? `${LINK.AWS_S3_URL}${gpt.coverImg.uri}`
+                                                        : gpt?.charimg
+                                                        ? gpt.charimg
                                                         : defaultCustomGptImage.src
                                                     }
                                                     alt={
                                                         gpt?.coverImg?.uri
                                                         ? `${gpt.coverImg.uri}`
+                                                        : gpt?.charimg
+                                                        ? `${gpt.charimg}`
                                                         : 'default'
                                                     }
                                                     width={60}

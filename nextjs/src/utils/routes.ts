@@ -23,6 +23,7 @@ const routes = {
     settingReports: '/settings/reports',
     settingBilling: '/settings/billing',
     docs: '/docs',
+    pages: '/pages',
     profileSetting: '/profile-setting',
     twoFactorAuthentication: '/profile-setting/two-factor-authentication',
     dashboard: '/dashboard',  
