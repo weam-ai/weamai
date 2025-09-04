@@ -1,12 +1,8 @@
-const solutionInstallService = require('../../services/solutionInstall');
-const { catchAsync } = require('../../utils/helper');
+// Removed unused imports - controller is no longer needed
 
-const install = catchAsync(async (req, res) => {
-    const result = await solutionInstallService.install(req);
-    res.message = _localize('module.create', req, 'solution install');
-    return util.successResponse(result, res);
-});
+// Removed install function - using only installWithProgress to avoid double execution
+// Frontend now directly connects to /solution-install-progress endpoint
 
 module.exports = {
-    install
+    // No exports needed - using only progress controller
 }

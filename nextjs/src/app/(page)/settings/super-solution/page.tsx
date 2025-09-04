@@ -18,6 +18,8 @@ import { AppSolution } from '@/types/superSolution';
 import { hasPermission, PERMISSIONS } from '@/utils/permission';
 import { getCurrentUser } from '@/utils/handleAuth';
 import useSuperSolution from '@/hooks/superSolution/useSuperSolution';
+import { getAccessToken } from '@/actions/serverApi';
+import { LINK, NODE_API_PREFIX } from '@/config/config';
 import useMembers from '@/hooks/members/useMembers';
 import { useTeams } from '@/hooks/team/useTeams';
 import AutoSelectChip from '@/components/ui/AutoSelectChip';
@@ -26,8 +28,7 @@ import { displayName, showNameOrEmail } from '@/utils/common';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import commonApi from '@/api';
-import { MODULE_ACTIONS } from '@/utils/constant';
+// Removed commonApi and MODULE_ACTIONS imports - using direct SSE connection instead
 
 // Validation schemas
 const addMemberSchema = yup.object({
@@ -279,16 +280,47 @@ const SuperSolutionPage = () => {
     const handleInstall = async (solutionType: string = 'ai-doc-editor') => {
         try {
             setLoadingDownloadSolution(true);
-            const response = await commonApi({
-                action: MODULE_ACTIONS.SOLUTION_INSTALL,
-                data: { source: 'sidebar', solutionType }
-            });
-            // Optional: show toast if available
-            // Toast(response?.message || 'Triggered installation');
-            console.log('solution-install response:', response);
+            // Directly connect to the progress endpoint to avoid double execution
+            const token = await getAccessToken();
+            const baseUrl = `${LINK.COMMON_NODE_API_URL}${NODE_API_PREFIX}`;
+            const url = `${baseUrl}/web/solution-install-progress/progress?token=${encodeURIComponent(token)}&solutionType=${encodeURIComponent(solutionType)}`;
+
+            // Create EventSource for SSE
+            const eventSource = new EventSource(url);
+
+            eventSource.onopen = () => {
+                console.log('SSE connection opened for', solutionType);
+            };
+
+            eventSource.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('Installation progress:', data);
+                    
+                    // Handle completion
+                    if (data.type === 'success') {
+                        setLoadingDownloadSolution(false);
+                        eventSource.close();
+                        // Show success message
+                        console.log('Installation completed successfully!', data.url);
+                    } else if (data.type === 'error') {
+                        setLoadingDownloadSolution(false);
+                        eventSource.close();
+                        console.error('Installation failed:', data.message);
+                    }
+                } catch (error) {
+                    console.error('Error parsing SSE data:', error);
+                }
+            };
+
+            eventSource.onerror = (error) => {
+                console.error('SSE connection error:', error);
+                setLoadingDownloadSolution(false);
+                eventSource.close();
+            };
+
         } catch (error) {
             console.error('solution-install error:', error);
-        } finally {
             setLoadingDownloadSolution(false);
         }
     };
