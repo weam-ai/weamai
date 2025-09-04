@@ -95,6 +95,17 @@ const MainPageSidebar = async () => {
                                 </div>
                             </div>
                         </PrivateVisible>
+                        {hasPermission(
+                        user?.roleCode,
+                        PERMISSIONS.UPGRADE_PLAN
+                        ) && (
+                        <Link
+                            className="btn btn-outline-blue mt-auto collapsed-text"
+                            href={'/settings/subscription'}
+                        >
+                            Upgrade Plan
+                        </Link>
+                        )}
                     </div>
 
                     <SidebarFooter />
