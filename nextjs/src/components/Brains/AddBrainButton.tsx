@@ -32,7 +32,7 @@ const AddBrainButton = memo(({ text, isPrivate }) => {
                     onClick={handleBrainButtonClick}
                 >   
                     <span className='collapsed-brain'>
-                        {isPrivate ? (
+                      {isPrivate ? (
                             <PrivateBrainIcon width={18} height={(18 * 20) / 22} className="fill-b6 collapsed-icon h-auto hover:fill-b2" />
                         ) : (
                             <SharedBrainIcon width={18} height={(18 * 20) / 22} className="fill-b6 collapsed-icon h-auto hover:fill-b2" />
