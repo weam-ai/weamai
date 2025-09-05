@@ -34,14 +34,14 @@ const SidebarPages: React.FC<SidebarPagesProps> = ({ children, settingSidebar })
     };
 
     if (dynamicChatPath || dynamicCustomGptEditPath) return (
-        <div className={`flex flex-col h-full w-[290px] border-r`}>
+        <div className={`flex flex-col h-full w-full border-r`}>
             {/* <Suspense fallback={<Spinner />}> */}
                 {routeComponents[pathname] || children}
             {/* </Suspense> */}
         </div> 
     )
     return (
-        <div className={`flex flex-col h-full w-[290px] border-r`}>
+        <div className={`flex flex-col h-full w-full border-r`}>
             {/* <Suspense fallback={<Spinner />}> */}
                 {routeComponents[pathname] || children}
             {/* </Suspense> */}

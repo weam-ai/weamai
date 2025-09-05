@@ -67,6 +67,49 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Sidebar collapse styles */
+.collapsed .sidebar-dropdown, .collapsed .collapsed-text {
+  @apply hidden;
+}
+.collapsed .collapsed-new-chat{
+  @apply gap-0 flex-col gap-y-2 items-center;
+}
+.collapsed .g-search{
+ @apply flex items-center justify-center border-none;
+}
+.collapsed .g-search svg{
+  @apply w-4 h-auto fill-b2;
+}
+.collapsed .collapsed-new-chat .collapsed-plus{
+  @apply p-0 flex items-center justify-center border-none;
+}
+.collapsed .collapsed-new-chat .collapsed-plus span{
+  @apply text-black text-font-18;
+}
+.collapsed .sidebar-footer {
+  @apply flex-col-reverse bg-white border-none;
+}
+.collapsed .collapsed-icon{
+  @apply fill-b2;
+}
+.collapsed .collapsed-logo{
+  @apply justify-center;
+}
+.collapsed .collapsed-logo .logo{
+  @apply ml-0;
+}
+.collapsed .collapsed-icon-only{
+  @apply items-center;
+}
+.collapsed .collapsed-center{
+  @apply justify-center;
+}
+.collapsed-brain{
+  @apply hidden;
+}
+.collapsed .collapsed-brain{
+  @apply block;
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
