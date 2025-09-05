@@ -68,6 +68,9 @@
 @tailwind utilities;
 
 /* Sidebar collapse styles */
+.collapsed-pbrains{
+  @apply border-none mt-2 pt-2;
+}
 .collapsed .sidebar-dropdown, .collapsed .collapsed-text {
   @apply hidden;
 }
