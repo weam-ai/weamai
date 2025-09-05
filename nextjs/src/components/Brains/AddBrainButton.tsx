@@ -1,6 +1,7 @@
 'use client';
 import { memo } from 'react';
-import AddBrainIcon from '@/icons/AddBrainIcon';
+import SharedBrainIcon from '@/icons/SharedIcon';
+import PrivateBrainIcon from '@/icons/PrivateBrainIcon';
 import {
     Tooltip,
     TooltipContent,
@@ -31,7 +32,11 @@ const AddBrainButton = memo(({ text, isPrivate }) => {
                     onClick={handleBrainButtonClick}
                 >   
                     <span className='collapsed-brain'>
-                        <AddBrainIcon width={18} height={(18 * 151) / 160} className="fill-b6 collapsed-icon h-auto hover:fill-b2" />
+                      {isPrivate ? (
+                            <PrivateBrainIcon width={18} height={(18 * 20) / 22} className="fill-b6 collapsed-icon h-auto hover:fill-b2" />
+                        ) : (
+                            <SharedBrainIcon width={18} height={(18 * 20) / 22} className="fill-b6 collapsed-icon h-auto hover:fill-b2" />
+                        )}
                     </span>
                     <span className='font-medium whitespace-nowrap text-font-12 px-2 py-1 rounded-[12px] bg-blue3 text-blue2 collapsed-text'>+ Add</span>
                 </button>
